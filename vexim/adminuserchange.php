@@ -110,6 +110,8 @@
 	  <tr><td colspan="2"><? echo _("Add a new header blocking filter for this user"); ?>:</td></tr>
 	  <tr><td><? echo _("Header"); ?>:</td><td><select name="blockhdr" class="textfield">
 		  <option value="From">From:</option>
+                  <option value="To">To:</option>
+                  <option value="Subject">Subject:</option>
 		  <option value="X-Mailer">X-Mailer:</option>
 		  </select></td>
 	      <td><input name="blockval" type="text" size="25" class="textfield">

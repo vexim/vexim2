@@ -87,6 +87,8 @@
 	  <tr><td>Add a new header blocking filter:</td></tr>
 	  <tr><td><select name="blockhdr" class="textfield">
 		  <option value="From">From:</option>
+		  <option value="To">To:</option>
+		  <option value="Subject">Subject:</option>
 	  	  <option value="X-Mailer">X-Mailer:</option>
 		  </select></td>
 	      <td><input name="blockval" type="text" size="25" class="textfield">
