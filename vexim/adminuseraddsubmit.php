@@ -4,14 +4,14 @@
   include_once dirname(__FILE__) . "/config/functions.php";
 
   $domquery = "SELECT (count(users.user_id) < domains.max_accounts)
-  		OR (domains.max_accounts=0) AS allowed FROM
-		users,domains	WHERE users.domain_id=domains.domain_id
+  		OR (domains.max_accounts=0) AS allowed FROM users,domain
+		WHERE users.domain_id=domains.domain_id
 		AND domains.domain_id={$_COOKIE['vexim'][2]}
 		AND users.type='local'	GROUP BY domains.max_accounts";
   $domresult = $db->query($domquery);
-  if ($result->numRows()) {
+  if (!DB::isError($domresult)) {
     $domrow = $domresult->fetchRow();
-    if (! $domrow['allowed']) {
+    if (!$domrow['allowed']) {
 	header ("Location: adminuser.php?maxaccounts=true");
     }
   }
@@ -78,13 +78,13 @@
 	{$_POST['enabled']},
 	{$_POST['quota']})";
     $result = $db->query($query);
-    if (!DB::isError($result)) { header ("Location: adminuser.php?added={$_POST['localpart']}"); }
+    if (!DB::isError($result)) { header ("Location: adminuser.php?added={$_POST['localpart']}");
       $query = "SELECT localpart,domain FROM users,domains WHERE domain_id={$_COOKIE['vexim'][2]}' AND users.type='admin'";
       $result = $db->query($query);
       $row =  $result->fetchRow();
       mail("{$_POST['localpart']}@{$_COOKIE['vexim'][1]}", "Welcome {$_POST['realname']}!",  $welcome_message, "From: {$_COOKIE['vexim'][0]}@{$_COOKIE['vexim'][1]}\r\n");
-      die;
-    else header ("Location: adminuser.php?failadded={$_POST['localpart']}"); die; }
+      die; }
+    else { header ("Location: adminuser.php?failadded={$_POST['localpart']}"); die; } }
   else { header ("Location: adminuser.php?badpass={$_POST['localpart']}"); die; }
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->
