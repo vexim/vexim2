@@ -49,7 +49,7 @@
 	  <tr><td><? echo _("Max mailbox quota in Mb<br>(0 for disabled)"); ?>:</td>
 	      <td><input type="text" size="5" name="quotas" value="<? print $row['quotas']; ?>" class="textfield"></td></tr>
 	  <tr><td><? echo _("Maximum message size"); ?>:</td>
-	      <td><input name="maxmsgsize" size="5" type="text" class="textfield" value="0">Kb</td></tr>
+	      <td><input name="maxmsgsize" size="5" type="text" class="textfield" value="<? print $row['maxmsgsize']; ?>">Kb</td></tr>
 	  <tr><td><? echo _("Spamassassin tag score"); ?>:</td>
 	      <td><input type="text" size="5" name="sa_tag" value="<? print $row['sa_tag']; ?>" class="textfield"></td></tr>
 	  <tr><td><? echo _("Spamassassin refuse score"); ?>:</td>
