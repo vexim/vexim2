@@ -19,8 +19,6 @@
   /* Choose whether to break up domain and user lists alphabetically */
   $alphadomains = 1;
   $alphausers = 1;
-  $alphastart = "ALL"; // Choose this if you want all users to be listed first
-  // $alphastart = "A"; // Choose this if you want to start listing at "A"
 
   /* Set to either "des" or "md5" depending on your crypt() libraries */
   $cryptscheme = "md5";
