@@ -13,6 +13,8 @@
   $row = $result->fetchRow();
   if ((isset($_POST['on_avscan'])) && ($row['avscan'] == 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
   if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] == 1)) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
+  // Don't accept blank passwords
+	if (($_POST['clear'] == "") && ($_POST['vclear'] == "")) { $junk = md5(time()); $_POST['clear'] = $junk; $_POST['vclear'] = $junk; }
 
   check_user_exists($db,$_POST['localpart'],$_SESSION['domain_id'],'adminalias.php');
 

@@ -17,8 +17,7 @@
 	  <td><?php echo _("Username"); ?>:<td><input name="localpart" type="text" class="textfield">&nbsp;@&nbsp;</td>
 	  <td>
 	    <?php
-	      $domains = array_reverse(explode(".",$_SERVER["SERVER_NAME"]));
-	      $domain = $domains[1].".".$domains[0];
+	      $domain = preg_replace ("/^mail\./", "", $_SERVER["SERVER_NAME"]);
 	      if ($domaininput == "dropdown") {
 		print "<select name='domain' class='textfield'>\n";
 		print "<option value=''>\n";
