@@ -16,13 +16,13 @@
 
 # Update the password, if the password was given
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
-    $cryptedpass = crypt($_POST['clear']);
-    $query = "UPDATE users SET crypt='$cryptedpass',
+    $cryptedpassword = crypt($_POST['clear']);
+    $query = "UPDATE users SET crypt='$cryptedpassword',
 		clear='{$_POST['clear']}'
 		WHERE user_id={$_SESSION['user_id']}";
     $result = $db->query($query);
     if (!DB::isError($result)) {
-      setcookie ("vexim[3]", $cryptedpass, time()+86400);
+      $_SESSION['crypt'] = $cryptedpassword;
       header ("Location: userchange.php?updated");
       die;
     } else {

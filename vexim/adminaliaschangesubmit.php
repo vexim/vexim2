@@ -17,7 +17,7 @@ if (isset($_POST['enabled'])) {$_POST['enabled'] = 1;} else {$_POST['enabled'] =
 	      WHERE user_id={$_POST['user_id']}";
     $result = $db->query($query);
     if (!DB::isError($result)) {
-      if ($_POST['localpart'] == $_SESSION['localpart']) { setcookie ("vexim[3]", $cryptedpassword, time()+86400); }
+      if ($_POST['localpart'] == $_SESSION['localpart']) { $_SESSION['crypt'] = $cryptedpassword; }
     } else {
       header ("Location: adminalias.php?failed");
     }

@@ -47,12 +47,6 @@
     }
     $result = $db->query($query);
     if ($result->numRows()) { $row = $result->fetchRow(); }
-    setcookie ("vexim[0]", $_POST['localpart'], time()+86400);
-    setcookie ("vexim[1]", $_POST['domain'], time()+86400);
-    setcookie ("vexim[2]", $row['domain_id'], time()+86400);
-    setcookie ("vexim[3]", $cryptedpass, time()+86400);
-    setcookie ("vexim[4]", $row['user_id'], time()+86400);
-
     $_SESSION['localpart'] = $_POST['localpart'];
     $_SESSION['domain'] = $_POST['domain'];
     $_SESSION['domain_id'] = $row['domain_id'];

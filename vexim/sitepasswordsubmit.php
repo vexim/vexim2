@@ -5,12 +5,12 @@
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
-    $crypted = crypt($_POST['clear']);
-    $query = "UPDATE users SET crypt='$crypted',
+    $cryptedpassword = crypt($_POST['clear']);
+    $query = "UPDATE users SET crypt='$cryptedpassword',
 		clear='{$_POST['clear']}' WHERE localpart='siteadmin'";
     $result = $db->query($query);
     if (!DB::isError($result)) {
-      setcookie ("vexim[3]", $crypted, time()+86400);
+      $_SESSION['crypt'] = $cryptedpassword;
       header ("Location: site.php?sitepass=success");
       die;
     } else {

@@ -63,7 +63,7 @@
 		WHERE localpart='{$_POST['localpart']}' AND domain_id={$_SESSION['domain_id']}";
     $result = $db->query($query);
     if ((!DB::isError($result)) && ($_POST['localpart'] == $_SESSION['localpart'])) { 
-    	setcookie ("vexim[3]", $cryptedpassword, time()+86400); 
+    	$_SESSION['crypt'] = $cryptedpassword;
     } else { 
     	header ("Location: adminuser.php?failupdated={$_POST['localpart']}");
     	die;
