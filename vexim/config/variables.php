@@ -7,6 +7,7 @@
   $sqldb = "vexim";
   $sqluser = "vexim";
   $sqlpass = "CHANGE";
+  $dbmode = DB_FETCHMODE_ASSOC;
   $dsn = "$sqltype://$sqluser:$sqlpass@$sqlhost/$sqldb";
   $db = DB::connect($dsn);
   if (DB::isError($db)) { die ($db->getMessage()); }
