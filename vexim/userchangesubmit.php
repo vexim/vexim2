@@ -23,7 +23,7 @@
     $result = $db->query($query);
     if (!DB::isError($result)) {
       $_SESSION['crypt'] = $cryptedpassword;
-      header ("Location: userchange.php?updated");
+      header ("Location: userchange.php?userupdated");
       die;
     } else {
       header ("Location: userchange.php?badpass");
@@ -46,13 +46,13 @@
 		WHERE user_id={$_SESSION['user_id']}";
     $result = $db->query($query);
     if (!DB::isError($result)) {
-      header ("Location: userchange.php?updated");
+      header ("Location: userchange.php?userupdated");
       die;
     } else {
-      header ("Location: userchange.php?failed");
+      header ("Location: userchange.php?userfailed");
       die;
     }
 
-  header ("Location: userchange.php?updated");
+  header ("Location: userchange.php?userupdated");
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->
