@@ -57,13 +57,14 @@
       header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
     }
   } else if ($_POST['type'] == "alias") {
-    $idquery = "SELECT domain_id FROM domains WHERE domain = '{$_POST['aliasdest']}'";
+    $idquery = "SELECT domain_id FROM domains WHERE domain = '{$_POST['aliasdest']}' AND domain_id > 1";
     $idresult = $db->query($idquery);
-    if (!DB::isError($result)) {
-      $idrow = $idresult->fetchRow();
-    } else {
+    if (DB::isError($idresult)) {
       header ("Location: site.php?baddestdom={$_POST['domain']}");
       die;
+    } else {
+      $idrow = $idresult->fetchRow();
+      if (!isset($idrow['domain_id'])) { header ("Location: site.php?baddestdom={$_POST['domain']}"); die; }
     }
     $query = "INSERT INTO domainalias (domain_id, alias) values ('{$idrow['domain_id']}', '{$_POST['domain']}')";
     $result = $db->query($query);
