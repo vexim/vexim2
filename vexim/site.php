@@ -26,17 +26,18 @@
       	<th></th>
 	<th>Local domains</th>
 	<th>Admin account</th>
+	<th>Total admins</th>
       </tr>
       <?
      if ($alphadomains AND $letter != '') 
-		$query = "SELECT localpart,domain,domains.domain_id FROM users,domains
+		$query = "SELECT localpart,domain,domains.domain_id,count(*) FROM users,domains
 			WHERE users.domain_id = domains.domain_id
 			AND domain !='admin'
-			AND admin=1 AND lower(domain) LIKE lower('$letter%') ORDER BY domain";
+			AND admin=1 AND lower(domain) LIKE lower('$letter%') GROUP BY domain ORDER BY domain";
      else 
-		$query = "SELECT localpart,domain,domains.domain_id FROM users,domains
+		$query = "SELECT localpart,domain,domains.domain_id,count(*) AS count FROM users,domains
 			WHERE users.domain_id = domains.domain_id
-			AND domain !='admin' AND admin=1 ORDER BY domain";
+			AND domain !='admin' AND admin=1 GROUP BY domain ORDER BY domain";
   	$result = $db->query($query);
 	if ($result->numRows()) {
 	  while ($row = $result->fetchRow()) {
@@ -45,6 +46,7 @@
 	    print "<img style='border:0;width:10px;height:16px' title='Delete {$row['domain']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
 	    print "\t<td><a href=\"sitechange.php?domain_id={$row['domain_id']}&domain={$row['domain']}\">{$row['domain']}</a></td>\n";
 	    print "\t<td>{$row['localpart']}@{$row['domain']}</td>\n";
+	    print "\t<td>{$row['count']}</td>\n";
 	    print "</tr>\n";
 	  }
 	}
