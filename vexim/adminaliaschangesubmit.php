@@ -13,7 +13,7 @@ if (isset($_POST['enabled'])) {$_POST['enabled'] = 1;} else {$_POST['enabled'] =
   if (validate_password($_POST['password'], $_POST['vpassword'])) {
     $cryptedpassword = crypt($_POST['password']);
     $query = "UPDATE users SET crypt='{$cryptedpassword}', clear='{$_POST['crypt']}'
-              WHERE user_id={$_POST['user_id']}";
+	      WHERE user_id={$_POST['user_id']}";
     $result = $db->query($query);
     if (!DB::isError($result)) {
       if ($_POST['localpart'] == $_COOKIE['vexim'][0]) { setcookie ("vexim[3]", $cryptedpassword, time()+86400); }

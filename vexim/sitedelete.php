@@ -4,9 +4,7 @@
 
   if ($_POST['confirm'] == "1") {
     $query = "DELETE FROM users WHERE domain_id={$_POST['domain_id']}";
-    $query2 = "DELETE FROM domains WHERE domain_id={$_POST['domain_id']}";
     $result = $db->query($query);
-    $result2 = $db->query($query2);
     if (!DB::isError($result)) {
       header ("Location: site.php?deleted={$_POST['domain_id']}");
       die;
@@ -18,10 +16,9 @@
   }
 
   $query = "SELECT COUNT(*) AS count, domain, domains.type FROM users,domains WHERE (domains.domain_id={$_GET['domain_id']}
-              AND users.domain_id=domains.domain_id) OR domains.type = 'relay' GROUP BY domain,domains.type";
+	      AND users.domain_id=domains.domain_id) OR domains.type = 'relay' GROUP BY domain,domains.type";
   $result = $db->query($query);
-  if (DB::isError($result)) { die ($result->getMessage()); }
-  $row = $result->fetchRow();
+  if ($result->numRows()) { $row = $result->fetchRow(); }
   
 ?>
 <html>
@@ -38,7 +35,7 @@
     </div>
     <div id='Content'>
       <form name='domaindelete' method='post' action='sitedelete.php'>
-        <table align="center">
+	<table align="center">
 	  <tr><td colspan='2'>Please confirm deleting domain <? print $row['domain']; ?>:</td></tr>
 	  <? if ($row['type'] != "relay") {
 		print "<tr><td colspan='2'>There are currently <b>{$row['count']}</b> accounts in domain {$row['domain']}</td></tr>";

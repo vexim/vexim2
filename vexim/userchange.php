@@ -4,10 +4,10 @@
 
   $domquery = "SELECT avscan,spamassassin FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
   $domresult = $db->query($domquery);
-  $domrow = $domresult->fetchRow();
+  if ($domresult->numRows()) { $domrow = $domresult->fetchRow(); }
   $query = "SELECT * FROM users WHERE user_id={$_COOKIE['vexim'][4]}";
   $result = $db->query($query);
-  $row = $result->fetchRow();
+  if ($result->numRows()) { $row = $result->fetchRow(); }
   $blockquery = "SELECT block_id,blockhdr,blockval FROM blocklists,users
   		WHERE blocklists.user_id={$_COOKIE['vexim'][4]}
 		AND users.user_id=blocklists.user_id";
@@ -40,12 +40,12 @@
       ?>
     <div id="forms">
       <form name="userchange" method="post" action="userchangesubmit.php">
-        <table align="center">
-          <tr><td>Name:</td><td><input name="realname" type="text" value="<? print $row['realname']; ?>" class="textfield"></td></tr>
-          <tr><td>Email Address:</td><td><? print $row['localpart']."@".$_COOKIE['vexim'][1]; ?></td>
-          <tr><td>Password:</td><td><input name="clear" type="password" class="textfield"></td></tr>
-          <tr><td>Verify Password:</td><td><input name="vclear" type="password" class="textfield"></td></tr>
-          <tr><td></td><td class="button"><input name="submit" type="submit" value="Submit Password"></td></tr>
+	<table align="center">
+	  <tr><td>Name:</td><td><input name="realname" type="text" value="<? print $row['realname']; ?>" class="textfield"></td></tr>
+	  <tr><td>Email Address:</td><td><? print $row['localpart']."@".$_COOKIE['vexim'][1]; ?></td>
+	  <tr><td>Password:</td><td><input name="clear" type="password" class="textfield"></td></tr>
+	  <tr><td>Verify Password:</td><td><input name="vclear" type="password" class="textfield"></td></tr>
+	  <tr><td></td><td class="button"><input name="submit" type="submit" value="Submit Password"></td></tr>
       </form>
       <form name="userchange" method="post" action="userchangesubmit.php">
 	</table>
@@ -77,26 +77,27 @@
 	       if ($row['on_forward'] == "1") { print " checked "; } print "></td></tr>\n";
  	     print "<tr><td>Forward mail to:</td>";
 	     print "<td><input type=\"text\" name=\"forward\" value=\"{$row['forward']}\" class=\"textfield\"></td></tr>\n";
-          ?>
-          <tr><td></td><td class="button"><input name="submit" type="submit" value="Submit Profile"></td></tr>
-          <tr><td colspan="2" style="padding-top:1em;"><b>Note:</b> Attempting to set blank passwords does not work!<td></tr>
-        </table>
+	  ?>
+	  <tr><td></td><td class="button"><input name="submit" type="submit" value="Submit Profile"></td></tr>
+	  <tr><td colspan="2" style="padding-top:1em;"><b>Note:</b> Attempting to set blank passwords does not work!<td></tr>
+	</table>
       </form>
       <form name="blocklist" method="post" action="userblocksubmit.php">
-        <table align="center">
+	<table align="center">
 	  <tr><td>Add a new header blocking filter:</td></tr>
 	  <tr><td><select name="blockhdr" class="textfield">
 		  <option value="From">From:</option>
 	  	  <option value="X-Mailer">X-Mailer:</option>
 		  </select></td>
 	      <td><input name="blockval" type="text" size="25" class="textfield">
-	          <input name="color" type="hidden" value="black"></td></tr>
+		  <input name="color" type="hidden" value="black"></td></tr>
 	  <tr><td><input name="submit" type="submit" value="Submit"></td></tr>
 	</table>
       </form>
       <table align="center">
 	<tr><th>Delete</th><th>Blocked Header</th><th>Content</th></tr>
-	<? if (!DB::isError($blockresult)) { while ($blockrow = $blockresult->fetchRow()) {
+	<? if ($blockresult->numRows()) {
+	     while ($blockrow = $blockresult->fetchRow()) {
 		print "<tr><td><a href=\"userblocksubmit.php?action=delete&block_id={$blockrow['block_id']}\"><img style=\"border:0;width:10px;height:16px\" title=\"Delete\" src=\"images/trashcan.gif\" alt=\"trashcan\"></a></td>";
 		print "<td>{$blockrow['blockhdr']}</td><td>{$blockrow['blockval']}</td></tr>\n";
 	     }

@@ -17,7 +17,7 @@
     <div id="Forms">
     <form name="adminadd" method="post" action="adminfailaddsubmit.php">
       <table align="center">
-        <tr>
+	<tr>
 	  <td>Address to fail:</td><td><input name="localpart" type="text" class="textfield">@<? print $_COOKIE['vexim'][1]; ?></td>
 	</tr>
 	<tr>

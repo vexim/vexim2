@@ -6,7 +6,7 @@
   # Fix the boolean values
   $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
   $result = $db->query($query);
-  $row = $result->fetchRow();
+  if ($result->numRows()) { $row = $result->fetchRow(); }
   if (isset($_POST['admin'])) {$_POST['admin'] = 1;} else {$_POST['admin'] = 0;}
   if (isset($_POST['on_avscan'])) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
   if (isset($_POST['on_forward'])) {$_POST['on_forward'] = 1;} else {$_POST['on_forward'] = 0;}
@@ -26,15 +26,15 @@
 
   # Big code block, to make sure we're not de-admining the last admin
   $query = "SELECT COUNT(admin) AS count FROM users
-                        WHERE admin=1
-                        AND domain_id={$_COOKIE['vexim'][2]}";
+			WHERE admin=1
+			AND domain_id={$_COOKIE['vexim'][2]}";
   $result = $db->query($query);
-  $row = $result->fetchRow();
+  if ($result->numRows()) { $row = $result->fetchRow(); }
   if ($row['count'] == "1") {
-    $query = "SELECT admin FROM users WHERE localpart='{$_POST['localpart']}' AND domain_id={$_COOKIE['vexim'][2]}";
-    $result = $db->query($query);
-    $row = $result->fetchRow();
-    if (($row['admin'] == "1") && ($_POST['admin'] == "0")) {
+    $nxtquery = "SELECT admin FROM users WHERE localpart='{$_POST['localpart']}' AND domain_id={$_COOKIE['vexim'][2]}";
+    $nxtresult = $db->query($nxtquery);
+    if ($nxtresult->numRows()) { $nxtrow = $nxtresult->fetchRow(); }
+    if (($nxtrow['admin'] == "1") && ($_POST['admin'] == "0")) {
       header ("Location: adminuser.php?nodel={$_POST['localpart']}");
       die;
     }

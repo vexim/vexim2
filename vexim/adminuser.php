@@ -14,7 +14,7 @@
       <a href="adminuseradd.php">Add User</a>
       <?
 	$query = "SELECT count(users.user_id)
-	          AS used, max_accounts
+		  AS used, max_accounts
 		  FROM domains,users
 		  WHERE users.domain_id={$_COOKIE['vexim'][2]}
 		  AND domains.domain_id=users.domain_id
@@ -22,7 +22,7 @@
 		  GROUP BY max_accounts"; 
 	$result = $db->query($query);
 	$row = $result->fetchRow();
-	if (!DB::isError($result) && $row['max_accounts']) {
+	if (($result->numRows()) && $row['max_accounts']) {
 	  print "({$row['used']} of {$row['max_accounts']})";
 	}
       ?>

@@ -45,7 +45,7 @@
 			AND domains.domain='{$_POST['domain']}'";
     }
     $result = $db->query($query);
-    $row = $result->fetchRow();
+    if ($result->numRows()) { $row = $result->fetchRow(); }
     setcookie ("vexim[0]", $_POST['localpart'], time()+86400);
     setcookie ("vexim[1]", $_POST['domain'], time()+86400);
     setcookie ("vexim[2]", $row['domain_id'], time()+86400);

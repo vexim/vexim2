@@ -16,10 +16,10 @@
 		domain_id={$_POST['domain_id']}";
       $result = $db->query($query);
       if (!DB::isError($result)) {
-        header ("Location: site.php?updated={$_POST['domain_id']}");
+	header ("Location: site.php?updated={$_POST['domain_id']}");
 	die;
       } else {
-        header ("Location: site.php?failupdated={$_POST['domain_id']}");
+	header ("Location: site.php?failupdated={$_POST['domain_id']}");
 	die;
       }
     } else {

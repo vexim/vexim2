@@ -11,31 +11,32 @@
     <div id="Centered">
     <form style="margin-top:3em;" name="login" method="post" action="login.php">
       <table valign="center" align="center">
-         <tr>
-          <td>Username:<td><input name="localpart" type="text" class="textfield">&nbsp;@&nbsp;</td>
+	 <tr>
+	  <td>Username:<td><input name="localpart" type="text" class="textfield">&nbsp;@&nbsp;</td>
 	  <td>
 	    <? if ($domaininput == "dropdown") {
-	        print "<select name=\"domain\" class=\"textfield\">\n";
-	        print "<option value=\"\">\n";
-                  $query = "SELECT domain FROM domains WHERE type='local' AND domain!='admin' ORDER BY domain";
-	          $result = $db->query($query);
-	          if (DB::isError($result)) { die ($result->getMessage()); }
-                  while ($row = $result->fetchRow()) {
-                    print "\t<option value=\"" . $row['domain'] . '">' . $row['domain'] . '</option>' . "\n";
-                  }
-	        print "</select>\n";
+		print "<select name=\"domain\" class=\"textfield\">\n";
+		print "<option value=\"\">\n";
+		  $query = "SELECT domain FROM domains WHERE type='local' AND domain!='admin' ORDER BY domain";
+		  $result = $db->query($query);
+		  if ($result->numRows()) {
+		    while ($row = $result->fetchRow()) {
+		      print "\t<option value=\"" . $row['domain'] . '">' . $row['domain'] . '</option>' . "\n";
+		    }
+		  }
+		print "</select>\n";
 	      } else if ($domaininput == "textbox") {
-	        print "<input type=\"text\" name=\"domain\" class=\"textfield\"> (domain name)\n";
+		print "<input type=\"text\" name=\"domain\" class=\"textfield\"> (domain name)\n";
 	      }
 	    ?>
-          </td>
-        </tr>
-        <tr>
-          <td>Password:<td><input name="crypt" type="password" class="textfield"></td>
-        </tr>
-        <tr>
-          <td colspan="3" style="text-align:center;padding-top:1em"><input name="submit" type="submit" value="submit" class="longbutton"></td>
-        </tr>
+	  </td>
+	</tr>
+	<tr>
+	  <td>Password:<td><input name="crypt" type="password" class="textfield"></td>
+	</tr>
+	<tr>
+	  <td colspan="3" style="text-align:center;padding-top:1em"><input name="submit" type="submit" value="submit" class="longbutton"></td>
+	</tr>
       </table>
     </form>
     </div>

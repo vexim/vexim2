@@ -28,19 +28,19 @@
 	     <tr><td>System UID:</td><td><input name=\"uid\" type=\"text\" class=\"textfield\" value=\"$uid\"></td></tr>
 	     <tr><td>System GID:</td><td><input name=\"gid\" type=\"text\" class=\"textfield\" value=\"$gid\"></td></tr>
 	     <tr><td>Domain Mail directory:</td>
-	         <td><input name=\"maildir\" type=\"text\" class=\"textfield\" value=\"$mailroot\"></td>
+		 <td><input name=\"maildir\" type=\"text\" class=\"textfield\" value=\"$mailroot\"></td>
 		 <td>Create the domain directory below this top-level mailstore</td></tr>
 	     <tr><td>Maximum accounts<br>(0 for unlimited):</td><td<input type=\"text\" size=\"5\" name=\"max_accounts\" value=\"\" class=\"textfield\"></td></tr>
 	     <tr><td>Max mailbox quota (0 for disabled):</td>
-	         <td><input name=\"quotas\" size=\"5\" type=\"text\" class=\"textfield\" value=\"0\"></td></tr>
+		 <td><input name=\"quotas\" size=\"5\" type=\"text\" class=\"textfield\" value=\"0\"></td></tr>
 	     <tr><td>Maximum message size:</td>
-	         <td><input name=\"maxmsgsize\" size=\"5\" type=\"text\" class=\"textfield\" value=\"0\">Kb</td>
+		 <td><input name=\"maxmsgsize\" size=\"5\" type=\"text\" class=\"textfield\" value=\"0\">Kb</td>
 		 <td>The maximum size for incoming mail (user tunable)</td></tr>
 	     <tr><td>Spamassassin tag score:</td>
-	         <td><input name=\"sa_tag\" size=\"5\" type=\"text\" class=\"textfield\" value=\"$sa_tag\"></td>
+		 <td><input name=\"sa_tag\" size=\"5\" type=\"text\" class=\"textfield\" value=\"$sa_tag\"></td>
 		 <td>The score at the 'X-Spam-Flag: YES' header will be added</td></tr>
 	     <tr><td>Spamassassin refuse score:</td>
-	         <td><input name=\"sa_refuse\" size=\"5\" type=\"text\" class=\"textfield\" value=\"$sa_refuse\"></td>
+		 <td><input name=\"sa_refuse\" size=\"5\" type=\"text\" class=\"textfield\" value=\"$sa_refuse\"></td>
 		 <td>The score at which to refuse potentially spam mail and not deliver</td></tr>
 	     <tr><td>Spamassassin enabled?</td><td><input name=\"spamassassin\" type=\"checkbox\" class=\"textfield\"></td></tr>
 	     <tr><td>Anti Virus enabled?</td><td><input name=\"avscan\" type=\"checkbox\" class=\"textfield\"></td></tr>

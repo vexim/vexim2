@@ -8,12 +8,12 @@ if ($_GET['confirm'] == "1") {
   $result = $db->query($query);
   if (!DB::isError($result)) { header ("Location: adminuser.php?deleted={$_GET['user_id']}"); }
   else { header ("Location: adminuser.php?faildeleted={$_GET['user_id']}"); }
-} else if ($_GET['confirm'] == "cancel") {                   
+} else if ($_GET['confirm'] == "cancel") {		   
     header ("Location: adminuser.php?faildeleted={$_GET['user_id']}");
-    die;                                                      
+    die;						      
 } else {
   $query = "SELECT user_id AS count FROM users 
-              WHERE admin=1 AND domain_id={$_COOKIE[vexim][2]}
+	      WHERE admin=1 AND domain_id={$_COOKIE[vexim][2]}
 	      AND user_id!={$_GET['user_id']}";
   $result = $db->query($query);
   if ($result->numRows() == 0) {
@@ -22,7 +22,7 @@ if ($_GET['confirm'] == "1") {
   }
   $query = "SELECT localpart FROM users WHERE user_id={$_GET['user_id']}";
   $result = $db->query($query);
-  $row = $result->fetchRow();
+  if ($result->numRows()) { $row = $result->fetchRow(); }
   
 }
 ?>
@@ -40,7 +40,7 @@ if ($_GET['confirm'] == "1") {
     </div>
     <div id='Content'>
       <form name='userdelete' method='get' action='adminuserdelete.php'>
-        <table align="center">
+	<table align="center">
 	  <tr><td colspan='2'>Please confirm deleting user <?=$row['localpart']?>@<?=$_COOKIE['vexim'][1]?>:</td></tr>
 	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> Do Not Delete <? print $row['localpart']; ?>@<?=$_COOKIE['vexim'][1]?></b></td></tr>
 	  <tr><td><input name='confirm' type='radio' value='1'><b> Delete <? print $row['localpart']; ?>@<?=$_COOKIE['vexim'][1]?></b></td></tr>

@@ -9,15 +9,17 @@
 		AND domains.domain_id={$_COOKIE['vexim'][2]}
 		AND users.type='local'	GROUP BY domains.max_accounts";
   $domresult = $db->query($domquery);
-  $domrow = $domresult->fetchRow();
-  if (! $domrow['allowed']) {
+  if ($result->numRows()) {
+    $domrow = $domresult->fetchRow();
+    if (! $domrow['allowed']) {
 	header ("Location: adminuser.php?maxaccounts=true");
+    }
   }
 
   # Fix the boolean values
   $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
   $result = $db->query($query);
-  $row = $result->fetchRow();
+  if ($result->numRows()) { $row = $result->fetchRow(); }
   if (isset($_POST['admin'])) {$_POST['admin'] = 1;} else {$_POST['admin'] = 0;}
   if (isset($_POST['on_avscan'])) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
   if (isset($_POST['on_piped'])) {$_POST['on_piped'] = 1;} else {$_POST['on_piped'] = 0;}
@@ -42,7 +44,7 @@
 
   $query = "SELECT maildir FROM domains WHERE domain_id ={$_COOKIE['vexim'][2]}";
   $result = $db->query($query);
-  $row = $result->fetchRow();
+  if ($result->numRows()) { $row = $result->fetchRow(); }
   if (($_POST['on_piped'] == 1) && ($_POST['smtp'] != "")) {
     $smtphomepath = $_POST['smtp'];
     $pophomepath = "{$row['maildir']}/{$_POST['localpart']}";
@@ -56,33 +58,33 @@
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped, on_spamassassin, sa_tag, sa_refuse, maxmsgsize, enabled, quota)
       VALUES ('{$_POST['localpart']}',
-        '{$_POST['localpart']}@{$_COOKIE['vexim'][1]}',
-        {$_COOKIE['vexim'][2]},
-        '" . crypt($_POST['clear'],$salt) . "',
-        '{$_POST['clear']}',
-        '{$smtphomepath}',
-        '{$pophomepath}',
-        {$_POST['uid']},
-        {$_POST['gid']},
-        '{$_POST['realname']}',
-        '{$_POST['type']}',
-        {$_POST['admin']},
-        {$_POST['on_avscan']},
+	'{$_POST['localpart']}@{$_COOKIE['vexim'][1]}',
+	{$_COOKIE['vexim'][2]},
+	'" . crypt($_POST['clear'],$salt) . "',
+	'{$_POST['clear']}',
+	'{$smtphomepath}',
+	'{$pophomepath}',
+	{$_POST['uid']},
+	{$_POST['gid']},
+	'{$_POST['realname']}',
+	'{$_POST['type']}',
+	{$_POST['admin']},
+	{$_POST['on_avscan']},
 	{$_POST['on_piped']},
-        {$_POST['on_spamassassin']},
+	{$_POST['on_spamassassin']},
 	" . ((isset($_POST['sa_tag'] )) ? $_POST['sa_tag']  : 0) . ",
 	" .((isset($_POST['sa_refuse'] )) ? $_POST['sa_refuse']  : 0) . ",
-        {$_POST['maxmsgsize']},
-        {$_POST['enabled']},
+	{$_POST['maxmsgsize']},
+	{$_POST['enabled']},
 	{$_POST['quota']})";
     $result = $db->query($query);
     if (!DB::isError($result)) { header ("Location: adminuser.php?added={$_POST['localpart']}"); }
-    else header ("Location: adminuser.php?failadded={$_POST['localpart']}"); }
+      $query = "SELECT localpart,domain FROM users,domains WHERE domain_id={$_COOKIE['vexim'][2]}' AND users.type='admin'";
+      $result = $db->query($query);
+      $row =  $result->fetchRow();
+      mail("{$_POST['localpart']}@{$_COOKIE['vexim'][1]}", "Welcome {$_POST['realname']}!",  $welcome_message, "From: {$_COOKIE['vexim'][0]}@{$_COOKIE['vexim'][1]}\r\n");
+      die;
+    else header ("Location: adminuser.php?failadded={$_POST['localpart']}"); die; }
   else { header ("Location: adminuser.php?badpass={$_POST['localpart']}"); die; }
- // Sorry?
-  $query = "SELECT localpart,domain FROM users,domains WHERE domain_id={$_COOKIE['vexim'][2]}' AND users.type='admin'";
-  $result = $db->query($query);
-  $row =  $result->fetchRow();
-  mail("{$_POST['localpart']}@{$_COOKIE['vexim'][1]}", "Welcome {$_POST['realname']}!",  $welcome_message, "From: {$_COOKIE['vexim'][0]}@{$_COOKIE['vexim'][1]}\r\n");
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->

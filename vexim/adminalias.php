@@ -23,10 +23,10 @@
     <table align="center">
       <tr><th>&nbsp;</th><th>Alias</th><th>Target address</th><th>Forwards to..</th><th>Admin</th></tr>
       <?
-        if ($result->numRows()) {
+	if ($result->numRows()) {
 	  $row = $result->fetchRow();
 	  print "<tr><td align=\"center\"><a href=\"adminaliasdelete.php?user_id="
-	                 . $row['user_id'] . "\"><img style='border:0;width:10px;height:16px'
+			 . $row['user_id'] . "\"><img style='border:0;width:10px;height:16px'
 			 src=\"images/trashcan.gif\" title=\"Delete alias "
 			 . $row['localpart'] . "\"></a></td>\n";
 	  print "<td><a href=\"admincatchall.php?user_id={$row['user_id']}\">{$row['realname']}</a></td>\n";
@@ -39,18 +39,20 @@
 			domains.domain_id={$_COOKIE['vexim'][2]} AND domains.domain_id=users.domain_id
 			AND users.type='alias' ORDER BY localpart;";
 	$result = $db->query($query);
-	while ($row = $result->fetchRow()) {
-	  print "<tr><td align=\"center\"><a href=\"adminaliasdelete.php?user_id="
+	if ($result->numRows()) {
+	  while ($row = $result->fetchRow()) {
+	    print "<tr><td align=\"center\"><a href=\"adminaliasdelete.php?user_id="
 	  		. $row['user_id'] . "\"><img style='border:0;width:10px;height:16px'
 	  		src=\"images/trashcan.gif\" title=\"Delete alias "
 			. $row['localpart'] . "\"></a></td>\n";
-	  print "<td>";
-	  print "<a href=\"adminaliaschange.php?user_id={$row['user_id']}\">{$row['realname']}</a></td>\n";
-	  print "<td>" . $row['localpart'] . "</td>\n";
-	  print "<td>" . $row['smtp'] . "</td>\n";
-          print "\t<td class='check'>";
-          if ($row['admin'] == "1") print "<img style='border:0;width:13px;height:12px' src='images/check.gif' title='{$row['realname']} is an administrator'>";
-	  print "</tr>\n";
+	    print "<td>";
+	    print "<a href=\"adminaliaschange.php?user_id={$row['user_id']}\">{$row['realname']}</a></td>\n";
+	    print "<td>" . $row['localpart'] . "</td>\n";
+	    print "<td>" . $row['smtp'] . "</td>\n";
+	    print "\t<td class='check'>";
+	    if ($row['admin'] == "1") print "<img style='border:0;width:13px;height:12px' src='images/check.gif' title='{$row['realname']} is an administrator'>";
+	    print "</tr>\n";
+	  }
 	}
       ?>
       <tr><td colspan="4" style="padding-top:1em"><b>Note:</b>You can only have one catchall per domain.<br>

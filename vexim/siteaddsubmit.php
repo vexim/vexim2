@@ -33,7 +33,7 @@
     $domresult = $db->query($query);
     if (!DB::isError($domresult)) {
       if ($_POST['type'] == "local") {
-        $query = "INSERT INTO users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
+	$query = "INSERT INTO users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
 		  SELECT domain_id, '" . $_POST['localpart'] . "',
 		  '{$_POST['localpart']}@{$_POST['domain']}',
 		  '{$_POST['clear']}',

@@ -87,7 +87,7 @@ div.row span.formw {
   }
 
 .textfield      { border-color: #000000;
-                  border-width: 1px; }
+		  border-width: 1px; }
 
 a:link {color:#09c;}
 a:visited {color:#07a;}
