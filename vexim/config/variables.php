@@ -1,34 +1,39 @@
 <?
-
   /* SQL Database login information */
   require_once "DB.php";
-  $sqlserver = "localhost:/tmp/mysql.sock";
+  $sqlserver = "unix+localhost";
   $sqltype = "mysql";
   $sqldb = "vexim";
   $sqluser = "vexim";
   $sqlpass = "CHANGE";
-  $dsn = "$sqltype://$sqluser:$sqlpass@$sqlhost/$sqldb";
+  $dsn = "$sqltype://$sqluser:$sqlpass@$sqlserver/$sqldb";
   $db = DB::connect($dsn);
   if (DB::isError($db)) { die ($db->getMessage()); }
-  $db->setFetchMode(DB_FETCHMODE_ASSOC);
- 
-  /* Allow users to log in? */
-  $AllowUserLogin = "yes";
+  $db->setFetchMode(DB_FETCHMODE_ASSOC); 
 
   /* Set to either "des" or "md5" depending on your crypt() libraries */
-  $crypto = "md5";
+  $cryptscheme = "md5";
 
-  /* Default password to use for things like Aliases. */
-  $emptypass = "NOPASSWORD"; 
+  /* The UID's and GID's control the default UID and GID for new domains
+     and if postmasters can define their own */
+  $uid = "90";
+  $gid = "90";
+  $postmasteruidgid = "yes";
 
-  /* The location of your mailstore. Make sure the exim user owns it! */
+  /* The location of your mailstore for new domains.
+     Make sure the exim user owns it! */
   $mailroot = "/usr/local/mail/";
 
   /* path to Mailman */
   $mailmanroot = "http://www.EXAMPLE.com/mailman";
 
-  /* URL to your Virtual Exim install */
-  $veximurl = "vexim2.silverwraith.com";
+  /* sa_tag and sa_refuse are the default values to offer, when we create
+     new domains */
+  $sa_tag = "5";
+  $sa_refuse = "10";
+
+  /* Setting this to 0 if only admins should be allowed to login */
+  $AllowUserLogin = 1;
 
   /* Welcome message, sent to new POP/IMAP accounts */
   $welcome_message = "Welcome, $_POST[realname] !\n\nYour new E-mail account is all ready for you.\n\n"
@@ -36,5 +41,4 @@
 		     . "Username: $_POST[localpart]@" . $_COOKIE[vexim][2] ."\n"
 		     . "POP3 server: mail." . $_COOKIE[vexim][2] . "\n"
 		     . "SMTP server: mail." . $_COOKIE[vexim][2] . "\n";
-
 ?>
