@@ -8,17 +8,19 @@
   if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
   if (isset($_POST[pipe])) {$_POST[pipe] = 1;} else {$_POST[pipe] = 0;}
   if ($_POST[type] == "relay") {$_POST[clear] = $_POST[vclear] = "BLANK";}
+  if ($_POST[max_accounts] == '') {$_POST[max_accounts] = 'NULL';}
 
   $smtphomepath = $mailroot . $_POST[domain] . "/" . $_POST[localpart] . "/Maildir";
   $pophomepath = $mailroot . $_POST[domain] . "/" . $_POST[localpart];
 
   if (validate_password($_POST[clear], $_POST[vclear])) {
-    $query = "INSERT INTO domains (domain, spamassassin, sa_tag, sa_refuse, avscan, quotas, maildir, pipe, enabled, uid, gid, type, maxmsgsize)
+    $query = "INSERT INTO domains (domain, spamassassin, sa_tag, sa_refuse, avscan, max_accounts, quotas, maildir, pipe, enabled, uid, gid, type, maxmsgsize)
     VALUES ('" . $_POST[domain] . "',
     '" . $_POST[spamassassin] . "',
     '" . $_POST[sa_tag] . "',
     '" . $_POST[sa_refuse] . "',
     '" . $_POST[avscan] . "',
+	     $_POST[max_accounts],
     '" . $_POST[quotas] . "',
     '" . $_POST[maildir] . $_POST[domain] . "',
     '" . $_POST[pipe] . "',
