@@ -96,9 +96,9 @@ a:hover {background-color:#eee;}
 #Header {
 	font-size: 12pt;
 	margin:50px 0px 10px 0px;
-	padding:17px 0px 2px 20px;
+	padding:10px 0px 2px 20px;
 	/* For IE5/Win's benefit height = [correct height] + [top padding] + [top and bottom border widths] */
-	height:33px; /* 14px + 17px + 2px = 33px */
+	height:40px; /* 14px + 17px + 2px = 33px */
 	border-style:solid;
 	border-color:black;
 	border-width:1px 0px; /* top and bottom borders: 1px; left and right borders: 0px */
@@ -106,9 +106,9 @@ a:hover {background-color:#eee;}
 	background-color:#eee;
 	voice-family: "\"}\"";
 	voice-family:inherit;
-	height:14px; /* the correct height */
+	height:28px; /* the correct height */
 	}
-body>#Header {height:14px;}
+body>#Header {height:28px;}
 
 #Header>a:link, #Header>a:visited {
   font-family:verdana, arial, helvetica, sans-serif;
