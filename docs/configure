@@ -270,6 +270,7 @@ log_selector = +subject
 ######################################################################
 
 begin acl
+  .include /usr/local/etc/exim/vexim-acl-check-spf.conf
 
 acl_check_helo:
 
@@ -288,7 +289,6 @@ acl_check_rcpt:
   accept  hosts = :
 
   # Include Vexim specific rcpt ACLs
-  .include /usr/local/etc/exim/vexim-acl-check-spf.conf
   .include /usr/local/etc/exim/vexim-acl-check-rcpt.conf
 
   # Deny if the local part contains @ or % or / or | or !. These are rarely
