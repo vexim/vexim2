@@ -1,6 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
+  include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
   $query = "SELECT localpart,realname,smtp,on_avscan,on_spamassassin,admin,enabled FROM users WHERE user_id={$_GET['user_id']}";
   $result = $db->query($query);
