@@ -13,6 +13,7 @@
   <div id='menu'>
     <a href="siteadd.php?type=local">Add local domain</a><br>
     <a href="siteadd.php?type=relay">Add relay domain</a><br>
+    <a href="siteadd.php?type=alias">Add alias domain</a><br>
     <a href='sitepassword.php'>Site Password</a><br>
     <br><a href="logout.php">Logout</a><br>
   </div>
@@ -64,6 +65,23 @@
 	    print "\t<td><a href=\"sitedelete.php?domain_id={$row['domain_id']}&domain={$row['domain']}&type=relay\">";
 	    print "<img style='border:0;width:10px;height:16px' title='Delete{$row['domain']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
 	    print "\t<td>{$row['domain']}</a></td>\n";
+	    print "</tr>\n";
+	  }
+	}
+      ?>
+      <tr>
+        <th></th>
+	<th>Aliased domains</th>
+      </tr>
+      <?
+        $query = "SELECT alias,domain FROM domainalias,domains WHERE domainalias.domain_id = domains.domain_id";
+        $result = $db->query($query);
+	if ($result->numRows()) {
+	  while ($row = $result->fetchRow()) {
+	    print "<tr>";
+	    print "\t<td><a href=\"sitedelete.php?domain_id={$row['domain_id']}&domain={$row['alias']}&type=alias\">";
+	    print "<img style='border:0;width:10px;height:16px' title='Delete{$row['alias']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
+	    print "\t<td>{$row['alias']}</a></td>\n";
 	    print "</tr>\n";
 	  }
 	}
