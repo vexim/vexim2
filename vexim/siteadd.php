@@ -11,7 +11,7 @@
   <? include dirname(__FILE__) . "/config/header.php"; ?>
   <div id='menu'>
       <a href="site.php"><? echo _("Manage Domains"); ?></a><br>
-      <a href='sitepassword.php' title='Change site password'><? echo _("Site Password"); ?></a><br>
+      <a href='sitepassword.php'><? echo _("Site Password"); ?></a><br>
       <br><a href="logout.php"><? echo _("Logout"); ?></a><br>
   </div>
   <div id='Forms'>

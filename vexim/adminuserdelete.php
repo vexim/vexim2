@@ -34,7 +34,7 @@ if ($_GET['confirm'] == "1") {
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id='menu'>
       <a href='adminuseradd.php'><? echo _("Add User"); ?></a><br>
-      <a href='admin.php' title='Change site password'><? echo _("Main Menu"); ?></a><br>
+      <a href='admin.php'><? echo _("Main Menu"); ?></a><br>
       <br><a href='logout.php'><? echo _("Logout"); ?></a><br>
     </div>
     <div id='Content'>

@@ -12,7 +12,7 @@
   <div id='menu'>
     <a href="siteadd.php?type=local">Add local domain</a><br>
     <a href="siteadd.php?type=relay">Add relay domain</a><br>
-    <a href='sitepassword.php' title='Change site password'>Site Password</a><br>
+    <a href='sitepassword.php'>Site Password</a><br>
     <br><a href="logout.php">Logout</a><br>
   </div>
     <? if (isset($_GET['deleted'])) {
