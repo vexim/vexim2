@@ -16,7 +16,7 @@
 
   # Update the password, if the password was given
   if (validate_password($_POST['password'], $_POST['vpassword'])) {
-    $cryptedpassword = crypt_password($_POST['password']);
+    $cryptedpassword = crypt($_POST['password']);
     $query = "UPDATE users SET crypt='{$cryptedpassword}', clear='{$_POST['crypt']}'
 	      WHERE user_id={$_POST['user_id']}";
     $result = $db->query($query);

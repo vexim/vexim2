@@ -74,7 +74,7 @@
       if ($row['on_forward'] == "1") { print " checked "; } 
       print "></td></tr>\n";
       print "<tr><td>" . _("Forward mail to") . ":</td>";
-      print "<td><input type=\"text\" name=\"forward\" value=\"{$row['forward']}\" class=\"textfield\"></td></tr>\n"
+      print "<td><input type=\"text\" name=\"forward\" value=\"{$row['forward']}\" class=\"textfield\"></td></tr>\n";
       print "<tr><td>Store Forwarded Mail Locally:</td><td><input name=\"unseen\" type=\"checkbox\"";
       if ($row['unseen'] == "1") { print " checked "; } print "></td></tr>\n";
     ?>
