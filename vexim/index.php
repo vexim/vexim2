@@ -21,7 +21,7 @@
 	      if (DB::isError($result)) {
 	         die ($result->getMessage());
 	      }                             
-              while ($row = $result->fetchRow($dbmode)) {
+              while ($row = $result->fetchRow()) {
                 print "\t<option value=\"@" . $row[domain] . '">' . $row[domain] . '</option>' . "\n";
               }
 	    ?>
