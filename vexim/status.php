@@ -9,7 +9,7 @@
         } else if (isset($_GET[updated])) {
           print "<div id='status'>User '$_GET[updated]' has been successfully updated</div>\n";
         } else if (isset($_GET[faildeleted])) {
-          print "<div id='Status'>User '$_GET[faildelete]' could not be deleted</div>\n";
+          print "<div id='Status'>User '$_GET[faildeleted]' was not deleted</div>\n";
         } else if (isset($_GET[failadded])) {
           print "<div id='Status'>User '$_GET[failadded]' could not be added</div>\n";
         } else if (isset($_GET[failupdated])) {
