@@ -32,7 +32,7 @@
 		 <td>" . _("Create the domain directory below this top-level mailstore") . "</td></tr>
 	     <tr><td>" . _("Maximum accounts<br>(0 for unlimited)") . ":</td><td><input type=\"text\" size=\"5\" name=\"max_accounts\" value=\"0\" class=\"textfield\"></td></tr>
 	     <tr><td>" . _("Max mailbox quota (0 for disabled)") . ":</td>
-		 <td><input name=\"quotas\" size=\"5\" type=\"text\" class=\"textfield\" value=\"0\"></td></tr>
+		 <td><input name=\"quotas\" size=\"5\" type=\"text\" class=\"textfield\" value=\"0\">Mb</td></tr>
 	     <tr><td>" . _("Maximum message size") . ":</td>
 		 <td><input name=\"maxmsgsize\" size=\"5\" type=\"text\" class=\"textfield\" value=\"0\">Kb</td>
 		 <td>" . _("The maximum size for incoming mail (user tunable)") . "</td></tr>
