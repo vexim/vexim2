@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: template\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-24 14:43+0200\n"
+"POT-Creation-Date: 2004-08-26 18:38+0200\n"
 "PO-Revision-Date: 2004-03-19 00:00+0000\n"
 "Last-Translator: Avleen Vig <postmaster@silverwraith.com>\n"
 "Language-Team: English\n"
@@ -178,7 +178,17 @@ msgstr ""
 msgid "-- Group %s failed to be added."
 msgstr ""
 
-#: config/header.php:78 index.php:45
+#: config/header.php:78
+#, php-format
+msgid "-- Group %s has been updated."
+msgstr ""
+
+#: config/header.php:80
+#, php-format
+msgid "-- Group %s could not be updated."
+msgstr ""
+
+#: config/header.php:82 index.php:45
 msgid "Login failed"
 msgstr "Login failed"
 
@@ -331,7 +341,7 @@ msgstr "Anti-Virus"
 msgid "Spamassassin"
 msgstr "Spamassassin"
 
-#: adminaliasadd.php:41 adminaliaschange.php:41 admingroup.php:32
+#: adminaliasadd.php:41 adminaliaschange.php:41 admingroup.php:21
 #: admingroupchange.php:41 admingroupchange.php:66 adminuseradd.php:73
 #: adminuserchange.php:75 sitechange.php:65
 msgid "Enabled"
@@ -420,50 +430,30 @@ msgstr ""
 msgid "Add Group"
 msgstr ""
 
-#: admingroup.php:21
-#, php-format
-msgid "Group %s has been successfully deleted"
-msgstr ""
-
-#: admingroup.php:23
-#, php-format
-msgid "Group %s has been successfully added"
-msgstr ""
-
-#: admingroup.php:25
-#, php-format
-msgid "Group %s was not deleted"
-msgstr ""
-
-#: admingroup.php:27
-#, php-format
-msgid "Group %s failed to be added"
-msgstr ""
-
-#: admingroup.php:32 adminuser.php:40
+#: admingroup.php:21 adminuser.php:40
 msgid "Email address"
 msgstr "Email address"
 
-#: admingroup.php:32 admingroupchange.php:35
+#: admingroup.php:21 admingroupchange.php:35
 msgid "Is public"
 msgstr ""
 
-#: admingroup.php:42
+#: admingroup.php:31
 #, php-format
 msgid "Delete group %s"
 msgstr ""
 
-#: admingroup.php:44
+#: admingroup.php:33
 #, php-format
 msgid "Click to modify %s"
 msgstr ""
 
-#: admingroup.php:49
+#: admingroup.php:38
 #, php-format
 msgid "Anyone can write to %s"
 msgstr ""
 
-#: admingroup.php:54
+#: admingroup.php:43
 #, php-format
 msgid "%s is enabled"
 msgstr ""
@@ -934,21 +924,3 @@ msgstr ""
 msgid "Add a new header blocking filter"
 msgstr ""
 
-#~ msgid ""
-#~ "Password only needed if you want the user tobe able to log in, or if the "
-#~ "Alias is the admin account"
-#~ msgstr ""
-#~ "Password only needed if you want the user tobe able to log in, or if the "
-#~ "Alias is the admin account"
-
-#~ msgid "Maximum accounts<br>(0 for unlimited)"
-#~ msgstr "Maximum accounts<br>(0 for unlimited)"
-
-#~ msgid "Max mailbox quota (0 for disabled)"
-#~ msgstr "Max mailbox quota (0 for disabled)"
-
-#~ msgid "Max mailbox quota in Mb<br>(0 for disabled)"
-#~ msgstr "Max mailbox quota in Mb<br>(0 for disabled)"
-
-#~ msgid "Changing your password will require you to re-login."
-#~ msgstr "Changing your password will require you to re-login."
