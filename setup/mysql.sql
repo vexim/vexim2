@@ -58,8 +58,10 @@ CREATE TABLE IF NOT EXISTS vexim.users (user_id int(10) unsigned NOT NULL auto_i
 DROP TABLE IF EXISTS vexim.blocklists;
 CREATE TABLE IF NOT EXISTS vexim.blocklists (block_id int(10) unsigned NOT NULL auto_increment,
   	domain_id mediumint(8) unsigned NOT NULL,
-	localpart varchar(192) NOT NULL default '',
-	blockaddr varchar(192) NOT NULL default '',
+	user_id int(10) unsigned default NULL,
+	blockhdr varchar(192) NOT NULL default '',
+	blockval varchar(192) NOT NULL default '',
+	color varchar(8) NOT NULL default '',
 	PRIMARY KEY (block_id));
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON vexim.* to vexim@localhost IDENTIFIED BY 'CHANGE';
