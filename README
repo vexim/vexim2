@@ -70,7 +70,7 @@ Files and Apache:
 
 Exim configuration:
   An example exim 'configure' file, has been included with this
-  distribution as 'setup/configure'. Copy this to the location Exim
+  distribution as 'docs/configure'. Copy this to the location Exim
   expects its configuration file to be on your installation.
   The following lines are important and will need to be edited if you
   are using this configure, or copied to your own configure:
