@@ -90,8 +90,10 @@
 	  $result = $db->query($query);
 	  if ($result->numRows()) {
 	    while ($row = $result->fetchRow()) {
-	      if ($row['domain'] == $_COOKIE['vexim'][1]) {
-		print " <a href=\"adminaliaschange.php?user_id={$_GET['user_id']}\">{$row['localpart']}@{$row['domain']}</a> ";
+	      if (($row['domain'] == $_COOKIE['vexim'][1]) && ($row['localpart'] != "*")) {
+		print " <a href=\"adminaliaschange.php?user_id={$row['user_id']}\">{$row['localpart']}@{$row['domain']}</a> ";
+	      } else if (($row['domain'] == $_COOKIE['vexim'][1]) && ($row['localpart'] == "*")) {
+	        print " <a href=\"admincatchall.php?user_id={$row['user_id']}\">{$row['localpart']}@{$row['domain']}</a>";
 	      } else {
 		print "{$row['localpart']}@{$row['domain']}";
 	      }
