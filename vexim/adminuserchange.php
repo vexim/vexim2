@@ -97,13 +97,13 @@
 	  <select name="forwardmenu">
 	    <option selected value=""> </option>
 	      <?php
-		$query = "select realname, username, user_id from users ";
-		$query .= "where enabled = '1' and domain_id = {$_SESSION['domain_id']} and type != 'fail' ";
-		$query .= "order by realname, username, type desc";
-		$result = $db->query($query);
-		while ($row = $result->fetchRow()) {
+		$queryuserlist = "select realname, username, user_id, unseen from users ";
+		$queryuserlist .= "where enabled = '1' and domain_id = {$_SESSION['domain_id']} and type != 'fail' ";
+		$queryuserlist .= "order by realname, username, type desc";
+		$resultuserlist = $db->query($queryuserlist);
+		while ($rowuserlist = $resultuserlist->fetchRow()) {
 	      ?>
-	        <option value="<?php echo $row['username']; ?>"><?php echo $row['realname']; ?> (<?php echo $row['username']; ?>)</option>
+	        <option value="<?php echo $rowuserlist['username']; ?>"><?php echo $rowuserlist['realname']; ?> (<?php echo $rowuserlist['username']; ?>)</option>
 	      <?php 
                 }
 	      ?>
