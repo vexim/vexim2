@@ -37,7 +37,7 @@
 
   check_user_exists($db,$_POST['localpart'],$_COOKIE['vexim'][2],'adminuser.php');
 
-  if (preg_match("/['@%!\/\| ']/",$_POST['localpart'])) {
+  if ((preg_match("/['@%!\/\| ']/",$_POST['localpart'])) || ($_POST['name'] == "")) {
   	header("Location: adminuser.php?badname={$_POST['localpart']}");
   	die;
   }
