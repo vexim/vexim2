@@ -6,7 +6,7 @@
   # Fix the boolean values
   $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
   $result = $db->query($query);
-  if ($result->numRows()) { $row = $result->fetchRow(); }
+  if (!DB::isError($result)) { $row = $result->fetchRow(); }
   if (isset($_POST['admin'])) {$_POST['admin'] = 1;} else {$_POST['admin'] = 0;}
   if (isset($_POST['on_avscan'])) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
   if (isset($_POST['on_forward'])) {$_POST['on_forward'] = 1;} else {$_POST['on_forward'] = 0;}

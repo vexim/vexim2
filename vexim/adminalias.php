@@ -11,8 +11,10 @@
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="menu">
       <a href="adminaliasadd.php">Add Alias</a></br>
-      <? $query = "SELECT user_id,realname,smtp FROM users,domains WHERE domains.domain_id={$_COOKIE['vexim'][2]} AND
-      			users.domain_id=domains.domain_id AND users.type='catch'";
+      <? $query = "SELECT user_id,realname,smtp FROM users,domains
+      		   WHERE domains.domain_id={$_COOKIE['vexim'][2]}
+		   AND users.domain_id=domains.domain_id
+		   AND users.type='catch'";
 	 $result = $db->query($query);
 	 if (!$result->numRows()) { print "<a href=\"admincatchalladd.php\">Add Catchall</a></br>"; }
       ?>
