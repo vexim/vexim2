@@ -3,7 +3,7 @@
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
-  if ($_POST['localpart'] == "siteadmin") {
+  if ($_POST['localpart'] == "siteadmin" && $_POST['domain'] == "") {
     $query = "SELECT crypt,localpart FROM users,domains WHERE localpart='siteadmin'
     			AND domain='admin' and users.domain_id = domains.domain_id";
   } else if ($AllowUserLogin) {
@@ -37,7 +37,7 @@
 */
 
   if ($cryptedpass == $row['crypt']) {
-    if ($_POST['localpart'] == "siteadmin") {
+    if ($_POST['localpart'] == "siteadmin" && $_POST['domain'] == "") {
       $query = "SELECT user_id,domains.domain_id,users.admin,users.type FROM
       			users,domains WHERE localpart='siteadmin' AND domain='admin' AND
 			users.domain_id = domains.domain_id";

@@ -10,6 +10,7 @@
   if (!DB::isError($result)) { $row = $result->fetchRow(); }
   if (isset($_POST['admin'])) {$_POST['admin'] = 1;} else {$_POST['admin'] = 0;}
   if (isset($_POST['on_forward'])) {$_POST['on_forward'] = 1;} else {$_POST['on_forward'] = 0;}
+  if (isset($_POST['unseen'])) {$_POST['unseen'] = 1;} else {$_POST['unseen'] = 0;}
   if (isset($_POST['on_vacation'])) {$_POST['on_vacation'] = 1;} else {$_POST['on_vacation'] = 0;}
   if (isset($_POST['enabled'])) {$_POST['enabled'] = 1;} else {$_POST['enabled'] = 0;}
   if (!isset($_POST['gid'])) {$_POST['gid'] = $row['gid'];}
@@ -93,7 +94,8 @@
     sa_tag=" . ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0) . ",
     sa_refuse=" . ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0) . ",
     type='{$_POST['type']}',
-    vacation='" . (($_POST['vacation']) ? $_POST['vacation'] : '') . "'
+    vacation='" . (($_POST['vacation']) ? $_POST['vacation'] : '') . "',
+    unseen='{$_POST['unseen']}'
     WHERE user_id='{$_POST['user_id']}'";
   $result = $db->query($query);
   if (!DB::isError($result)) { header ("Location: adminuser.php?updated={$_POST['localpart']}"); }

@@ -5,6 +5,7 @@
   include_once dirname(__FILE__) . "/config/httpheaders.php";
   if (isset($_POST['on_vacation'])) {$_POST['on_vacation'] = 1;} else {$_POST['on_vacation'] = 0;}
   if (isset($_POST['on_forward'])) {$_POST['on_forward'] = 1;} else {$_POST['on_forward'] = 0;}
+  if (isset($_POST['unseen'])) {$_POST['unseen'] = 1;} else {$_POST['unseen'] = 0;}
   # Do some checking, to make sure the user is ALLOWED to make these changes
   $query = "SELECT avscan,spamassassin from domains WHERE domain_id = {$_SESSION['domain_id']}";
   $result = $db->query($query);
@@ -46,7 +47,8 @@
 		vacation='{$_POST['vacation']}',
 		on_forward={$_POST['on_forward']},
 		forward='{$_POST['forward']}',
-		maxmsgsize={$_POST['maxmsgsize']}
+		maxmsgsize={$_POST['maxmsgsize']},
+		unseen='{$_POST['unseen']}'
 		WHERE user_id={$_SESSION['user_id']}";
     $result = $db->query($query);
     if (!DB::isError($result)) {
