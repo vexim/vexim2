@@ -54,7 +54,7 @@ MAILMAN_GROUP=mail
 # primary_hostname =
 
 # Your IP address
-MY_IP = 66.214.182.79
+MY_IP = CHANGE
 
 # The next three settings create two lists of domains and one list of hosts.
 # These lists are referred to later in this configuration using the syntax
@@ -72,10 +72,10 @@ ALIAS_DOMAINS = SELECT DISTINCT alias FROM domainalias WHERE alias = '${quote_my
 
 domainlist local_domains = @ : pear.silverwraith.com : ${lookup mysql{VIRTUAL_DOMAINS}} : ${lookup mysql{ALIAS_DOMAINS}}
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
-hostlist   relay_from_hosts = localhost : 192.168.0.0/24
+hostlist   relay_from_hosts = localhost : 192.168.0.0/24 : MY_IP
 trusted_users = avleen:www
 
-hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
+#hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
 
 # Most straightforward access control requirements can be obtained by
@@ -570,13 +570,18 @@ virtual_vacation:
 virtual_forward:
   driver = redirect
   check_ancestor
+  unseen = ${if eq {${lookup mysql{select unseen from users,domains \
+		where localpart = '${quote_mysql:$local_part}' \
+		and domain = '${quote_mysql:$domain}' \
+		and users.on_forward = '1' \
+		and users.domain_id=domains.domain_id}}}{1} {yes}{no}}
   data = ${lookup mysql{select forward from users,domains \
 	where localpart='${quote_mysql:$local_part}' \
 	and domain='${quote_mysql:$domain}' \
 	and users.domain_id=domains.domain_id \
 	and on_forward = '1'}}
   # We explicitly make this condition NOT forward mailing list mail!
-  condition = ${if and { {!match {$h_precedence:}{(?i)junk|bulk|list}} \
+  condition = ${if and { {!match {$h_precedence:}{(?i)junk}} \
                          {eq {${lookup mysql{select users.on_forward from users,domains \
 		                where localpart = '${quote_mysql:$local_part}' \
 		                and domain = '${quote_mysql:$domain}' \ 
@@ -615,7 +620,7 @@ virtual_domains:
   file_transport = virtual_delivery
   reply_transport = address_reply
   pipe_transport = address_pipe
-
+  
 .include /usr/local/etc/exim/vexim-group-router.conf
 
 virtual_domains_catchall:
@@ -730,7 +735,6 @@ begin transports
 
 remote_smtp:
   driver = smtp
-
 
 # This transport is used for local delivery to user mailboxes in traditional
 # BSD mailbox format. By default it will be run under the uid and gid of the
@@ -865,7 +869,7 @@ begin retry
 # Domain               Error       Retries
 # ------               -----       -------
 
-*                      *           F,2h,15m; G,16h,1h,1.5; F,4d,6h
+*                      *           F,2h,15m; G,16h,1h,1.5; F,14d,6h
 
 
 
