@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: template\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-19 00:00+0000\n"
+"POT-Creation-Date: 2004-08-24 14:43+0200\n"
 "PO-Revision-Date: 2004-03-19 00:00+0000\n"
 "Last-Translator: Avleen Vig <postmaster@silverwraith.com>\n"
 "Language-Team: English\n"
@@ -15,482 +15,940 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin.php:14
-msgid "Add, delete and manage POP/IMAP accounts"
-msgstr "Add, delete and manage POP/IMAP accounts"
+#: config/functions.php:113
+msgid "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+msgstr ""
 
-#: admin.php:15
-msgid "Add, delete and manage aliases, forwards and a Catchall"
-msgstr "Add, delete and manage aliases, forwards and a Catchall"
+#: config/header.php:11 admin.php:9 adminalias.php:9 adminaliasadd.php:13
+#: adminaliaschange.php:12 adminaliasdelete.php:24 admincatchall.php:12
+#: admincatchalladd.php:9 adminfail.php:8 adminfailadd.php:9
+#: adminfailchange.php:13 admingroup.php:8 admingroupadd.php:8
+#: admingroupchange.php:13 admingroupdelete.php:31 adminlists.php:11
+#: adminuser.php:9 adminuseradd.php:24 adminuserchange.php:21
+#: adminuserdelete.php:32 index.php:8 site.php:9 siteadd.php:9
+#: sitechange.php:9 sitedelete.php:55 sitepassword.php:9 userchange.php:20
+msgid "Virtual Exim"
+msgstr ""
 
-#: admin.php:16
-msgid "Add, delete and manage :fail:'s"
-msgstr "Add, delete and manage :fail:'s"
+#: config/header.php:16
+msgid "-- domain disabled (please see your administrator)."
+msgstr ""
 
-#: admin.php:20
-msgid "Manage mailing lists"
-msgstr "Manage mailing lists"
+#: config/header.php:18
+msgid "-- account disabled (please see your administrator)."
+msgstr ""
 
-#: admin.php:25 adminalias.php:20 adminaliasadd.php:19 adminaliaschange.php:21
-#: admincatchall.php:20 admincatchalladd.php:16 adminfail.php:15
-#: adminfailadd.php:15 adminfailchange.php:20 adminlists.php:17
-#: adminuser.php:31 adminuseradd.php:30 adminuserchange.php:27
-#: adminuserdelete.php:39 siteadd.php:15 sitechange.php:15 sitedelete.php:46
-#: sitepassword.php:15 userchange.php:24
-msgid "Logout"
-msgstr "Logout"
+#: config/header.php:22
+#, php-format
+msgid "-- %s has been successfully added."
+msgstr ""
 
-#: adminalias.php:7 admincatchall.php:12 admincatchalladd.php:7
-#: adminfail.php:7 adminfailadd.php:7 adminfailchange.php:11 adminuser.php:8
-#: adminuseradd.php:22 adminuserchange.php:19 userchange.php:18
-msgid "Manage Users"
-msgstr "Manage Users"
+#: config/header.php:24
+#, php-format
+msgid "-- %s has been successfully deleted."
+msgstr ""
 
-#: adminalias.php:13 adminaliaschange.php:19 admincatchalladd.php:14
-msgid "Add Alias"
-msgstr "Add Alias"
-
-#: adminaliasadd.php:18 adminaliaschange.php:20 admincatchall.php:19
-#: admincatchalladd.php:15 adminfail.php:14 adminfailadd.php:14
-#: adminfailchange.php:19 adminlists.php:16 adminuser.php:30
-#: adminuseradd.php:29 adminuserchange.php:26 adminuserdelete.php:38
-#: adminalias.php:19
-msgid "Main Menu"
-msgstr "Main Menu"
-
-#: adminalias.php:25
-msgid "Alias"
-msgstr "Alias"
-
-#: adminalias.php:25
-msgid "Target address"
-msgstr "Target address"
-
-#: adminalias.php:25
-msgid "Forwards to"
-msgstr "Forwards to"
-
-#: adminalias.php:25 adminaliasadd.php:31 adminaliaschange.php:35
-#: adminuserchange.php:54 sitechange.php:21
-msgid "Admin"
-msgstr "Admin"
-
-#: adminalias.php:30
-msgid "Delete alias"
-msgstr "Delete alias"
-
-#: adminalias.php:58
+#: config/header.php:26
+#, php-format
 msgid ""
-"You can only have one catchall per domain.<br>It will catch and forward all "
-"email that does not get delivered to a specific mailbox"
-msgstr "You can only have one catchall per domain.<br>It will catch and forward all email that does not get delivered to a specific mailbox"
+"-- %s is the last admin account. Create another admin account before "
+"deleting or demoting this one."
+msgstr ""
 
-#: adminaliasadd.php:17 adminaliaschange.php:18 admincatchall.php:18
-#: admincatchalladd.php:13
-msgid "Manage Aliases"
-msgstr "Manage Aliases"
+#: config/header.php:28
+msgid "-- Site Admin password has been successfully updated."
+msgstr ""
 
-#: adminaliasadd.php:24 adminaliaschange.php:26 admincatchall.php:26
-#: admincatchalladd.php:22
-msgid "Alias Name"
-msgstr "Alias Name"
+#: config/header.php:30
+#, php-format
+msgid "-- %s has been successfully updated."
+msgstr ""
 
-#: adminaliasadd.php:25 adminaliaschange.php:27 adminuseradd.php:36
-msgid "Address"
-msgstr "Address"
+#: config/header.php:32
+#, php-format
+msgid "-- The account could not be added as the name %s is already in use."
+msgstr ""
 
-#: adminaliasadd.php:26 adminaliaschange.php:29
-msgid "Multiple addresses should be comma seperated, with no spaces"
-msgstr "Multiple addresses should be comma seperated, with no spaces"
+#: config/header.php:34
+msgid "-- Your update was sucessful."
+msgstr ""
 
-#: adminaliasadd.php:27 adminaliaschange.php:30
-msgid "Forward To"
-msgstr "Forward To"
+#: config/header.php:36
+msgid "-- Your account could not be updated. Was your password blank?"
+msgstr ""
 
-#: adminaliasadd.php:28 adminaliaschange.php:31 adminuseradd.php:37
-#: adminuserchange.php:35 index.php:35 siteadd.php:26 sitechange.php:39
-#: sitepassword.php:21
-msgid "Password"
-msgstr "Password"
+#: config/header.php:38
+msgid "-- Your account has been succesfully updated."
+msgstr ""
 
-#: adminaliasadd.php:29
+#: config/header.php:41
+#, php-format
 msgid ""
-"Password only needed if you want the user to be able to log in, or if the "
-"Alias is the admin account"
-msgstr "Password only needed if you want the user to be able to log in, or if the Alias is the admin account"
+"-- Account %s could not be added. Your passwords do not match, or contain "
+"illegal characters: ' \" ` or ;"
+msgstr ""
 
-#: adminaliasadd.php:30 adminaliaschange.php:34 adminuseradd.php:38
-#: adminuserchange.php:36 siteadd.php:27 sitechange.php:40 sitepassword.php:22
-msgid "Verify Password"
-msgstr "Verify Password"
+#: config/header.php:43
+#, php-format
+msgid "-- %s contains invalid characters."
+msgstr ""
 
-#: adminaliasadd.php:33 adminaliaschange.php:37 adminuseradd.php:55
-#: adminuserchange.php:57
-msgid "Anti-Virus"
-msgstr "Anti-Virus"
-
-#: adminaliasadd.php:36 adminaliaschange.php:39 adminuseradd.php:58
-#: adminuserchange.php:61 sitechange.php:57
-msgid "Spamassassin"
-msgstr "Spamassassin"
-
-#: adminaliasadd.php:39 adminaliaschange.php:41 adminuseradd.php:69
-#: adminuserchange.php:71 sitechange.php:62
-msgid "Enabled"
-msgstr "Enabled"
-
-#: adminaliasadd.php:40 admincatchall.php:36 admincatchalladd.php:31
-#: adminfailadd.php:24 adminfailchange.php:28 adminlists.php:24
-#: adminuseradd.php:70 adminuserchange.php:118 index.php:38 siteadd.php:54
-#: sitepassword.php:23
-msgid "Submit"
-msgstr "Submit"
-
-#: adminaliaschange.php:33
+#: config/header.php:45
+#, php-format
 msgid ""
-"Password only needed if you want the user tobe able to log in, or if the "
-"Alias is the admin account"
-msgstr "Password only needed if you want the user tobe able to log in, or if the Alias is the admin account"
+"-- Account %s could not be added. Your passwords were blank, do not match, "
+"or contain illegal characters: ' \" ` or ;"
+msgstr ""
 
-#: admincatchall.php:26 admincatchalladd.php:22
-msgid "Catchall"
-msgstr "Catchall"
+#: config/header.php:47
+msgid "-- The destination domain you specified does not exist."
+msgstr ""
 
-#: admincatchall.php:29 admincatchalladd.php:25
-msgid "Forward email addressed to"
-msgstr "Forward email addressed to"
+#: config/header.php:49
+msgid "-- You can not specify a blank realname."
+msgstr ""
 
-#: admincatchall.php:32 admincatchalladd.php:28
-msgid "Forward the email to"
-msgstr "Forward the email to"
+#: config/header.php:51
+#, php-format
+msgid "-- %s could not be added."
+msgstr ""
 
-#: adminfail.php:13 adminfailchange.php:18
-msgid "Add Fail"
-msgstr "Add Fail"
-
-#: adminfail.php:19
-msgid "Failed Address"
-msgstr "Failed Address"
-
-#: adminfail.php:27
-msgid "Delete fail"
-msgstr "Delete fail"
-
-#: adminfailadd.php:13 adminfailchange.php:17
-msgid "Manage Fails"
-msgstr "Manage Fails"
-
-#: adminfailadd.php:21
-msgid "Address to fail"
-msgstr "Address to fail"
-
-#: adminfailchange.php:25
-msgid "Fail address"
-msgstr "Fail address"
-
-#: adminlists.php:9
-msgid "Mailing List Administration"
-msgstr "Mailing List Administration"
-
-#: adminlists.php:15
-msgid "Add a list"
-msgstr "Add a list"
-
-#: adminlists.php:22
-msgid "Please enter the name of the list to admin"
-msgstr "Please enter the name of the list to admin"
-
-#: adminuser.php:14 adminuserdelete.php:37
-msgid "Add User"
-msgstr "Add User"
-
-#: adminuser.php:39
-msgid "Email address"
-msgstr "Email address"
-
-#: adminuser.php:55
-msgid "Click to modify"
-msgstr "Click to modify"
-
-#: adminuseradd.php:28 adminuserchange.php:25
-msgid "Manage Accounts"
-msgstr "Manage Accounts"
-
-#: adminuseradd.php:35 adminuserchange.php:32
-msgid "Name"
-msgstr "Name"
-
-#: adminuseradd.php:47
-msgid "Has domain admin privileges?"
-msgstr "Has domain admin privileges?"
-
-#: adminuseradd.php:49
-msgid "Pipe to command"
-msgstr "Pipe to command"
-
-#: adminuseradd.php:50 adminuserchange.php:49
-msgid "Optional"
-msgstr "Optional"
-
-#: adminuseradd.php:50
-msgid "Pipe all mail to a command (e.g. procmail)"
-msgstr "Pipe all mail to a command (e.g. procmail)"
-
-#: adminuseradd.php:51 adminuserchange.php:50
-msgid "Check box below to enable"
-msgstr "Check box below to enable"
-
-#: adminuseradd.php:52
-msgid "Enable piped command"
-msgstr "Enable piped command"
-
-#: adminuseradd.php:59 adminuserchange.php:63 siteadd.php:39 sitechange.php:53
-msgid "Spamassassin tag score"
-msgstr "Spamassassin tag score"
-
-#: adminuseradd.php:61
-msgid "The score at which to tag potentially spam mail but still deliver"
-msgstr "The score at which to tag potentially spam mail but still deliver"
-
-#: adminuseradd.php:62 adminuserchange.php:65 siteadd.php:42 sitechange.php:55
-msgid "Spamassassin refuse score"
-msgstr "Spamassassin refuse score"
-
-#: adminuseradd.php:64 siteadd.php:44
-msgid "The score at which to refuse potentially spam mail and not deliver"
-msgstr "The score at which to refuse potentially spam mail and not deliver"
-
-#: adminuseradd.php:66 adminuserchange.php:68 siteadd.php:36 sitechange.php:51
-msgid "Maximum message size"
-msgstr "Maximum message size"
-
-#: adminuserchange.php:33
-msgid "Email Address"
-msgstr "Email Address"
-
-#: adminuserchange.php:40
+#: config/header.php:53
+#, php-format
 msgid ""
-"When you update the UID or GID, please make sure your MTA still has "
-"permission to create the required user directories!"
-msgstr "When you update the UID or GID, please make sure your MTA still has permission to create the required user directories!"
+"-- Domain %s could not be added. The passwords were blank, or did not match."
+msgstr ""
 
-#: adminuserchange.php:43
-msgid "Mailbox quota"
-msgstr "Mailbox quota"
+#: config/header.php:55
+#, php-format
+msgid ""
+"-- Domain %s could not be added. There was a problem adding the admin "
+"account."
+msgstr ""
 
-#: adminuserchange.php:47
-msgid "Pipe to command or alternative Maildir"
-msgstr "Pipe to command or alternative Maildir"
+#: config/header.php:57
+#, php-format
+msgid "-- %s was not deleted."
+msgstr ""
 
-#: adminuserchange.php:49
-msgid " Pipe all mail to a command (e.g. procmail)."
-msgstr " Pipe all mail to a command (e.g. procmail)."
+#: config/header.php:59
+#, php-format
+msgid "-- %s could not be updated."
+msgstr ""
 
-#: adminuserchange.php:51
-msgid "Enable piped command or alternative Maildir"
-msgstr "Enable piped command or alternative Maildir"
+#: config/header.php:62
+#, php-format
+msgid "-- Deletion of %s was canceled."
+msgstr ""
 
-#: adminuserchange.php:73
-msgid "Vacation on"
-msgstr "Vacation on"
+#: config/header.php:64
+msgid "-- This domain is currently disabled. Please see your administrator."
+msgstr ""
 
-#: adminuserchange.php:75
-msgid "Vacation message"
-msgstr "Vacation message"
+#: config/header.php:66
+msgid ""
+"-- Your Domain Account Limit Has Been Reached. Please contact your "
+"administrator."
+msgstr ""
 
-#: adminuserchange.php:77
-msgid "Forwarding on"
-msgstr "Forwarding on"
+#: config/header.php:68
+#, php-format
+msgid ""
+"-- The quota you specified was too high. The maximum quota you can specify "
+"is: %s MB."
+msgstr ""
 
-#: adminuserchange.php:79
-msgid "Forward mail to"
-msgstr "Forward mail to"
+#: config/header.php:70
+#, php-format
+msgid "-- Group %s has been successfully deleted."
+msgstr ""
 
-#: adminuserchange.php:84
-msgid "Aliases to this account "
-msgstr "Aliases to this account "
+#: config/header.php:72
+#, php-format
+msgid "-- Group %s has been successfully added."
+msgstr ""
 
-#: adminuserchange.php:110
-msgid "Add a new header blocking filter for this user"
-msgstr "Add a new header blocking filter for this user"
+#: config/header.php:74
+#, php-format
+msgid "-- Group %s was not deleted."
+msgstr ""
 
-#: adminuserchange.php:111
-msgid "Header"
-msgstr "Header"
+#: config/header.php:76
+#, php-format
+msgid "-- Group %s failed to be added."
+msgstr ""
 
-#: adminuserchange.php:122 adminuserdelete.php:46 sitedelete.php:57
-msgid "Delete"
-msgstr "Delete"
-
-#: adminuserchange.php:122
-msgid "Blocked Heade"
-msgstr "Blocked Heade"
-
-#: adminuserchange.php:122
-msgid "Content"
-msgstr "Content"
-
-#: adminuserdelete.php:31 sitedelete.php:38
-msgid "Confirm Delete"
-msgstr "Confirm Delete"
-
-#: adminuserdelete.php:44
-msgid "Please confirm deleting user"
-msgstr "Please confirm deleting user"
-
-#: adminuserdelete.php:45 sitedelete.php:56
-msgid "Do Not Delete"
-msgstr "Do Not Delete"
-
-#: adminuserdelete.php:49 sitedelete.php:59
-msgid "Continue"
-msgstr "Continue"
-
-#: index.php:15
-msgid "Username"
-msgstr "Username"
-
-#: index.php:43
+#: config/header.php:78 index.php:45
 msgid "Login failed"
 msgstr "Login failed"
 
-#: siteadd.php:7 siteadd.php:13 sitechange.php:7 sitechange.php:13
-#: sitedelete.php:44 sitepassword.php:13
-msgid "Manage Domains"
-msgstr "Manage Domains"
+#: admin.php:16
+msgid "Add, delete and manage POP/IMAP accounts"
+msgstr "Add, delete and manage POP/IMAP accounts"
 
-#: siteadd.php:14 sitechange.php:14 sitedelete.php:45 sitepassword.php:14
-msgid "Site Password"
-msgstr "Site Password"
-
-#: siteadd.php:20
-msgid "Domain"
-msgstr "Domain"
-
-#: siteadd.php:21
-msgid "The name of the new domain you are adding"
-msgstr "The name of the new domain you are adding"
-
-#: siteadd.php:24
-msgid "Domain Admin"
-msgstr "Domain Admin"
-
-#: siteadd.php:25
-msgid "The username of the domain's administrator account"
-msgstr "The username of the domain's administrator account"
-
-#: siteadd.php:28 sitechange.php:46
-msgid "System UID"
-msgstr "System UID"
-
-#: siteadd.php:29 sitechange.php:47
-msgid "System GID"
-msgstr "System GID"
-
-#: siteadd.php:30
-msgid "Domain Mail directory"
-msgstr "Domain Mail directory"
-
-#: siteadd.php:32
-msgid "Create the domain directory below this top-level mailstore"
-msgstr "Create the domain directory below this top-level mailstore"
-
-#: siteadd.php:33 sitechange.php:48
-msgid "Maximum accounts<br>(0 for unlimited)"
-msgstr "Maximum accounts<br>(0 for unlimited)"
-
-#: siteadd.php:34
-msgid "Max mailbox quota (0 for disabled)"
-msgstr "Max mailbox quota (0 for disabled)"
-
-#: siteadd.php:38
-msgid "The maximum size for incoming mail (user tunable)"
-msgstr "The maximum size for incoming mail (user tunable)"
-
-#: siteadd.php:41
-msgid "The score at the 'X-Spam-Flag: YES' header will be added"
-msgstr "The score at the 'X-Spam-Flag: YES' header will be added"
-
-#: siteadd.php:45
-msgid "Spamassassin enabled"
-msgstr "Spamassassin enabled"
-
-#: siteadd.php:46
-msgid "Anti Virus enabled"
-msgstr "Anti Virus enabled"
-
-#: siteadd.php:47
-msgid "Enable piping mail to command"
-msgstr "Enable piping mail to command"
-
-#: siteadd.php:48
-msgid "Domain enabled"
-msgstr "Domain enabled"
-
-#: sitechange.php:19
-msgid "Modify Domain Admin"
-msgstr "Modify Domain Admin"
-
-#: sitechange.php:41
-msgid "Submit Password"
-msgstr "Submit Password"
-
-#: sitechange.php:44
-msgid "Modify Domain Properties"
-msgstr "Modify Domain Properties"
-
-#: sitechange.php:49
-msgid "Max mailbox quota in Mb<br>(0 for disabled)"
-msgstr "Max mailbox quota in Mb<br>(0 for disabled)"
-
-#: sitechange.php:59
-msgid "Anti-virus"
-msgstr "Anti-virus"
-
-#: sitechange.php:60
-msgid "Piping to command"
-msgstr "Piping to command"
-
-#: sitechange.php:64
-msgid "Submit Changes"
-msgstr "Submit Changes"
-
-#: sitechange.php:67
-msgid "Disable SpamAssassin for all domain users"
-msgstr "Disable SpamAssassin for all domain users"
-
-#: sitechange.php:67 sitechange.php:73
-msgid "Warning: cannot be reversed!"
-msgstr "Warning: cannot be reversed!"
-
-#: sitechange.php:70 sitechange.php:76
-msgid "Disable"
-msgstr "Disable"
-
-#: sitechange.php:73
-msgid "Disable Anti-Virus for all domain users"
-msgstr "Disable Anti-Virus for all domain users"
-
-#: sitedelete.php:51
-msgid "Please confirm deleting domain"
-msgstr "Please confirm deleting domain"
-
-#: sitepassword.php:7
-msgid "Manage Sites"
-msgstr "Manage Sites"
-
-#: sitepassword.php:20
-msgid "Change SiteAdmin Password"
-msgstr "Change SiteAdmin Password"
-
-#: sitepassword.php:26
-msgid "WARNING"
-msgstr "WARNING"
-
-#: sitepassword.php:26
-msgid "Changing your password will require you to re-login."
-msgstr "Changing your password will require you to re-login."
+#: admin.php:17
+msgid "Add, delete and manage aliases, forwards and a Catchall"
+msgstr "Add, delete and manage aliases, forwards and a Catchall"
 
 #: admin.php:18
 msgid "Add, delete and manage groups"
 msgstr "Add, delete and manage groups"
+
+#: admin.php:19
+msgid "Add, delete and manage :fail:'s"
+msgstr "Add, delete and manage :fail:'s"
+
+#: admin.php:22
+msgid "Manage mailing lists"
+msgstr "Manage mailing lists"
+
+#: admin.php:25 adminalias.php:24 adminaliasadd.php:21 adminaliaschange.php:21
+#: adminaliasdelete.php:32 admincatchall.php:20 admincatchalladd.php:18
+#: adminfail.php:16 adminfailadd.php:17 adminfailchange.php:22
+#: admingroup.php:17 admingroupadd.php:16 admingroupchange.php:22
+#: admingroupdelete.php:39 adminlists.php:19 adminuser.php:32
+#: adminuseradd.php:32 adminuserchange.php:29 adminuserdelete.php:40
+#: site.php:18 siteadd.php:17 sitechange.php:17 sitedelete.php:63
+#: sitepassword.php:17 userchange.php:26
+msgid "Logout"
+msgstr "Logout"
+
+#: adminalias.php:9 adminaliasadd.php:13 adminaliaschange.php:12
+#: admincatchall.php:12 admincatchalladd.php:9 adminfail.php:8
+#: adminfailadd.php:9 adminfailchange.php:13 adminuser.php:9
+#: adminuseradd.php:24 adminuserchange.php:21 userchange.php:20
+msgid "Manage Users"
+msgstr "Manage Users"
+
+#: adminalias.php:15 adminaliaschange.php:19 adminaliasdelete.php:30
+#: admincatchalladd.php:16
+msgid "Add Alias"
+msgstr "Add Alias"
+
+#: adminalias.php:21
+msgid "Add Catchall"
+msgstr ""
+
+#: adminalias.php:23 adminaliasadd.php:20 adminaliaschange.php:20
+#: adminaliasdelete.php:31 admincatchall.php:19 admincatchalladd.php:17
+#: adminfail.php:15 adminfailadd.php:16 adminfailchange.php:21
+#: admingroup.php:16 admingroupadd.php:15 admingroupchange.php:21
+#: admingroupdelete.php:38 adminlists.php:18 adminuser.php:31
+#: adminuseradd.php:31 adminuserchange.php:28 adminuserdelete.php:39
+msgid "Main Menu"
+msgstr "Main Menu"
+
+#: adminalias.php:28
+msgid "Alias"
+msgstr "Alias"
+
+#: adminalias.php:28
+msgid "Target address"
+msgstr "Target address"
+
+#: adminalias.php:28
+msgid "Forwards to.."
+msgstr ""
+
+#: adminalias.php:28 adminaliasadd.php:33 adminaliaschange.php:35
+#: adminuser.php:40 adminuserchange.php:58 sitechange.php:23
+msgid "Admin"
+msgstr "Admin"
+
+#: adminalias.php:36 adminalias.php:54
+#, php-format
+msgid "Delete alias %s"
+msgstr ""
+
+#: adminalias.php:64 adminuser.php:62
+#, php-format
+msgid "%s is an administrator"
+msgstr ""
+
+#: adminalias.php:71
+msgid "Note"
+msgstr ""
+
+#: adminalias.php:71
+msgid "You can only have one catchall per domain."
+msgstr ""
+
+#: adminalias.php:71
+msgid ""
+"It will catch and forward all email that does not get delivered to a "
+"specific mailbox."
+msgstr ""
+
+#: adminaliasadd.php:19 adminaliaschange.php:18 admincatchall.php:18
+#: admincatchalladd.php:15
+msgid "Manage Aliases"
+msgstr "Manage Aliases"
+
+#: adminaliasadd.php:26 adminaliaschange.php:26 admincatchall.php:26
+#: admincatchalladd.php:24
+msgid "Alias Name"
+msgstr "Alias Name"
+
+#: adminaliasadd.php:27 adminaliaschange.php:27 adminuseradd.php:38
+msgid "Address"
+msgstr "Address"
+
+#: adminaliasadd.php:28
+msgid "Multiple addresses should be comma seperated, with no spaces"
+msgstr "Multiple addresses should be comma seperated, with no spaces"
+
+#: adminaliasadd.php:29 adminaliaschange.php:30
+msgid "Forward To"
+msgstr "Forward To"
+
+#: adminaliasadd.php:30 adminaliaschange.php:31 adminuseradd.php:39
+#: adminuserchange.php:37 index.php:37 siteadd.php:28 sitechange.php:42
+#: sitepassword.php:23 userchange.php:33
+msgid "Password"
+msgstr "Password"
+
+#: adminaliasadd.php:31 adminaliaschange.php:33
+msgid ""
+"Password only needed if you want the user to be able to log in, or if the "
+"Alias is the admin account"
+msgstr ""
+"Password only needed if you want the user to be able to log in, or if the "
+"Alias is the admin account"
+
+#: adminaliasadd.php:32 adminaliaschange.php:34 adminuseradd.php:40
+#: adminuserchange.php:38 siteadd.php:29 sitechange.php:43 sitepassword.php:24
+#: userchange.php:34
+msgid "Verify Password"
+msgstr "Verify Password"
+
+#: adminaliasadd.php:35 adminaliaschange.php:37 adminuseradd.php:59
+#: adminuserchange.php:61 userchange.php:49
+msgid "Anti-Virus"
+msgstr "Anti-Virus"
+
+#: adminaliasadd.php:38 adminaliaschange.php:39 adminuseradd.php:62
+#: adminuserchange.php:65 sitechange.php:60 userchange.php:56
+msgid "Spamassassin"
+msgstr "Spamassassin"
+
+#: adminaliasadd.php:41 adminaliaschange.php:41 admingroup.php:32
+#: admingroupchange.php:41 admingroupchange.php:66 adminuseradd.php:73
+#: adminuserchange.php:75 sitechange.php:65
+msgid "Enabled"
+msgstr "Enabled"
+
+#: adminaliasadd.php:42 adminaliaschange.php:43 admincatchall.php:36
+#: admincatchalladd.php:33 adminfailadd.php:26 adminfailchange.php:30
+#: admingroupadd.php:26 admingroupchange.php:116 adminlists.php:26
+#: adminuseradd.php:74 adminuserchange.php:129 index.php:40 siteadd.php:58
+#: sitepassword.php:25
+msgid "Submit"
+msgstr "Submit"
+
+#: adminaliaschange.php:29
+msgid "Multiple addresses should be comma separated, with no spaces"
+msgstr ""
+
+#: adminaliasdelete.php:24 admingroupdelete.php:31 adminuserdelete.php:32
+#: sitedelete.php:55
+msgid "Confirm Delete"
+msgstr "Confirm Delete"
+
+#: adminaliasdelete.php:37
+#, php-format
+msgid "Please confirm deleting alias %s@%s"
+msgstr ""
+
+#: adminaliasdelete.php:38 admingroupdelete.php:45 adminuserdelete.php:46
+#, php-format
+msgid "Do Not Delete %s@%s"
+msgstr ""
+
+#: adminaliasdelete.php:39 admingroupdelete.php:46 adminuserdelete.php:47
+#, php-format
+msgid "Delete %s@%s"
+msgstr ""
+
+#: adminaliasdelete.php:43 admingroupdelete.php:50 adminuserdelete.php:51
+#: sitedelete.php:80
+msgid "Continue"
+msgstr "Continue"
+
+#: admincatchall.php:26 admincatchalladd.php:24
+msgid "Catchall"
+msgstr "Catchall"
+
+#: admincatchall.php:29 admincatchalladd.php:27
+msgid "Forward email addressed to"
+msgstr "Forward email addressed to"
+
+#: admincatchall.php:32 admincatchalladd.php:30
+msgid "Forward the email to"
+msgstr "Forward the email to"
+
+#: adminfail.php:14 adminfailchange.php:20
+msgid "Add Fail"
+msgstr "Add Fail"
+
+#: adminfail.php:20
+msgid "Failed Address"
+msgstr "Failed Address"
+
+#: adminfail.php:29
+#, php-format
+msgid "Delete fail %s"
+msgstr ""
+
+#: adminfailadd.php:15 adminfailchange.php:19
+msgid "Manage Fails"
+msgstr "Manage Fails"
+
+#: adminfailadd.php:23
+msgid "Address to fail"
+msgstr "Address to fail"
+
+#: adminfailchange.php:27
+msgid "Fail address"
+msgstr "Fail address"
+
+#: admingroup.php:8
+msgid "List groups"
+msgstr ""
+
+#: admingroup.php:14 admingroupadd.php:8 admingroupchange.php:20
+#: admingroupdelete.php:37
+msgid "Add Group"
+msgstr ""
+
+#: admingroup.php:21
+#, php-format
+msgid "Group %s has been successfully deleted"
+msgstr ""
+
+#: admingroup.php:23
+#, php-format
+msgid "Group %s has been successfully added"
+msgstr ""
+
+#: admingroup.php:25
+#, php-format
+msgid "Group %s was not deleted"
+msgstr ""
+
+#: admingroup.php:27
+#, php-format
+msgid "Group %s failed to be added"
+msgstr ""
+
+#: admingroup.php:32 adminuser.php:40
+msgid "Email address"
+msgstr "Email address"
+
+#: admingroup.php:32 admingroupchange.php:35
+msgid "Is public"
+msgstr ""
+
+#: admingroup.php:42
+#, php-format
+msgid "Delete group %s"
+msgstr ""
+
+#: admingroup.php:44
+#, php-format
+msgid "Click to modify %s"
+msgstr ""
+
+#: admingroup.php:49
+#, php-format
+msgid "Anyone can write to %s"
+msgstr ""
+
+#: admingroup.php:54
+#, php-format
+msgid "%s is enabled"
+msgstr ""
+
+#: admingroupadd.php:14 admingroupchange.php:19
+msgid "Manage Groups"
+msgstr ""
+
+#: admingroupadd.php:22 admingroupchange.php:28
+msgid "Group Address"
+msgstr ""
+
+#: admingroupchange.php:13
+msgid "Edit group"
+msgstr ""
+
+#: admingroupchange.php:64
+msgid "Real name"
+msgstr ""
+
+#: admingroupchange.php:65 adminuserchange.php:35 userchange.php:32
+msgid "Email Address"
+msgstr "Email Address"
+
+#: admingroupchange.php:87
+msgid "There is no member in this group"
+msgstr ""
+
+#: admingroupchange.php:95
+msgid "Add Member"
+msgstr ""
+
+#: admingroupdelete.php:44
+#, php-format
+msgid "Please confirm deleting group %s@%s"
+msgstr ""
+
+#: adminlists.php:11
+msgid "Mailing List Administration"
+msgstr "Mailing List Administration"
+
+#: adminlists.php:17
+msgid "Add a list"
+msgstr "Add a list"
+
+#: adminlists.php:24
+msgid "Please enter the name of the list to admin"
+msgstr "Please enter the name of the list to admin"
+
+#: adminuser.php:15 adminuserdelete.php:38
+msgid "Add User"
+msgstr "Add User"
+
+#: adminuser.php:40
+msgid "User"
+msgstr ""
+
+#: adminuser.php:56
+msgid "Click to modify"
+msgstr "Click to modify"
+
+#: adminuseradd.php:30 adminuserchange.php:27
+msgid "Manage Accounts"
+msgstr "Manage Accounts"
+
+#: adminuseradd.php:37 adminuserchange.php:34 userchange.php:31
+msgid "Name"
+msgstr "Name"
+
+#: adminuseradd.php:42 adminuserchange.php:40
+msgid "UID"
+msgstr ""
+
+#: adminuseradd.php:43 adminuserchange.php:41
+msgid "GID"
+msgstr ""
+
+#: adminuseradd.php:47 adminuserchange.php:46
+#, php-format
+msgid "Mailbox quota (%s Mb max)"
+msgstr ""
+
+#: adminuseradd.php:49 siteadd.php:37
+msgid "Mb"
+msgstr ""
+
+#: adminuseradd.php:51
+msgid "Has domain admin privileges?"
+msgstr "Has domain admin privileges?"
+
+#: adminuseradd.php:53
+msgid "Pipe to command"
+msgstr "Pipe to command"
+
+#: adminuseradd.php:54 adminuserchange.php:53
+msgid "Optional"
+msgstr "Optional"
+
+#: adminuseradd.php:54
+msgid "Pipe all mail to a command (e.g. procmail)"
+msgstr "Pipe all mail to a command (e.g. procmail)"
+
+#: adminuseradd.php:55 adminuserchange.php:54
+msgid "Check box below to enable"
+msgstr "Check box below to enable"
+
+#: adminuseradd.php:56
+msgid "Enable piped command?"
+msgstr ""
+
+#: adminuseradd.php:63 adminuserchange.php:67 siteadd.php:41 sitechange.php:56
+msgid "Spamassassin tag score"
+msgstr "Spamassassin tag score"
+
+#: adminuseradd.php:65
+msgid "The score at which to tag potential spam mail but still deliver"
+msgstr ""
+
+#: adminuseradd.php:66 adminuserchange.php:69 siteadd.php:44 sitechange.php:58
+msgid "Spamassassin refuse score"
+msgstr "Spamassassin refuse score"
+
+#: adminuseradd.php:68
+msgid "The score at which to refuse potential spam mail and not deliver"
+msgstr ""
+
+#: adminuseradd.php:70 adminuserchange.php:72 siteadd.php:38 sitechange.php:54
+#: userchange.php:66
+msgid "Maximum message size"
+msgstr "Maximum message size"
+
+#: adminuserchange.php:42
+msgid ""
+"When you update the UID or GID, please make sure your MTA still has "
+"permission to create the required user directories!"
+msgstr ""
+"When you update the UID or GID, please make sure your MTA still has "
+"permission to create the required user directories!"
+
+#: adminuserchange.php:51
+msgid "Pipe to command or alternative Maildir"
+msgstr "Pipe to command or alternative Maildir"
+
+#: adminuserchange.php:53
+msgid " Pipe all mail to a command (e.g. procmail)."
+msgstr " Pipe all mail to a command (e.g. procmail)."
+
+#: adminuserchange.php:55
+msgid "Enable piped command or alternative Maildir?"
+msgstr ""
+
+#: adminuserchange.php:77
+msgid "Vacation on"
+msgstr "Vacation on"
+
+#: adminuserchange.php:79 userchange.php:71
+msgid "Vacation message"
+msgstr "Vacation message"
+
+#: adminuserchange.php:81
+msgid "Forwarding on"
+msgstr "Forwarding on"
+
+#: adminuserchange.php:83 userchange.php:76
+msgid "Forward mail to"
+msgstr "Forward mail to"
+
+#: adminuserchange.php:84
+msgid "Store Forwarded Mail Locally"
+msgstr ""
+
+#: adminuserchange.php:90
+msgid "Aliases to this account"
+msgstr ""
+
+#: adminuserchange.php:118
+msgid "Add a new header blocking filter for this user"
+msgstr "Add a new header blocking filter for this user"
+
+#: adminuserchange.php:119
+msgid "Header"
+msgstr "Header"
+
+#: adminuserchange.php:120 userchange.php:88
+msgid "From"
+msgstr ""
+
+#: adminuserchange.php:121 userchange.php:89
+msgid "To"
+msgstr ""
+
+#: adminuserchange.php:122 userchange.php:90
+msgid "Subject"
+msgstr ""
+
+#: adminuserchange.php:123 userchange.php:91
+msgid "X-Mailer"
+msgstr ""
+
+#: adminuserchange.php:133 userchange.php:99
+msgid "Delete"
+msgstr "Delete"
+
+#: adminuserchange.php:133 userchange.php:99
+msgid "Blocked Header"
+msgstr ""
+
+#: adminuserchange.php:133 userchange.php:99
+msgid "Content"
+msgstr "Content"
+
+#: adminuserdelete.php:45
+#, php-format
+msgid "Please confirm deleting user %s@%s"
+msgstr ""
+
+#: index.php:17
+msgid "Username"
+msgstr "Username"
+
+#: site.php:9 sitepassword.php:9
+msgid "Manage Sites"
+msgstr "Manage Sites"
+
+#: site.php:14
+msgid "Add alias domain"
+msgstr ""
+
+#: site.php:15
+msgid "Add local domain"
+msgstr ""
+
+#: site.php:16
+msgid "Add relay domain"
+msgstr ""
+
+#: site.php:17 siteadd.php:16 sitechange.php:16 sitedelete.php:62
+#: sitepassword.php:16
+msgid "Site Password"
+msgstr "Site Password"
+
+#: site.php:27
+msgid "Local domains"
+msgstr ""
+
+#: site.php:28
+msgid "Admin account"
+msgstr ""
+
+#: site.php:29
+msgid "Total admins"
+msgstr ""
+
+#: site.php:55
+msgid "WARNING"
+msgstr "WARNING"
+
+#: site.php:55
+msgid ""
+"Deleting a domain will delete all user accounts in that domain permanently!"
+msgstr ""
+
+#: site.php:59
+msgid "Relay domains"
+msgstr ""
+
+#: site.php:68 site.php:85 sitedelete.php:76
+#, php-format
+msgid "Delete %s"
+msgstr ""
+
+#: site.php:76
+msgid "Aliased domains"
+msgstr ""
+
+#: siteadd.php:9 siteadd.php:15 sitechange.php:9 sitechange.php:15
+#: sitedelete.php:61 sitepassword.php:15
+msgid "Manage Domains"
+msgstr "Manage Domains"
+
+#: siteadd.php:22
+msgid "New Domain"
+msgstr ""
+
+#: siteadd.php:23
+msgid "The name of the new domain you are adding"
+msgstr "The name of the new domain you are adding"
+
+#: siteadd.php:26
+msgid "Domain Admin"
+msgstr "Domain Admin"
+
+#: siteadd.php:27
+msgid "The username of the domain's administrator account"
+msgstr "The username of the domain's administrator account"
+
+#: siteadd.php:30 sitechange.php:49
+msgid "System UID"
+msgstr "System UID"
+
+#: siteadd.php:31 sitechange.php:50
+msgid "System GID"
+msgstr "System GID"
+
+#: siteadd.php:32
+msgid "Domain Mail directory"
+msgstr "Domain Mail directory"
+
+#: siteadd.php:34
+msgid "Create the domain directory below this top-level mailstore"
+msgstr "Create the domain directory below this top-level mailstore"
+
+#: siteadd.php:35 sitechange.php:51
+msgid "Maximum accounts"
+msgstr ""
+
+#: siteadd.php:35 sitechange.php:51
+msgid "0 for unlimited"
+msgstr ""
+
+#: siteadd.php:36
+msgid "Max mailbox quota"
+msgstr ""
+
+#: siteadd.php:36 sitechange.php:52
+msgid "0 for disabled"
+msgstr ""
+
+#: siteadd.php:39 userchange.php:67
+msgid "Kb"
+msgstr ""
+
+#: siteadd.php:40
+msgid "The maximum size for incoming mail (user tunable)"
+msgstr "The maximum size for incoming mail (user tunable)"
+
+#: siteadd.php:43
+msgid "The score at the 'X-Spam-Flag: YES' header will be added"
+msgstr "The score at the 'X-Spam-Flag: YES' header will be added"
+
+#: siteadd.php:46
+msgid "The score at which to refuse potentially spam mail and not deliver"
+msgstr "The score at which to refuse potentially spam mail and not deliver"
+
+#: siteadd.php:47
+msgid "Spamassassin enabled?"
+msgstr "Spamassassin enabled?"
+
+#: siteadd.php:48
+msgid "Anti Virus enabled?"
+msgstr "Anti Virus enabled?"
+
+#: siteadd.php:49
+msgid "Enable piping mail to command?"
+msgstr "Enable piping mail to command?"
+
+#: siteadd.php:50
+msgid "Domain enabled?"
+msgstr "Domain enabled?"
+
+#: siteadd.php:53
+msgid "Redirect messages to domain"
+msgstr ""
+
+#: sitechange.php:21
+msgid "Modify Domain Admin"
+msgstr "Modify Domain Admin"
+
+#: sitechange.php:44 userchange.php:36
+msgid "Submit Password"
+msgstr "Submit Password"
+
+#: sitechange.php:47
+msgid "Modify Domain Properties"
+msgstr "Modify Domain Properties"
+
+#: sitechange.php:52
+msgid "Max mailbox quota in Mb"
+msgstr ""
+
+#: sitechange.php:62
+msgid "Anti-virus"
+msgstr "Anti-virus"
+
+#: sitechange.php:63
+msgid "Piping to command"
+msgstr "Piping to command"
+
+#: sitechange.php:68
+msgid "Submit Changes"
+msgstr "Submit Changes"
+
+#: sitechange.php:71
+msgid "Disable SpamAssassin for all domain users"
+msgstr "Disable SpamAssassin for all domain users"
+
+#: sitechange.php:71 sitechange.php:77
+msgid "Warning: cannot be reversed!"
+msgstr "Warning: cannot be reversed!"
+
+#: sitechange.php:74 sitechange.php:80
+msgid "Disable"
+msgstr "Disable"
+
+#: sitechange.php:77
+msgid "Disable Anti-Virus for all domain users"
+msgstr "Disable Anti-Virus for all domain users"
+
+#: sitedelete.php:68
+#, php-format
+msgid "Please confirm deleting domain %s."
+msgstr ""
+
+#: sitedelete.php:71
+#, php-format
+msgid "There is currently <b>%1$d</b> account in domain %2$s"
+msgid_plural "There are currently <b>%1$d</b> accounts in domain %2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: sitedelete.php:75
+#, php-format
+msgid "Do Not Delete %s"
+msgstr ""
+
+#: sitepassword.php:22
+msgid "Change SiteAdmin Password"
+msgstr "Change SiteAdmin Password"
+
+#: userchange.php:35
+msgid "Note:"
+msgstr ""
+
+#: userchange.php:35
+msgid "Attempting to set blank passwords does not work!"
+msgstr ""
+
+#: userchange.php:43
+#, php-format
+msgid "Your mailbox quota is currently: %s Mb"
+msgstr ""
+
+#: userchange.php:45
+msgid "Your mailbox quota is currently: Unlimited"
+msgstr ""
+
+#: userchange.php:61
+msgid "SpamAssassin tag score"
+msgstr "SpamAssassin tag score"
+
+#: userchange.php:63
+msgid "SpamAssassin refuse score"
+msgstr "SpamAssassin refuse score"
+
+#: userchange.php:68
+msgid "Vacation enabled"
+msgstr ""
+
+#: userchange.php:73
+msgid "Forwarding enabled"
+msgstr ""
+
+#: userchange.php:81
+msgid "Submit Profile"
+msgstr ""
+
+#: userchange.php:86
+msgid "Add a new header blocking filter"
+msgstr ""
+
+#~ msgid ""
+#~ "Password only needed if you want the user tobe able to log in, or if the "
+#~ "Alias is the admin account"
+#~ msgstr ""
+#~ "Password only needed if you want the user tobe able to log in, or if the "
+#~ "Alias is the admin account"
+
+#~ msgid "Maximum accounts<br>(0 for unlimited)"
+#~ msgstr "Maximum accounts<br>(0 for unlimited)"
+
+#~ msgid "Max mailbox quota (0 for disabled)"
+#~ msgstr "Max mailbox quota (0 for disabled)"
+
+#~ msgid "Max mailbox quota in Mb<br>(0 for disabled)"
+#~ msgstr "Max mailbox quota in Mb<br>(0 for disabled)"
+
+#~ msgid "Changing your password will require you to re-login."
+#~ msgstr "Changing your password will require you to re-login."

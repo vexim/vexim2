@@ -25,7 +25,7 @@
   } else if (isset($_GET['lastadmin'])) {
     printf (_("-- %s is the last admin account. Create another admin account before deleting or demoting this one."), $_GET['lastadmin']);
   } else if (isset($_GET['sitepass'])) {
-    print   _(" -- Site Admin password has been successfully updated.") . "\n";
+    print   _("-- Site Admin password has been successfully updated.") . "\n";
   } else if (isset($_GET['updated'])) {
     printf (_("-- %s has been successfully updated."), $_GET['updated']);
   } else if (isset($_GET['userexists'])) {

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: template\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-04 17:15+0200\n"
+"POT-Creation-Date: 2004-08-24 14:43+0200\n"
 "PO-Revision-Date: 2004-08-04 17:12+0100\n"
 "Last-Translator: Regina Salzmann <vexim@blacknet.de>\n"
 "Language-Team: German\n"
@@ -15,20 +15,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: config/functions.php:48
+#: config/functions.php:113
 msgid "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 msgstr "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-#: config/header.php:11 adminaliaschange.php:12 site.php:9
-#: adminaliasdelete.php:24 admincatchalladd.php:9 admincatchall.php:12
-#: adminfail.php:8 adminfailadd.php:9 adminfailchange.php:13 admingroup.php:8
-#: admingroupadd.php:8 admingroupchange.php:13 admingroupdelete.php:31
-#: adminlists.php:11 adminuser.php:9 adminuseradd.php:24
-#: adminuserchange.php:21 admin.php:9 index.php:8 siteadd.php:9
+#: config/header.php:11 admin.php:9 adminalias.php:9 adminaliasadd.php:13
+#: adminaliaschange.php:12 adminaliasdelete.php:24 admincatchall.php:12
+#: admincatchalladd.php:9 adminfail.php:8 adminfailadd.php:9
+#: adminfailchange.php:13 admingroup.php:8 admingroupadd.php:8
+#: admingroupchange.php:13 admingroupdelete.php:31 adminlists.php:11
+#: adminuser.php:9 adminuseradd.php:24 adminuserchange.php:21
+#: adminuserdelete.php:32 index.php:8 site.php:9 siteadd.php:9
 #: sitechange.php:9 sitedelete.php:55 sitepassword.php:9 userchange.php:20
-#: adminalias.php:9 adminaliasadd.php:13 adminuserdelete.php:32
 msgid "Virtual Exim"
-msgstr "Foobar"
+msgstr "Virtual Exim"
 
 #: config/header.php:16
 msgid "-- domain disabled (please see your administrator)."
@@ -58,7 +58,7 @@ msgstr ""
 "Administratoren-Konto bevor Sie dieses l&ouml;schen oder zur&uuml;ckstufen."
 
 #: config/header.php:28
-msgid " -- Site Admin password has been successfully updated."
+msgid "-- Site Admin password has been successfully updated."
 msgstr ""
 "-- Das Update f&uuml;r das Passwort des Site-Administrators war erfolgreich."
 
@@ -203,68 +203,137 @@ msgstr "-- Die Gruppe %s konnte nicht hinzugef&uuml;gt werden."
 msgid "Login failed"
 msgstr "Anmeldung fehlgeschlagen"
 
-#: adminaliaschange.php:12 admincatchalladd.php:9 admincatchall.php:12
-#: adminfail.php:8 adminfailadd.php:9 adminfailchange.php:13 adminuser.php:9
-#: adminuseradd.php:24 adminuserchange.php:21 userchange.php:20
-#: adminalias.php:9 adminaliasadd.php:13
-msgid "Manage Users"
-msgstr "Benutzerverwaltung"
+#: admin.php:16
+msgid "Add, delete and manage POP/IMAP accounts"
+msgstr "Hinzuf&uuml;gen, L&ouml;schen und Verwalten von POP/IMAP-Konten"
 
-#: adminaliaschange.php:18 admincatchalladd.php:15 admincatchall.php:18
-#: adminaliasadd.php:19
-msgid "Manage Aliases"
-msgstr "Aliasse verwalten"
+#: admin.php:17
+msgid "Add, delete and manage aliases, forwards and a Catchall"
+msgstr ""
+"Hinzuf&uuml;gen, L&ouml;schen und Verwalten von Aliassen, Weiterleitungen "
+"und Sammelpostf&auml;chern"
 
-#: adminaliaschange.php:19 adminaliasdelete.php:30 admincatchalladd.php:16
-#: adminalias.php:15
-msgid "Add Alias"
-msgstr "Alias hinzuf&uuml;gen"
+#: admin.php:18
+msgid "Add, delete and manage groups"
+msgstr "Hinzuf&uuml;gen, L&ouml;schen und Verwalten von Gruppen"
 
-#: adminaliaschange.php:20 adminaliasdelete.php:31 admincatchalladd.php:17
-#: admincatchall.php:19 adminfail.php:15 adminfailadd.php:16
-#: adminfailchange.php:21 admingroup.php:16 admingroupadd.php:15
-#: admingroupchange.php:21 admingroupdelete.php:38 adminlists.php:18
-#: adminuser.php:31 adminuseradd.php:31 adminuserchange.php:28
-#: adminalias.php:23 adminaliasadd.php:20 adminuserdelete.php:39
-msgid "Main Menu"
-msgstr "Hauptmen&uuml;"
+#: admin.php:19
+msgid "Add, delete and manage :fail:'s"
+msgstr "Hinzuf&uuml;gen, L&ouml;schen und Verwalten von :fail:-Adressen"
 
-#: adminaliaschange.php:21 site.php:18 adminaliasdelete.php:32
-#: admincatchalladd.php:18 admincatchall.php:20 adminfail.php:16
-#: adminfailadd.php:17 adminfailchange.php:22 admingroup.php:17
-#: admingroupadd.php:16 admingroupchange.php:22 admingroupdelete.php:39
-#: adminlists.php:19 adminuser.php:32 adminuseradd.php:32
-#: adminuserchange.php:29 admin.php:25 siteadd.php:17 sitechange.php:17
-#: sitedelete.php:63 sitepassword.php:17 userchange.php:26 adminalias.php:24
-#: adminaliasadd.php:21 adminuserdelete.php:40
+#: admin.php:22
+msgid "Manage mailing lists"
+msgstr "Verwaltung der Mailing-Listen"
+
+#: admin.php:25 adminalias.php:24 adminaliasadd.php:21 adminaliaschange.php:21
+#: adminaliasdelete.php:32 admincatchall.php:20 admincatchalladd.php:18
+#: adminfail.php:16 adminfailadd.php:17 adminfailchange.php:22
+#: admingroup.php:17 admingroupadd.php:16 admingroupchange.php:22
+#: admingroupdelete.php:39 adminlists.php:19 adminuser.php:32
+#: adminuseradd.php:32 adminuserchange.php:29 adminuserdelete.php:40
+#: site.php:18 siteadd.php:17 sitechange.php:17 sitedelete.php:63
+#: sitepassword.php:17 userchange.php:26
 msgid "Logout"
 msgstr "abmelden"
 
-#: adminaliaschange.php:26 admincatchalladd.php:24 admincatchall.php:26
-#: adminaliasadd.php:26
+#: adminalias.php:9 adminaliasadd.php:13 adminaliaschange.php:12
+#: admincatchall.php:12 admincatchalladd.php:9 adminfail.php:8
+#: adminfailadd.php:9 adminfailchange.php:13 adminuser.php:9
+#: adminuseradd.php:24 adminuserchange.php:21 userchange.php:20
+msgid "Manage Users"
+msgstr "Benutzerverwaltung"
+
+#: adminalias.php:15 adminaliaschange.php:19 adminaliasdelete.php:30
+#: admincatchalladd.php:16
+msgid "Add Alias"
+msgstr "Alias hinzuf&uuml;gen"
+
+#: adminalias.php:21
+msgid "Add Catchall"
+msgstr "Sammelpostfach hinzuf&uuml;gen"
+
+#: adminalias.php:23 adminaliasadd.php:20 adminaliaschange.php:20
+#: adminaliasdelete.php:31 admincatchall.php:19 admincatchalladd.php:17
+#: adminfail.php:15 adminfailadd.php:16 adminfailchange.php:21
+#: admingroup.php:16 admingroupadd.php:15 admingroupchange.php:21
+#: admingroupdelete.php:38 adminlists.php:18 adminuser.php:31
+#: adminuseradd.php:31 adminuserchange.php:28 adminuserdelete.php:39
+msgid "Main Menu"
+msgstr "Hauptmen&uuml;"
+
+#: adminalias.php:28
+msgid "Alias"
+msgstr "Alias"
+
+#: adminalias.php:28
+msgid "Target address"
+msgstr "Zieladresse"
+
+#: adminalias.php:28
+msgid "Forwards to.."
+msgstr "leitet weiter an"
+
+#: adminalias.php:28 adminaliasadd.php:33 adminaliaschange.php:35
+#: adminuser.php:40 adminuserchange.php:58 sitechange.php:23
+msgid "Admin"
+msgstr "Administrator"
+
+#: adminalias.php:36 adminalias.php:54
+#, php-format
+msgid "Delete alias %s"
+msgstr "Alias %s l&ouml;schen"
+
+#: adminalias.php:64 adminuser.php:62
+#, php-format
+msgid "%s is an administrator"
+msgstr "%s ist Administrator."
+
+#: adminalias.php:71
+msgid "Note"
+msgstr "Beachten"
+
+#: adminalias.php:71
+msgid "You can only have one catchall per domain."
+msgstr "Sie k&ouml;nnen nur ein Sammelpostfach pro Domain anlegen."
+
+#: adminalias.php:71
+msgid ""
+"It will catch and forward all email that does not get delivered to a "
+"specific mailbox."
+msgstr ""
+"Hier wird s&auml;mtliche Email abgelegt, welche nicht anderweitig zugeordnet "
+"werden kann."
+
+#: adminaliasadd.php:19 adminaliaschange.php:18 admincatchall.php:18
+#: admincatchalladd.php:15
+msgid "Manage Aliases"
+msgstr "Aliasse verwalten"
+
+#: adminaliasadd.php:26 adminaliaschange.php:26 admincatchall.php:26
+#: admincatchalladd.php:24
 msgid "Alias Name"
 msgstr "Bezeichnung des Alias"
 
-#: adminaliaschange.php:27 adminuseradd.php:38 adminaliasadd.php:27
+#: adminaliasadd.php:27 adminaliaschange.php:27 adminuseradd.php:38
 msgid "Address"
 msgstr "Adresse"
 
-#: adminaliaschange.php:29
-msgid "Multiple addresses should be comma separated, with no spaces"
+#: adminaliasadd.php:28
+msgid "Multiple addresses should be comma seperated, with no spaces"
 msgstr ""
 "Mehrere Adressen m&uuml;ssen ohne Leerzeichen durch Kommata getrennt werden."
 
-#: adminaliaschange.php:30 adminaliasadd.php:29
+#: adminaliasadd.php:29 adminaliaschange.php:30
 msgid "Forward To"
 msgstr "weiterleiten an"
 
-#: adminaliaschange.php:31 adminuseradd.php:39 adminuserchange.php:37
-#: index.php:37 siteadd.php:28 sitechange.php:42 sitepassword.php:23
-#: userchange.php:33 adminaliasadd.php:30
+#: adminaliasadd.php:30 adminaliaschange.php:31 adminuseradd.php:39
+#: adminuserchange.php:37 index.php:37 siteadd.php:28 sitechange.php:42
+#: sitepassword.php:23 userchange.php:33
 msgid "Password"
 msgstr "Passwort"
 
-#: adminaliaschange.php:33 adminaliasadd.php:31
+#: adminaliasadd.php:31 adminaliaschange.php:33
 msgid ""
 "Password only needed if you want the user to be able to log in, or if the "
 "Alias is the admin account"
@@ -272,100 +341,43 @@ msgstr ""
 "Ein Passwort wird nur ben&ouml;tigt, wenn der Benutzer sich einloggen k&ouml;"
 "nnen soll oder wenn das Alias das Konto des Administrators ist."
 
-#: adminaliaschange.php:34 adminuseradd.php:40 adminuserchange.php:38
-#: siteadd.php:29 sitechange.php:43 sitepassword.php:24 userchange.php:34
-#: adminaliasadd.php:32
+#: adminaliasadd.php:32 adminaliaschange.php:34 adminuseradd.php:40
+#: adminuserchange.php:38 siteadd.php:29 sitechange.php:43 sitepassword.php:24
+#: userchange.php:34
 msgid "Verify Password"
 msgstr "Passwort best&auml;tigen"
 
-#: adminaliaschange.php:35 adminuser.php:40 adminuserchange.php:58
-#: sitechange.php:23 adminalias.php:28 adminaliasadd.php:33
-msgid "Admin"
-msgstr "Administrator"
-
-#: adminaliaschange.php:37 adminuseradd.php:59 adminuserchange.php:61
-#: userchange.php:49 adminaliasadd.php:35
+#: adminaliasadd.php:35 adminaliaschange.php:37 adminuseradd.php:59
+#: adminuserchange.php:61 userchange.php:49
 msgid "Anti-Virus"
 msgstr "Anti-Virus"
 
-#: adminaliaschange.php:39 adminuseradd.php:62 adminuserchange.php:65
-#: sitechange.php:60 userchange.php:56 adminaliasadd.php:38
+#: adminaliasadd.php:38 adminaliaschange.php:39 adminuseradd.php:62
+#: adminuserchange.php:65 sitechange.php:60 userchange.php:56
 msgid "Spamassassin"
 msgstr "Spam-Filter"
 
-#: adminaliaschange.php:41 admingroup.php:32 admingroupchange.php:41
-#: admingroupchange.php:66 adminuseradd.php:73 adminuserchange.php:75
-#: sitechange.php:65 adminaliasadd.php:41
+#: adminaliasadd.php:41 adminaliaschange.php:41 admingroup.php:32
+#: admingroupchange.php:41 admingroupchange.php:66 adminuseradd.php:73
+#: adminuserchange.php:75 sitechange.php:65
 msgid "Enabled"
 msgstr "aktiviert"
 
-#: adminaliaschange.php:43 admincatchalladd.php:33 admincatchall.php:36
-#: adminfailadd.php:26 adminfailchange.php:30 admingroupadd.php:26
-#: admingroupchange.php:116 adminlists.php:26 adminuseradd.php:74
-#: adminuserchange.php:127 index.php:40 siteadd.php:58 sitepassword.php:25
-#: adminaliasadd.php:42
+#: adminaliasadd.php:42 adminaliaschange.php:43 admincatchall.php:36
+#: admincatchalladd.php:33 adminfailadd.php:26 adminfailchange.php:30
+#: admingroupadd.php:26 admingroupchange.php:116 adminlists.php:26
+#: adminuseradd.php:74 adminuserchange.php:129 index.php:40 siteadd.php:58
+#: sitepassword.php:25
 msgid "Submit"
 msgstr "senden"
 
-#: site.php:9 sitepassword.php:9
-msgid "Manage Sites"
-msgstr "Site-Verwaltung"
-
-#: site.php:14
-msgid "Add alias domain"
-msgstr "Alias-Domain hinzuf&uuml;gen"
-
-#: site.php:15
-msgid "Add local domain"
-msgstr "lokale Domain hinzuf&uuml;gen"
-
-#: site.php:16
-msgid "Add relay domain"
-msgstr "Relay-Domain hinzuf&uuml;gen"
-
-#: site.php:17 siteadd.php:16 sitechange.php:16 sitedelete.php:62
-#: sitepassword.php:16
-msgid "Site Password"
-msgstr "Site-Passwort"
-
-#: site.php:27
-msgid "Local domains"
-msgstr "lokale Domains"
-
-#: site.php:28
-msgid "Admin account"
-msgstr "Konto des Administrators"
-
-#: site.php:29
-msgid "Total admins"
-msgstr "Anzahl der Administratoren"
-
-#: site.php:55
-msgid "WARNING"
-msgstr "WARNUNG"
-
-#: site.php:55
-msgid ""
-"Deleting a domain will delete all user accounts in that domain permanently!"
+#: adminaliaschange.php:29
+msgid "Multiple addresses should be comma separated, with no spaces"
 msgstr ""
-"Das L&ouml;schen einer Domain bedeutet die endg&uuml;ltige L&ouml;schung "
-"aller Benutzerkonten."
+"Mehrere Adressen m&uuml;ssen ohne Leerzeichen durch Kommata getrennt werden."
 
-#: site.php:59
-msgid "Relay domains"
-msgstr "Relay-Domains"
-
-#: site.php:68 site.php:85 sitedelete.php:76
-#, php-format
-msgid "Delete %s"
-msgstr "%s l&ouml;schen"
-
-#: site.php:76
-msgid "Aliased domains"
-msgstr "Alias-Domains"
-
-#: adminaliasdelete.php:24 admingroupdelete.php:31 sitedelete.php:55
-#: adminuserdelete.php:32
+#: adminaliasdelete.php:24 admingroupdelete.php:31 adminuserdelete.php:32
+#: sitedelete.php:55
 msgid "Confirm Delete"
 msgstr "L&ouml;schen best&auml;tigen"
 
@@ -384,29 +396,22 @@ msgstr "%s@%s nicht l&ouml;schen"
 msgid "Delete %s@%s"
 msgstr "%s@%s l&ouml;schen"
 
-#: adminaliasdelete.php:43 admingroupdelete.php:50 sitedelete.php:80
-#: adminuserdelete.php:51
+#: adminaliasdelete.php:43 admingroupdelete.php:50 adminuserdelete.php:51
+#: sitedelete.php:80
 msgid "Continue"
 msgstr "weiter"
 
-#: admincatchalladd.php:24 admincatchall.php:26
+#: admincatchall.php:26 admincatchalladd.php:24
 msgid "Catchall"
 msgstr "Sammelpostfach"
 
-#: admincatchalladd.php:27 admincatchall.php:29
+#: admincatchall.php:29 admincatchalladd.php:27
 msgid "Forward email addressed to"
 msgstr "weiterleiten der Email adressiert an"
 
-#: admincatchalladd.php:30 admincatchall.php:32
+#: admincatchall.php:32 admincatchalladd.php:30
 msgid "Forward the email to"
 msgstr "weiterleiten der Email an"
-
-#: test.php:14 test.php:15 test.php:16 test.php:17
-#, php-format
-msgid "%d window"
-msgid_plural "%d windows"
-msgstr[0] ""
-msgstr[1] ""
 
 #: adminfail.php:14 adminfailchange.php:20
 msgid "Add Fail"
@@ -475,17 +480,17 @@ msgstr "ist &ouml;ffentlich"
 msgid "Delete group %s"
 msgstr "Gruppe %s l&ouml;schen"
 
-#: admingroup.php:46
+#: admingroup.php:44
 #, php-format
 msgid "Click to modify %s"
 msgstr "Anklicken um %s zu bearbeiten"
 
-#: admingroup.php:51
+#: admingroup.php:49
 #, php-format
 msgid "Anyone can write to %s"
 msgstr "Jeder kann an %s schreiben."
 
-#: admingroup.php:56
+#: admingroup.php:54
 #, php-format
 msgid "%s is enabled"
 msgstr "%s ist aktiviert"
@@ -547,11 +552,6 @@ msgstr "Benutzername"
 #: adminuser.php:56
 msgid "Click to modify"
 msgstr "zum Bearbeiten anklicken"
-
-#: adminuser.php:62 adminalias.php:64
-#, php-format
-msgid "%s is an administrator"
-msgstr "%s ist Administrator."
 
 #: adminuseradd.php:30 adminuserchange.php:27
 msgid "Manage Accounts"
@@ -658,75 +658,119 @@ msgstr "Nachricht durch Auto-Reply"
 msgid "Forwarding on"
 msgstr "weiterleiten an"
 
-#: adminuserchange.php:83 userchange.php:77
+#: adminuserchange.php:83 userchange.php:76
 msgid "Forward mail to"
-msgstr "Nachricht weiterleiten an "
+msgstr "Nachricht weiterleiten an"
 
-#: adminuserchange.php:88
+#: adminuserchange.php:84
+msgid "Store Forwarded Mail Locally"
+msgstr "Weitergeleitete Nachricht lokal speichern"
+
+#: adminuserchange.php:90
 msgid "Aliases to this account"
 msgstr "Aliasse f&uuml;r dieses Konto"
 
-#: adminuserchange.php:116
+#: adminuserchange.php:118
 msgid "Add a new header blocking filter for this user"
 msgstr "eine neue Header-Filterregel f&uuml;r diesen Benutzer anlegen"
 
-#: adminuserchange.php:117
+#: adminuserchange.php:119
 msgid "Header"
 msgstr "Header"
 
-#: adminuserchange.php:118 userchange.php:87
+#: adminuserchange.php:120 userchange.php:88
 msgid "From"
 msgstr "von"
 
-#: adminuserchange.php:119 userchange.php:88
+#: adminuserchange.php:121 userchange.php:89
 msgid "To"
 msgstr "an"
 
-#: adminuserchange.php:120 userchange.php:89
+#: adminuserchange.php:122 userchange.php:90
 msgid "Subject"
 msgstr "Betreff"
 
-#: adminuserchange.php:121 userchange.php:90
+#: adminuserchange.php:123 userchange.php:91
 msgid "X-Mailer"
 msgstr "X-Mailer"
 
-#: adminuserchange.php:131 userchange.php:98
+#: adminuserchange.php:133 userchange.php:99
 msgid "Delete"
 msgstr "l&ouml;schen"
 
-#: adminuserchange.php:131 userchange.php:98
+#: adminuserchange.php:133 userchange.php:99
 msgid "Blocked Header"
 msgstr "blockierte Header"
 
-#: adminuserchange.php:131 userchange.php:98
+#: adminuserchange.php:133 userchange.php:99
 msgid "Content"
 msgstr "Inhalt"
 
-#: admin.php:16
-msgid "Add, delete and manage POP/IMAP accounts"
-msgstr "Hinzuf&uuml;gen, L&ouml;schen und Verwalten von POP/IMAP-Konten"
-
-#: admin.php:17
-msgid "Add, delete and manage aliases, forwards and a Catchall"
-msgstr ""
-"Hinzuf&uuml;gen, L&ouml;schen und Verwalten von Aliassen, Weiterleitungen "
-"und Sammelpostf&auml;chern"
-
-#: admin.php:18
-msgid "Add, delete and manage groups"
-msgstr "Hinzuf&uuml;gen, L&ouml;schen und Verwalten von Gruppen"
-
-#: admin.php:19
-msgid "Add, delete and manage :fail:'s"
-msgstr "Hinzuf&uuml;gen, L&ouml;schen und Verwalten von :fail:-Adressen"
-
-#: admin.php:22
-msgid "Manage mailing lists"
-msgstr "Verwaltung der Mailing-Listen"
+#: adminuserdelete.php:45
+#, php-format
+msgid "Please confirm deleting user %s@%s"
+msgstr "Bitte best&auml;tigen Sie die L&ouml;schung von %s@%s"
 
 #: index.php:17
 msgid "Username"
 msgstr "Benutzername"
+
+#: site.php:9 sitepassword.php:9
+msgid "Manage Sites"
+msgstr "Site-Verwaltung"
+
+#: site.php:14
+msgid "Add alias domain"
+msgstr "Alias-Domain hinzuf&uuml;gen"
+
+#: site.php:15
+msgid "Add local domain"
+msgstr "lokale Domain hinzuf&uuml;gen"
+
+#: site.php:16
+msgid "Add relay domain"
+msgstr "Relay-Domain hinzuf&uuml;gen"
+
+#: site.php:17 siteadd.php:16 sitechange.php:16 sitedelete.php:62
+#: sitepassword.php:16
+msgid "Site Password"
+msgstr "Site-Passwort"
+
+#: site.php:27
+msgid "Local domains"
+msgstr "lokale Domains"
+
+#: site.php:28
+msgid "Admin account"
+msgstr "Konto des Administrators"
+
+#: site.php:29
+msgid "Total admins"
+msgstr "Anzahl der Administratoren"
+
+#: site.php:55
+msgid "WARNING"
+msgstr "WARNUNG"
+
+#: site.php:55
+msgid ""
+"Deleting a domain will delete all user accounts in that domain permanently!"
+msgstr ""
+"Das L&ouml;schen einer Domain bedeutet die endg&uuml;ltige L&ouml;schung "
+"aller Benutzerkonten."
+
+#: site.php:59
+msgid "Relay domains"
+msgstr "Relay-Domains"
+
+#: site.php:68 site.php:85 sitedelete.php:76
+#, php-format
+msgid "Delete %s"
+msgstr "%s l&ouml;schen"
+
+#: site.php:76
+msgid "Aliased domains"
+msgstr "Alias-Domains"
 
 #: siteadd.php:9 siteadd.php:15 sitechange.php:9 sitechange.php:15
 #: sitedelete.php:61 sitepassword.php:15
@@ -915,61 +959,14 @@ msgstr "Abweisungs-Punktzahl des Spam-Filters"
 msgid "Vacation enabled"
 msgstr "Auto-Reply aktiviert"
 
-#: userchange.php:74
+#: userchange.php:73
 msgid "Forwarding enabled"
 msgstr "Weiterleitung aktiviert"
 
-#: userchange.php:80
+#: userchange.php:81
 msgid "Submit Profile"
 msgstr "Einstellungen speichern"
 
-#: userchange.php:85
+#: userchange.php:86
 msgid "Add a new header blocking filter"
 msgstr "Eine neue Header-Filterregel f&uuml;r diesen Benutzer anlegen"
-
-#: adminalias.php:21
-msgid "Add Catchall"
-msgstr "Sammelpostfach hinzuf&uuml;gen"
-
-#: adminalias.php:28
-msgid "Alias"
-msgstr "Alias"
-
-#: adminalias.php:28
-msgid "Target address"
-msgstr "Zieladresse"
-
-#: adminalias.php:28
-msgid "Forwards to.."
-msgstr "leitet weiter an"
-
-#: adminalias.php:36 adminalias.php:54
-#, php-format
-msgid "Delete alias %s"
-msgstr "Alias %s l&ouml;schen"
-
-#: adminalias.php:71
-msgid "Note"
-msgstr "Beachten"
-
-#: adminalias.php:71
-msgid "You can only have one catchall per domain."
-msgstr "Sie k&ouml;nnen nur ein Sammelpostfach pro Domain anlegen."
-
-#: adminalias.php:71
-msgid ""
-"It will catch and forward all email that does not get delivered to a "
-"specific mailbox."
-msgstr ""
-"Hier wird s&auml;mtliche Email abgelegt, welche nicht anderweitig zugeordnet "
-"werden kann."
-
-#: adminaliasadd.php:28
-msgid "Multiple addresses should be comma seperated, with no spaces"
-msgstr ""
-"Mehrere Adressen m&uuml;ssen ohne Leerzeichen durch Kommata getrennt werden."
-
-#: adminuserdelete.php:45
-#, php-format
-msgid "Please confirm deleting user %s@%s"
-msgstr "Bitte best&auml;tigen Sie die L&ouml;schung von %s@%s"
