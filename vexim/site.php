@@ -34,13 +34,11 @@
 	<?php
 		alpha_menu($alphadomains);
 	?>
-    <div id="forms">
     <form name="search" method="post" action="site.php">
     <?php echo _("Search"); ?>:
     <input type="text" size="20" name="searchfor" value="<?php echo $_POST['searchfor']; ?>" class="textfield" />
     <input type="submit" name="search" value="<?php echo _("search"); ?>" />
     </form>
-    </div>
 	<table>
       <tr>
       	<th></th>

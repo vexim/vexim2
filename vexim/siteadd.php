@@ -16,7 +16,7 @@
       <a href='sitepassword.php'><?php echo _("Site Password"); ?></a><br>
       <br><a href="logout.php"><?php echo _("Logout"); ?></a><br>
   </div>
-  <div id='Forms'>
+  <div id='forms'>
     <form name="siteadd" method="post" action="siteaddsubmit.php">
       <table align="center">
 	<tr><td><?php echo _("New Domain"); ?>:</td><td><input name="domain" type="text" class="textfield"></td>
@@ -53,7 +53,7 @@
 	     print "<tr><td>" . _("Redirect messages to domain") . ":</td><td><input name=\"aliasdest\" type=\"text\" class=\"textfield\"></td></tr>";
 	   }
 	?>
-	    <tr><td><input name="type" type="hidden" value="<?php print $_GET['type']; ?>">
+	    <tr><td></td><td><input name="type" type="hidden" value="<?php print $_GET['type']; ?>">
 		<input name="admin" type="hidden" value="1">
 		<input name="submit" type="submit" value="<?php echo _("Submit"); ?>"></td>
 	</tr>

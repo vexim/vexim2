@@ -53,7 +53,6 @@
 	<?php
 		alpha_menu($alphausers)
 	?>
-    <div id="forms">
     <form name="search" method="post" action="adminuser.php">
     <?php echo _("Search"); ?>:
     <input type="text" size="20" name="searchfor" value="<?php echo $_POST['searchfor']; ?>" class="textfield" />
@@ -64,7 +63,6 @@
     </select>
     <input type="submit" name="search" value="<?php echo _("search"); ?>" />
     </form>
-    </div>
     <table>
 	<tr><th>&nbsp;</th><th><?php echo _("User"); ?></th><th><?php echo _("Email address"); ?></th><th><?php echo _("Admin"); ?></th></tr>
 	<?php
