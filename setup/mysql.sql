@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS vexim.domains (domain_id mediumint(8) unsigned NOT NU
 	maildir varchar(128) NOT NULL default '',
 	uid smallint(5) unsigned NOT NULL default 'CHANGE',
 	gid smallint(5) unsigned NOT NULL default 'CHANGE',
+	max_accounts int(10) unsigned default NULL, 
 	quotas int(10) unsigned NOT NULL default '0',
 	type varchar(5) default NULL,
 	avscan bool NOT NULL default '0',
