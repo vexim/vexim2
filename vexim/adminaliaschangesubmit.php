@@ -35,10 +35,10 @@
     smtp='$aliasto',
     pop='$aliasto',
     realname='{$_POST['realname']}',
-    admin={$_POST['admin']},
-    on_avscan={$_POST['on_avscan']},
-    on_spamassassin={$_POST['on_spamassassin']},
-    enabled={$_POST['enabled']}
+    admin='{$_POST['admin']}',
+    on_avscan='{$_POST['on_avscan']}',
+    on_spamassassin='{$_POST['on_spamassassin']}',
+    enabled='{$_POST['enabled']}'
     WHERE user_id={$_POST['user_id']}";
   $result = $db->query($query);
   if (!DB::isError($result)) { header ("Location: adminalias.php?updated={$_POST['localpart']}"); }

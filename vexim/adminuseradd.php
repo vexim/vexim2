@@ -11,7 +11,7 @@
 		AND (users.type='local' OR users.type='piped') GROUP BY domains.max_accounts";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
-  if (!$row[allowed]) {
+  if (!$row['allowed']) {
 	header ("Location: adminuser.php?maxaccounts=true");
   }
 
