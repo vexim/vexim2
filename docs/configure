@@ -41,36 +41,37 @@
 #                    MAIN CONFIGURATION SETTINGS                     #
 ######################################################################
 
-# First let us specify some macro's. These will be referenced later in
-# the configuration file and expanded to the values set here.
-
-  # Home dir for your Mailman installation -- aka Mailman's prefix
-  # directory.
 MAILMAN_HOME=/usr/local/mailman
 MAILMAN_WRAP=MAILMAN_HOME/mail/mailman
-
-  # User and group for Mailman, should match your --with-mail-gid
-  # switch to Mailman's configure script.
 MAILMAN_USER=mailnull
 MAILMAN_GROUP=mail
-
 
 # Specify your host's canonical name here. This should normally be the fully
 # qualified "official" name of your host. If this option is not set, the
 # uname() function is called to obtain the name. In many cases this does
 # the right thing and you need not set anything explicitly.
 
-primary_hostname = mail.silverwraith.com
-
+# primary_hostname =
 
 # The next three settings create two lists of domains and one list of hosts.
 # These lists are referred to later in this configuration using the syntax
 # +local_domains, +relay_to_domains, and +relay_from_hosts, respectively. They
 # are all colon-separated lists:
 
-domainlist local_domains = localhost : silverwraith.com : localhost.silverwraith.com : mail.silverwraith.com : pear.silverwraith.com : alien8.co.uk : asylum-net.org : avleen.com : brandence.com : copsys.co.uk : edgington.org : legolas.com : mountaingrill.co.uk : umtss.co.uk
-domainlist relay_to_domains =
-hostlist   relay_from_hosts = 127.0.0.1 : 66.214.182.79 : 192.168.0.0/24
+# If you are using MySQL, uncomment the following two lines:
+VIRTUAL_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains WHERE type = 'local' AND enabled = '1'
+RELAY_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains WHERE type = 'relay'
+
+# If you are using PGSQL, uncomment the following four lines:
+#VIRTUAL_DOMAINS = SELECT DISTINCT domain || ' : ' FROM domains WHERE type = 'local'
+#RELAY_DOMAINS = SELECT DISTINCT domain || ' : ' FROM domains WHERE type = 'relay'
+
+domainlist local_domains = @ : pear.silverwraith.com : ${lookup mysql{VIRTUAL_DOMAINS}}
+domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
+hostlist   relay_from_hosts = localhost
+
+hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/f00dlew1t
+#hide pgsql_servers = localhost/vexim/vexim/CHANGE
 
 # Most straightforward access control requirements can be obtained by
 # appropriate settings of the above options. In more complicated situations, you
@@ -122,9 +123,25 @@ acl_smtp_rcpt = acl_check_rcpt
 
 # You should not change that setting until you understand how ACLs work.
 
-# This string deretminds what the default SMTP banner looks like.
+# The following ACL entry is used if you want to do content scanning with the
+# exiscan-acl patch. When you uncomment this line, you must also review the
+# acl_check_content entry in the ACL section further below.
 
-smtp_banner = $primary_hostname ESMTP Exim $version_number $tod_full\nThis server employes the use of Spamhaus.org blacklists
+acl_smtp_data = acl_check_content
+
+# This configuration variable defines the virus scanner that is used with
+# the 'malware' ACL condition of the exiscan acl-patch. If you do not use
+# virus scanning, leave it commented. Please read doc/exiscan-acl-readme.txt
+# for a list of supported scanners.
+
+av_scanner = clamd:/tmp/clamd
+
+# The following setting is only needed if you use the 'spam' ACL condition
+# of the exiscan-acl patch. It specifies on which host and port the SpamAssassin
+# "spamd" daemon is listening. If you do not use this condition, or you use
+# the default of "127.0.0.1 783", you can omit this option.
+
+spamd_address = 127.0.0.1 783
 
 # Specify the domain you want to be added to all unqualified addresses
 # here. An unqualified address is one that does not contain an "@" character
@@ -135,7 +152,7 @@ smtp_banner = $primary_hostname ESMTP Exim $version_number $tod_full\nThis serve
 # unqualified addresses from remote sources. If this option is not set, the
 # primary_hostname value is used for qualification.
 
-qualify_domain = silverwraith.com
+# qualify_domain =
 
 
 # If you want unqualified recipient addresses to be qualified with a different
@@ -187,7 +204,7 @@ host_lookup = *
 # connection, leading to delays on starting up an SMTP session.
 
 rfc1413_hosts = *
-rfc1413_query_timeout = 0s
+rfc1413_query_timeout = 30s
 
 
 # By default, Exim expects all envelope addresses to be fully qualified, that
@@ -231,54 +248,11 @@ ignore_bounce_errors_after = 2d
 
 timeout_frozen_after = 7d
 
-# ----------------------------------------------------------------------
-# exiscan configuration
-# 
-# You can put your exiscan configuration settings just below these
-# lines. A commented-out example config is provided. 
-# WARNING: Read doc/exiscan-readme.txt to learn about the available
-# options. Just uncommenting things here will get you into BIG trouble.
 
-# -- main --------------------------------
-#exiscan_condition = 1
-#exiscan_crypt_salt = xx
-#exiscan_timeout = 5m
-#exiscan_loglevel = 2
+# We also want a little more detail in our logs, helps with debugging
 
-# -- mime sanity and unpacking -----------
-#exiscan_demime_condition = 1
-#exiscan_demime_action = reject
-#exiscan_demime_pickyness = 2
+log_selector = +subject
 
-# -- file extensions ---------------------
-#exiscan_extension_condition = 1
-#exiscan_extension_data = pif:vbs:scr:bat
-#exiscan_extension_action = reject
-
-# -- antivirus ---------------------------
-#exiscan_av_condition = 1
-#exiscan_av_scanner = sophie
-#exiscan_av_sophie_socket = /var/run/sophie
-#exiscan_av_action = blackhole
-
-# -- antispam ----------------------------
-#exiscan_spamd_condition = 1
-#exiscan_spamd_threshold = 4.5
-#exiscan_spamd_header_style = full
-#exiscan_spamd_action = reject
-#exiscan_spamd_subject_tag = *SPAM*
-#exiscan_spamd_address = 127.0.0.1 783
-
-# -- regular expressions -----------------
-#exiscan_regex_condition = 1
-#exiscan_regex_data = debt reduction : MORTGAGE
-#exiscan_regex_action = reject
-
-# end of exiscan configuration
-# ----------------------------------------------------------------------
-
-# The MySQL configuration section
-hide mysql_servers = localhost::(/tmp/mysql.sock)/exim/exim/CHANGE
 
 ######################################################################
 #                       ACL CONFIGURATION                            #
@@ -316,8 +290,7 @@ acl_check_rcpt:
           domains       = +local_domains
 
   # Deny unless the sender address can be verified.
-
-  #require verify        = sender
+  # require verify        = sender
 
   #############################################################################
   # There are no checks on DNS "black" lists because the domains that contain
@@ -333,10 +306,6 @@ acl_check_rcpt:
   #         dnslists      = black.list.example
   #############################################################################
 
-  deny   message       = $sender_host_address is in a black list at $dnslist_domain\n$dnslist_text
-         log_message   = found in $dnslist_domain
-         dnslists      = sbl.spamhaus.org
-
   # Accept if the address is in a local domain, but only if the recipient can
   # be verified. Otherwise deny. The "endpass" line is the border between
   # passing on to the next ACL statement (if tests above it fail) or denying
@@ -344,7 +313,6 @@ acl_check_rcpt:
 
   accept  domains       = +local_domains
           endpass
-          message       = unknown user
           verify        = recipient
 
   # Accept if the address is in a domain for which we are relaying, but again,
@@ -352,7 +320,6 @@ acl_check_rcpt:
 
   accept  domains       = +relay_to_domains
           endpass
-          message       = unrouteable address
           verify        = recipient
 
   # If control reaches this point, the domain is neither in +local_domains
@@ -378,6 +345,50 @@ acl_check_rcpt:
   deny    message       = relay not permitted
 
 
+# This access control list is used for content scanning with the exiscan-acl
+# patch. You must also uncomment the entry for acl_smtp_data (scroll up),
+# otherwise the ACL will not be used. IMPORTANT: the default entries here
+# should be treated as EXAMPLES. You MUST read the file doc/exiscan-acl-spec.txt
+# to fully understand what you are doing ...
+
+acl_check_content:
+
+  # First unpack MIME containers and reject serious errors.
+  deny  message = This message contains a MIME error ($demime_reason)
+        demime = *
+        condition = ${if >{$demime_errorlevel}{2}{1}{0}}
+        
+  # Reject typically wormish file extensions. There is almost no
+  # sense in sending such files by email.
+  deny  message = This message contains an unwanted file extension ($found_extension)
+        demime = scr:vbs:bat:lnk:pif
+  
+  # Reject virus infested messages.
+  warn  message = This message contains malware ($malware_name)
+        malware = *
+	log_message = This message contains malware ($malware_name)
+
+  # Reject messages containing "viagra" in all kinds of whitespace/case combinations
+  # WARNING: this is an example !
+  #deny  message = This message matches a blacklisted regular expression ($regex_match_string)
+  #      regex = [Vv] *[Ii] *[Aa] *[Gg] *[Rr] *[Aa]
+
+  # Always add X-Spam-Score and X-Spam-Report headers, using SA system-wide settings
+  # (user "nobody"), no matter if over threshold or not.
+  warn  message = X-Spam-Score: $spam_score ($spam_bar)
+        spam = nobody:true
+  warn	message = X-Spam-Report: $spam_report
+        spam = nobody:true
+
+  # finally accept all the rest
+  accept
+  
+acl_check_data:
+  deny    message       = This message contains a virus: ($malware_name)
+          demime        = *
+          malware       = *
+  
+  accept
 
 ######################################################################
 #                      ROUTERS CONFIGURATION                         #
@@ -419,21 +430,16 @@ dnslookup:
   ignore_target_hosts = 0.0.0.0 : 127.0.0.0/8
   no_more
 
+mailman_router:
+  driver = accept
+  require_files = MAILMAN_HOME/lists/$local_part/config.pck
+  local_part_suffix_optional
+  local_part_suffix = -bounces : -bounces+* : \
+                      -confirm+* : -join : -leave : \
+                      -owner : -request : -admin
+  transport = mailman_transport
 
 # The remaining routers handle addresses in the local domain(s).
-
-
-# The is the mailman router. It takes the $local_part, looks for a directory
-# with that name, and makes things happen
-
-  mailman_router:
-    driver = accept
-    require_files = MAILMAN_HOME/lists/$local_part/config.pck
-    local_part_suffix_optional
-    local_part_suffix = -bounces : -bounces+* : \
-                        -confirm+* : -join : -leave : \
-                        -owner : -request : -admin
-    transport = mailman_transport
 
 # The virtual_domains alias, queries your given mysql database
 # and requests the home directory of the user's maildir, the
@@ -441,32 +447,130 @@ dnslookup:
 # clever, and set the UID and GID of a user, to that of a
 # local system user, so they can check their mail locally,
 # rather than having to over a network. Three different
-# transports are specified. mysql_delivery delivers if the
+# transports are specified. virtual_delivery delivers if the
 # home directory is a given directory on a locally accessible
 # file system. address_reply is called if the home directory
 # returns an email address (making the rcpt address an alias).
 # finally, pipe_transport is used to pipe the mail to a
 # process.
 
-virtual_domains:
+# This router caused me so much s*** it's untrue.
+# If your db lookup returns 'no data', then $spam_in_score is
+# greater than no data, and mail gets deleted.
+# Eventually got this working with Codiac's help. We now return
+# '999999' is value was not set. This is higher than any spamassassin
+# score should be :)
+ditch_spam:
   driver = redirect
   allow_fail
-  data = ${lookup mysql{select smtphome from users where username = '${local_part}@${domain}'} }
+  data = :blackhole:
+  condition = ${if >{$spam_score_int}{${lookup mysql{select sa_refuse * 10 from users,domains \
+                where localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
+        	and users.on_spamassassin = '1' \
+                and users.domain_id=domains.domain_id }{$value}fail}} {yes}{no}}
   local_part_suffix = -*
   local_part_suffix_optional
   retry_use_local_part
-  file_transport = mysql_delivery
+
+ditch_malware:
+  driver = redirect
+  allow_fail
+  data = :blackhole:
+  condition = ${if and { {match {$h_X-ACL-Warn:}{.*malware.*}} \
+                         {eq {${lookup mysql{select users.on_avscan from users,domains \
+		                where localpart = '${quote_mysql:$local_part}' \
+		                and domain = '${quote_mysql:$domain}' \ 
+		                and users.on_avscan = '1' \
+		                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
+
+virtual_vacation:
+  driver = accept
+  condition = ${if and { {!match {$h_precedence:}{(?i)junk|bulk|list}} \
+                         {eq {${lookup mysql{select users.on_vacation from users,domains \
+		                where localpart = '${quote_mysql:$local_part}' \
+		                and domain = '${quote_mysql:$domain}' \ 
+		                and users.on_vacation = '1' \
+		                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
+  no_verify
+  no_expn
+  unseen
+  transport = virtual_vacation_delivery
+
+virtual_forward:
+  driver = redirect
+  unseen
+  check_ancestor
+  data = ${lookup mysql{select forward from users,domains \
+	where localpart='${quote_mysql:$local_part}' \
+	and domain='${quote_mysql:$domain}' \
+	and users.domain_id=domains.domain_id \
+	and on_forward = '1'}}
+  # We explicitly make this condition NOT forward mailing list mail!
+  condition = ${if and { {!match {$h_precedence:}{(?i)junk|bulk|list}} \
+                         {eq {${lookup mysql{select users.on_forward from users,domains \
+		                where localpart = '${quote_mysql:$local_part}' \
+		                and domain = '${quote_mysql:$domain}' \ 
+		                and users.on_forward = '1' \
+		                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
+  
+virtual_domains:
+  driver = redirect
+  allow_fail
+  data = ${lookup mysql{select smtp from users,domains \
+  		where localpart = '${quote_mysql:$local_part}' \
+		and domain = '${quote_mysql:$domain}' \
+		and domains.enabled = '1' \
+		and users.enabled = '1' \
+		and users.domain_id = domains.domain_id}}
+  local_part_suffix = -*
+  local_part_suffix_optional
+  retry_use_local_part
+  file_transport = virtual_delivery
   reply_transport = address_reply
   pipe_transport = address_pipe
-
+  
 virtual_domains_catchall:
   driver = redirect
   allow_fail
-  data = ${lookup mysql{select smtphome from users where username = '*@${domain}'} }
+  data = ${lookup mysql{select smtp from users,domains where localpart = '*' \
+  		and domain = '${quote_mysql:$domain}' \
+		and users.domain_id = domains.domain_id}}
   retry_use_local_part
-  file_transport = mysql_delivery
+  file_transport = virtual_delivery
   reply_transport = address_reply
   pipe_transport = address_pipe_catchall
+
+# This router handles aliasing using a linearly searched alias file with the
+# name /etc/aliases. When this configuration is installed automatically,
+# the name gets inserted into this file from whatever is set in Exim's
+# build-time configuration. The default path is the traditional /etc/aliases.
+# If you install this configuration by hand, you need to specify the correct
+# path in the "data" setting below.
+#
+##### NB  You must ensure that the alias file exists. It used to be the case
+##### NB  that every Unix had that file, because it was the Sendmail default.
+##### NB  These days, there are systems that don't have it. Your aliases
+##### NB  file should at least contain an alias for "postmaster".
+#
+# If any of your aliases expand to pipes or files, you will need to set
+# up a user and a group for these deliveries to run under. You can do
+# this by uncommenting the "user" option below (changing the user name
+# as appropriate) and adding a "group" option if necessary. Alternatively, you
+# can specify "user" on the transports that are used. Note that the transports
+# listed below are the same as are used for .forward files; you might want
+# to set up different ones for pipe and file deliveries from aliases.
+
+system_aliases:
+  driver = redirect
+  allow_fail
+  allow_defer
+  data = ${lookup{$local_part}lsearch{/etc/aliases}}
+  user = mailnull
+  group = mail
+  file_transport = address_file
+  pipe_transport = address_pipe
+
 
 # This router handles forwarding using traditional .forward files in users'
 # home directories. If you want it also to allow mail filtering when a forward
@@ -501,12 +605,14 @@ userforward:
   group = mail
 
 
-# This router matches local user mailboxes.
+# This router matches local user mailboxes. If the router fails, the error
+# message is "Unknown user".
 
 localuser:
   driver = accept
   check_local_user
   transport = local_delivery
+  cannot_route_message = Unknown user
 
 
 
@@ -538,38 +644,70 @@ remote_smtp:
 
 local_delivery:
   driver = appendfile
+  file = /var/mail/$local_part
+  delivery_date_add
   envelope_to_add
   return_path_add
   group = mail
+  user = $local_part
   mode = 0660
-# directory = ${home}/Maildir
-  file = /var/mail/${local_part}
-# maildir_format = true
-# create_directory = true
+  no_mode_fail_narrower
 
-mysql_delivery:
+virtual_delivery:
   driver = appendfile
   envelope_to_add
   return_path_add
   mode = 0600
   maildir_format = true
   create_directory = true
-  directory = ${lookup mysql{select smtphome from users where username = '${local_part}@${domain}'}}
-  user = ${lookup mysql{select uid from users where username = '${local_part}@${domain}'}}
-  group = ${lookup mysql{select gid from users where username = '${local_part}@${domain}'}}
+  directory = ${lookup mysql{select smtp from users,domains \
+		where localpart = '${quote_mysql:$local_part}' \
+		and domain = '${quote_mysql:$domain}' \
+		and users.domain_id = domains.domain_id}}
+  user = ${lookup mysql{select users.uid  from users,domains \
+		where localpart = '${quote_mysql:$local_part}' \
+		and domain = '${quote_mysql:$domain}' \
+		and users.domain_id = domains.domain_id}}
+  group = ${lookup mysql{select users.gid from users,domains \
+		where localpart = '${quote_mysql:$local_part}' \
+		and domain = '${quote_mysql:$domain}' \
+		and users.domain_id = domains.domain_id}}
+  quota = ${lookup mysql{select users.quota from users,domains \
+  		where localpart = '${quote_mysql:$local_part}' \
+		and domain = '${quote_mysql:$domain}' \
+		and users.domain_id = domains.domain_id}{${value}M}}
+  quota_is_inclusive = false
+  quota_size_regex = ,S=(\d+):
+  quota_warn_threshold = 75%
+  quota_warn_message = "To: $local_part@$domain\n\
+  			Subject: Mailbox quota warning\n\n\
+			This message was automatically generated by the mail delivery software.\n\n\
+			You are now using over 75% of your allocated mail storage quota.\n\n\
+			If your mailbox fills completely, further incoming messages will be automatically\n\
+			returned to their senders.\n\n\
+			Please take note of this and remove unwanted mail from your mailbox.\n"
 
-  mailman_transport:
-    driver = pipe
-    command = MAILMAN_WRAP \
-              '${if def:local_part_suffix \
-                    {${sg{$local_part_suffix}{-(\\w+)(\\+.*)?}{\$1}}} \
-                    {post}}' \
-              $local_part
-    current_directory = MAILMAN_HOME
-    home_directory = MAILMAN_HOME
-    user = MAILMAN_USER
-    group = MAILMAN_GROUP
+virtual_vacation_delivery:
+  driver   = autoreply
+  from     = "${local_part}@${domain}"
+  to       = ${sender_address}
+  subject  = "Autoreply from ${local_part}@${domain}"
+  text     = ${lookup mysql{select vacation from users,domains \
+		where domain='${quote_mysql:$domain}' \
+		and localpart='${quote_mysql:$local_part}' \
+		and users.domain_id=domains.domain_id}}
 
+mailman_transport:
+  driver = pipe
+  command = MAILMAN_WRAP \
+            '${if def:local_part_suffix \
+                  {${sg{$local_part_suffix}{-(\\w+)(\\+.*)?}{\$1}}} \
+                  {post}}' \
+            $local_part
+  current_directory = MAILMAN_HOME
+  home_directory = MAILMAN_HOME
+  user = MAILMAN_USER
+  group = MAILMAN_GROUP
 
 # This transport is used for handling pipe deliveries generated by alias or
 # .forward files. If the pipe generates any standard output, it is returned
@@ -582,14 +720,14 @@ mysql_delivery:
 address_pipe:
   driver = pipe
   return_output
-  user = ${lookup mysql{select uid from users where username = '${local_part}@${domain}'}}
-  group = ${lookup mysql{select gid from users where username = '${local_part}@${domain}'}}
+  user = ${lookup mysql{select users.uid from users,domains where localpart = '${quote_mysql:$local_part}' and domain = '${quote_mysql:$domain}' and users.domain_id = domains.domain_id}}
+  group = ${lookup mysql{select users.gid from users,domains where localpart = '${quote_mysql:$local_part}' and domain = '${quote_mysql:$domain}' and users.domain_id = domains.domain_id}}
 
 address_pipe_catchall:
   driver = pipe
   return_output
-  user = ${lookup mysql{select uid from users where username = '*@${domain}'}}
-  group = ${lookup mysql{select gid from users where username = '*@${domain}'}}
+  user = ${lookup mysql{select users.uid from users,domains where localpart = '*' and domain = '${quote_mysql:$domain}' and users.domain_id = domains.domain_id}}
+  group = ${lookup mysql{select users.gid from users,domains where localpart = '*' and domain = '${quote_mysql:$domain}' and users.domain_id = domains.domain_id}}
 
 address_pipe_local:
   driver = pipe
@@ -654,20 +792,39 @@ begin authenticators
 plain_login:
         driver = plaintext
         public_name = PLAIN
-        server_condition = ${lookup mysql{SELECT '1' FROM users WHERE username = '${quote_mysql:$2}' AND cpassword = '${quote_mysql:$3}'} {yes}{no}}
+        server_condition = ${lookup mysql{SELECT '1' FROM users \
+				WHERE username = '${quote_mysql:$2}' \
+				AND clear = '${quote_mysql:$3}'} {yes}{no}}
         server_set_id = $2
 
 fixed_login:
         driver = plaintext
         public_name = LOGIN
         server_prompts = "Username:: : Password::"
-        server_condition = ${lookup mysql{SELECT '1' FROM users WHERE username = '${quote_mysql:$1}' AND cpassword = '${quote_mysql:$2}'} {yes}{no}}
+        server_condition = ${lookup mysql{SELECT '1' FROM users \
+				WHERE username = '${quote_mysql:$1}' \
+				AND clear = '${quote_mysql:$2}'} {yes}{no}}                    
         server_set_id = $1
 
 fixed_cram:
         driver = cram_md5
         public_name = CRAM-MD5
-        server_secret = ${lookup mysql{select password from users where username='${quote_mysql{$1}}'}{$value}fail}
+        server_secret = ${lookup mysql{SELECT crypt FROM users \
+				WHERE username = '${quote_mysql:$1}'}{$value}fail}
         server_set_id = $1
+
+
+######################################################################
+#                   CONFIGURATION FOR local_scan()                   #
+######################################################################
+
+# If you have built Exim to include a local_scan() function that contains
+# tables for private options, you can define those options here. Remember to
+# uncomment the "begin" line. It is commented by default because it provokes
+# an error with Exim binaries that are not built with LOCAL_SCAN_HAS_OPTIONS
+# set in the Local/Makefile.
+
+# begin local_scan
+
 
 # End of Exim configuration file
