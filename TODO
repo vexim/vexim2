@@ -9,7 +9,7 @@
 	   -> Need exim config [MySQL done]
 	h. Blacklists and Whitelists can be set
 	   -> tables are almost ready, code required
-	i. UID/GID * [MySQL done]
+	i. UID/GID [MySQL done]
 	   -> Let siteadmin decide if these are domain admin tunable [Done]
 	j. Domain tag line can be added for outbound mail [Unsure]
 	k. Add/Modify/Delete domain admin [MySQL done]
@@ -17,6 +17,7 @@
 	m. Password complexity requirements [For later release]
 	o. Add the ability to choose any filesystem directory [MySQL done]
 	   -> Check the permissions to make sure Exim can create it
+	p. Add the ability to limit the number of accounts [Done]
 
     2. Domain Controls (depends on site settings)
 	a. Add/delete/modify users [MySQL done]
