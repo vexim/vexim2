@@ -3,7 +3,11 @@
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
   include_once dirname(__FILE__) . "/config/functions.php";
 
-  $domquery = "SELECT (count(users.user_id) < domains.max_accounts) OR !domains.max_accounts AS allowed FROM users JOIN domains ON users.domain_id=domains.domain_id WHERE domains.domain_id=" . $_COOKIE[vexim][2] . " AND users.type='local'";
+  $domquery = "SELECT (count(users.user_id) < domains.max_accounts)
+  		OR !domains.max_accounts AS allowed FROM users,domains
+		WHERE users.domain_id=domains.domain_id
+		AND domains.domain_id=" . $_COOKIE[vexim][2] . "
+		AND users.type='local'";
   $domresult = $db->query($domquery);
   $domrow = $domresult->fetchRow();
   if (! $domrow[allowed]) {
