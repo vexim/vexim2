@@ -20,8 +20,8 @@ Configuring your authentication system (/etc/pam.d):
 
   * As root, edit the file /etc/pam.d/imap, and add the following
     two lines:
-    auth sufficient pam_mysql.so user=exim passwd=CHANGE host=localhost db=exim table=users usercolumn=username passwdcolumn=password crypt=1
-    account required pam_mysql.so user=exim passwd=CHANGE host=localhost db=exim table=users usercolumn=username passwdcolumn=password crypt=1
+    auth sufficient pam_mysql.so user=vexim passwd=CHANGE host=localhost db=vexim table=users usercolumn=username passwdcolumn=crypt crypt=1
+    account required pam_mysql.so user=vexim passwd=CHANGE host=localhost db=vexim table=users usercolumn=username passwdcolumn=crypt crypt=1
 
     Replace the word 'CHANGE' with the password exim uses to access the
     MySQL database.
@@ -40,8 +40,8 @@ Configuring your authentication system (/etc/pam.conf):
 
   * As root, edit the file /etc/pam.conf, and change the 'imap' lines to
     match this:
-    imap auth sufficient pam_mysql.so user=exim passwd=CHANGE host=localhost db=exim table=users usercolumn=username passwdcolumn=password crypt=1
-    imap account required pam_mysql.so user=exim passwd=CHANGE host=localhost db=exim table=users usercolumn=username passwdcolumn=password crypt=1
+    imap auth sufficient pam_mysql.so user=vexim passwd=CHANGE host=localhost db=vexim table=users usercolumn=username passwdcolumn=crypt crypt=1
+    imap account required pam_mysql.so user=vexim passwd=CHANGE host=localhost db=vexim table=users usercolumn=username passwdcolumn=crypt crypt=1
 
     Replace the word 'CHANGE' with the password exim uses to access the
     MySQL database.
