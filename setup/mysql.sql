@@ -60,16 +60,11 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON vexim.* to vexim@localhost IDENTIFIED BY 'C
 FLUSH PRIVILEGES;
 
 INSERT INTO vexim.domains (domain_id, domain) VALUES ('1', 'admin');
-INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin);
-  		VALUES ('1',
-		'siteadmin',
-		'siteadmin',
-		'CHANGE',
-		'$1$12345678$2lQK5REWxaFyGz.p/dos3/',
-		'65535',
-		'65535',
-		'',
-		'',
-		'SiteAdmin',
-		'site',
-		'1');
+
+-- Uncomment the following lines by removing the initial '--', if your system uses MD5 passwords:
+-- INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin);
+-- VALUES ('1', 'siteadmin', 'siteadmin', 'CHANGE', '$1$12345678$2lQK5REWxaFyGz.p/dos3/', '65535', '65535', '', '', 'SiteAdmin', 'site', '1');
+
+-- Uncomment the following lines by removing the initial '--', if your system uses DES passwords:
+-- INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin);
+--VALUES ('1', 'siteadmin', 'siteadmin', 'CHANGE', '0Apup3ZbF9RPg', '65535', '65535', '', '', 'SiteAdmin', 'site', '1');
