@@ -30,8 +30,8 @@
 	<tr><td>Password:</td><td><input type="password" size="25" name="clear" class="textfield"></td></tr>
 	<tr><td>Verify Password:</td><td><input type="password" size="25" name="vclear" class="textfield"></td></tr>
 	<? if ($postmasteruidgid == "yes") {
-	  print "<tr><td>UID:</td><td><input type=\"textfield\" size=\"25\" name=\"uid\" class=\"textfield\" value=\"$row[uid]\"></td></tr>\n";
-	  print "<tr><td>GID:</td><td><input type=\"textfield\" size=\"25\" name=\"gid\" class=\"textfield\" value=\"$row[gid]\"></td></tr>\n"; 
+	  print "<tr><td>UID:</td><td><input type=\"text\" size=\"25\" name=\"uid\" class=\"textfield\" value=\"$row[uid]\"></td></tr>\n";
+	  print "<tr><td>GID:</td><td><input type=\"text\" size=\"25\" name=\"gid\" class=\"textfield\" value=\"$row[gid]\"></td></tr>\n"; 
 	  print "<tr><td colspan=\"2\" style=\"padding-bottom:1em\">When you update the UID or GID, please make sure your
 		 MTA still has permission to create the required user directories!</td></tr>\n";
 	  }
@@ -61,7 +61,7 @@
 	<tr><td>Forwarding on:</td><td><input name="on_forward" type="checkbox" <?
 		if ($row[on_forward] == "1") { print " checked "; } ?> ></td></tr>
 	<tr><td>Forward mail to:</td>
-	<td><input type="text" name="forward" value="<? print $row[forward]; ?>" class="textfield"></td></tr>
+	<td><input type="text" size="25" name="forward" value="<? print $row[forward]; ?>" class="textfield"></td></tr>
 	<tr><td colspan="2" class="button"><input name="submit" type="submit" value="Submit"></td></tr>
 	<tr><td colspan="2" style="padding-top:1em">Aliases to this account:<br>
 	<?
