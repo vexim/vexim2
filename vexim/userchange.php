@@ -8,6 +8,11 @@
   $query = "SELECT * FROM users WHERE localpart='" .$_COOKIE[vexim][0]. "' AND domain_id='" .$_COOKIE[vexim][2]. "'";
   $result = $db->query($query);
   $row = $result->fetchRow();
+  $blockquery = "SELECT blockhdr,blockval FROM blocklists,users
+  		WHERE blocklists.domain_id='" .$_COOKIE[vexim][2]. "'
+		AND users.localpart='" .$_COOKIE[vexim][0]. "'
+		AND users.user_id=blocklists.user_id";
+  $blockresult = $db->query($blockquery);
 ?>
 <html>
   <head>
@@ -78,6 +83,28 @@
           <tr><td colspan="2" style="padding-top:1em;"><b>Note:</b> Attempting to set blank passwords does not work!<td></tr>
         </table>
       </form>
+      <form name="blocklist" method="post" action="userblocksubmit.php">
+        <table align="center">
+	  <tr><td>Add a new header blocking filter:</td></tr>
+	  <tr><td><select name="blockhdr" class="textfield">
+		  <option value="From">From:</option>
+	  	  <option value="X-Mailer">X-Mailer:</option>
+		  </select></td>
+	      <td><input name="blockval" type="text" size="25" class="textfield">
+	          <input name="userid" type="hidden" value="<? print $row[user_id]; ?>">
+	          <input name="color" type="hidden" value="black"></td></tr>
+	  <tr><td><input name="submit" type="submit" value="Submit"></td></tr>
+	</table>
+      </form>
+      <table align="center">
+	<tr><th>Delete</th><th>Blocked Header</th><th>Content</th></tr>
+	<? if (!DB::isError($blockresult)) { while ($blockrow = $blockresult->fetchRow()) {
+		print "<tr><td><a href=\"userblocksubmit.php?action=delete&blockhdr=$blockrow[blockhdr]&blockval=$blockrow[blockval]&user_id=$row[user_id]\"><img style=\"border:0;width:10px;height:16px\" title=\"Delete\" src=\"images/trashcan.gif\" alt=\"trashcan\"></a></td>";
+		print "<td>$blockrow[blockhdr]</td><td>$blockrow[blockval]</td></tr>\n";
+	     }
+	   }
+	?>
+      </table>
     </div>
   </body>
 </html>
