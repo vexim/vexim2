@@ -3,6 +3,11 @@
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
+	if ($_POST['crypt'] == "") {
+	  header ("Location: index.php?login=failed");
+		die;
+	}
+
   if ($_POST['localpart'] == "siteadmin" && $_POST['domain'] == "") {
     $query = "SELECT crypt,localpart FROM users,domains WHERE localpart='siteadmin'
     			AND domain='admin' and users.domain_id = domains.domain_id";
