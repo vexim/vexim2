@@ -14,7 +14,7 @@ NB: The configuration below is used on a production box which has over
 20,000 pop accounts and runs pretty well. You can tune it to match your
 requirements.
 
--Odhiambo Washington <wash@wananchi.it>, 20031107.
+-Odhiambo Washington [wash@wananchi.it], 20031107.
 
 
       This HOWTO describes the steps you will take to install tpop3d on
