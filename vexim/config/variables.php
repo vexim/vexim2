@@ -13,6 +13,9 @@
   if (DB::isError($db)) { die ($db->getMessage()); }
   $db->setFetchMode(DB_FETCHMODE_ASSOC); 
 
+  /* We use this IMAP server to check user quotas */
+  $imapquotaserver = "{mail.CHANGE.com:143/imap/notls}";
+
   /* Setting this to 0 if only admins should be allowed to login */
   $AllowUserLogin = 1;
 

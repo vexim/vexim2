@@ -42,19 +42,29 @@
 	  print "<tr><td colspan=\"2\" style=\"padding-bottom:1em\">" . _("When you update the UID or GID, please make sure your MTA still has permission to create the required user directories!") . "</td></tr>\n";
 	  }
 	  if ($domrow['quotas'] > "0") {
-	    print   "<tr><td>";
-        printf (_("Mailbox quota (%s Mb max)"), $domrow['quotas']);
-        print   ":</td>";
-	    print "<td><input type=\"text\" size=\"5\" name=\"quota\" value=\"{$row['quota']}\" class=\"textfield\">Mb</td></tr>\n";
-	} 
-	if ($domrow['pipe'] == "1") {
-	     print "<tr><td>" . _("Pipe to command or alternative Maildir") . ":</td>";
-	     print "<td><input type=\"textfield\" size=\"25\" name=\"smtp\" class=\"textfield\" value=\"{$row['smtp']}\"></td></tr>\n";
-	     print "<tr><td colspan=\"2\" style=\"padding-bottom:1em\">" . _("Optional") . ":" . _(" Pipe all mail to a command (e.g. procmail).") . "<br>\n";
-	     print _("Check box below to enable") . ":</td></tr>\n";
-	     print "<tr><td>" . _("Enable piped command or alternative Maildir?") . "</td><td><input type=\"checkbox\" name=\"on_piped\"";
-	     if ($row['on_piped'] == "1") { print " checked "; } print "></td></tr>\n";
-	} ?>
+	       print "<tr><td>";
+	       printf (_("Mailbox quota (%s Mb max)"), $domrow['quotas']);
+	       print ":</td>";
+	       print "<td><input type=\"text\" size=\"5\" name=\"quota\" value=\"{$row['quota']}\" class=\"textfield\">Mb</td></tr>\n";
+	    if (function_exists(imap_get_quotaroot)) {
+	       $mbox = imap_open($imapquotaserver, $row['username'], $row['clear'], OP_HALFOPEN);
+	       $quota = imap_get_quotaroot($mbox, "INBOX");
+	       if (is_array($quota)) {
+   	       printf ("<tr><td>" . _("Space used:") . "</td><td>%.2f MB</td></tr>", $quota['STORAGE']['usage'] / 1024);
+	       }
+	       imap_close($mbox);
+	       print "</tr>";
+	    }
+	  } 
+	  if ($domrow['pipe'] == "1") {
+	       print "<tr><td>" . _("Pipe to command or alternative Maildir") . ":</td>";
+	       print "<td><input type=\"textfield\" size=\"25\" name=\"smtp\" class=\"textfield\" value=\"{$row['smtp']}\"></td></tr>\n";
+	       print "<tr><td colspan=\"2\" style=\"padding-bottom:1em\">" . _("Optional") . ":" . _(" Pipe all mail to a command (e.g. procmail).") . "<br>\n";
+	       print _("Check box below to enable") . ":</td></tr>\n";
+	       print "<tr><td>" . _("Enable piped command or alternative Maildir?") . "</td><td><input type=\"checkbox\" name=\"on_piped\"";
+	  if ($row['on_piped'] == "1") { print " checked "; } print "></td></tr>\n";
+	  }
+	?>
 	<tr><td><?php echo _("Admin"); ?>:</td><td><input name="admin" type="checkbox" <?php
 	   if ($row['admin'] == 1) { print "checked"; } ?> class="textfield"></td></tr>
 	<?php if ($domrow['avscan'] == "1") {
@@ -99,7 +109,7 @@
 	      if (($row['domain'] == $_SESSION['domain']) && ($row['localpart'] != "*")) {
 		print " <a href=\"adminaliaschange.php?user_id={$row['user_id']}\">{$row['localpart']}@{$row['domain']}</a> ";
 	      } else if (($row['domain'] == $_SESSION['domain']) && ($row['localpart'] == "*")) {
-	        print " <a href=\"admincatchall.php?user_id={$row['user_id']}\">{$row['localpart']}@{$row['domain']}</a>";
+		print " <a href=\"admincatchall.php?user_id={$row['user_id']}\">{$row['localpart']}@{$row['domain']}</a>";
 	      } else {
 		print "{$row['localpart']}@{$row['domain']}";
 	      }
@@ -119,7 +129,7 @@
 	  <tr><td><?php echo _("Header"); ?>:</td><td><select name="blockhdr" class="textfield">
 		  <option value="From"><?php echo _("From"); ?>:</option>
 		  <option value="To"><?php echo _("To"); ?>:</option>
-                  <option value="Subject"><?php echo _("Subject"); ?>:</option>
+		  <option value="Subject"><?php echo _("Subject"); ?>:</option>
 		  <option value="X-Mailer"><?php echo _("X-Mailer"); ?>:</option>
 		  </select></td>
 	      <td><input name="blockval" type="text" size="25" class="textfield">
