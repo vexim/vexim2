@@ -19,7 +19,11 @@
   $cryptscheme = "md5";
 
   /* Choose the type of domain name input for the index page. It should 
-     either be 'dropdown' or 'textbox' */
+     either be 'dropdown' or 'textbox'. Dropdown uses a dropdown style
+     menu with <select> and <option>. Textbox presents a blank line for
+     the user to type their domain name one. Textbox might be prefered
+     if you have a large number of domains, or don't want to reveal the
+     names of sites which you host */
   $domaininput = "dropdown";
 
   /* The UID's and GID's control the default UID and GID for new domains

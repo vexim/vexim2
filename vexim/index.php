@@ -13,17 +13,21 @@
       <table valign="center" align="center">
          <tr>
           <td>Username:<td><input name="localpart" type="text" class="textfield">&nbsp;@&nbsp;</td>
-	  <td><select name='domain' class="textfield">
-	    <option value="">
-	    <?
-              $query = "SELECT domain FROM domains WHERE domain!='admin' ORDER BY domain";
-	      $result = $db->query($query);
-	      if (DB::isError($result)) { die ($result->getMessage()); }
-              while ($row = $result->fetchRow()) {
-              print "\t<option value=\"" . $row[domain] . '">' . $row[domain] . '</option>' . "\n";
-              }
+	  <td>
+	    <? if ($domaininput == "dropdown") {
+	        print "<select name=\"domain\" class=\"textfield\">\n";
+	        print "<option value=\"\">\n";
+                  $query = "SELECT domain FROM domains WHERE domain!='admin' ORDER BY domain";
+	          $result = $db->query($query);
+	          if (DB::isError($result)) { die ($result->getMessage()); }
+                  while ($row = $result->fetchRow()) {
+                    print "\t<option value=\"" . $row[domain] . '">' . $row[domain] . '</option>' . "\n";
+                  }
+	        print "</select>\n";
+	      } else if ($domaininput == "textbox") {
+	        print "<input type=\"text\" name=\"domain\" class=\"textfield\"> (domain name)\n";
+	      }
 	    ?>
-	    </select>
           </td>
         </tr>
         <tr>
