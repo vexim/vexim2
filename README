@@ -1,21 +1,22 @@
-                  README - Virtual Exim
-		  =====================
+                         Virtual Exim 2
+		             README
+		           ==========
 
-Thanks for picking the Virtual Exim package, for your Exim mail hosting
-needs :-)
+Thanks for picking the Virtual Exim package, for your virtual mail
+hosting needs :-)
 
 This readme should be a nice step by step walk-through of how to set up
-VExim on your machine. There are a few requirements (listed below), and
-it is expected that you have *a little* knowledge of both MySQL and
-Exim.
+Virtual Exim on your machine. There are a few requirements (listed
+below), and it is expected that you have *a little* knowledge of both
+MySQL and Exim.
 
 Before we go into any details, I'd like to thanks Philip Hazel and the
-Exim developers for a fine fine product.
+Exim developers for a fine product.
 I would also like to thanks the postmasters at various domains for
 letting me play havoc with their mail while I set this up :-)
 Finally, a special note of thanks to Dan Bernstein for his Qmail MTA.
 Dan, thank you for educating me how mail delivery really shouldn't be
-done, on an Internet level.
+done, on the Internet.
 
 
 Requirements:
@@ -23,16 +24,20 @@ The following packages must be installed on your system, for VExim to
 work:
     * Exim v4 compiled against mysql (tested on v3.23.x/v4.1x/4.2x)
     * Mysql (tested on v3.23.x/v4.0.x/4.1x/4.2x)
+      or PostgreSQL (tested on x7.3.x)
     * Apache (Tested in 1.3.27)
     * PHP v4 (tested on v4.3.x)
-    This might work on older versions of MySQL
+    * Perl + DBI module for creating the databases (optional)
+    * Perl DBD-mysql or DBD-Pg modules for creating databases (optional)
+    This might work on older versions of MySQL or PostgreSQL.
     This should work on versions of PHP back to 4.2.1, but not older
     (due to the use of global variables like $_POST[]).
     I have no idea about older versions of Exim, as I've never used
     them myself. You can try though if you know the configure file.
-    Unless the bug which prevents you setting multiple cookies, in
-    Apache 2 has been resolved, this won't work on Apache 2.
-    
+    You can create the MySQL or PostgreSQL databases without the perl
+    script if you want, but if you are upgrading from MySQL to
+    PostgreSQL.
+
 
 Installation steps for each component:
 
@@ -54,13 +59,14 @@ PARTS:
 
 
 Files and Apache:
-  In this distribution is a directory called 'vexim'. Move this to
-  where ever you keep your domains with Apache. Then set up a virtual
-  host, and point it's DocumentRoot at the vexim directory.
-  Although a virtual host shouldn't be *required*, the way I have the
-  code set up right now, it is. It seems to make things simple and work
-  :-) I'm sure I can make it not be a requirement. I'll work on it for
-  the next version.
+  In this distribution is a directory called 'vexim'.
+  You have two options:
+    1) Copy this directory into your current DocumentRoot for your
+       domain, and optionally rename the directory.
+    2) Set up a new VirtualHost and point the DocumentRoot to the vexim
+       directory.
+  Both should work equally well.
+
 
 Exim configuration:
   An example exim 'configure' file, has been included with this
@@ -71,37 +77,74 @@ Exim configuration:
     MAILMAN_HOME=/usr/local/mailman
     MAILMAN_WRAP=MAILMAN_HOME/mail/mailman
     *** Edit these if your mailman is in a different location.
-
+----------
     MAILMAN_USER=mailnull
     MAILMAN_GROUP=mail
     *** These need to match the username and group under which exim runs
-
+----------
     primary_hostname=mail.silverwraith.com
     *** This is my mail server. There are many like it, but this one is
     mine. Make this like yours.
-
-    domainlist local_domains = silverwraith.com : mail.silverwraith.com
-    domainlist relay_to_domains =                                     
+----------
+    # If you are using MySQL, uncomment the following two lines:
+    #VIRTUAL_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains type = 'local'
+    #RELAY_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains type = 'relay'
+    -----
+    # If you are using PGSQL, uncomment the following four lines:
+    #VIRTUAL_DOMAINS = SELECT DISTINCT domain || ' : ' FROM domains WHERE type = 'local'
+    #RELAY_DOMAINS = SELECT DISTINCT domain || ' : ' FROM domains WHERE type = 'relay'
+    *** Depending on the database type you are using, you will need to
+    uncomment the appropriate lines in the config, to enable lookups.
+----------
     hostlist   relay_from_hosts = 127.0.0.1 : 66.214.182.79 
     *** These control which domains you accept mail for and deliver
     locally (local_domains), which domains you accept mail for and
     deliver remotely (relay_to_domains), and which IP addresses are
     allowed to send mail to any domain.
-
+----------
     exim_user = mailnull
     exim_group = mail
     *** Specify here, the username and group under which Exim runs. This
     combination is also that under which mailman must run in order to
     work.
+----------
+    # av_scanner = clamd:/tmp/clamd
+    # spamd_address = 127.0.0.1 783
+    *** If you want to use either Anti-Virus scanning, or SpamAssassin, you
+    will need to uncomment the appropriate line here.
+----------
+    #hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
+    #hide pgsql_servers = localhost/vexim/vexim/CHANGE
+    *** These lines configure database connectivity. You need to
+    uncomment the one that is appropriate for you; the first if you are
+    using mysql, or the second if you are using postgresql.
+    You need to change the word 'CHANGE', to the password you will use
+    for the 'vexim' database user, which we will set up in the next
+    part.
+----------
+    acl_check_content
+    *** You *MUST* review this section of the ACL's. Decide here if some
+    of the default settings (like defang_mime, and the unwanted
+    attachments) are appropriate for you or not. I have set this ACL up
+    to do the appropriate lookups in the database, to see if individual
+    users have requested Anti-Virus or SpamAssassin be used.
+----------
+    #acl_check_data:
+    #  deny    message       = This message contains a virus: ($malware_name)
+    #          demime        = *
+    #          malware       = *
+    # 
+    #  accept
+    *** If you are using either SpamAssassin, or Anti-Virus checking,
+    you need to uncomment these lines.
+----------
+    Finally if you are using PostgreSQL instead of MySQL, change all
+    references of 'mysql' to 'pgsql'. The following vi command will do
+    the trick:
+    :%s/mysql/pgsql/g
 
-    hide mysql_servers = localhost::(/tmp/mysql.sock)/exim/exim/CHANGE
-    *** This is the line the configures mysql connectivity. We will use
-    mysql which runs on the local server, rather than a remote server,
-    so that we can connect over a UNIX domain socket (much nicer). You
-    need to change the word 'CHANGE' at the end, to the password you
-    supplied on the GRANT line on mysql.sql.
 
-MySQL and Authentication:
+Databases and Authentication:
   Needs to be installed. A script is included (mysql.sql) which will
   create the database and table for you. Two things you need to do, are
   edit the mysql.sql file and set a password. This password is set on
