@@ -99,5 +99,7 @@ while (my $ref = $sth->fetchrow_hashref()) {
 		t2.domain='$domain' and t1.admin!=''") or die "Error migrating users for $domain";
   $lkp->execute();
 }
+my $sth = $dbh->prepare("UPDATE users SET localpart='siteadmin' WHERE localpart='site' and realname='SiteAdmin'");
+$sth->execute();
 $sth->finish();
-
+print "Migration complete!\n\n";
