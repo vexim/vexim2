@@ -58,6 +58,6 @@
 
   /* Welcome message, sent to new domains */
   $welcome_newdomain = "Welcome, and thank you for registering your e-mail domain\n"
-  		     . "{$_POST['domain']} with us.\n\nIf you have any questions, please"
+  		     . "{$_POST['domain']} with us.\n\nIf you have any questions, please\n"
 		     . "don't hesitate to ask your account representitive.\n";
 ?>
