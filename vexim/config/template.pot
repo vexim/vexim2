@@ -367,7 +367,7 @@ msgstr ""
 msgid "Site Password"
 msgstr ""
 
-#: siteadd.php:20
+#: siteadd.php:21
 msgid "Domain"
 msgstr ""
 
@@ -429,6 +429,10 @@ msgstr ""
 
 #: siteadd.php:48
 msgid "Domain enabled"
+msgstr ""
+
+#: siteadd.php:52
+msgid "Redirect messages to domain"
 msgstr ""
 
 #: sitechange.php:19
