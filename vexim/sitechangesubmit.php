@@ -17,14 +17,14 @@
 		domain_id={$_POST['domain_id']}";
       $result = $db->query($query);
       if (!DB::isError($result)) {
-	header ("Location: site.php?updated={$_POST['domain_id']}");
+	header ("Location: site.php?updated={$_POST['domain']}");
 	die;
       } else {
-	header ("Location: site.php?failupdated={$_POST['domain_id']}");
+	header ("Location: site.php?failupdated={$_POST['domain']}");
 	die;
       }
     } else {
-      header ("Location: site.php?badpass={$_POST['domain_id']}");
+      header ("Location: site.php?badpass={$_POST['domain']}");
       die;
     }
   } 
@@ -43,10 +43,10 @@
 		enabled={$_POST['enabled']} WHERE domain_id='{$_POST['domain_id']}'";
     $result = $db->query($query);
     if (!DB::isError($result)) {
-      header ("Location: site.php?updated={$_POST['domain_id']}");
+      header ("Location: site.php?updated={$_POST['domain']}");
       die; 
     } else {
-      header ("Location: site.php?failupdated={$_POST['domain_id']}");
+      header ("Location: site.php?failupdated={$_POST['domain']}");
       die;
     }
   }
@@ -55,7 +55,7 @@
     $query = "UPDATE users SET on_spamassassin='0' WHERE domain_id={$_POST['domain_id']}";
     $result = $db->query($query);
     if (DB::isError($result)) { $result->getMessage(); }
-    header ("Location: site.php?updated={$_POST['domain_id']}");
+    header ("Location: site.php?updated={$_POST['domain']}");
     die;
   }
 
@@ -63,11 +63,11 @@
     $query = "UPDATE users SET on_avscan='0' WHERE domain_id={$_POST['domain_id']}";
     $result = $db->query($query);
     if (DB::isError($result)) { $result->getMessage(); }
-    header ("Location: site.php?updated={$_POST['domain_id']}");
+    header ("Location: site.php?updated={$_POST['domain']}");
     die;
   }
 
 # Just-in-case catchall
-header ("Location: site.php?failupdated={$_POST['domain_id']}");
+header ("Location: site.php?failupdated={$_POST['domain']}");
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->

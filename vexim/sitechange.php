@@ -36,7 +36,8 @@
 	    $result = $db->query($query);
 	    if ($result->numRows()) { $row = $result->fetchRow(); }
 	    print $row['domain']; ?></td>
-	  <td><input name="domain_id" type="hidden" value="<? print $_GET['domain_id']; ?>"></td></tr>
+	  <td><input name="domain_id" type="hidden" value="<? print $_GET['domain_id']; ?>">
+	      <input name="domain" type="hidden" value="<? print $_GET['domain']; ?>"></td></tr>
 	  <tr><td><? echo _("Password"); ?>:</td><td><input name="clear" size="25" type="password" class="textfield"></td></tr>
 	  <tr><td><? echo _("Verify Password"); ?>:</td><td><input name="vclear" size="25" type="password" class="textfield"></td></tr>
 	  <tr><td></td><td><input name="submit" size="25" type="submit" value="<? echo _("Submit Password"); ?>"></td></tr>
@@ -61,7 +62,8 @@
 	  <tr><td><? echo _("Piping to command"); ?>:</td>
 	      <td><input type="checkbox" name="pipe" <? if ($row['pipe'] == 1) {print "checked";} ?>></td></tr>
 	  <tr><td><? echo _("Enabled"); ?>:</td><td><input type="checkbox" name="enabled" <? if ($row['enabled'] == 1) {print "checked";} ?>></td>
-	  <td><input name="domain_id" type="hidden" value="<? print $_GET['domain_id']; ?>"></td></tr>
+	  <td><input name="domain_id" type="hidden" value="<? print $_GET['domain_id']; ?>">
+	      <input name="domain" type="hidden" value="<? print $_GET['domain']; ?>"></td></tr>
 	  <tr><td></td><td><input name="submit" size="25" type="submit" value="<? echo _("Submit Changes"); ?>"></td></tr>
 	</form>
 	<form name="sadisable" method="post" action="sitechangesubmit.php">
