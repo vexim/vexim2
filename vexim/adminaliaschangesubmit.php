@@ -29,7 +29,7 @@
     header ("Location: adminalias.php?badpass");
   }
 
-  $aliasto = preg_replace("/[', ']+/", ", ", $_POST['target']);
+  $aliasto = preg_replace("/[', ']+/", ",", $_POST['target']);
   $query = "UPDATE users SET localpart='{$_POST['localpart']}',
     username='{$_POST['localpart']}@{$_SESSION['domain']}',
     smtp='$aliasto',
