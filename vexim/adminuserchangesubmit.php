@@ -61,10 +61,15 @@
 		clear='{$_POST['clear']}'
 		WHERE localpart='{$_POST['localpart']}' AND domain_id={$_COOKIE['vexim'][2]}";
     $result = $db->query($query);
-    if ((!DB::isError($result)) && ($_POST['localpart'] == $_COOKIE['vexim'][0])) { setcookie ("vexim[3]", $cryptedpassword, time()+86400); }
-    else { header ("Location: adminuser.php?failupdated={$_POST['localpart']}"); }
+    if ((!DB::isError($result)) && ($_POST['localpart'] == $_COOKIE['vexim'][0])) { 
+    	setcookie ("vexim[3]", $cryptedpassword, time()+86400); 
+    } else { 
+    	header ("Location: adminuser.php?failupdated={$_POST['localpart']}");
+    	die;
+    }
   } else if ($_POST['clear'] != $_POST['vclear']) {
-    header ("Location: adminuser.php?badpass={$_POST['localpart']}");
+      header ("Location: adminuser.php?badpass={$_POST['localpart']}");
+      die;
   }
 
   $query = "UPDATE users SET uid={$_POST['uid']},

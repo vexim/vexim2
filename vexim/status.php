@@ -18,6 +18,8 @@
 	  print "<div id='status'>User '{$_GET['badname']}' contains invalid characters</div>\n";
 	} else if (isset($_GET['userexists'])) {
 	  print "<div id='status'>The account could not be added as the name {$_GET['userexists']} is already in use</div>\n";
+	} else if (isset($_GET['blankname'])) {
+	  print "<div id='status'>You can not specify a blank realname.</div>\n";
 	} else if (isset($_GET['badpass'])) {
 	  print "<div id='status'>Account {$_GET['badpass']} could not be added.<br>\n";
 	  print "Your passwords were blank, do not match, or contain illegal characters: ' \" ` or ;</div>\n";
