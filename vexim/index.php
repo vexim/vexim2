@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body onLoad="document.login.username.focus()">
-    <div id="Header"><a href='http://<? print $veximurl; ?>' target="_blank">VExim</a></div>
+    <div id="Header"><a href='http://<? print $veximurl; ?>' target="_blank">VExim2</a></div>
     <div id="Centered">
     <form style="margin-top:3em;" name="login" method="post" action="login.php">
       <table valign="center" align="center">
@@ -20,7 +20,7 @@
               $result = $db->query($sql);
 	      if (DB::isError($result)) { die ($result->getMessage()); }                             
               while ($row = $result->fetchRow()) {
-                print "\t<option value=\"@" . $row[domain] . '">' . $row[domain] . '</option>' . "\n";
+                print "\t<option value=\"" . $row[domain] . "\">" . $row[domain] . "</option>" . "\n";
               }
 	    ?>
 	    </select>
