@@ -31,12 +31,12 @@
 	  print " -- '{$_GET['updated']}' has been successfully updated\n";
 	} else if (isset($_GET['userexists'])) {
 	  print " -- The account could not be added as the name {$_GET['userexists']} is already in use\n";
-        } else if (isset($_GET['userupdated'])) {
-          print " -- Your update was sucessful.</div>\n";
-        } else if (isset($_GET['userfailed'])) {
-          print " -- Your account could not be updated. Was your password blank?.</div>\n";
-        } else if (isset($_GET['usersuccess'])) {
-          print " -- Your account has been succesfully updated.</div>\n";
+	} else if (isset($_GET['userupdated'])) {
+	  print " -- Your update was sucessful.</div>\n";
+	} else if (isset($_GET['userfailed'])) {
+	  print " -- Your account could not be updated. Was your password blank?.</div>\n";
+	} else if (isset($_GET['usersuccess'])) {
+	  print " -- Your account has been succesfully updated.</div>\n";
 	} // Now some more general errors on account updates
 	  else if (isset($_GET['badaliaspass'])) {
 	  print " -- Account {$_GET['badaliaspass']} could not be added. Your passwords do not match, or contain illegal characters: ' \" ` or ;\n";
@@ -72,8 +72,16 @@
 	} else if (isset($_GET['quotahigh'])) {
 	  print " -- The quota you specified was too high.\n";
 	  print "    The maximum quota you can specify is: {$_GET['quotahigh']} MB\n";
+	} else if (isset($_GET['group_deleted'])) {
+	  print " -- Group {$_GET['group_deleted']} has been successfully deleted\n";
+	} else if (isset($_GET['group_added'])) {
+	  print " -- Group {$_GET['group_added']} has been successfully added\n";
+	} else if (isset($_GET['group_faildeleted'])) {
+	  print " -- Group {$_GET['group_faildeleted']} was not deleted\n";
+	} else if (isset($_GET['group_failadded'])) {
+	  print " -- Group {$_GET['group_failadded']} failed to be added\n";
 	}
-        if ($_GET['login'] == "failed") { print _("Login failed"); }
+	if ($_GET['login'] == "failed") { print _("Login failed"); }
 
   print "</p></div>";
 ?>
