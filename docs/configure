@@ -546,6 +546,11 @@ virtual_domains:
 			       where localpart = '${quote_mysql:$local_part}' \
 			       and domain = '${quote_mysql:$domain}' \
 			       and users.domain_id=domains.domain_id}{$value}fail}} } \
+			     { eq {${lookup mysql{select users.sa_tag * 10 from users,domains \
+			       where localpart = '${quote_mysql:$local_part}' \
+			       and domain = '${quote_mysql:$domain}' \
+			       and users.on_spamassassin = 0 \
+			       and users.domain_id=domains.domain_id}{$value}fail}}{0}} \
 			   } {X-Spam-Score:X-Spam-Report} }
   local_part_suffix = -*
   local_part_suffix_optional
