@@ -62,9 +62,12 @@
 		clear='{$_POST['clear']}'
 		WHERE localpart='{$_POST['localpart']}' AND domain_id={$_SESSION['domain_id']}";
     $result = $db->query($query);
-    if ((!DB::isError($result)) && ($_POST['localpart'] == $_SESSION['localpart'])) { 
-    	$_SESSION['crypt'] = $cryptedpassword;
+    if (!DB::isError($result)) {
+        if ($_POST['localpart'] == $_SESSION['localpart']) { 
+    	    $_SESSION['crypt'] = $cryptedpassword;
+	}
     } else { 
+        print "crap"; die;
     	header ("Location: adminuser.php?failupdated={$_POST['localpart']}");
     	die;
     }
