@@ -83,7 +83,7 @@
     sa_tag=" . ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0) . ",
     sa_refuse=" . ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0) . ",
     type='{$_POST['type']}',
-    vacation='" . (($_POST['vacation']) ? $_POST['vacation'] : 0) . "'
+    vacation='" . (($_POST['vacation']) ? $_POST['vacation'] : '') . "'
     WHERE user_id='{$_POST['user_id']}'";
   $result = $db->query($query);
   if (!DB::isError($result)) { header ("Location: adminuser.php?updated={$_POST['localpart']}"); }
