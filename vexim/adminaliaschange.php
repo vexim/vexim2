@@ -30,7 +30,7 @@
 	<tr><td><? echo _("Forward To"); ?>:</td><td><input name="target" type="text" size="30"value="<? print $row['smtp']; ?>" class="textfield"></td></tr>
 	<tr><td><? echo _("Password"); ?>:</td><td><input name="clear" type="password" size="30" class="textfield"></td></tr>
 	<tr><td colspan="2" style="padding-bottom:1em">
-		(<? echo _("Password only needed if you want the user tobe able to log in, or if the Alias is the admin account"); ?>)</td></tr>
+		(<? echo _("Password only needed if you want the user to be able to log in, or if the Alias is the admin account"); ?>)</td></tr>
 	<tr><td><? echo _("Verify Password"); ?>:</td><td><input name="clear" type="password" size="30" class="textfield"></td></tr>
 	<tr><td><? echo _("Admin"); ?>:</td><td><input name="admin" type="checkbox" <? if ($row['admin'] == 1)
 		{ print "checked"; } ?> class="textfield"></td></tr>
