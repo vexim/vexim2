@@ -1,58 +1,59 @@
     1. Site Controls
-       (each setting that effects a domain, needs another option:
-	'can the domain admin override the siteadmin or not, for
-	 individual users'. These setting are marked with a *)
-	a. Add/Modify/Delete domain
-	b. Domain can add admin
-	c. Procmail available switch *
-	d. SpamAssassin available *
-	e. Virus scanner available *
-	f. Mail list available
-	g. Quota can be set *
-	h. Blacklists can be set *
-	i. UID/GID *
-	j. Domain tag line can be added *
-	k. Add/Modify/Delete domain admin *
-	l. Add/Modify/Delete relay_domains
-	m. Password complexity requirements *
-	o. Add the ability to choose any filesystem directory
+	a. Add/Modify/Delete domain [MySQL done]
+	b. Domain can add admin [MySQL done]
+	c. Procmail available switch [MySQL done]
+	d. SpamAssassin available [MySQL done]
+	e. Virus scanner available [MySQL done]
+	f. Mailing list availability [For later release]
+	g. Quota can be set [MySQL done]
+	   -> Need exim config [MySQL done]
+	h. Blacklists can be set [For later release]
+	   -> tables are ready, code required
+	i. UID/GID * [MySQL done]
+	   -> Let siteadmin decide if these are domain admin tunable [Done]
+	j. Domain tag line can be added for outbound mail [Unsure]
+	k. Add/Modify/Delete domain admin [MySQL done]
+	l. Add/Modify/Delete relay_domains [MySQL done]
+	m. Password complexity requirements [For later release]
+	o. Add the ability to choose any filesystem directory [MySQL done]
 	   -> Check the permissions to make sure Exim can create it
 
     2. Domain Controls (depends on site settings)
-       (each setting that effects a user, needs another option:
-	'can the user override the domain admin or not for personal
-	 preference'. These setting are marked with a *)
-	a. Add/delete/modify users
-	b. Add/delete/modify admins
-	c. Add/delete/modify aliases *
-	d. Set quotas
-	e. SpamAssassin settings *
-	f. Virus Scanner *
-	g. Blacklists *
-	h. Mail lists
-	i. UID/GID
-	j. Domain tag line attached to all outgoing mail *
-	k. Allow any user or alias to act as domain admin
-	l. Password complexity requirements
-	m. Multiple levels of 'admin':
+	a. Add/delete/modify users [MySQL done]
+	b. Add/delete/modify admins [MySQL done]
+	c. Add/delete/modify aliases [MySQL done]
+	d. Quota can be set [MySQL done]
+	e. SpamAssassin settings [MySQL done]
+	f. Virus Scanner [MySQL done]
+	g. Blacklists [For later release]
+	   -> tables are ready, code required
+	h. Mailing lists [For later release]
+	i. UID/GID [MySQL done]
+	j. Domain tag line attached to all outgoing mail [Unsure]
+	k. Allow any user or alias to act as domain admin [MySQL done]
+	l. Password complexity requirements [For later release]
+	m. Allow domain admin to tweak any user settings [MySQL Done]
+	n. Multiple levels of 'admin':
 	   -> Some who can one add users, some who can only change
 	      passwords, others who can only create aliases, etc
 	      Eg, when an admin tries to create an alias, assign the
 	      variable '$task=addalias', and query the db to see if the
 	      admin has the privilege to do this. This requires a
-	      'flags' column in the db.
+	      'flags' column in the db. [For later release]
 
     3. User Controls  (depends on site and domain settings)
-	a. Change password
-	b. SpamAssassin settings
-	c. Virus scanner settings
-	d. Personal block lists
+	a. Change password [MySQL done]
+	b. SpamAssassin settings [MySQL done]
+	c. Virus scanner settings [MySQL done]
+	d. Personal block lists [For later release]
 	e. Add alias (?)
-	f. Vacation response
-	g. Create exim_filter's in the database
+	f. Vacation response [MySQL done]
+	g. Forward incoming mail [MySQL done]
+	h. See current quota limit [MySQL done]
+	   -> Later, need a way to see current mailbox size
 
     4. System Controls
-	a. Choose from multiple databases: MySQL, PostgreSQL, LDAP
+	a. Choose from multiple databases: MySQL, PostgreSQL, LDAP [MySQL done]
 
     5. Setup
 	a. Scripts used to configure vexim the first time.
