@@ -1,6 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authsite.php";
+  include_once dirname(__FILE__) . "/config/functions.php";
 ?>
 <html>
   <head>
@@ -48,17 +49,27 @@
       }
     ?>
   <div id='Content'>
-    <table align="center">
+	<?
+		alpha_menu($alphadomains);
+	?>
+	<table align="center">
       <tr>
       	<th></th>
 	<th>Local domains</th>
 	<th>Admin account</th>
       </tr>
       <?
-	$query = "SELECT localpart,domain,domains.domain_id FROM users,domains
-		  WHERE users.domain_id = domains.domain_id
-		  AND domain !='admin'
-		  AND admin='1' GROUP BY domain";
+     if ($alphadomains AND $letter != '') 
+		$query = "SELECT localpart,domain,domains.domain_id FROM users,domains
+			WHERE users.domain_id = domains.domain_id
+			AND domain !='admin'
+			AND admin='1' 
+			AND domain LIKE '$letter%' GROUP BY domain";
+     else 
+		$query = "SELECT localpart,domain,domains.domain_id FROM users,domains
+			WHERE users.domain_id = domains.domain_id
+			AND domain !='admin'
+			AND admin='1' GROUP BY domain";
   	$result = $db->query($query);
 	while ($row = $result->fetchRow()) {
 	  print "<tr>";

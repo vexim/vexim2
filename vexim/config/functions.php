@@ -21,4 +21,18 @@
     }
   }
 
+  function alpha_menu($flag) {
+    global $letter;	// needs to be available to the parent
+	$letter = $_GET[LETTER];
+	if ($letter == '') $letter = 'A';
+	if ($letter == 'ALL') $letter = '';
+	if ($flag) {
+		print "\n<p class='alpha'><a href='" . $_SERVER[PHP_SELF] . "?LETTER=ALL' class='alpha'>ALL</a>&nbsp;&nbsp; ";
+		// loops through the alphabet. For international alphabets, replace the string in the proper order
+		foreach (preg_split('//', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', -1, PREG_SPLIT_NO_EMPTY) as $i) {
+			print "<a href='" . $_SERVER[PHP_SELF] . "?LETTER=$i' class='alpha'>$i</a>&nbsp; ";
+		}
+		print "</p>\n";
+	}
+  }
 ?>

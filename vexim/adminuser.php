@@ -1,6 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
+  include_once dirname(__FILE__) . "/config/functions.php";
 ?>
 <html>
   <head>
@@ -30,10 +31,19 @@
     </div>
 
     <div id="Content">
-      <table align="center">
+	<?
+		alpha_menu($alphausers)
+	?>
+    <table align="center">
 	<tr><th>&nbsp;</th><th>User</th><th>Email address</th><th>Admin</th></tr>
 	<?
-	  $query = "SELECT localpart,realname,admin,enabled FROM users
+     if ($alphausers AND $letter != '') 
+		$query = "SELECT localpart,realname,admin,enabled FROM users
+			WHERE localpart LIKE '$letter%' AND
+			domain_id='" .$_COOKIE[vexim][2]. "' AND (type='local' OR type='piped')
+			ORDER BY realname";
+     else 
+		$query = "SELECT localpart,realname,admin,enabled FROM users
 			WHERE domain_id='" .$_COOKIE[vexim][2]. "' AND (type='local' OR type='piped')
 			ORDER BY realname";
 	  $result = $db->query($query);

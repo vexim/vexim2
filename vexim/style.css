@@ -36,6 +36,14 @@ a {
 	font-family:verdana, arial, helvetica, sans-serif;
 	}
 
+p.alpha {
+	padding-bottom: 2em;
+}
+
+a.alpha {
+	font-size: 110%;
+}
+
 table,tr,td,th {
 	border: hidden;
 	font-size: 10pt;
