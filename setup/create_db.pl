@@ -47,7 +47,7 @@ sub usage {
 
 #####################################
 # Collect the username and password #
-# for the database root user        @
+# for the database root user	@
 #####################################
 
 print "Using dbtype $dbtype\n";
@@ -60,7 +60,7 @@ print "Please enter the password of the $dbtype superuser: "; chomp($superpass =
 #####################################
 # This sub collects and verifies    #
 # the username for the 'vexim' user #
-# in the database                   @
+# in the database		   @
 #####################################
 
 sub veximpw {
@@ -97,60 +97,60 @@ sub create_mysqldb {
 sub create_mysqltables {
   $mydbh->do("DROP TABLE IF EXISTS vexim.domains");
   $mydbh->do("CREATE TABLE IF NOT EXISTS vexim.domains (domain_id mediumint(8) unsigned NOT NULL auto_increment,
-        domain varchar(64) NOT NULL default '',
-        maildir varchar(128) NOT NULL default '',
-        uid smallint(5) unsigned NOT NULL default '$uid',
-        gid smallint(5) unsigned NOT NULL default '$gid',
-        quotas int(10) unsigned NOT NULL default '0',
-        type varchar(5) default NULL,
-        avscan bool NOT NULL default '0',
-        blocklists bool NOT NULL default '0',
-        complexpass bool NOT NULL default '0',
-        enabled bool NOT NULL default '1',
+	domain varchar(64) NOT NULL default '',
+	maildir varchar(128) NOT NULL default '',
+	uid smallint(5) unsigned NOT NULL default '$uid',
+	gid smallint(5) unsigned NOT NULL default '$gid',
+	quotas int(10) unsigned NOT NULL default '0',
+	type varchar(5) default NULL,
+	avscan bool NOT NULL default '0',
+	blocklists bool NOT NULL default '0',
+	complexpass bool NOT NULL default '0',
+	enabled bool NOT NULL default '1',
 	mailinglists bool NOT NULL default '0',
-        pipe bool NOT NULL default '0',
-        spamassassin bool NOT NULL default '0',
 	maxmsgsize mediumint(8) unsigned NOT NULL default '0',
-        sa_tag smallint(5) unsigned NOT NULL default '0',
-        sa_refuse smallint(5) unsigned NOT NULL default '0',
-        PRIMARY KEY (domain_id),
-        UNIQUE KEY domain (domain),
-        KEY domain_id (domain_id),
-        KEY domains (domain))") or die "Could not create table domains in the vexim database!";
+	pipe bool NOT NULL default '0',
+	spamassassin bool NOT NULL default '0',
+	sa_tag smallint(5) unsigned NOT NULL default '0',
+	sa_refuse smallint(5) unsigned NOT NULL default '0',
+	PRIMARY KEY (domain_id),
+	UNIQUE KEY domain (domain),
+	KEY domain_id (domain_id),
+	KEY domains (domain))") or die "Could not create table domains in the vexim database!";
   print "\nCreated domains table\n";
   $mydbh->do("DROP TABLE IF EXISTS vexim.users");
   $mydbh->do("CREATE TABLE IF NOT EXISTS vexim.users (user_id int(10) unsigned NOT NULL auto_increment,
-        domain_id mediumint(8) unsigned NOT NULL,
-        localpart varchar(192) NOT NULL default '',
-        username varchar(255) NOT NULL default '',
-        clear varchar(255) default NULL,
-        crypt varchar(48) default NULL,
-        uid smallint(5) unsigned NOT NULL default '65534',
-        gid smallint(5) unsigned NOT NULL default '65534',
-        smtp varchar(255) default NULL,
-        pop varchar(255) default NULL,
-        type enum('local','alias','catch', 'fail', 'piped', 'admin', 'site') NOT NULL default 'local',
-        admin bool NOT NULL default '0',
-        on_avscan bool NOT NULL default '0',
-        on_blocklist bool NOT NULL default '0',
-        on_complexpass bool NOT NULL default '0',
-        on_forward bool NOT NULL default '0',
-        on_piped bool NOT NULL default '0',
-        on_spamassassin bool NOT NULL default '0',
-        on_vacation bool NOT NULL default '0',
-        enabled bool NOT NULL default '1',
-        flags varchar(16) default NULL,
-        forward varchar(255) default NULL,
+	domain_id mediumint(8) unsigned NOT NULL,
+	localpart varchar(192) NOT NULL default '',
+	username varchar(255) NOT NULL default '',
+	clear varchar(255) default NULL,
+	crypt varchar(48) default NULL,
+	uid smallint(5) unsigned NOT NULL default '65534',
+	gid smallint(5) unsigned NOT NULL default '65534',
+	smtp varchar(255) default NULL,
+	pop varchar(255) default NULL,
+	type enum('local','alias','catch', 'fail', 'piped', 'admin', 'site') NOT NULL default 'local',
+	admin bool NOT NULL default '0',
+	on_avscan bool NOT NULL default '0',
+	on_blocklist bool NOT NULL default '0',
+	on_complexpass bool NOT NULL default '0',
+	on_forward bool NOT NULL default '0',
+	on_piped bool NOT NULL default '0',
+	on_spamassassin bool NOT NULL default '0',
+	on_vacation bool NOT NULL default '0',
+	enabled bool NOT NULL default '1',
+	flags varchar(16) default NULL,
+	forward varchar(255) default NULL,
 	maxmsgsize mediumint(8) unsigned NOT NULL default '0',
-        quota int(10) unsigned NOT NULL default '0',
-        realname varchar(255) default NULL,
-        sa_tag smallint(5) unsigned NOT NULL default '0',
-        sa_refuse smallint(5) unsigned NOT NULL default '0',
-        tagline varchar(255) default NULL,
-        vacation varchar(255) default NULL,
-        PRIMARY KEY (user_id),
-        UNIQUE KEY username (localpart,domain_id),
-        KEY local (localpart))") or die "Could not create table users in the vexim database!";
+	quota int(10) unsigned NOT NULL default '0',
+	realname varchar(255) default NULL,
+	sa_tag smallint(5) unsigned NOT NULL default '0',
+	sa_refuse smallint(5) unsigned NOT NULL default '0',
+	tagline varchar(255) default NULL,
+	vacation varchar(255) default NULL,
+	PRIMARY KEY (user_id),
+	UNIQUE KEY username (localpart,domain_id),
+	KEY local (localpart))") or die "Could not create table users in the vexim database!";
   print "Created users table\n";
   $mydbh->do("DROP TABLE IF EXISTS vexim.blocklists");
   $mydbh->do("CREATE TABLE IF NOT EXISTS vexim.blocklists (block_id int(10) unsigned NOT NULL auto_increment,
@@ -167,59 +167,59 @@ sub create_mysqltables {
 # generating PostgreSQL tables. The #
 # Code is certainly not the same    #
 # due to slight difference in the   #
-# SQL implementation.               #
+# SQL implementation.	       #
 #####################################
 
 sub create_postgrestables {
 print "\nCreating new PostgreSQL tables...\n";
 $pgdbh->do("CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
-          domain varchar(64) UNIQUE NOT NULL,
-          maildir varchar(128) NOT NULL default '',
-          uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
-          gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
-          type varchar(5) NOT NULL,
-          avscan smallint NOT NULL default '0',
-          blocklists smallint NOT NULL default '0',
-          complexpass smallint NOT NULL default '0',
-          enabled smallint NOT NULL default '1',
-          mailinglists smallint NOT NULL default '0',
-          pipe smallint NOT NULL default '0',
-          spamassassin smallint NOT NULL default '0',
-          quotas int NOT NULL default '0' CHECK(quotas > -1),
+	  domain varchar(64) UNIQUE NOT NULL,
+	  maildir varchar(128) NOT NULL default '',
+	  uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
+	  gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
+	  type varchar(5) NOT NULL,
+	  avscan smallint NOT NULL default '0',
+	  blocklists smallint NOT NULL default '0',
+	  complexpass smallint NOT NULL default '0',
+	  enabled smallint NOT NULL default '1',
+	  mailinglists smallint NOT NULL default '0',
+	  pipe smallint NOT NULL default '0',
+	  spamassassin smallint NOT NULL default '0',
+	  quotas int NOT NULL default '0' CHECK(quotas > -1),
 	  maxmsgsize int NOT NULL default '0' CHECK(maxmsgsize > -1),
-          sa_tag int NOT NULL default '0' CHECK(sa_tag > -1),
-          sa_refuse int NOT NULL default '0' CHECK(sa_refuse > -1))") or die "Could not create table domains";
+	  sa_tag int NOT NULL default '0' CHECK(sa_tag > -1),
+	  sa_refuse int NOT NULL default '0' CHECK(sa_refuse > -1))") or die "Could not create table domains";
   print "\nCreated domains table\n";
   $pgdbh->do("CREATE TABLE users (user_id SERIAL PRIMARY KEY,
-          domain_id int NOT NULL,
-          localpart varchar(192) NOT NULL,
-          username varchar(255) NOT NULL,
-          clear varchar(255) default NULL,
-          crypt varchar(48) default NULL,
-          uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
-          gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
-          smtp varchar(255) default NULL,
-          pop varchar(255) default NULL,
-          type varchar(8) CHECK(type in ('local','alias','catch', 'fail', 'piped', 'admin', 'site')) NOT NULL,
-          admin smallint NOT NULL default '0',
-          on_avscan smallint NOT NULL default '0',
-          on_blocklist smallint NOT NULL default '0',
-          on_complexpass smallint NOT NULL default '0',
-          on_forward smallint NOT NULL default '0',
-          on_piped smallint NOT NULL default '0',
-          on_spamassassin smallint NOT NULL default '0',
-          on_vacation smallint NOT NULL default '0',
-          enabled smallint NOT NULL default '1',
-          flags varchar(16) default NULL,
+	  domain_id int NOT NULL,
+	  localpart varchar(192) NOT NULL,
+	  username varchar(255) NOT NULL,
+	  clear varchar(255) default NULL,
+	  crypt varchar(48) default NULL,
+	  uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
+	  gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
+	  smtp varchar(255) default NULL,
+	  pop varchar(255) default NULL,
+	  type varchar(8) CHECK(type in ('local','alias','catch', 'fail', 'piped', 'admin', 'site')) NOT NULL,
+	  admin smallint NOT NULL default '0',
+	  on_avscan smallint NOT NULL default '0',
+	  on_blocklist smallint NOT NULL default '0',
+	  on_complexpass smallint NOT NULL default '0',
+	  on_forward smallint NOT NULL default '0',
+	  on_piped smallint NOT NULL default '0',
+	  on_spamassassin smallint NOT NULL default '0',
+	  on_vacation smallint NOT NULL default '0',
+	  enabled smallint NOT NULL default '1',
+	  flags varchar(16) default NULL,
 	  forward varchar(255) default NULL,
 	  maxmsgsize int NOT NULL default '0' CHECK(maxmsgsize > -1),
-          quota int NOT NULL default '0',
-          realname varchar(255) default NULL,
-          sa_tag smallint NOT NULL default '0',
-          sa_refuse smallint NOT NULL default '0',
-          tagline varchar(255) default NULL,
-          vacation varchar(255) default NULL,
-          UNIQUE (localpart,domain_id))") or die "Could not create table users";
+	  quota int NOT NULL default '0',
+	  realname varchar(255) default NULL,
+	  sa_tag smallint NOT NULL default '0',
+	  sa_refuse smallint NOT NULL default '0',
+	  tagline varchar(255) default NULL,
+	  vacation varchar(255) default NULL,
+	  UNIQUE (localpart,domain_id))") or die "Could not create table users";
   print "\nCreated users table\n";
   $pgdbh->do("CREATE TABLE blocklists (block_id SERIAL PRIMARY KEY,
   	domain_id int NOT NULL,
@@ -231,9 +231,9 @@ $pgdbh->do("CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
 
 #####################################
 # This adds the 'vexim' database    #
-# user, using the passwords         #
+# user, using the passwords	 #
 # collected at the start of the     #
-# script.                           #
+# script.			   #
 #####################################
 
 sub add_mysqlveximuser {
@@ -245,7 +245,7 @@ sub add_mysqlveximuser {
 }
 
 #####################################
-# Same for PostgreSQL               #
+# Same for PostgreSQL	       #
 #####################################
 
 sub add_postgresveximuser {
@@ -431,7 +431,7 @@ if ($dbtype eq "mysql") {
 
 ###########################################################
 # If the user asks to migrate data from an old database,  #
-# carry on!                                               #
+# carry on!					       #
 ###########################################################
 
 if ($act eq "migratemysql") {
