@@ -70,7 +70,7 @@ domainlist local_domains = @ : pear.silverwraith.com : ${lookup mysql{VIRTUAL_DO
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost
 
-hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
+hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/f00dlew1t
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
 
 # Most straightforward access control requirements can be obtained by
@@ -134,14 +134,14 @@ acl_smtp_data = acl_check_content
 # virus scanning, leave it commented. Please read doc/exiscan-acl-readme.txt
 # for a list of supported scanners.
 
-# av_scanner = clamd:/tmp/clamd
+av_scanner = clamd:/tmp/clamd
 
 # The following setting is only needed if you use the 'spam' ACL condition
 # of the exiscan-acl patch. It specifies on which host and port the SpamAssassin
 # "spamd" daemon is listening. If you do not use this condition, or you use
 # the default of "127.0.0.1 783", you can omit this option.
 
-# spamd_address = 127.0.0.1 783
+spamd_address = 127.0.0.1 783
 
 # Specify the domain you want to be added to all unqualified addresses
 # here. An unqualified address is one that does not contain an "@" character
@@ -354,19 +354,19 @@ acl_check_rcpt:
 acl_check_content:
 
   # First unpack MIME containers and reject serious errors.
-  #deny  message = This message contains a MIME error ($demime_reason)
-  #      demime = *
-  #      condition = ${if >{$demime_errorlevel}{2}{1}{0}}
+  deny  message = This message contains a MIME error ($demime_reason)
+        demime = *
+        condition = ${if >{$demime_errorlevel}{2}{1}{0}}
         
   # Reject typically wormish file extensions. There is almost no
   # sense in sending such files by email.
-  #deny  message = This message contains an unwanted file extension ($found_extension)
-  #      demime = scr:vbs:bat:lnk:pif
+  deny  message = This message contains an unwanted file extension ($found_extension)
+        demime = scr:vbs:bat:lnk:pif
   
   # Reject virus infested messages.
-  #warn  message = This message contains malware ($malware_name)
-  #      malware = *
-#	log_message = This message contains malware ($malware_name)
+  warn  message = This message contains malware ($malware_name)
+        malware = *
+	log_message = This message contains malware ($malware_name)
 
   # Reject messages containing "viagra" in all kinds of whitespace/case combinations
   # WARNING: this is an example !
@@ -375,14 +375,21 @@ acl_check_content:
 
   # Always add X-Spam-Score and X-Spam-Report headers, using SA system-wide settings
   # (user "nobody"), no matter if over threshold or not.
-  #warn  message = X-Spam-Score: $spam_score ($spam_bar)
-  #      spam = nobody:true
-  #warn	message = X-Spam-Report: $spam_report
-  #      spam = nobody:true
+  warn  message = X-Spam-Score: $spam_score ($spam_bar)
+        spam = nobody:true
+  warn	message = X-Spam-Report: $spam_report
+        spam = nobody:true
 
   # finally accept all the rest
   accept
   
+acl_check_data:
+  deny    message       = This message contains a virus: ($malware_name)
+          demime        = *
+          malware       = *
+  
+  accept
+
 ######################################################################
 #                      ROUTERS CONFIGURATION                         #
 #               Specifies how addresses are handled                  #
