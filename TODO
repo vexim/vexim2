@@ -7,8 +7,8 @@
 	f. Mailing list availability [For later release]
 	g. Quota can be set [MySQL done]
 	   -> Need exim config [MySQL done]
-	h. Blacklists can be set [For later release]
-	   -> tables are ready, code required
+	h. Blacklists and Whitelists can be set
+	   -> tables are almost ready, code required
 	i. UID/GID * [MySQL done]
 	   -> Let siteadmin decide if these are domain admin tunable [Done]
 	j. Domain tag line can be added for outbound mail [Unsure]
@@ -25,8 +25,8 @@
 	d. Quota can be set [MySQL done]
 	e. SpamAssassin settings [MySQL done]
 	f. Virus Scanner [MySQL done]
-	g. Blacklists [For later release]
-	   -> tables are ready, code required
+	g. Blacklists and Whitelists
+	   -> tables are ready, almost code required
 	h. Mailing lists [For later release]
 	i. UID/GID [MySQL done]
 	j. Domain tag line attached to all outgoing mail [Unsure]
@@ -51,9 +51,13 @@
 	g. Forward incoming mail [MySQL done]
 	h. See current quota limit [MySQL done]
 	   -> Later, need a way to see current mailbox size
+	i. Code to intergrate whitelists to webpages
 
     4. System Controls
 	a. Choose from multiple databases: MySQL, PostgreSQL, LDAP [MySQL done]
+	b. Shell scripts to perform all the same work the webpages do.
+	   Possibly in PHP or Perl. Probably PHP for simpler DB
+	   integration/package maintenance.
 
     5. Setup
 	a. Scripts used to configure vexim the first time.
@@ -71,3 +75,6 @@
 	   consolidating common functions.
 	   -> Various 'submit' pages can be consolidated to one or two,
 	      etc.
+	c. Add Wash's docs on using tpop3d to CVS
+	d. Make APOP work!
+
