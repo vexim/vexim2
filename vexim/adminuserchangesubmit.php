@@ -5,14 +5,11 @@
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   # Fix the boolean values
-  $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id={$_SESSION['domain_id']}";
+  $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas FROM domains WHERE domain_id={$_SESSION['domain_id']}";
   $result = $db->query($query);
   if (!DB::isError($result)) { $row = $result->fetchRow(); }
   if (isset($_POST['admin'])) {$_POST['admin'] = 1;} else {$_POST['admin'] = 0;}
-  if (isset($_POST['on_avscan'])) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
   if (isset($_POST['on_forward'])) {$_POST['on_forward'] = 1;} else {$_POST['on_forward'] = 0;}
-  if (isset($_POST['on_piped'])) {$_POST['on_piped'] = 1;} else {$_POST['on_piped'] = 0;}
-  if (isset($_POST['on_spamassassin'])) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
   if (isset($_POST['on_vacation'])) {$_POST['on_vacation'] = 1;} else {$_POST['on_vacation'] = 0;}
   if (isset($_POST['enabled'])) {$_POST['enabled'] = 1;} else {$_POST['enabled'] = 0;}
   if (!isset($_POST['gid'])) {$_POST['gid'] = $row['gid'];}
@@ -24,6 +21,10 @@
       header ("Location: adminuser.php?quotahigh={$row['quotas']}"); die;
     }
   }
+  # Do some checking, to make sure the user is ALLOWED to make these changes
+  if ((isset($_POST['on_piped'])) && ({$row['pipe']}) = 1) {$_POST['on_piped'] = 1;} else {$_POST['on_piped'] = 0;}
+  if ((isset($_POST['on_avscan'])) && ({$row['avscan']) = 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
+  if ((isset($_POST['on_spamassassin'])) && ({$row['spamassassin']) = 1))) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
 
   # Big code block, to make sure we're not de-admining the last admin
   $query = "SELECT COUNT(admin) AS count FROM users
