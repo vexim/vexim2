@@ -78,6 +78,7 @@ Exim configuration:
   An example exim 'configure' file, has been included with this
   distribution as 'docs/configure'. Copy this to the location Exim
   expects its configuration file to be on your installation.
+  You will also need to copy docs/vexim* to /usr/local/etc/exim/
   The following lines are important and will need to be edited if you
   are using this configure, or copied to your own configure:
 
@@ -130,14 +131,12 @@ Exim configuration:
     in /var/tmp, /usr/lib, or any number of other places. If yours isn't
     /tmp/mysql.sock, you will need to set this.
 ----------
-    acl_check_content
-    *** You *MUST* review this section of the ACL's. Decide here if some
-    of the default settings (like defang_mime, and the unwanted
-    attachments) are appropriate for you or not. I have set this ACL up
-    to do the appropriate lookups in the database, to see if individual
-    users have requested Anti-Virus or SpamAssassin be used.
-    The entire ACL is disabled by default. Uncomment the sections which
-    are appropriate for you.
+    ACL's
+    *** We have split all of the ACL's into separate files, to make
+    managing them easier. Please review the ACL section of the configure
+    file. If there are ACL's you would rather not have executed, please
+    comment out the '.include' line that references them, or edit the
+    ACL file directly and comment them out.
 
   UPGRADING: The above directions should work for users who are
   upgrading their installation
@@ -173,13 +172,15 @@ Databases and Authentication:
     Change the password for the vexim user as noted by the word
     'CHANGE'. Set this to the same password that you chose in mysql.sql,
     and change the '$cryptscheme' line to either "md5", or "des"
-    depending on what you operating system uses. The last change ts make
+    depending on what your operating system uses. The last change t0 make
     in that file is the '$uid' and '$gid'. Make these the same default
     UID and GID you chose in mysql.sql.
   PGSQL:
-    Unfortunately due to differences in the SQL implementation between
-    MySQL and PostgreSQL I have not had time to make the code work with
-    PostgreSQL. I will work on this for the next releases.
+    The code has been tested by several users to work with Virtual Exim,
+    and we try our best to make sure it always will. Unfortunately I
+    don't have much PostgreSQL knowledge to support it fully. A database
+    schema for it is included however, as setup/pgsql.sql to help you
+    set up the database.
   UPGRADING:
     If you are upgrading your installation you will need to use the perl
     script. Executing it as:
