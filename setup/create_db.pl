@@ -20,6 +20,12 @@ my $uid = "90" unless defined $uid;
 my $gid = "90" unless defined $gid;
 $mailstore = "/usr/local/mail" unless defined $mailstore;
 
+
+#####################################
+# If something goes a way we don't  #
+# expect it to, bomb with the usage #
+#####################################
+
 sub usage {
 	print "Usage:\tcreate_db.pl --act=<action> --dbtype=<dbtype> --uid=<uid> --gid=<gid> --mailstore=<dir>\n";
 	print "\tPossible actions are: newdb, migratemysql, migratepostgresql\n";
@@ -38,11 +44,24 @@ sub usage {
 	exit 1;
 }
 
+
+#####################################
+# Collect the username and password #
+# for the database root user        @
+#####################################
+
 print "Using dbtype $dbtype\n";
 print "Please enter the username of the $dbtype superuser: "; chomp($superuser = <STDIN>);
 `stty -echo`;
 print "Please enter the password of the $dbtype superuser: "; chomp($superpass = <STDIN>);
 `stty echo`;
+
+
+#####################################
+# This sub collects and verifies    #
+# the username for the 'vexim' user #
+# in the database                   @
+#####################################
 
 sub veximpw {
   `stty -echo`;
@@ -58,11 +77,23 @@ sub veximpw {
   }
   `stty echo`;
 }
+
+
+#####################################
+# This sub creates the MySQL db     #
+#####################################
+
 sub create_mysqldb {
   $mydbh->do("DROP DATABASE IF EXISTS vexim");
   $mydbh->do("CREATE DATABASE vexim")
     or die "Could not create the database 'vexim' in MySQL!";
 }
+
+
+#####################################
+# Here we can create MySQK tables   @
+#####################################
+
 sub create_mysqltables {
   $mydbh->do("DROP TABLE IF EXISTS vexim.domains");
   $mydbh->do("CREATE TABLE IF NOT EXISTS vexim.domains (domain_id mediumint(8) unsigned NOT NULL auto_increment,
@@ -95,26 +126,45 @@ sub create_mysqltables {
         gid smallint(5) unsigned NOT NULL default '65534',
         smtp varchar(255) default NULL,
         pop varchar(255) default NULL,
-        realname varchar(255) default NULL,
         type enum('local','alias','catch', 'fail', 'piped', 'admin', 'site') NOT NULL default 'local',
         admin bool NOT NULL default '0',
-        avscan bool NOT NULL default '0',
-        spamassassin bool NOT NULL default '0',
-        blocklist bool NOT NULL default '0',
-        complexpass bool NOT NULL default '0',
-        enabled bool NOT NULL default '1',
-        quota int(10) unsigned NOT NULL default '0',
-        sa_tag smallint(5) unsigned NOT NULL default '5',
-        sa_refuse smallint(5) unsigned NOT NULL default '10',
+        on_avscan bool NOT NULL default '0',
+        on_blocklist bool NOT NULL default '0',
+        on_complexpass bool NOT NULL default '0',
+        on_forward bool NOT NULL default '0',
+        on_spamassassin bool NOT NULL default '0',
         on_vacation bool NOT NULL default '0',
-        vacation varchar(255) default NULL,
+        enabled bool NOT NULL default '1',
         flags varchar(16) default NULL,
+        forward varchar(255) default NULL,
+        quota int(10) unsigned NOT NULL default '0',
+        realname varchar(255) default NULL,
+        sa_tag smallint(5) unsigned NOT NULL default '0',
+        sa_refuse smallint(5) unsigned NOT NULL default '5',
         tagline varchar(255) default NULL,
+        vacation varchar(255) default NULL,
         PRIMARY KEY (user_id),
         UNIQUE KEY username (localpart,domain_id),
         KEY local (localpart))") or die "Could not create table users in the vexim database!";
   print "Created users table\n";
+  $mydbh->do("DROP TABLE IF EXISTS vexim.blocklists");
+  $mydbh->do("CREATE TABLE IF NOT EXISTS vexim.blocklists (block_id int(10) unsigned NOT NULL auto_increment,
+  	domain_id mediumint(8) unsigned NOT NULL,
+	localpart varchar(192) NOT NULL default '',
+	blockaddr varchar(192) NOT NULL default '',
+	PRIMARY KEY (block_id))") or die "Could not create table blocklists in the vexim database!";
+  print "Created blocklists table\n";
 }
+
+
+#####################################
+# Thsi is the equivilent code for   #
+# generating PostgreSQL tables. The #
+# Code is certainly not the same    #
+# due to slight difference in the   #
+# SQL implementation.               #
+#####################################
+
 sub create_postgrestables {
 print "\nCreating new PostgreSQL tables...\n";
 $pgdbh->do("CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
@@ -132,7 +182,7 @@ $pgdbh->do("CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
           enabled smallint NOT NULL default '1',
           complexpass smallint NOT NULL default '0')") or die "Could not create table domains";
   print "\nCreated domains table\n";
-$pgdbh->do("CREATE TABLE users (user_id SERIAL PRIMARY KEY,
+  $pgdbh->do("CREATE TABLE users (user_id SERIAL PRIMARY KEY,
           domain_id int NOT NULL,
           localpart varchar(192) NOT NULL,
           username varchar(255) NOT NULL,
@@ -142,24 +192,40 @@ $pgdbh->do("CREATE TABLE users (user_id SERIAL PRIMARY KEY,
           gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
           smtp varchar(255) default NULL,
           pop varchar(255) default NULL,
-          realname varchar(255) default NULL,
           type varchar(8) CHECK(type in ('local','alias','catch', 'fail', 'piped', 'admin', 'site')) NOT NULL,
           admin smallint NOT NULL default '0',
-          avscan smallint NOT NULL default '0',
-          spamassassin smallint NOT NULL default '0',
-          blocklist smallint NOT NULL default '0',
-          complexpass smallint NOT NULL default '0',
-          enabled smallint NOT NULL default '1',
-          quota int NOT NULL default '0',
-          sa_tag smallint NOT NULL default '5',
-          sa_refuse smallint NOT NULL default '10',
+          on_avscan smallint NOT NULL default '0',
+          on_blocklist smallint NOT NULL default '0',
+          on_complexpass smallint NOT NULL default '0',
+          on_forward smallint NOT NULL default '0',
+          on_spamassassin smallint NOT NULL default '0',
           on_vacation smallint NOT NULL default '0',
-          vacation varchar(255) default NULL,
+          enabled smallint NOT NULL default '1',
           flags varchar(16) default NULL,
+	  forward varchar(255) default NULL,
+          quota int NOT NULL default '0',
+          realname varchar(255) default NULL,
+          sa_tag smallint NOT NULL default '0',
+          sa_refuse smallint NOT NULL default '5',
           tagline varchar(255) default NULL,
+          vacation varchar(255) default NULL,
           UNIQUE (localpart,domain_id))") or die "Could not create table users";
   print "\nCreated users table\n";
+  $pgdbh->do("CREATE TABLE blocklists (block_id SERIAL PRIMARY KEY,
+  	domain_id int NOT NULL,
+	localpart varchar(192) NOT NULL default '',
+	blockaddr varchar(192) NOT NULL default '')") or die "Could not create table blocklists in the vexim database!";
+  print "\nCreated blocklists table\n";
 }
+
+
+#####################################
+# This adds the 'vexim' database    #
+# user, using the passwords         #
+# collected at the start of the     #
+# script.                           #
+#####################################
+
 sub add_mysqlveximuser {
   print "Adding vexim database user...\n";
   veximpw();
@@ -167,6 +233,11 @@ sub add_mysqlveximuser {
     or die "Could not create the user 'vexim' in the MySQL database!";
   $mydbh->do("FLUSH PRIVILEGES") or die "Could not flush privileges!";
 }
+
+#####################################
+# Same for PostgreSQL               #
+#####################################
+
 sub add_postgresveximuser {
   print "Adding vexim database user...\n";
   veximpw() unless $act eq "migratepostgresql";
@@ -175,42 +246,54 @@ sub add_postgresveximuser {
   $pgdbh->do("GRANT SELECT,INSERT,DELETE,UPDATE ON domains,users to vexim")
     or die "Could not create the user 'vexim' in the MySQL database!";
 }
+
+
+#####################################
+# A special 'siteadmin' user has to #
+# be added seperately from the rest #
+#####################################
+
 sub add_siteadminuser {
   print "\nAdding siteadmin user...\n";
   if ($dbtype == "mysql") { $dbh = $mydbh; } elsif ($dbtype == "pgsql") { $dbh = $pgdbh; }
   $dbh->do("INSERT INTO vexim.domains (domain_id, domain) VALUES ('1', 'admin')");
-  $dbh->do("INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin) VALUES ('1', 'siteadmin', 'siteadmin', 'CHANGE', '\$1\$12345678\$2lQK5REWxaFyGz.p/dos3/', '65535', '65535', '', '', 'SiteAdmin', 'site', '1')") or die "Could not create the user 'siteadmin' in the vexim database!";
+  $dbh->do("INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
+  		VALUES ('1',
+		'siteadmin',
+		'siteadmin',
+		'CHANGE',
+		'\$1\$12345678\$2lQK5REWxaFyGz.p/dos3/',
+		'65535',
+		'65535',
+		'',
+		'',
+		'SiteAdmin',
+		'site',
+		'1')") or die "Could not create the user 'siteadmin' in the vexim database!";
   print "The user 'siteadmin' has been added with the password 'CHANGE'\n";
   print "Please log in to the web interface and change this!\n";
 }
+
+
+#####################################
+# If the user is migrating from     #
+# vexim 1.3 to 2.0, this migration  #
+# code is called to preserve data   #
+#####################################
+
 sub migratemysql {
-  print " Starting migration of user accounts...\n";
-  my $sth = $mydbh->prepare("SELECT DISTINCT domain_id,domain FROM vexim.domains");
+  $mydbh->do("INSERT INTO vexim.domains (domain) SELECT DISTINCT domain FROM exim.users ORDER BY domain");
+  my $sth = $mydbh->prepare("SELECT DISTINCT domain FROM vexim.domains");
   $sth->execute();
   while (my $ref = $sth->fetchrow_hashref()) {
     my $domain_id = $ref->{'domain_id'};
     my $domain = $ref->{'domain'};
-    print "\tMigrating users for Domain: $domain\n";
-    my $lkp = $mydbh->prepare("INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
-			     SELECT '$domain_id' AS domain_id,
-			     local_part AS localpart,
-			     t1.username,
-			     cpassword AS clear,
-			     password AS crypt,
-			     t1.uid,
-			     t1.gid,
-			     smtphome AS smtp,
-			     pophome AS pop,
-			     t1.realname,
-			     t1.type,
-			     '0' FROM exim.users t1 INNER JOIN vexim.domains t2 ON t1.domain=t2.domain where
-			     t2.domain='$domain' and t1.admin=''")
-      or die "Error migrating users for $domain";
+    my $lkp = $mydbh->prepare("UPDATE vexim.domains SET maildir='$mailstore/$domain' WHERE domain='$domain'")
+      or die "Error updating maildir for $domain";
     $lkp->execute();
   }
-
-  $mydbh->do("INSERT INTO vexim.domains (domain) SELECT DISTINCT domain FROM exim.users ORDER BY domain");
   print "Domain migration complete.\n\n";
+
   print " Starting migration of user accounts...\n";
   my $sth = $mydbh->prepare("SELECT DISTINCT domain_id,domain FROM vexim.domains");
   $sth->execute();
@@ -261,19 +344,33 @@ sub migratemysql {
     $lkp->execute();
   }
   $mydbh->do("UPDATE vexim.domains SET type='admin' WHERE domains.domain='admin'");
+  $mydbh->do("UPDATE vexim.domains SET type='local' WHERE type is NULL");
 }
+
+
+#####################################
+# The following sub is merely an    #
+# extension of the previous sub, if #
+# the migration is to PostgreSQL    #
+#####################################
+
 sub migratepostgresql() {
   print "Exporting user data from MySQL...\n";
-  $mydbh->do("select * INTO OUTFILE '/tmp/vexim-mysql-migrate-users' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY \"'\" LINES TERMINATED BY \"\n\" from vexim.users");
+  $mydbh->do("select * INTO OUTFILE '/tmp/vexim-mysql-migrate-users'
+  		FIELDS TERMINATED BY ','
+		OPTIONALLY ENCLOSED BY \"'\"
+		LINES TERMINATED BY \"\n\" from vexim.users");
   print "Exporting domains data from MySQL...\n";
-  $mydbh->do("select * INTO OUTFILE '/tmp/vexim-mysql-migrate-domains' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY \"'\" LINES TERMINATED BY \"\n\" from vexim.domains");
+  $mydbh->do("select * INTO OUTFILE '/tmp/vexim-mysql-migrate-domains'
+  		FIELDS TERMINATED BY ','
+		OPTIONALLY ENCLOSED BY \"'\"
+		LINES TERMINATED BY \"\n\" from vexim.domains");
 
   print "Importing user data into PostgreSQL...\n";
   open IN, "</tmp/vexim-mysql-migrate-users" or die $!;
   while(<IN>)
   {
     s/\\N/NULL/g;
-    s/,(\d),(\d),(\d),(\d),(\d),(\d),(\d+?,\d+?,\d+?),(\d)/,\'$1\',\'$2\',\'$3\',\'$4\',\'$5\',\'$6\',$7,\'$8\'/g;
     s/^\d+,/nextval\('public.users_user_id_seq'::text\),/g;
     $pgdbh->do("INSERT INTO users VALUES ($_)");
   }
@@ -284,7 +381,6 @@ sub migratepostgresql() {
   while(<IN>)
   {
     s/\\N/'local'/g;
-    s/(\d),(\d),(\d),(\d+?),(\d),(\d),(\d),(\d)$/\'$1\',\'$2\',\'$3\',$4,\'$5\',\'$6\',\'$7\',\'$8\'/g;
     s/^\d+,/nextval\('public.domains_domain_id_seq'::text\),/g;
     $pgdbh->do("INSERT INTO domains VALUES ($_)");
   }
@@ -293,6 +389,7 @@ sub migratepostgresql() {
   print "Migration complete!\n";
   print "Please delete /tmp/vexim-mysql-migrate-users and /tmp/vexim-mysql-migrate-domains\n\n";
 }
+
 
 ###########################################################
 # The actual call to the subs go below here. This comment #
@@ -319,6 +416,7 @@ if ($dbtype eq "mysql") {
   add_siteadminuser();
   print "Database created successfully!\n";
 }
+
 
 ###########################################################
 # If the user asks to migrate data from an old database,  #
