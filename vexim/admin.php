@@ -15,7 +15,7 @@
       <table align="center">
 	<tr><td><a href="adminuser.php"><? echo _("Add, delete and manage POP/IMAP accounts"); ?></a></td></tr>
 	<tr><td><a href="adminalias.php"><? echo _("Add, delete and manage aliases, forwards and a Catchall"); ?></a></td></tr>
-        <tr><td><a href="admingroup.php"><?=_("Add, delete and manage groups")?></a></td></tr>
+	<tr><td><a href="admingroup.php"><?=_("Add, delete and manage groups")?></a></td></tr>
 	<tr><td><a href="adminfail.php"><? echo _("Add, delete and manage :fail:'s"); ?></a></td></tr>
 	  <?
 	    if ($mailmanroot != "") {
