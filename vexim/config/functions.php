@@ -1,4 +1,13 @@
 <?
+  // Strictly two aren't alone functions, but they are functions of sorts and we call it every
+  // page to prevent tainted data expoits
+  foreach ($_GET as $getkey => $getval) {
+    $_GET[$getkey] = preg_replace('/[\'";$]/','',$getval);
+  }
+
+  foreach ($_POST as $postkey => $postval) {
+    $_POST[$postkey] = preg_replace('/[\'";$]/','',$postval);
+  }
 
   function validate_password($clear,$vclear) {
     return ($clear == $vclear)
