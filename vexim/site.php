@@ -8,7 +8,6 @@
     <title>Virtual Exim: Manage Sites</title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.sitepassword.password.focus()">
   <? include dirname(__FILE__) . "/config/header.php"; ?>
   <div id='menu'>
     <a href="siteadd.php?type=local">Add local domain</a><br>

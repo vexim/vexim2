@@ -7,7 +7,7 @@
     <title>Virtual Exim: <? echo _("Manage Domains"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.domainchange.password.focus()">
+  <body onLoad="document.passwordchange.localpart.focus()">
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="menu">
       <a href="site.php"><? echo _("Manage Domains"); ?></a><br>

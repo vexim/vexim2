@@ -7,7 +7,7 @@
     <title>Virtual Exim: <? echo _("Manage Users"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.adminadd.username.focus()">
+  <body onLoad="document.adminadd.localpart.focus()">
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="menu">
        <a href="adminfail.php"><? echo _("Manage Fails"); ?></a><br>
