@@ -45,7 +45,7 @@
 	<form name="domainchange" method="post" action="sitechangesubmit.php">
 	  <tr><td><? echo _("System UID"); ?>:</td><td><input type="text" size="5" name="uid" value="<? print $row['uid']; ?>" class="textfield"></td></tr>
 	  <tr><td><? echo _("System GID"); ?>:</td><td><input type="text" size="5" name="gid" value="<? print $row['gid']; ?>" class="textfield"></td></tr>
-	  <tr><td><? echo _("Maximum accounts<br>(0 for unlimited)"); ?>:</td><td<input type="text" size="5" name="max_accounts" value="<? print $row['max_accounts']; ?>" class="textfield"></td></tr>
+	  <tr><td><? echo _("Maximum accounts<br>(0 for unlimited)"); ?>:</td><td><input type="text" size="5" name="max_accounts" value="<? print $row['max_accounts']; ?>" class="textfield"></td></tr>
 	  <tr><td><? echo _("Max mailbox quota in Mb<br>(0 for disabled)"); ?>:</td>
 	      <td><input type="text" size="5" name="quotas" value="<? print $row['quotas']; ?>" class="textfield"></td></tr>
 	  <tr><td><? echo _("Maximum message size"); ?>:</td>
