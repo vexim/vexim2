@@ -74,6 +74,10 @@
     printf (_("-- Group %s was not deleted."), $_GET['group_faildeleted']);
   } else if (isset($_GET['group_failadded'])) {
     printf (_("-- Group %s failed to be added."), $_GET['group_failadded']);
+  } else if (isset($_GET['group_updated'])) {
+    printf (_("-- Group %s has been updated."), $_GET['group_updated']);
+  } else if (isset($_GET['group_failupdated'])) {
+    printf (_("-- Group %s could not be updated."), $_GET['group_failupdated']);
   }
   if ($_GET['login'] == "failed") { print _("Login failed"); }
 

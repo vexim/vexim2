@@ -16,17 +16,6 @@
       <a href="admin.php"><?php echo _("Main Menu"); ?></a><br>
       <br><a href="logout.php"><?php echo _("Logout"); ?></a><br>
     </div>
-    <?php
-      if (isset($_GET['group_deleted'])) {
-        printf ("<div id=\"status\">" . _("Group %s has been successfully deleted") . "</div>", $_GET['group_deleted']);
-      } else if (isset($_GET['group_added'])) {
-        printf ("<div id=\"status\">" . _("Group %s has been successfully added") . "</div>", $_GET['group_added']);
-      } else if (isset($_GET['group_faildeleted'])) {
-        printf ("<div id=\"status\">" . _("Group %s was not deleted") . "</div>", $_GET['group_faildeleted']);
-      } else if (isset($_GET['group_failadded'])) {
-        printf ("<div id=\"status\">" . _("Group %s failed to be added") . "</div>",  $_GET['group_failadded']);
-      }
-    ?>
     <div id="Content">
     <table align="center">
       <tr><th>&nbsp;</th><th><?php echo _("Email address"); ?></th><th><?php echo _("Is public"); ?></th><th><?php echo _("Enabled"); ?></th></tr>
@@ -45,12 +34,12 @@
         <?php echo $row['name'].'@'.$_SESSION['domain']; ?></a>
       </td>
       <td>
-        <?php if ($row['is_public']='Y') { ?>
+        <?php if ('Y' == $row['is_public']) { ?>
           <img style="border:0;width:13px;height:12px" src="images/check.gif" title="<?php printf (_("Anyone can write to %s"), $row['name']); ?>"> 
         <?php } ?>
       </td>
       <td>
-        <?php if ($row['enabled']='1') { ?>
+        <?php if ('1' == $row['enabled']) { ?>
           <img style="border:0;width:13px;height:12px" src="images/check.gif" title="<?php printf (_("%s is enabled"), $row['name']); ?>"> 
         <?php } ?>
       </td>

@@ -15,6 +15,6 @@ if (!DB::isError($result)) {
     header ("Location: admingroupchange.php?group_id={$_POST['group_id']}&group_updated={$_POST['localpart']}"); 
 } else { 
     print $query;
-    header ("Location: adminalias.php?group_failupdated={$_POST['localpart']}"); 
+    header ("Location: admingroupchange.php?group_id={$_POST['group_id']}&group_failupdated={$_POST['localpart']}"); 
 }
 ?>
