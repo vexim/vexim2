@@ -26,7 +26,10 @@
       die;
     } else {
       header ("Location: userchange.php?badpass");
+      die;
     }
+    header ("Location: userchange.php?badpass");
+    die;
   }
 
 # Finally 'the rest' which is handled by the profile form

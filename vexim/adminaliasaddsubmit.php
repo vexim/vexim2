@@ -11,6 +11,11 @@
 
   check_user_exists($db,$_POST['localpart'],$_COOKIE['vexim'][2],'adminalias.php');
 
+  if ((preg_match("/['@%!\/\| ']/",$_POST['localpart'])) || ($_POST['name'] == "")) {
+        header("Location: adminalias.php?badname={$_POST['localpart']}");
+        die;
+  }
+
   $aliasto = preg_replace("/[', ']+/", ", ", $_POST['smtp']);
   if (alias_validate_password($_POST['clear'], $_POST['vclear'])) {
     $query = "INSERT INTO users
