@@ -14,7 +14,7 @@
 	header ("Location: adminuser.php?maxaccounts=true");
   }
 
-  $query = "SELECT uid, gid, quotas, sa_tag, sa_refuse, maxmsgsize FROM domains WHERE domain_id={$_SESSION['domain_id']}";
+  $query = "SELECT * FROM domains WHERE domain_id={$_SESSION['domain_id']}";
   $result = $db->query($query);
   $row = $result->fetchRow();
 ?>
@@ -46,16 +46,16 @@
 	  print "<td><input type=\"text\" size=\"5\" name=\"quota\" value=\"{$row['quotas']}\" class=\"textfield\">Mb</td></tr>\n";
 	} ?>
 	<tr><td><? echo _("Has domain admin privileges?"); ?></td><td><input name="admin" type="checkbox"></td></tr>
-	<? if ($row['pipe'] = 1) {
+	<? if ($row['pipe'] == "1") {
 	     print "<tr><td>" . _("Pipe to command") . ":</td><td><input type=\"textfield\" size=\"25\" name=\"smtp\" class=\"textfield\"></td></tr>\n";
 	     print "<tr><td colspan=\"2\" style=\"padding-bottom:1em\">" . _("Optional") . ": " . _("Pipe all mail to a command (e.g. procmail)") . ".<br>\n";
 	     print _("Check box below to enable") . ":</td></tr>\n";
 	     print "<tr><td>" . _("Enable piped command") . "?</td><td><input type=\"checkbox\" name=\"on_piped\"></td></tr>\n";
 	   }
- 	   if ($row['avscan'] = 1) {
+ 	   if ($row['avscan'] == "1") {
 	     print "<tr><td>" . _("Anti-Virus") . ":</td><td><input name=\"on_avscan\" type=\"checkbox\"></td></tr>\n";
 	   }
-	   if ($row['spamassassin'] = 1) {
+	   if ($row['spamassassin'] == "1") {
 	     print "<tr><td>" . _("Spamassassin") . ":</td><td><input name=\"on_spamassassin\" type=\"checkbox\"></td></tr>\n";
 	     print "<tr><td>" . _("Spamassassin tag score") . ":</td>";
 	     print "<td><input name=\"sa_tag\" size=\"5\" type=\"text\" class=\"textfield\" value=\"{$row['sa_tag']}\"></td>";
