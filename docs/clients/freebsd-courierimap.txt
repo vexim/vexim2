@@ -21,18 +21,18 @@ Installing Courier-IMAP 2.x on FreeBSD:
       Now create a file in that directory called authmysqlrc, with the
       following contents:
       MYSQL_SERVER localhost
-      MYSQL_USERNAME exim
-      MYSQL_PASSWORD f00dlew1t
+      MYSQL_USERNAME vexim
+      MYSQL_PASSWORD change
       MYSQL_SOCKET /tmp/mysql.sock
       MYSQL_PORT 3306
       MYSQL_OPT 0
-      MYSQL_DATABASE exim
+      MYSQL_DATABASE vexim
       MYSQL_USER_TABLE users
-      MYSQL_CRYPT_PWFIELD password
+      MYSQL_CRYPT_PWFIELD crypt
       MYSQL_UID_FIELD uid
       MYSQL_GID_FIELD gid
       MYSQL_LOGIN_FIELD username
-      MYSQL_HOME_FIELD pophome
+      MYSQL_HOME_FIELD pop
       MYSQL_NAME_FIELD realname
 
       Finally, perform these steps to move the startup scripts into
