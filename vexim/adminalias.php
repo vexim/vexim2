@@ -63,9 +63,6 @@
       <tr><td colspan="4" style="padding-top:1em"><b>Note:</b><? echo _("You can only have one catchall per domain.<br>It will catch and forward all email that does not get delivered to a specific mailbox"); ?>.</td></tr>
     </table>
     </div>
-    <? 
-      include "status.php";
-    ?>
   </body>
 </html>
 
