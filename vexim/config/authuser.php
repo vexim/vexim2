@@ -2,7 +2,7 @@
   include_once dirname(__FILE__) . "/httpheaders.php";
   include_once dirname(__FILE__) . "/variables.php";
   $query = "SELECT user_id,localpart,crypt,domain_id FROM users WHERE localpart='".$_SESSION['localpart']."'
-  		AND domain_id='".$_SESSION['localpart']."';";
+  		AND domain_id='".$_SESSION['domain_id']."';";
   $result = $db->query($query);
   $row = $result->fetchRow();
 
