@@ -36,6 +36,8 @@
     print   _("-- Your account could not be updated. Was your password blank?");
   } else if (isset($_GET['usersuccess'])) {
     print   _("-- Your account has been succesfully updated.");
+  } else if (isset($_GET['uservacationtolong'])) {
+    printf (_('-- Your vacation message was too long: %1$d characters. It has been truncated at %2$d.'), $_GET['uservacationtolong'], $max_vacation_length);
   } // Now some more general errors on account updates
   else if (isset($_GET['badaliaspass'])) {
     printf (_("-- Account %s could not be added. Your passwords do not match, or contain illegal characters: ' \" ` or ;"), $_GET['badaliaspass']);

@@ -55,6 +55,9 @@
   $sa_tag = "2";
   $sa_refuse = "5";
 
+  /* max size of a vacation message */
+  $max_vacation_length = 255;
+
   /* Welcome message, sent to new POP/IMAP accounts */
   $welcome_message = "Welcome, {$_POST['realname']} !\n\nYour new E-mail account is all ready for you.\n\n"
                    . "Here are some settings you might find useful:\n\n"

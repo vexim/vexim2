@@ -38,7 +38,8 @@
     die;
   }
 
-# Finally 'the rest' which is handled by the profile form
+
+    # Finally 'the rest' which is handled by the profile form
     $query = "UPDATE users SET on_avscan='{$_POST['on_avscan']}',
 		on_spamassassin={$_POST['on_spamassassin']},
 		sa_tag='{$_POST['sa_tag']}',
@@ -52,7 +53,14 @@
 		WHERE user_id={$_SESSION['user_id']}";
     $result = $db->query($query);
     if (!DB::isError($result)) {
-      header ("Location: userchange.php?userupdated");
+      if (strlen($_POST['vacation']) > $max_vacation_length)
+      {
+        header ("Location: userchange.php?uservacationtolong=" . strlen($_POST['vacation']));
+      }
+      else
+      {
+        header ("Location: userchange.php?userupdated");
+      }
       die;
     } else {
       header ("Location: userchange.php?userfailed");

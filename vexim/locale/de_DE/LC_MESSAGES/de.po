@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: template\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-26 18:43+0200\n"
+"POT-Creation-Date: 2004-08-30 16:17+0200\n"
 "PO-Revision-Date: 2004-08-04 17:12+0100\n"
 "Last-Translator: Regina Salzmann <vexim@blacknet.de>\n"
 "Language-Team: German\n"
@@ -88,7 +88,14 @@ msgstr ""
 msgid "-- Your account has been succesfully updated."
 msgstr "-- Das Update f&uuml;r Ihr Konto war erfolgreich."
 
-#: config/header.php:41
+#: config/header.php:40
+#, php-format
+msgid ""
+"-- Your vacation message was too long: %1$d characters. It has been "
+"truncated at %2$d."
+msgstr "-- Ihre Auto-Reply Nachricht war mit %1$d Zeichen zu lang. Sie wurde nach dem %2$d. Zeichen abgeschnitten."
+
+#: config/header.php:43
 #, php-format
 msgid ""
 "-- Account %s could not be added. Your passwords do not match, or contain "
@@ -97,12 +104,12 @@ msgstr ""
 "-- Das Konto %s konnte nicht hinzugef&uuml;gt werden. Ihr Passwort stimmt "
 "nicht &uuml;berein oder enth&auml;lt ung&uuml;ltige Zeichen:  ' \" ` or ;"
 
-#: config/header.php:43
+#: config/header.php:45
 #, php-format
 msgid "-- %s contains invalid characters."
 msgstr "-- %s enh&auml;lt ung&uuml;ltige Zeichen."
 
-#: config/header.php:45
+#: config/header.php:47
 #, php-format
 msgid ""
 "-- Account %s could not be added. Your passwords were blank, do not match, "
@@ -111,20 +118,20 @@ msgstr ""
 "-- Das %s konnte nicht hinzugef&uuml;gt werden. Ihre Passw&ouml;rter waren "
 "leer, stimmen nicht &uuml;berein oder enthalten ung&uuml;ltige Zeichen."
 
-#: config/header.php:47
+#: config/header.php:49
 msgid "-- The destination domain you specified does not exist."
 msgstr "-- Die Zieldomain, die Sie spezifiziert haben, existiert nicht."
 
-#: config/header.php:49
+#: config/header.php:51
 msgid "-- You can not specify a blank realname."
 msgstr "-- Sie m&uuml;ssen einen Namen eingeben."
 
-#: config/header.php:51
+#: config/header.php:53
 #, php-format
 msgid "-- %s could not be added."
 msgstr "-- %s konnte nicht hinzugef&uuml;gt werden."
 
-#: config/header.php:53
+#: config/header.php:55
 #, php-format
 msgid ""
 "-- Domain %s could not be added. The passwords were blank, or did not match."
@@ -132,7 +139,7 @@ msgstr ""
 "-- Die Domain %s konnte nicht hinzugef&uuml;gt werden. Die Passw&ouml;rter "
 "waren leer oder stimmten nicht &uuml;berein."
 
-#: config/header.php:55
+#: config/header.php:57
 #, php-format
 msgid ""
 "-- Domain %s could not be added. There was a problem adding the admin "
@@ -141,28 +148,28 @@ msgstr ""
 "-- Die Domain %s konnte nicht hinzugef&uuml;gt werden. Es entstand ein "
 "Problem beim Hinzuf&uuml;gen des Administratoren-Kontos."
 
-#: config/header.php:57
+#: config/header.php:59
 #, php-format
 msgid "-- %s was not deleted."
 msgstr "-- %s wurde nicht gel&ouml;scht."
 
-#: config/header.php:59
+#: config/header.php:61
 #, php-format
 msgid "-- %s could not be updated."
 msgstr "-- F&uuml;r %s konnte das Update nicht erfolgreich installiert werden."
 
-#: config/header.php:62
+#: config/header.php:64
 #, php-format
 msgid "-- Deletion of %s was canceled."
 msgstr "-- Das L&ouml;schen von %s wurde abgebrochen."
 
-#: config/header.php:64
+#: config/header.php:66
 msgid "-- This domain is currently disabled. Please see your administrator."
 msgstr ""
 "-- Diese Domain ist zur Zeit deaktiviert. Bitte kontaktieren Sie Ihren "
 "Administrator."
 
-#: config/header.php:66
+#: config/header.php:68
 msgid ""
 "-- Your Domain Account Limit Has Been Reached. Please contact your "
 "administrator."
@@ -170,7 +177,7 @@ msgstr ""
 "-- Die maximale Speicherkapazit&auml;t Ihres Kontos wurde erreicht. Bitte "
 "nehmen Sie mit Ihrem Administrator Kontakt auf."
 
-#: config/header.php:68
+#: config/header.php:70
 #, php-format
 msgid ""
 "-- The quota you specified was too high. The maximum quota you can specify "
@@ -179,37 +186,37 @@ msgstr ""
 "-- Der Speicherplatz, den Sie definiert haben, ist zu hoch. Der maximale "
 "Speicherplatz, den Sie definieren k&ouml;nnen, betr&auml;gt: %s MB."
 
-#: config/header.php:70
+#: config/header.php:72
 #, php-format
 msgid "-- Group %s has been successfully deleted."
 msgstr "-- Die Gruppe %s wurde erfolgreich gel&ouml;scht."
 
-#: config/header.php:72
+#: config/header.php:74
 #, php-format
 msgid "-- Group %s has been successfully added."
 msgstr "-- Die Gruppe %s wurde erfolgreich hinzugef&uuml;gt."
 
-#: config/header.php:74
+#: config/header.php:76
 #, php-format
 msgid "-- Group %s was not deleted."
 msgstr "-- Die Gruppe %s wurde nicht gel&ouml;scht."
 
-#: config/header.php:76
+#: config/header.php:78
 #, php-format
 msgid "-- Group %s failed to be added."
 msgstr "-- Die Gruppe %s konnte nicht hinzugef&uuml;gt werden."
 
-#: config/header.php:78
+#: config/header.php:80
 #, php-format
 msgid "-- Group %s has been updated."
 msgstr "-- Die Gruppe %s wurde erfolgreich aktualisiert."
 
-#: config/header.php:80
+#: config/header.php:82
 #, php-format
 msgid "-- Group %s could not be updated."
 msgstr "-- Die Gruppe %s konnte nicht aktualisiert werden."
 
-#: config/header.php:82 index.php:45
+#: config/header.php:84 index.php:45
 msgid "Login failed"
 msgstr "Anmeldung fehlgeschlagen"
 
@@ -284,7 +291,7 @@ msgid "Forwards to.."
 msgstr "leitet weiter an"
 
 #: adminalias.php:28 adminaliasadd.php:33 adminaliaschange.php:35
-#: adminuser.php:69 adminuserchange.php:58 sitechange.php:23
+#: adminuser.php:67 adminuserchange.php:58 sitechange.php:23
 msgid "Admin"
 msgstr "Administrator"
 
@@ -293,7 +300,7 @@ msgstr "Administrator"
 msgid "Delete alias %s"
 msgstr "Alias %s l&ouml;schen"
 
-#: adminalias.php:64 adminuser.php:95
+#: adminalias.php:64 adminuser.php:93
 #, php-format
 msgid "%s is an administrator"
 msgstr "%s ist Administrator."
@@ -457,7 +464,7 @@ msgstr "Gruppe auflisten"
 msgid "Add Group"
 msgstr "Gruppe hinzuf&uuml;gen"
 
-#: admingroup.php:21 adminuser.php:63 adminuser.php:69
+#: admingroup.php:21 adminuser.php:62 adminuser.php:67
 msgid "Email address"
 msgstr "Email-Adresse"
 
@@ -535,23 +542,23 @@ msgstr ""
 msgid "Add User"
 msgstr "Benutzer hinzuf&uuml;gen"
 
-#: adminuser.php:58 site.php:39
+#: adminuser.php:57 site.php:38
 msgid "Search"
 msgstr "Suche"
 
-#: adminuser.php:60
+#: adminuser.php:59
 msgid "in"
 msgstr "in"
 
-#: adminuser.php:62 adminuser.php:69
+#: adminuser.php:61 adminuser.php:67
 msgid "User"
 msgstr "Benutzername"
 
-#: adminuser.php:65 site.php:41
+#: adminuser.php:64 site.php:40
 msgid "search"
 msgstr "suchen"
 
-#: adminuser.php:89
+#: adminuser.php:87
 msgid "Click to modify"
 msgstr "zum Bearbeiten anklicken"
 
@@ -664,7 +671,7 @@ msgstr "weiterleiten an"
 msgid "Forward mail to"
 msgstr "Nachricht weiterleiten an"
 
-#: adminuserchange.php:84
+#: adminuserchange.php:85 userchange.php:78
 msgid "Store Forwarded Mail Locally"
 msgstr "Weitergeleitete Nachricht lokal speichern"
 
@@ -738,39 +745,39 @@ msgstr "Relay-Domain hinzuf&uuml;gen"
 msgid "Site Password"
 msgstr "Site-Passwort"
 
-#: site.php:47
+#: site.php:45
 msgid "Local domains"
 msgstr "lokale Domains"
 
-#: site.php:48
+#: site.php:46
 msgid "Admin account"
 msgstr "Konto des Administrators"
 
-#: site.php:49
+#: site.php:47
 msgid "Total admins"
 msgstr "Anzahl der Administratoren"
 
-#: site.php:76
+#: site.php:74
 msgid "WARNING"
 msgstr "WARNUNG"
 
-#: site.php:76
+#: site.php:74
 msgid ""
 "Deleting a domain will delete all user accounts in that domain permanently!"
 msgstr ""
 "Das L&ouml;schen einer Domain bedeutet die endg&uuml;ltige L&ouml;schung "
 "aller Benutzerkonten."
 
-#: site.php:80
+#: site.php:78
 msgid "Relay domains"
 msgstr "Relay-Domains"
 
-#: site.php:89 site.php:106 sitedelete.php:76
+#: site.php:87 site.php:104 sitedelete.php:76
 #, php-format
 msgid "Delete %s"
 msgstr "%s l&ouml;schen"
 
-#: site.php:97
+#: site.php:95
 msgid "Aliased domains"
 msgstr "Alias-Domains"
 
