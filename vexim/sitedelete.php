@@ -16,19 +16,21 @@
         $domdelresult = $db->query($domdelquery);
 	// If everything went well, redirect to a success page.
         if (!DB::isError($domdelresult)) {
-          header ("Location: site.php?deleted={$_POST['domain_id']}");
+          header ("Location: site.php?deleted={$_POST['domain']}");
           die;
         }
       }
-    } else header ("Location: site.php?faildeleted={$_POST['domain_id']}");
+    } else header ("Location: site.php?faildeleted={$_POST['domain']}");
       die;
   } else if ($_POST['confirm'] == "cancel") {
-    header ("Location: site.php?canceldelete={$_POST['domain_id']}");
+    header ("Location: site.php?canceldelete={$_POST['domain']}");
     die;
   }
 
-  $query = "SELECT COUNT(*) AS count, domain, domains.type FROM users,domains WHERE (domains.domain_id={$_GET['domain_id']}
-	      AND users.domain_id=domains.domain_id) OR domains.type = 'relay' GROUP BY domain,domains.type";
+  $query = "SELECT COUNT(*) AS count, domain, domains.type FROM users,domains
+  		WHERE (domains.domain_id={$_GET['domain_id']}
+		AND users.domain_id=domains.domain_id)
+		GROUP BY domain,domains.type";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
   
@@ -48,14 +50,15 @@
     <div id='Content'>
       <form name='domaindelete' method='post' action='sitedelete.php'>
 	<table align="center">
-	  <tr><td colspan='2'><? echo _("Please confirm deleting domain") . $row['domain']; ?>:</td></tr>
-	  <? if ($row['type'] != "relay") {
-		print "<tr><td colspan='2'>" . _("There are currently <b>{$row['count']}</b> accounts in domain {$row['domain']}") . " </td></tr>";
+	  <tr><td colspan='2'><? echo _("Please confirm deleting domain ") . $_GET['domain']; ?>:</td></tr>
+	  <? if ($_GET['type'] != "relay") {
+		print "<tr><td colspan='2'>" . _("There are currently <b>{$row['count']}</b> accounts in domain {$_GET['domain']}") . " </td></tr>";
 	     }
 	  ?>
-	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> <? echo _("Do Not Delete"); ?> <? print $row['domain']; ?></b></td></tr>
-	  <tr><td><input name='confirm' type='radio' value='1'><b> <? echo _("Delete"); ?> <? print $row['domain']; ?></b></td></tr>
+	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> <? echo _("Do Not Delete"); ?> <? print $_GET['domain']; ?></b></td></tr>
+	  <tr><td><input name='confirm' type='radio' value='1'><b> <? echo _("Delete"); ?> <? print $_GET['domain']; ?></b></td></tr>
 	  <tr><td><input name='domain_id' type='hidden' value='<? print $_GET['domain_id']; ?>'>
+	  	<input name='domain' type='hidden' value='<? print $_GET['domain']; ?>'>
 	      <input name='submit' type='submit' value='<? echo _("Continue"); ?>'></td></tr>
 	</table>
       </form>

@@ -72,7 +72,7 @@
 	if ($result->numRows()) {
 	  while ($row = $result->fetchRow()) {
 	    print "<tr>";
-	    print "\t<td><a href=\"sitedelete.php?domain_id={$row['domain_id']}\">";
+	    print "\t<td><a href=\"sitedelete.php?domain_id={$row['domain_id']}&domain={$row['domain']}\">";
 	    print "<img style='border:0;width:10px;height:16px' title='Delete {$row['domain']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
 	    print "\t<td><a href=\"sitechange.php?domain_id={$row['domain_id']}\">{$row['domain']}</a></td>\n";
 	    print "\t<td>{$row['localpart']}@{$row['domain']}</td>\n";
@@ -93,7 +93,7 @@
 	if ($result->numRows()) {
 	  while ($row = $result->fetchRow()) {
 	    print "<tr>";
-	    print "\t<td><a href=\"sitedelete.php?domain_id={$row['domain_id']}\">";
+	    print "\t<td><a href=\"sitedelete.php?domain_id={$row['domain_id']}&domain={$row['domain']}&type=relay\">";
 	    print "<img style='border:0;width:10px;height:16px' title='Delete{$row['domain']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
 	    print "\t<td>{$row['domain']}</a></td>\n";
 	    print "</tr>\n";
