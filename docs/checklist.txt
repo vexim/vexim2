@@ -22,11 +22,11 @@ Siteadmin Management:
     [ ] Change siteadmin password
 
 [ ] Logging in as Postmaster, a second Admin user, and a regular user
-    [ ] Can you log in if the domain is disabled?
-    [ ] Can you log in if the account is disabled?
+    [ ] Can you log in if the domain is disabled? Should work
+    [ ] Can you log in if the account is disabled? Should fail
 
 Account Additions:
-    [ ] Does adding Aliases
+    [ ] Adding aliases works
     [ ] Adding Catchall:
         [ ] Does the 'Add Catchall' option disappear if a Catchall exists?
     [ ] Adding POP/IMAP accounts:
