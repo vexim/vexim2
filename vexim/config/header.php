@@ -39,6 +39,8 @@
 	} else if (isset($_GET['badpass'])) {
 	  print " -- Account {$_GET['badpass']} could not be added.<br>\n";
 	  print " -- Your passwords were blank, do not match, or contain illegal characters: ' \" ` or ;\n";
+	} else if (isset($_GET['baddestdom'])) {
+	  print " -- The destination domain you specified does not exist\n";
 	} else if (isset($_GET['blankname'])) {
 	  print " -- You can not specify a blank realname\n";
 	} else if (isset($_GET['failadded'])) {

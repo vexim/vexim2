@@ -18,7 +18,7 @@
   <div id='Forms'>
     <form name="siteadd" method="post" action="siteaddsubmit.php">
       <table align="center">
-	<tr><td><? echo _("Domain"); ?>:</td><td><input name="domain" type="text" class="textfield"></td>
+	<tr><td><? echo _("New Domain"); ?>:</td><td><input name="domain" type="text" class="textfield"></td>
 	    <td><? echo _("The name of the new domain you are adding"); ?></td></tr>
 	<? if ($_GET['type'] == "local") {
 	   print "
@@ -47,10 +47,12 @@
 	     <tr><td>" . _("Anti Virus enabled") . "?</td><td><input name=\"avscan\" type=\"checkbox\" class=\"textfield\"></td></tr>
 	     <tr><td>" . _("Enable piping mail to command") . "?</td><td><input name=\"pipe\" type=\"checkbox\" class=\"textfield\"></td></tr>
 	     <tr><td>" . _("Domain enabled") . "?</td><td><input name=\"enabled\" type=\"checkbox\" class=\"textfield\" checked></td></tr>
-	     <tr><td></td>";
+	     <tr><td></td></tr>";
+	   } else if ($_GET['type'] == "alias") {
+	     print "<tr><td>" . _("Redirect messages to domain") . ":</td><td><input name=\"aliasdest\" type=\"text\" class=\"textfield\"></td></tr>";
 	   }
 	?>
-	    <td><input name="type" type="hidden" value="<? print $_GET['type']; ?>">
+	    <tr><td><input name="type" type="hidden" value="<? print $_GET['type']; ?>">
 		<input name="admin" type="hidden" value="1">
 		<input name="submit" type="submit" value="<? echo _("Submit"); ?>"></td>
 	</tr>
