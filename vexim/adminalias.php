@@ -16,7 +16,7 @@
 		   AND users.domain_id=domains.domain_id
 		   AND users.type='catch'";
 	 $result = $db->query($query);
-	 if (!$result->numRows()) { print "<a href=\"admincatchalladd.php\"><? echo _("Add Catchall"); ?></a></br>"; }
+	 if (!$result->numRows()) { print "<a href=\"admincatchalladd.php\">" . _("Add Catchall") . "</a></br>"; }
       ?>
       <a href="admin.php"><? echo _("Main Menu"); ?></a><br>
       <br><a href="logout.php"><? echo _("Logout"); ?></a><br>
@@ -45,7 +45,7 @@
 	  while ($row = $result->fetchRow()) {
 	    print "<tr><td align=\"center\"><a href=\"adminaliasdelete.php?user_id="
 	  		. $row['user_id'] . "\"><img style='border:0;width:10px;height:16px'
-	  		src=\"images/trashcan.gif\" title=\"" . _("Delete alias"); . " "
+	  		src=\"images/trashcan.gif\" title=\"" . _("Delete alias") . " "
 			. $row['localpart'] . "\"></a></td>\n";
 	    print "<td>";
 	    print "<a href=\"adminaliaschange.php?user_id={$row['user_id']}\">{$row['realname']}</a></td>\n";
