@@ -12,11 +12,16 @@
     <div id="Menu">
       <a href="adminuseradd.php">Add User</a>
       <?
-		$domquery = "SELECT count(users.user_id) AS used, domains.max_accounts AS max_allowed FROM users JOIN domains USING (domain_id) WHERE domains.domain_id=" . $_COOKIE[vexim][2] . " AND users.type='local' GROUP BY users.user_id";
+		$domquery = "SELECT max_accounts FROM domains WHERE domain_id=" . $_COOKIE[vexim][2]; 
 		$domresult = $db->query($domquery);
-		$domrow = $domresult->fetchRow();
-		if ($domrow[max_allowed]) {
-			print "(" . $domrow[used] . " of " . $domrow[max_allowed] . ")";
+		$domrow= $domresult->fetchRow();
+		if ($domrow[max_accounts]) {
+			$allowed = $domrow[max_accounts];
+			$domquery = "SELECT count(user_id) AS used FROM users WHERE domain_id=" . $_COOKIE[vexim][2] . " AND type='local';";
+			$domresult = $db->query($domquery);
+			$domrow = $domresult->fetchRow();
+			$used_accounts = $domrow[used];
+			print "(" . $domrow[used] . " of $allowed)";
 		}
 	  ?>
       <br>
