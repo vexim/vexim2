@@ -49,9 +49,15 @@
 	  header ("Location: site.php?failaddedusrerr={$_POST['domain']}");
 	} else {
 	  header ("Location: site.php?added={$_POST['domain']}&type={$_POST['type']}");
+	  $_SESSION['domain'] = $_POST['domain'];
+	  mail("{$_POST['localpart']}@{$_POST['domain']}", "Welcome Domain Admin!",
+	    "$welcome_newdomain", "From: {$_POST['localpart']}@{$_POST['domain']}\r\n");
 	}
       } else {
       	header ("Location: site.php?added={$_POST['domain']}&type={$_POST['type']}");
+	$_SESSION['domain'] = $_POST['domain'];
+	mail("{$_POST['localpart']}@{$_POST['domain']}", "Welcome Domain Admin!",
+	  "$welcome_newdomain", "From: {$_POST['localpart']}@{$_POST['domain']}\r\n");
       }
     } else {
       header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
