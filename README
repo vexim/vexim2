@@ -18,6 +18,13 @@ Finally, a special note of thanks to Dan Bernstein for his Qmail MTA.
 Dan, thank you for educating me how mail delivery really shouldn't be
 done, on the Internet.
 
+You can always find the latest version of this software from:
+  WEB: http://silverwraith.com/vexim
+       This is the mail Virtual Exim website
+  CVS: :pserver:cvs@silverwraith.com:/home/cvs
+       password: anonymous
+       This is the mail Virtual Exim CVS repository
+
 
 Requirements:
 The following packages must be installed on your system, for VExim to
@@ -42,7 +49,6 @@ Installation steps for each component:
 NOTE FOR UPGRADING:
   If you are upgrading from a previous version of Virtual Exim, please
   follow the notes for 'UPGRADING' in each section!
-
 
 PARTS:
   Files and Apache
