@@ -1,0 +1,44 @@
+Installing Courier-IMAP 2.x on FreeBSD:
+
+    * We are going to be performing configuration for both IMAP and POP3
+      below. If you'd like to not run one of these two daemons, you can
+      simply ignore the steps for its configuration file.
+
+      cd /usr/ports/mail/courier-imap && make -DWITH_MYSQL install clean
+      cd /usr/local/etc/courier-imap/
+      cp imapd.dist imapd
+      vi imapd
+
+      Now, replace the following lines:
+      > Replace: AUTHMODULES="authdaemon"
+      > with: AUTHMODULES="authmysql"
+      AND:
+      > Replace: AUTHMODULES_ORIG="authdaemon"
+      > with: AUTHMODULES_ORIG=""
+      Make the same changes to the pop3d.dist file, after copying it to
+      pop3d.
+
+      Now create a file in that directory called authmysqlrc, with the
+      following contents:
+      MYSQL_SERVER localhost
+      MYSQL_USERNAME exim
+      MYSQL_PASSWORD f00dlew1t
+      MYSQL_SOCKET /tmp/mysql.sock
+      MYSQL_PORT 3306
+      MYSQL_OPT 0
+      MYSQL_DATABASE exim
+      MYSQL_USER_TABLE users
+      MYSQL_CRYPT_PWFIELD password
+      MYSQL_UID_FIELD uid
+      MYSQL_GID_FIELD gid
+      MYSQL_LOGIN_FIELD username
+      MYSQL_HOME_FIELD pophome
+      MYSQL_NAME_FIELD realname
+
+      Finally, perform these steps to move the startup scripts into
+      place, and start the daemons:
+      cd /usr/local/etc/rc.d
+      mv imapd.sh.dist imapd.sh
+      mv pop3d.sh.dist pop3d.sh
+      /usr/local/etc/rc.d/imapd.sh start
+      /usr/local/etc/rc.d/pop3d.sh start

@@ -1,0 +1,31 @@
+Checklist to follow after updating code, to confirm functionality
+=================================================================
+
+[ ] Logging in as Postmaster, a second Admin user, and a regular user
+
+Account Additions:
+    [ ] Adding Aliases
+    [ ] Adding Catchall
+    [ ] Adding POP/IMAP accounts
+    [ ] Adding :fail:'s
+
+Account Deletions:
+    [ ] Deleting Aliases
+    [ ] Deleting Catchall
+    [ ] Deleteing POP/IMAP accounts
+    [ ] Deleting :fail:'s
+
+Account Management:
+    As Admin:
+    [ ] Update Aliases - name, to address, final destination
+    [ ] Update Catchall - final destination
+    [ ] Update POP/IMAP accounts - name, password, UID, GID, procmail, admin
+    [ ] Update :fail:'s - name
+    As User:
+    [ ] Updating Name
+    [ ] Updating Password
+
+Testing Failures:
+    [ ] Adding duplicate account
+    [ ] Adding alias using existing account name
+    [ ] Adding duplicate alias
