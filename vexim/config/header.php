@@ -31,6 +31,12 @@
 	  print " -- '{$_GET['updated']}' has been successfully updated\n";
 	} else if (isset($_GET['userexists'])) {
 	  print " -- The account could not be added as the name {$_GET['userexists']} is already in use\n";
+        } else if (isset($_GET['updated'])) {
+          print " -- Your update was sucessful.</div>\n";
+        } else if (isset($_GET['failed'])) {
+          print " -- Your account could not be updated. Please see your administrator.</div>\n";
+        } else if (isset($_GET['success'])) {
+          print " -- Your account has been succesfully updated.</div>\n";
 	} // Now some more general errors on account updates
 	  else if (isset($_GET['badaliaspass'])) {
 	  print " -- Account {$_GET['badaliaspass']} could not be added. Your passwords do not match, or contain illegal characters: ' \" ` or ;\n";
