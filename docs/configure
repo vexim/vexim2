@@ -452,6 +452,26 @@ mailman_router:
 # If your db lookup returns 'no data', then $spam_in_score is
 # greater than no data, and mail gets deleted.
 # Eventually got this working with Philip Hazel and Codiac's help.
+ditch_maxmsgsize:
+  driver = redirect
+  allow_fail
+  condition = ${if >{$message_size}{${lookup mysql{select users.maxmsgsize from users,domains \
+  		where localpart = '${quote_mysql:$local_part}' \
+		and domain = '${quote_mysql:$domain}' \
+		and users.maxmsgsize > 0 \
+		and users.domain_id=domains.domain_id }{${value}K}fail}} {yes}{no}}
+  data = :fail:\n\Your message is too big.\n \
+	 	Your message was rejected because the user $local_part@$domain\n \
+		does not accept messages larger than \
+		${lookup mysql{select users.maxmsgsize from users,domains \
+		where localpart = '${quote_mysql:$local_part}' \
+		and domain = '${quote_mysql:$domain}' \
+		and users.maxmsgsize > 0 \
+		and users.domain_id=domains.domain_id}{${value}K}fail} Kb.
+  local_part_suffix = -*
+  local_part_suffix_optional
+  retry_use_local_part
+
 ditch_malware:
   driver = redirect
   allow_fail
@@ -472,26 +492,6 @@ ditch_spam:
                 and domain = '${quote_mysql:$domain}' \
         	and users.on_spamassassin = '1' \
                 and users.domain_id=domains.domain_id }{$value}fail}} {yes}{no}}
-  local_part_suffix = -*
-  local_part_suffix_optional
-  retry_use_local_part
-
-ditch_maxmsgsize:
-  driver = redirect
-  allow_fail
-  condition = ${if >{$message_size}{${lookup mysql{select users.maxmsgsize from users,domains \
-  		where localpart = '${quote_mysql:$local_part}' \
-		and domain = '${quote_mysql:$domain}' \
-		and users.maxmsgsize > 0 \
-		and users.domain_id=domains.domain_id }{${value}K}fail}} {yes}{no}}
-  data = :fail:\n\Your message is too big.\n \
-	 	Your message was rejected because the user $local_part@$domain\n \
-		does not accept messages larger than \
-		${lookup mysql{select users.maxmsgsize from users,domains \
-		where localpart = '${quote_mysql:$local_part}' \
-		and domain = '${quote_mysql:$domain}' \
-		and users.maxmsgsize > 0 \
-		and users.domain_id=domains.domain_id}{${value}K}fail} Kb.
   local_part_suffix = -*
   local_part_suffix_optional
   retry_use_local_part
@@ -535,6 +535,11 @@ virtual_domains:
 		and domains.enabled = '1' \
 		and users.enabled = '1' \
 		and users.domain_id = domains.domain_id}}
+  headers_add = ${if >{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
+  		where localpart = '${quote_mysql:$local_part}' \
+		and domain = '${quote_mysql:$domain}' \
+		and users.on_spamassassin = '1' \
+		and users.domain_id=domains.domain_id }{$value}fail}} {X-Spam-Flag: YES\n}{} }
   local_part_suffix = -*
   local_part_suffix_optional
   retry_use_local_part
