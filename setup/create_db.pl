@@ -132,6 +132,7 @@ sub create_mysqltables {
         on_blocklist bool NOT NULL default '0',
         on_complexpass bool NOT NULL default '0',
         on_forward bool NOT NULL default '0',
+        on_piped bool NOT NULL default '0',
         on_spamassassin bool NOT NULL default '0',
         on_vacation bool NOT NULL default '0',
         enabled bool NOT NULL default '1',
@@ -198,6 +199,7 @@ $pgdbh->do("CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
           on_blocklist smallint NOT NULL default '0',
           on_complexpass smallint NOT NULL default '0',
           on_forward smallint NOT NULL default '0',
+          on_piped smallint NOT NULL default '0',
           on_spamassassin smallint NOT NULL default '0',
           on_vacation smallint NOT NULL default '0',
           enabled smallint NOT NULL default '1',
@@ -345,6 +347,7 @@ sub migratemysql {
   }
   $mydbh->do("UPDATE vexim.domains SET type='admin' WHERE domains.domain='admin'");
   $mydbh->do("UPDATE vexim.domains SET type='local' WHERE type is NULL");
+  $mydbh->do("UPDATE vexim.users SET on_piped='1' WHERE type='piped'");
 }
 
 
