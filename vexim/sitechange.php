@@ -39,7 +39,7 @@
 	<tr><td colspan="2"><h4>Modify Domain Properties:</h4></td></tr>
         <form name="domainchange" method="post" action="sitechangesubmit.php">
           <?
-	  $query = "SELECT uid, gid, quotas, spamassassin, avscan, enabled FROM domains WHERE
+	  $query = "SELECT uid, gid, quotas, spamassassin, avscan, pipe, enabled FROM domains WHERE
 	  		domain_id='$_GET[domain_id]'";
 	  $result = $db->query($query);
 	  $row = $result->fetchRow();
@@ -50,6 +50,7 @@
 	      <td><input type="text" size="25" name="quotas" value="<? print $row[quotas]; ?>" class="textfield"></td></tr>
 	  <tr><td>Spamassassin:</td><td><input type="checkbox" size="25" name="spamassassin" <? if ($row[spamassassin] == 1) {print "checked";} ?>></td></tr>
 	  <tr><td>Anti-virus:</td><td><input type="checkbox" size="25" name="avscan" <? if ($row[avscan] == 1) {print "checked";} ?>></td></tr>
+	  <tr><td>Piping to command:</td><td><input type="checkbox" size="25" name="pipe" <? if ($row[pipe] == 1) {print "checked";} ?>></td></tr>
 	  <tr><td>Enabled:</td><td><input type="checkbox" size="25" name="enabled" <? if ($row[enabled] == 1) {print "checked";} ?>></td>
 	  <td><input name="domain" type="hidden" value="<? print $_GET[domain]; ?>"></td></tr>
 	  <tr><td></td><td><input name="submit" size="25" type="submit" value="Submit Changes"></td></tr>

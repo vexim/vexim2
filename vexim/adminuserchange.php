@@ -5,7 +5,7 @@
   $query = "SELECT * FROM users WHERE localpart='" .$_GET[localpart]. "' AND domain_id='" .$_COOKIE[vexim][2]. "'";
   $result = $db->query($query);
   $row = $result->fetchRow();
-  $domquery = "SELECT avscan,spamassassin,quotas FROM domains WHERE domain_id='" .$_COOKIE[vexim][2]. "'";
+  $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains WHERE domain_id='" .$_COOKIE[vexim][2]. "'";
   $domresult = $db->query($domquery);
   $domrow = $domresult->fetchRow();
 ?>
@@ -38,6 +38,13 @@
 	  if ($domrow[quotas] > "0") {
 	    print "<tr><td>Mailbox quota ($domrow[quotas] Mb max):</td>";
 	    print "<td><input type=\"text\" size=\"5\" name=\"quota\" value=\"$row[quota]\" class=\"textfield\">Mb</td></tr>\n";
+	} 
+	if ($domrow[pipe] == "1") {
+             print "<tr><td>Pipe to command:</td><td><input type=\"textfield\" size=\"25\" name=\"smtp\" class=\"textfield\" value=\"$row[smtp]\"></td></tr>\n";
+             print "<tr><td colspan=\"2\" style=\"padding-bottom:1em\">Optional: Pipe all mail to a command (e.g. procmail).<br>\n";
+             print "Check box below to enable:</td></tr>\n";
+             print "<tr><td>Enable piped command?</td><td><input type=\"checkbox\" name=\"on_piped\"";
+	     if ($row[on_piped] == "1") { print " checked "; } print "></td></tr>\n";
 	} ?>
 	<tr><td>Admin:</td><td><input name="admin" type="checkbox" <?
 	   if ($row[admin] == 1) { print "checked"; } ?> class="textfield"></td></tr>

@@ -35,9 +35,10 @@
 	     <tr><td>Spamassassin refuse score:</td>
 	         <td><input name=\"sa_refuse\" type=\"text\" class=\"textfield\" value=\"$sa_refuse\"></td>
 		 <td>The score at which to refuse potentially spam mail and not deliver</td></tr>
+	     <tr><td>Domain enabled?</td><td><input name=\"enabled\" type=\"checkbox\" class=\"textfield\" checked></td></tr>
 	     <tr><td>Spamassassin enabled?</td><td><input name=\"spamassassin\" type=\"checkbox\" class=\"textfield\"></td></tr>
 	     <tr><td>Anti Virus enabled?</td><td><input name=\"avscan\" type=\"checkbox\" class=\"textfield\"></td></tr>
-	     <tr><td>Domain enabled?</td><td><input name=\"enabled\" type=\"checkbox\" class=\"textfield\" checked></td></tr>
+	     <tr><td>Enable piping mail to command?</td><td><input name=\"pipe\" type=\"checkbox\" class=\"textfield\"></td></tr>
 	     <tr><td></td>";
 	   }
 	?>

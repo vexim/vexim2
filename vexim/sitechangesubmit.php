@@ -6,6 +6,7 @@
   if (isset($_POST[avscan])) {$_POST[avscan] = 1;} else {$_POST[avscan] = 0;}
   if (isset($_POST[spamassassin])) {$_POST[spamassassin] = 1;} else {$_POST[spamassassin] = 0;}
   if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
+  if (isset($_POST[pipe])) {$_POST[pipe] = 1;} else {$_POST[pipe] = 0;}
 
   if (isset($_POST[clear])) {
     if (validate_password($_POST[clear], $_POST[vclear])) {
@@ -33,6 +34,7 @@
 		quotas='$_POST[quotas]',
 		spamassassin='$_POST[spamassassin]',
 		avscan='$_POST[avscan]',
+		pipe='$_POST[pipe]',
 		enabled='$_POST[enabled]' WHERE domain='$_POST[domain]'";
     $result = $db->query($query);
     if (!DB::isError($result)) {

@@ -38,7 +38,7 @@
 	     print "<tr><td>Pipe to command:</td><td><input type=\"textfield\" size=\"25\" name=\"smtp\" class=\"textfield\"></td></tr>\n";
 	     print "<tr><td colspan=\"2\" style=\"padding-bottom:1em\">Optional: Pipe all mail to a command (e.g. procmail).<br>\n";
 	     print "Check box below to enable:</td></tr>\n";
-	     print "<tr><td>Enable piped command?</td><td><input type=\"checkbox\" name=\"pipe\"></td></tr>\n";
+	     print "<tr><td>Enable piped command?</td><td><input type=\"checkbox\" name=\"on_piped\"></td></tr>\n";
 	   }
  	   if ($domrow[avscan] == "1") {
 	     print "<tr><td>Anti-Virus:</td><td><input name=\"on_avscan\" type=\"checkbox\"></td></tr>";

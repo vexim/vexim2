@@ -9,7 +9,7 @@
   $row = $result->fetchRow();
   if (isset($_POST[admin])) {$_POST[admin] = 1;} else {$_POST[admin] = 0;}
   if (isset($_POST[on_avscan])) {$_POST[on_avscan] = 1;} else {$_POST[on_avscan] = 0;}
-  if (isset($_POST[pipe])) {$_POST[pipe] = 1;} else {$_POST[pipe] = 0;}
+  if (isset($_POST[on_piped])) {$_POST[on_piped] = 1;} else {$_POST[on_piped] = 0;}
   if (isset($_POST[on_spamassassin])) {$_POST[on_spamassassin] = 1;} else {$_POST[on_spamassassin] = 0;}
   if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
   if (!isset($_POST[uid])) {$_POST[uid] = $row[uid];}
@@ -32,17 +32,18 @@
   $query = "SELECT maildir FROM domains WHERE domain_id ='" .$_COOKIE[vexim][2]. "'";
   $result = $db->query($query);
   $row = $result->fetchRow();
-  if (($_POST[pipe] == 1) && ($_POST[smtp] != "")) {
+  if (($_POST[on_piped] == 1) && ($_POST[smtp] != "")) {
     $smtphomepath = $_POST[smtp];
     $pophomepath = "$row[maildir]/$_POST[localpart]";
     $_POST[type] = "piped";
   } else {
     $smtphomepath = "$row[maildir]/$_POST[localpart]/Maildir";
     $pophomepath = "$row[maildir]/$_POST[localpart]";
+    $_POST[type] = "local";
   }
 
   if (validate_password($_POST[clear], $_POST[vclear])) {
-    $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_spamassassin, enabled, quota)
+    $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped, on_spamassassin, enabled, quota)
       VALUES ('$_POST[localpart]',
         '" . $_POST[localpart] . "@" . $_COOKIE[vexim][1] . "',
         '" . $_COOKIE[vexim][2] . "',
@@ -53,9 +54,10 @@
         '$_POST[uid]',
         '$_POST[gid]',
         '$_POST[realname]',
-        'local',
+        '$_POST[type]',
         '$_POST[admin]',
         '$_POST[on_avscan]',
+	'$_POST[on_piped],
         '$_POST[on_spamassassin]',
         '$_POST[enabled]',
 	'$_POST[quota]')";
