@@ -21,7 +21,7 @@
         die;
   }
 
-  $aliasto = preg_replace("/[', ']+/", ", ", $_POST['smtp']);
+  $aliasto = preg_replace("/[', ']+/", ",", $_POST['smtp']);
   if (alias_validate_password($_POST['clear'], $_POST['vclear'])) {
     $query = "INSERT INTO users
       (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, on_avscan,
