@@ -1,0 +1,194 @@
+                  README - Virtual Exim
+		  =====================
+
+Thanks for picking the Virtual Exim package, for your Exim mail hosting
+needs :-)
+
+This readme should be a nice step by step walk-through of how to set up
+VExim on your machine. There are a few requirements (listed below), and
+it is expected that you have *a little* knowledge of both MySQL and
+Exim.
+
+Before we go into any details, I'd like to thanks Philip Hazel and the
+Exim developers for a fine fine product.
+I would also like to thanks the postmasters at various domains for
+letting me play havoc with their mail while I set this up :-)
+Finally, a special note of thanks to Dan Bernstein for his Qmail MTA.
+Dan, thank you for educating me how mail delivery really shouldn't be
+done, on an Internet level.
+
+
+Requirements:
+The following packages must be installed on your system, for VExim to
+work:
+    * Exim v4 compiled against mysql (tested on v3.23.x/v4.1x/4.2x)
+    * Mysql (tested on v3.23.x/v4.0.x/4.1x/4.2x)
+    * Apache (Tested in 1.3.27)
+    * PHP v4 (tested on v4.3.x)
+    This might work on older versions of MySQL
+    This should work on versions of PHP back to 4.2.1, but not older
+    (due to the use of global variables like $_POST[]).
+    I have no idea about older versions of Exim, as I've never used
+    them myself. You can try though if you know the configure file.
+    Unless the bug which prevents you setting multiple cookies, in
+    Apache 2 has been resolved, this won't work on Apache 2.
+    
+
+Installation steps for each component:
+
+NOTE FOR UPGRADING:
+  If you are upgrading from a previous version of Virtual Exim, please
+  read the file "UPGRADING". Do not follow the installation instructions
+  in this file!
+
+
+PARTS:
+  Files and Apache
+  Exim configuration
+  MySQL
+  Site Admin
+  Virtual Domains
+  Mailman
+  Mail storage and Delivery
+  POP3 and IMAP daemons (separate to this software)
+
+
+Files and Apache:
+  In this distribution is a directory called 'vexim'. Move this to
+  where ever you keep your domains with Apache. Then set up a virtual
+  host, and point it's DocumentRoot at the vexim directory.
+  Although a virtual host shouldn't be *required*, the way I have the
+  code set up right now, it is. It seems to make things simple and work
+  :-) I'm sure I can make it not be a requirement. I'll work on it for
+  the next version.
+
+Exim configuration:
+  An example exim 'configure' file, has been included with this
+  distribution.
+  The following lines are important and will need to be edited if you
+  are using this configure, or copied to your own configure:
+
+    MAILMAN_HOME=/usr/local/mailman
+    MAILMAN_WRAP=MAILMAN_HOME/mail/mailman
+    *** Edit these if your mailman is in a different location.
+
+    MAILMAN_USER=mailnull
+    MAILMAN_GROUP=mail
+    *** These need to match the username and group under which exim runs
+
+    primary_hostname=mail.silverwraith.com
+    *** This is my mail server. There are many like it, but this one is
+    mine. Make this like yours.
+
+    domainlist local_domains = silverwraith.com : mail.silverwraith.com
+    domainlist relay_to_domains =                                     
+    hostlist   relay_from_hosts = 127.0.0.1 : 66.214.182.79 
+    *** These control which domains you accept mail for and deliver
+    locally (local_domains), which domains you accept mail for and
+    deliver remotely (relay_to_domains), and which IP addresses are
+    allowed to send mail to any domain.
+
+    exim_user = mailnull
+    exim_group = mail
+    *** Specify here, the username and group under which Exim runs. This
+    combination is also that under which mailman must run in order to
+    work.
+
+    hide mysql_servers = localhost::(/tmp/mysql.sock)/exim/exim/CHANGE
+    *** This is the line the configures mysql connectivity. We will use
+    mysql which runs on the local server, rather than a remote server,
+    so that we can connect over a UNIX domain socket (much nicer). You
+    need to change the word 'CHANGE' at the end, to the password you
+    supplied on the GRANT line on mysql.sql.
+
+MySQL and Authentication:
+  Needs to be installed. A script is included (mysql.sql) which will
+  create the database and table for you. Two things you need to do, are
+  edit the mysql.sql file and set a password. This password is set on
+  line 13 of mysql.sql (which starts 'GRANT'...)
+  You also need to know, if your system uses DES or MD5 password
+  encryption. BSD and Linux normally use MD5, whereas Solaris systems
+  commonly use the older style DES.
+  Uncomment the appropriate line, as noted by the comments, at the end
+  of mysql.sql.
+  After updating the mysql.sql file, run:
+    mysql -u root -p < mysql.sql
+  The password you are prompted for when doing this should be your MySQL
+  database's root user password.
+  Also it is assumed that the mysql domain socket is /tmp/mysql.sock,
+  which is where the FreeBSD port puts it. Other installations put it in
+  /var/tmp, /usr/lib, or any number of other places. If yours isn't
+  /tmp/mysql.sock, you will later need to set this in Exim's configure
+  script.
+  Finally, you will need to edit:
+    mysql/mysql_connect.php
+  and change the MySQL exim user's password there too. Set this to the
+  same as the password you put in mysql.sql. It needs to be changed on
+  the second line where the word 'CHANGE' is.
+
+  You also need to edit the file mysql/variables.php, and set the crypt
+  type to either "md5" or "des". What you choose is not optional. It
+  must be the same as your operating system's crypt libraries use.
+
+Site Admin:
+  In order to add and delete domains from the database, you need to have
+  a "site admin". This users can create the initial postmaster users for
+  the individual domains.
+  The default username and password for the siteadmin, are:
+  Username: siteadmin
+  Password: CHANGE
+  The password is case sensitive.
+  I recommend you log in and change this when you get a chance :-)
+
+Virtual Domains:
+  At present, domains that Exim will accept mail for, need to be
+  specified in the configure file. This will be moved to the MySQL
+  database when I figure out how to do it, but for now that's how we
+  need to do it.
+
+Mailman:
+  Needs to be installed if you want to use mailing lists. The default
+  location is assumed to be /usr/local/mailman. If this is not the
+  location of your installation,
+  edit Exim's configure file, and change the paths where ever 'mailman'
+  is mentioned.
+
+Mail storage and Delivery:
+  The mysql configuration assumes that mail will be stored in
+  /usr/local/mail/domain.com/username/Maildir. If you want to change the
+  path from '/usr/local/mail', you need to edit the file:
+    mysql/variables.php
+  and change 'mailroot' to the correct path. Don't forget the / at the
+  end.
+
+  By default all users who are added, will be given a uid and gid of
+  '90' in the database. These are just what I use on my system. You need
+  to create a username and a group under this UID and GID on your
+  operating system. Exim will use these to do the actual mail delivery.
+  Currently all mail boxes share the same UID and GID. This isn't a real
+  problem in a virtual setting. If you want to use something other than
+  '90', edit the file:
+    mysql/variables.php
+  and change them there before creating the user. The name of the user
+  with this UID and GID can be anything, as long as the UID and GID on
+  the system are consistent with those in the config files.
+
+
+POP3 and IMAP daemons:
+  There are many POP3 and IMAP daemons available today. Few of them are
+  good, and fewer of those like MySQL. Two that we have found that work
+  are:
+      POP3 Only:         Qpopper
+      IMAP and/or POP3:  The Courier-IMAP package
+  Instructions for installing these have been included in this tarball
+  in the following files:
+      Qpopper:       docs/clients/qpop-mysql.txt
+      Courier-IMAP:  docs/clients/freebsd-courierimap.txt (FreeBSD HOWTO)
+  These documents are pretty clear and you should be able to use them as
+  a template when compiling from source on most Unixes. Just remember
+  the switches on 'configure' scripts for enabling mysql support :-)
+
+  Instructions for configuring Cyrus and Cyrus IMAP are also available. However, we have not tested
+  these so cannot guarantee they work. If you have success or problems with these instructions,
+  please let us know!
+      Cyrus:         docs/clients/cyrus.txt
