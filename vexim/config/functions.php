@@ -24,7 +24,7 @@
   function alpha_menu($flag) {
     global $letter;	// needs to be available to the parent
     $letter = $_GET['LETTER'];
-    if ($letter == '') $letter = 'A';
+    if ($letter == '') $letter = '$alphastart';
     if ($letter == 'ALL') $letter = '';
     if ($flag) {
       print "\n<p class='alpha'><a href='" . $_SERVER['PHP_SELF'] . "?LETTER=ALL' class='alpha'>ALL</a>&nbsp;&nbsp; ";
