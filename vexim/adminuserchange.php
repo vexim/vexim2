@@ -91,7 +91,24 @@
 	<tr><td><?php echo _("Forwarding on"); ?>:</td><td><input name="on_forward" type="checkbox" <?php
 		if ($row['on_forward'] == "1") { print " checked "; } ?> ></td></tr>
 	<tr><td><?php echo _("Forward mail to"); ?>:</td>
-	<td><input type="text" size="25" name="forward" value="<?php print $row['forward']; ?>" class="textfield"></td></tr>
+	<td><input type="text" size="25" name="forward" value="<?php print $row['forward']; ?>" class="textfield"><br>
+	  <? echo _("Must be a full e-mail address"); ?>!<br>
+	  <? echo _("OR") .":<br>\n"; ?>
+	  <select name="forwardmenu">
+	    <option selected value=""> </option>
+	      <?php
+		$query = "select realname, username, user_id from users ";
+		$query .= "where enabled = '1' and domain_id = {$_SESSION['domain_id']} and type != 'fail' ";
+		$query .= "order by realname, username, type desc";
+		$result = $db->query($query);
+		while ($row = $result->fetchRow()) {
+	      ?>
+	        <option value="<?php echo $row['username']; ?>"><?php echo $row['realname']; ?> (<?php echo $row['username']; ?>)</option>
+	      <?php 
+                }
+	      ?>
+	    </select>
+	  </td></tr>
 	<tr><td><?php echo _("Store Forwarded Mail Locally"); ?>:</td><td><input name="unseen" type="checkbox" <?php
 		if ($row['unseen'] == "1") { print " checked "; } ?> ></td></tr>
 	<input name="user_id" type="hidden" value="<?php print $_GET['user_id']; ?>" class="textfield">

@@ -26,6 +26,7 @@
   if ((isset($_POST['on_piped'])) && ($row['pipe'] = 1)) {$_POST['on_piped'] = 1;} else {$_POST['on_piped'] = 0;}
   if ((isset($_POST['on_avscan'])) && ($row['avscan'] = 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
   if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] = 1)) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
+	if (preg_match("/@/",$_POST['forwardmenu'])) {$forwardaddr = $_POST['forwardmenu'];} else {$forwardaddr = $_POST['forward'];}
 
   # Big code block, to make sure we're not de-admining the last admin
   $query = "SELECT COUNT(admin) AS count FROM users
@@ -88,7 +89,7 @@
     on_spamassassin={$_POST['on_spamassassin']},
     on_vacation={$_POST['on_vacation']},
     enabled={$_POST['enabled']},
-    forward='{$_POST['forward']}',
+    forward='{$forwardaddr}',
     maxmsgsize={$_POST['maxmsgsize']},
     quota={$_POST['quota']},
     sa_tag=" . ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0) . ",

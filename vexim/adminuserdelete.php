@@ -8,7 +8,11 @@ if ($_GET['confirm'] == "1") {
 
   $query = "DELETE FROM users WHERE user_id={$_GET['user_id']}";
   $result = $db->query($query);
-  if (!DB::isError($result)) { header ("Location: adminuser.php?deleted={$_GET['localpart']}"); }
+  if (!DB::isError($result)) {
+    $query = "DELETE FROM group_contents WHERE member_id={$_GET['user_id']}";
+    $result = $db->query($query);
+    header ("Location: adminuser.php?deleted={$_GET['localpart']}");
+  }
   else { header ("Location: adminuser.php?faildeleted={$_GET['localpart']}"); }
 } else if ($_GET['confirm'] == "cancel") {		   
     header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");

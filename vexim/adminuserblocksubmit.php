@@ -18,8 +18,9 @@
 
 # Finally 'the rest' which is handled by the profile form
   if (preg_match("/^\s*$/",$_POST['blockval'])) { header("Location: adminuser.php"); die; }
-  $query = "INSERT INTO blocklists (domain_id, user_id, blockhdr, blockval, color) values (
+  $query = "INSERT INTO blocklists (domain_id, localpart, user_id, blockhdr, blockval, color) values (
 		{$_SESSION['domain_id']},
+		'{$_POST['localpart']}',
 		{$_POST['user_id']},
 		'{$_POST['blockhdr']}',
 		'{$_POST['blockval']}',

@@ -6,7 +6,7 @@
   $query = "SELECT * FROM groups WHERE id={$_GET['group_id']}";
   $result = $db->query($query);
   $row = $result->fetchRow();
-  $localpart = $row['name'];
+  $grouplocalpart = $row['name'];
 ?>
 <html>
   <head>
@@ -70,8 +70,8 @@
                                 ?>
                                 <tr>
                                     <td class="trash">
-                                        <a href="admingroupcontentdeletesubmit.php?group_id=<?php echo $_GET['group_id']; ?>&member_id=<?php echo $row['member_id']; ?>&localpart=<?php echo $localpart; ?>">
-                                        <img style="border:0;width:10px;height:16px" title="Remove member <?php echo $row['realname']; ?> from group <?php echo $localpart; ?>" src="images/trashcan.gif" alt="trashcan">
+																				<a href="admingroupcontentdeletesubmit.php?group_id=<?php echo $_GET['group_id']; ?>&member_id=<?php echo $row['member_id']; ?>&localpart=<?php echo $grouplocalpart; ?>">
+																				<img style="border:0;width:10px;height:16px" title="Remove member <?php echo $row['realname']; ?> from group <?php echo $grouplocalpart; ?>" src="images/trashcan.gif" alt="trashcan">
                                         </a>
                                     </td>
                                     <td><?php echo $row['realname']; ?></td>
@@ -95,7 +95,7 @@
             <td><?php echo _("Add Member"); ?></td>
             <td>
                 <input name="group_id" type="hidden" value="<?php echo $_GET['group_id']; ?>" class="textfield">
-                <input name="localpart" type="hidden" value="<?php echo $localpart; ?>" class="textfield">
+								<input name="localpart" type="hidden" value="<?php echo $grouplocalpart; ?>" class="textfield">
                 <select name="usertoadd">
                 <option selected value=""> </option>
                 <?php

@@ -29,7 +29,8 @@
 	  <td><?php echo _("Forward email addressed to") . ":</td><td>*@" . $_SESSION['domain'];?></td>
 	</tr>
 	<tr>
-	  <td><?php echo _("Forward the email to") . ':</td><td><input name="smtp" type="text" value="' . $row['smtp']; ?>" class="textfield"></td>
+	  <td><?php echo _("Forward the email to") . ':</td><td><input name="smtp" type="text" value="' . $row['smtp']; ?>" class="textfield"><br>
+		    <?php echo _("Must be a full e-mail address"); ?>!</td></td>
 	</tr>
 	<tr>
 	  <td><input name="user_id" type="hidden" value="<?php print $_GET['user_id']; ?>" class="textfield"></td>

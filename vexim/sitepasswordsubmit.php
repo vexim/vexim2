@@ -7,7 +7,7 @@
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $cryptedpassword = crypt_password($_POST['clear']);
     $query = "UPDATE users SET crypt='$cryptedpassword',
-		clear='{$_POST['clear']}' WHERE localpart='siteadmin'";
+		clear='{$_POST['clear']}' WHERE localpart='siteadmin' AND domain_id='1'";
     $result = $db->query($query);
     if (!DB::isError($result)) {
       $_SESSION['crypt'] = $cryptedpassword;
