@@ -7,7 +7,7 @@
   $sqltype = "mysql";
   $sqldb = "vexim";
   $sqluser = "vexim";
-  $sqlpass = "CHANGE";
+  $sqlpass = "f00dlew1t";
   $dsn = "$sqltype://$sqluser:$sqlpass@$sqlserver/$sqldb";
   $db = DB::connect($dsn);
   if (DB::isError($db)) { die ($db->getMessage()); }

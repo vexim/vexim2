@@ -20,10 +20,9 @@ if ($_GET['confirm'] == "1") {
     header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
     die;
   }
-  $query = "SELECT localpart FROM users WHERE user_id={$_GET['localpart']}";
+  $query = "SELECT localpart FROM users WHERE user_id={$_GET['user_id']}";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
-  
 }
 ?>
 <html>

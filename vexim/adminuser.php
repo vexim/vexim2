@@ -50,7 +50,7 @@
 	  $result = $db->query($query);
 	  while ($row = $result->fetchRow()) {
 	    print "\t<tr>";
-	    print "<td class='trash'><a href=\"adminuserdelete.php?user_id={$row['user_id']}\">";
+	    print "<td class='trash'><a href=\"adminuserdelete.php?user_id={$row['user_id']}&localpart={$row['localpart']}\">";
 	    print "<img style='border:0;width:10px;height:16px' title='Delete {$row['realname']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
 	    print "\t<td><a href=\"adminuserchange.php?user_id={$row['user_id']}\" title='" . _("Click to modify") . " {$row['realname']}'>{$row['realname']}</a></td>\n";
 	    print "\t<td>{$row['localpart']}@{$_COOKIE['vexim'][1]}</td>\n";
