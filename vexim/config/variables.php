@@ -12,8 +12,15 @@
   if (DB::isError($db)) { die ($db->getMessage()); }
   $db->setFetchMode(DB_FETCHMODE_ASSOC); 
 
+  /* Setting this to 0 if only admins should be allowed to login */
+  $AllowUserLogin = 1;
+
   /* Set to either "des" or "md5" depending on your crypt() libraries */
   $cryptscheme = "md5";
+
+  /* Choose the type of domain name input for the index page. It should 
+     either be 'dropdown' or 'textbox' */
+  $domaininput = "dropdown";
 
   /* The UID's and GID's control the default UID and GID for new domains
      and if postmasters can define their own */
@@ -32,9 +39,6 @@
      sa_refuse is the default value to offer when we create new domains for SpamAssassin dropping */
   $sa_tag = "2";
   $sa_refuse = "5";
-
-  /* Setting this to 0 if only admins should be allowed to login */
-  $AllowUserLogin = 1;
 
   /* Welcome message, sent to new POP/IMAP accounts */
   $welcome_message = "Welcome, $_POST[realname] !\n\nYour new E-mail account is all ready for you.\n\n"
