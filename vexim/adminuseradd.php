@@ -34,7 +34,7 @@
     <form name="adminadd" method="post" action="adminuseraddsubmit.php">
       <table align="center">
 	<tr><td><? echo _("Name"); ?>:</td><td><input type="textfield" size="25" name="realname" class="textfield"></td></tr>
-	<tr><td><? echo _("Address"); ?>:</td><td><input type="textfield" size="25" name="localpart" class="textfield">@<? print $_SESSION['domain']; ?></td></tr>
+	<tr><td><? echo _("Address"); ?>:</td><td colspan='2'><input type="textfield" size="25" name="localpart" class="textfield">@<? print $_SESSION['domain']; ?></td></tr>
 	<tr><td><? echo _("Password"); ?>:</td><td><input type="password" size="25" name="clear" class="textfield"></td></tr>
 	<tr><td><? echo _("Verify Password"); ?>:</td><td><input type="password" size="25" name="vclear" class="textfield"></td></tr>
 	<? if ($postmasteruidgid == "yes") {
