@@ -70,7 +70,7 @@ domainlist local_domains = @ : pear.silverwraith.com : ${lookup mysql{VIRTUAL_DO
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost : 192.168.0.0/24
 
-hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
+hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/f00dlew1t
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
 
 # Most straightforward access control requirements can be obtained by
@@ -540,7 +540,6 @@ virtual_domains:
   		where localpart = '${quote_mysql:$local_part}' \
 		and domain = '${quote_mysql:$domain}' \
 		and users.on_spamassassin = '1' \
-		and sa_tag > 0 \
 		and users.domain_id=domains.domain_id }{$value}fail}} {X-Spam-Flag: YES\n}{} }
   headers_remove = ${if or { { <{$spam_score_int}{1} } \
   			     { <{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
