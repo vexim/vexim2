@@ -123,14 +123,14 @@ $pgdbh->do("CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
           uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
           gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
           type varchar(5) NOT NULL,
-          spamassassin BOOLEAN NOT NULL default '0',
-          avscan BOOLEAN NOT NULL default '0',
-          mailinglists BOOLEAN NOT NULL default '0',
+          spamassassin smallint NOT NULL default '0',
+          avscan smallint NOT NULL default '0',
+          mailinglists smallint NOT NULL default '0',
           quotas int NOT NULL default '0' CHECK(quotas > -1),
-          blocklists BOOLEAN NOT NULL default '0',
-          pipe BOOLEAN NOT NULL default '0',
-          enabled BOOLEAN NOT NULL default '1',
-          complexpass BOOLEAN NOT NULL default '0')") or die "Could not create table domains";
+          blocklists smallint NOT NULL default '0',
+          pipe smallint NOT NULL default '0',
+          enabled smallint NOT NULL default '1',
+          complexpass smallint NOT NULL default '0')") or die "Could not create table domains";
   print "\nCreated domains table\n";
 $pgdbh->do("CREATE TABLE users (user_id SERIAL PRIMARY KEY,
           domain_id int NOT NULL,
@@ -144,16 +144,16 @@ $pgdbh->do("CREATE TABLE users (user_id SERIAL PRIMARY KEY,
           pop varchar(255) default NULL,
           realname varchar(255) default NULL,
           type varchar(8) CHECK(type in ('local','alias','catch', 'fail', 'piped', 'admin', 'site')) NOT NULL,
-          admin BOOLEAN NOT NULL default '0',
-          avscan BOOLEAN NOT NULL default '0',
-          spamassassin BOOLEAN NOT NULL default '0',
-          blocklist BOOLEAN NOT NULL default '0',
-          complexpass BOOLEAN NOT NULL default '0',
-          enabled BOOLEAN NOT NULL default '1',
+          admin smallint NOT NULL default '0',
+          avscan smallint NOT NULL default '0',
+          spamassassin smallint NOT NULL default '0',
+          blocklist smallint NOT NULL default '0',
+          complexpass smallint NOT NULL default '0',
+          enabled smallint NOT NULL default '1',
           quota int NOT NULL default '0',
           sa_tag smallint NOT NULL default '5',
           sa_refuse smallint NOT NULL default '10',
-          on_vacation BOOLEAN NOT NULL default '0',
+          on_vacation smallint NOT NULL default '0',
           vacation varchar(255) default NULL,
           flags varchar(16) default NULL,
           tagline varchar(255) default NULL,
@@ -171,6 +171,8 @@ sub add_postgresveximuser {
   print "Adding vexim database user...\n";
   veximpw() unless $act eq "migratepostgresql";
   $pgdbh->do("CREATE USER vexim WITH PASSWORD '$veximpass' NOCREATEDB NOCREATEUSER")
+    or die "Could not create the user 'vexim' in the MySQL database!";
+  $pgdbh->do("GRANT SELECT,INSERT,DELETE,UPDATE ON domains,users to vexim")
     or die "Could not create the user 'vexim' in the MySQL database!";
 }
 sub add_siteadminuser {
