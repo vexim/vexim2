@@ -1,40 +1,40 @@
     1. Site Controls
-	a. Add/Modify/Delete domain [MySQL done]
-	b. Domain can add admin [MySQL done]
-	c. Procmail available switch [MySQL done]
-	d. SpamAssassin available [MySQL done]
-	e. Virus scanner available [MySQL done]
+	a. Add/Modify/Delete domain [Done]
+	b. Domain can add admin [Done]
+	c. Procmail available switch [Done]
+	d. SpamAssassin available [Done]
+	e. Virus scanner available [Done]
 	f. Mailing list availability [For later release]
-	g. Quota can be set [MySQL done]
-	   -> Need exim config [MySQL done]
+	g. Quota can be set [Done]
+	   -> Need exim config [Done]
 	h. Blacklists and Whitelists can be set
-	   -> tables are almost ready, code required
-	i. UID/GID [MySQL done]
+	   -> [Blacklisting done]
+	i. UID/GID [Done]
 	   -> Let siteadmin decide if these are domain admin tunable [Done]
 	j. Domain tag line can be added for outbound mail [Unsure]
-	k. Add/Modify/Delete domain admin [MySQL done]
-	l. Add/Modify/Delete relay_domains [MySQL done]
+	k. Add/Modify/Delete domain admin [Done]
+	l. Add/Modify/Delete relay_domains [Done]
 	m. Password complexity requirements [For later release]
-	o. Add the ability to choose any filesystem directory [MySQL done]
+	o. Add the ability to choose any filesystem directory [Done]
 	   -> Check the permissions to make sure Exim can create it
-	p. Add limits on how many accounts each domain can have
-	q. Add a "junior admin" with different abilities
+	p. Add limits on how many accounts each domain can have [Done]
+	q. Add a "junior site admin" with different abilities
 
     2. Domain Controls (depends on site settings)
-	a. Add/delete/modify users [MySQL done]
-	b. Add/delete/modify admins [MySQL done]
-	c. Add/delete/modify aliases [MySQL done]
-	d. Quota can be set [MySQL done]
-	e. SpamAssassin settings [MySQL done]
-	f. Virus Scanner [MySQL done]
+	a. Add/delete/modify users [Done]
+	b. Add/delete/modify admins [Done]
+	c. Add/delete/modify aliases [Done]
+	d. Quota can be set [Done]
+	e. SpamAssassin settings [Done]
+	f. Virus Scanner [Done]
 	g. Blacklists and Whitelists
 	   -> tables are ready, almost code required
 	h. Mailing lists [For later release]
-	i. UID/GID [MySQL done]
+	i. UID/GID [Done]
 	j. Domain tag line attached to all outgoing mail [Unsure]
-	k. Allow any user or alias to act as domain admin [MySQL done]
+	k. Allow any user or alias to act as domain admin [Done]
 	l. Password complexity requirements [For later release]
-	m. Allow domain admin to tweak any user settings [MySQL Done]
+	m. Allow domain admin to tweak any user settings [Done]
 	n. Multiple levels of 'admin':
 	   -> Some who can one add users, some who can only change
 	      passwords, others who can only create aliases, etc
@@ -44,19 +44,20 @@
 	      'flags' column in the db. [For later release]
 
     3. User Controls  (depends on site and domain settings)
-	a. Change password [MySQL done]
-	b. SpamAssassin settings [MySQL done]
-	c. Virus scanner settings [MySQL done]
-	d. Personal block lists [For later release]
+	a. Change password [Done]
+	b. SpamAssassin settings [Done]
+	c. Virus scanner settings [Done]
+	d. Personal block lists [Done]
 	e. Add alias (?)
-	f. Vacation response [MySQL done]
-	g. Forward incoming mail [MySQL done]
-	h. See current quota limit [MySQL done]
+	f. Vacation response [Done]
+	g. Forward incoming mail [Done]
+	h. See current quota limit [Done]
 	   -> Later, need a way to see current mailbox size
+	      This is dependent on the maildirsize option getting fixed in Exim
 	i. Code to intergrate whitelists to webpages
 
     4. System Controls
-	a. Choose from multiple databases: MySQL, PostgreSQL, LDAP [MySQL done]
+	a. Choose from multiple databases: MySQL, PostgreSQL, LDAP [MySQL, PostgreSQL done]
 	b. Shell scripts to perform all the same work the webpages do.
 	   Possibly in PHP or Perl. Probably PHP for simpler DB
 	   integration/package maintenance.
@@ -77,6 +78,6 @@
 	   consolidating common functions.
 	   -> Various 'submit' pages can be consolidated to one or two,
 	      etc.
-	c. Add Wash's docs on using tpop3d to CVS
+	c. Add Wash's docs on using tpop3d to CVS [Done]
 	d. Make APOP work!
 
