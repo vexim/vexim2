@@ -6,7 +6,7 @@ domain admin, when they choose to add a new user.
 
 Users table: This contains information specific to the user.  It is used
 during mail collection, delivery, and filtering.  The 'type' column
-holds data on the type of account: local, alias, catch
+holds data on the type of account: local, alias, catch, piped
 
 
 MySQL:
@@ -42,7 +42,7 @@ Database name:	vexim
 	  smtp varchar(255) NOT NULL default '',
 	  pop varchar(255) NOT NULL default '',
 	  realname varchar(255) NOT NULL default '',
-	  type enum('local','alias','catch') NOT NULL default 'local',
+	  type enum('local','alias','catch', 'piped') NOT NULL default 'local',
 	  admin bool NOT NULL default '0',
 	  avscan bool NOT NULL default '0',
 	  blocklist bool NOT NULL default '0',
