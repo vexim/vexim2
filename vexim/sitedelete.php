@@ -2,25 +2,27 @@
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authsite.php";
 
-  if ($_POST[confirm] == "1") {
-    $query = "DELETE FROM users WHERE domain_id='$_POST[domain_id]'";
-    $query2 = "DELETE FROM domains WHERE domain='$_POST[domain]'";
+  if ($_POST['confirm'] == "1") {
+    $query = "DELETE FROM users WHERE domain_id={$_POST['domain_id']}";
+    $query2 = "DELETE FROM domains WHERE domain_id={$_POST['domain_id']}";
     $result = $db->query($query);
     $result2 = $db->query($query2);
     if (!DB::isError($result)) {
-      header ("Location: site.php?deleted=$_POST[domain]");
+      header ("Location: site.php?deleted={$_POST['domain_id']}");
       die;
-    } else header ("Location: site.php?faildeleted=$_POST[domain]");
+    } else header ("Location: site.php?faildeleted={$_POST['domain_id']}");
       die;
-  } else if ($_POST[confirm] == "cancel") {
-    header ("Location: site.php?canceldelete=$_POST[domain]");
+  } else if ($_POST['confirm'] == "cancel") {
+    header ("Location: site.php?canceldelete={$_POST['domain_id']}");
     die;
   }
 
-  $query = "SELECT COUNT(*) AS count FROM users,domains WHERE domain='$_GET[domain]' AND users.domain_id=domains.domain_id";
+  $query = "SELECT COUNT(*) AS count, domain, domains.type FROM users,domains WHERE (domains.domain_id={$_GET['domain_id']}
+              AND users.domain_id=domains.domain_id) OR domains.type = 'relay' GROUP BY domain,domains.type";
   $result = $db->query($query);
   if (DB::isError($result)) { die ($result->getMessage()); }
   $row = $result->fetchRow();
+  
 ?>
 <html>
   <head>
@@ -37,15 +39,14 @@
     <div id='Content'>
       <form name='domaindelete' method='post' action='sitedelete.php'>
         <table align="center">
-	  <tr><td colspan='2'>Please confirm deleting domain <? print $_GET[domain]; ?>:</td></tr>
-	  <? if ($_GET[type] != "relay") {
-		print "<tr><td colspan='2'>There are currently <b>$row[count]</b> accounts in domain $_GET[domain]</td></tr>";
+	  <tr><td colspan='2'>Please confirm deleting domain <? print $row['domain']; ?>:</td></tr>
+	  <? if ($row['type'] != "relay") {
+		print "<tr><td colspan='2'>There are currently <b>{$row['count']}</b> accounts in domain {$row['domain']}</td></tr>";
 	     }
 	  ?>
-	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> Do Not Delete <? print $_GET[domain]; ?></b></td></tr>
-	  <tr><td><input name='confirm' type='radio' value='1'><b> Delete <? print $_GET[domain]; ?></b></td></tr>
-	  <tr><td><input name='domain' type='hidden' value='<? print $_GET[domain]; ?>'>
-	      <input name='domain_id' type='hidden' value='<? print $_GET[domain_id]; ?>'>
+	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> Do Not Delete <? print $row['domain']; ?></b></td></tr>
+	  <tr><td><input name='confirm' type='radio' value='1'><b> Delete <? print $row['domain']; ?></b></td></tr>
+	  <tr><td><input name='domain_id' type='hidden' value='<? print $_GET['domain_id']; ?>'>
 	      <input name='submit' type='submit' value='Continue'></td></tr>
 	</table>
       </form>

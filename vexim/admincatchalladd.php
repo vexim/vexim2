@@ -22,7 +22,7 @@
 	  <td>Alias Name:</td><td>Catchall</td>
 	</tr>
         <tr>
-	  <td>Forward email addressed to:</td><td>*@<? print $_COOKIE[vexim][1];?></td>
+	  <td>Forward email addressed to:</td><td>*@<? print $_COOKIE['vexim'][1];?></td>
 	</tr>
         <tr>
 	  <td>Forward the email to:</td><td><input name="smtp" type="text" class="textfield"></td>

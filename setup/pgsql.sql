@@ -4,7 +4,7 @@ CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
 	uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
 	gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
 	max_accounts int NOT NULL default '0',
-	type varchar(5) NOT NULL,
+	type varchar(5) default NULL,
 	avscan smallint NOT NULL default '0',
 	blocklists smallint NOT NULL default '0',
 	complexpass smallint NOT NULL default '0',
@@ -22,8 +22,8 @@ CREATE TABLE users (user_id SERIAL PRIMARY KEY,
 	username varchar(255) NOT NULL,
 	clear varchar(255) default NULL,
 	crypt varchar(48) default NULL,
-	uid int NOT NULL default 'CHANGE' CHECK(uid BETWEEN 1 AND 65535),
-	gid int NOT NULL default 'CHANGE' CHECK(uid BETWEEN 1 AND 65535),
+	uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
+	gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
 	smtp varchar(255) default NULL,
 	pop varchar(255) default NULL,
 	type varchar(8) CHECK(type in ('local','alias','catch', 'fail', 'piped', 'admin', 'site')) NOT NULL,
@@ -51,8 +51,8 @@ CREATE TABLE blocklists (block_id SERIAL PRIMARY KEY,
 	localpart varchar(192) NOT NULL default '',
 	blockaddr varchar(192) NOT NULL default '');
 
-CREATE USER vexim WITH PASSWORD 'CHANGE' NOCREATEDB NOCREATEUSER;
-GRANT SELECT,INSERT,DELETE,UPDATE ON domains,users to vexim;
+CREATE USER vexim WITH PASSWORD 'mypass' NOCREATEDB NOCREATEUSER;
+GRANT SELECT,INSERT,DELETE,UPDATE ON domains,users,blocklists,blocklists_block_id_seq,domains_domain_id_seq,users_user_id_seq to vexim;
 
 INSERT INTO domains (domain_id, domain) VALUES ('1', 'admin');
 INSERT INTO users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)

@@ -16,35 +16,35 @@
     <a href='sitepassword.php' title='Change site password'>Site Password</a><br>
     <br><a href="logout.php">Logout</a><br>
   </div>
-    <? if (isset($_GET[deleted])) {
-	print "<div id='status'>Domain '$_GET[deleted]' has been successfully deleted</div>\n";
-      } else if (isset($_GET[added])) {
-	print "<div id='status'>$_GET[type] domain '$_GET[added]' has been successfully added</div>\n";
-      } else if (isset($_GET[updated])) {
-	print "<div id='status'>Domain '$_GET[updated]' has been successfully updated</div>\n";
-      } else if (isset($_GET[sitepass])) {
+    <? if (isset($_GET['deleted'])) {
+	print "<div id='status'>Domain '{$_GET['deleted']}' has been successfully deleted</div>\n";
+      } else if (isset($_GET['added'])) {
+	print "<div id='status'>{$_GET['type']} domain '{$_GET['added']}' has been successfully added</div>\n";
+      } else if (isset($_GET['updated'])) {
+	print "<div id='status'>Domain '{$_GET['updated']}' has been successfully updated</div>\n";
+      } else if (isset($_GET['sitepass'])) {
 	print "<div id='status'>Site Admin password has been successfully updated</div>\n";
-      } else if (isset($_GET[failadded])) {
-	print "<div id='Status'>Domain '$_GET[failadded]' could not be added</div>\n";
-      } else if (isset($_GET[failaddedusrerr])) {
-	print "<div id='Status'>Domain '$_GET[failadded]' could not be added.<br>\n";
+      } else if (isset($_GET['failadded'])) {
+	print "<div id='Status'>Domain '{$_GET['failadded']}' could not be added</div>\n";
+      } else if (isset($_GET['failaddedusrerr'])) {
+	print "<div id='Status'>Domain '{$_GET['failadded']}' could not be added.<br>\n";
 	print "There was a problem adding the domain to the domains table.</div>\n";
-      } else if (isset($_GET[failaddedusrerr])) {
-	print "<div id='Status'>Domain '$_GET[failadded]' could not be added.<br>\n";
+      } else if (isset($_GET['failaddedusrerr'])) {
+	print "<div id='Status'>Domain '{$_GET['failadded']}' could not be added.<br>\n";
 	print "There was a problem adding the admin account.</div>\n";
-      } else if (isset($_GET[failaddedpassmismatch])) {
-	print "<div id='Status'>Domain '$_GET[failaddedpassmismatch]' could not be added.<br>\n";
+      } else if (isset($_GET['failaddedpassmismatch'])) {
+	print "<div id='Status'>Domain '{$_GET['failaddedpassmismatch']}' could not be added.<br>\n";
 	print "The passwords were blank, or did not match.</div>\n";
-      } else if (isset($_GET[failupdated])) {
-	print "<div id='Status'>Domain '$_GET[failupdated]' could not be updated</div>\n";
-      } else if (isset($_GET[faildelete])) {
-	print "<div id='Status'>Domain '$_GET[failupdate]' could not be deleted</div>\n";
-      } else if (isset($_GET[canceldelete])) {
-	print "<div id='Status'>Domain '$_GET[canceldelete]' delete cancelled</div>\n";
-      } else if (isset($_GET[badname])) {
-	print "<div id='Status'>Domain '$_GET[badname]' contains invalid characters</div>\n";
-      } else if (isset($_GET[badpass])) {
-	print "<div id='Status'>$_GET[badpass] password could not be set.<br>\n";
+      } else if (isset($_GET['failupdated'])) {
+	print "<div id='Status'>Domain '{$_GET['failupdated']}' could not be updated</div>\n";
+      } else if (isset($_GET['faildelete'])) {
+	print "<div id='Status'>Domain '{$_GET['failupdate']}' could not be deleted</div>\n";
+      } else if (isset($_GET['canceldelete'])) {
+	print "<div id='Status'>Domain '{$_GET['canceldelete']}' delete cancelled</div>\n";
+      } else if (isset($_GET['badname'])) {
+	print "<div id='Status'>Domain '{$_GET['badname']}' contains invalid characters</div>\n";
+      } else if (isset($_GET['badpass'])) {
+	print "<div id='Status'>{$_GET['badpass']} password could not be set.<br>\n";
 	print "Your passwords were blank, do not match, or contain an illegal characters: ' \" ` or ;</div>\n";
       }
     ?>
@@ -63,20 +63,18 @@
 		$query = "SELECT localpart,domain,domains.domain_id FROM users,domains
 			WHERE users.domain_id = domains.domain_id
 			AND domain !='admin'
-			AND admin='1' 
-			AND domain LIKE '$letter%' GROUP BY domain";
+			AND admin=1 AND domain LIKE '$letter%' ORDER BY domain";
      else 
 		$query = "SELECT localpart,domain,domains.domain_id FROM users,domains
 			WHERE users.domain_id = domains.domain_id
-			AND domain !='admin'
-			AND admin='1' GROUP BY domain";
+			AND domain !='admin' AND admin=1 ORDER BY domain";
   	$result = $db->query($query);
 	while ($row = $result->fetchRow()) {
 	  print "<tr>";
-	  print "\t<td><a href=\"sitedelete.php?domain=$row[domain]&domain_id=$row[domain_id]\">";
-	  print "<img style='border:0;width:10px;height:16px' title='Delete $row[domain]' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
-	  print "\t<td><a href=\"sitechange.php?domain=$row[domain]&domain_id=$row[domain_id]\">$row[domain]</a></td>\n";
-	  print "\t<td>$row[localpart]@$row[domain]</td>\n";
+	  print "\t<td><a href=\"sitedelete.php?domain_id={$row['domain_id']}\">";
+	  print "<img style='border:0;width:10px;height:16px' title='Delete {$row['domain']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
+	  print "\t<td><a href=\"sitechange.php?domain_id={$row['domain_id']}\">{$row['domain']}</a></td>\n";
+	  print "\t<td>{$row['localpart']}@{$row['domain']}</td>\n";
 	  print "</tr>\n";
 	}
       ?>
@@ -92,9 +90,9 @@
         $result = $db->query($query);
         while ($row = $result->fetchRow()) {
           print "<tr>";
-          print "\t<td><a href=\"sitedelete.php?domain=$row[domain]&domain_id=$row[domain_id]&type=relay\">";
-          print "<img style='border:0;width:10px;height:16px' title='Delete$row[domain]' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
-          print "\t<td>$row[domain]</a></td>\n";
+          print "\t<td><a href=\"sitedelete.php?domain_id={$row['domain_id']}\">";
+          print "<img style='border:0;width:10px;height:16px' title='Delete{$row['domain']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
+          print "\t<td>{$row['domain']}</a></td>\n";
           print "</tr>\n";
         }
       ?>

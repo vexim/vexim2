@@ -17,11 +17,11 @@
 	    <? if ($domaininput == "dropdown") {
 	        print "<select name=\"domain\" class=\"textfield\">\n";
 	        print "<option value=\"\">\n";
-                  $query = "SELECT domain FROM domains WHERE domain!='admin' ORDER BY domain";
+                  $query = "SELECT domain FROM domains WHERE type='local' AND domain!='admin' ORDER BY domain";
 	          $result = $db->query($query);
 	          if (DB::isError($result)) { die ($result->getMessage()); }
                   while ($row = $result->fetchRow()) {
-                    print "\t<option value=\"" . $row[domain] . '">' . $row[domain] . '</option>' . "\n";
+                    print "\t<option value=\"" . $row['domain'] . '">' . $row['domain'] . '</option>' . "\n";
                   }
 	        print "</select>\n";
 	      } else if ($domaininput == "textbox") {
@@ -39,7 +39,7 @@
       </table>
     </form>
     </div>
-    <? if ($_GET[login] == "failed") { print "<div id='status'>Login Failed</div>"; } ?>
+    <? if ($_GET['login'] == "failed") { print "<div id='status'>Login Failed</div>"; } ?>
   </body>
 </html>
 

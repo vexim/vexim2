@@ -2,19 +2,21 @@
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
   include_once dirname(__FILE__) . "/config/functions.php";
-
-  $query = "REPLACE INTO users
+  $query = "DELETE FROM users WHERE user_id={$_POST['user_id']}";
+  $result = $db->query($query);
+  if (DB::isError($result)) { header ("Location: adminalias.php?failupdated=Catchall"); }
+  $query = "INSERT INTO users
     (localpart, username, domain_id, smtp, pop, uid, gid, realname, type, enabled)
     SELECT '*',
-      '*@" . $_COOKIE[vexim][1] . "',
-      '" . $_COOKIE[vexim][2] . "',
-      '$_POST[smtp]',
-      '$_POST[smtp]',
+      '*@{$_COOKIE['vexim'][1]}',
+      '{$_COOKIE['vexim'][2]}',
+      '{$_POST['smtp']}',
+      '{$_POST['smtp']}',
       uid,
       gid, 
       'CatchAll',
       'catch',
-      '1' FROM domains WHERE domains.domain_id='" . $_COOKIE[vexim][2] . "'";
+      '1' FROM domains WHERE domains.domain_id={$_COOKIE['vexim'][2]}";
   $result = $db->query($query);
   if (!DB::isError($result)) { header ("Location: adminalias.php?updated=Catchall"); }
   else { header ("Location: adminalias.php?failupdated=Catchall"); }

@@ -2,17 +2,16 @@
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
 
-  $query = "SELECT * FROM users WHERE localpart='" .$_GET[localpart]. "' AND domain_id='" .$_COOKIE[vexim][2]. "'";
+  $query = "SELECT * FROM users WHERE user_id={$_GET['user_id']}";
   $result = $db->query($query);
   $row = $result->fetchRow();
   $username = $row[username];
-  $user_id = $row[user_id];
-  $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains WHERE domain_id='" .$_COOKIE[vexim][2]. "'";
+  $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
   $domresult = $db->query($domquery);
   $domrow = $domresult->fetchRow();
   $blockquery = "SELECT blockhdr,blockval,users.user_id,users.username FROM blocklists,users
-                WHERE blocklists.domain_id='" .$_COOKIE[vexim][2]. "'
-                AND users.localpart='" .$_GET[localpart]. "'
+                WHERE blocklists.domain_id='{$_COOKIE['vexim'][2]}'
+                AND users.user_id='{$_GET['user_id']}'
                 AND users.user_id=blocklists.user_id";
   $blockresult = $db->query($blockquery);
 ?>
@@ -34,6 +33,7 @@
 	<tr><td>Name:</td><td><input type="text" size="25" name="realname" value="<? print $row[realname]; ?>" class="textfield"></td></tr>
 	<tr><td>Email Address:</td><td><? print $row[username]; ?></td></tr>
 	<input name="localpart" type="hidden" value="<? print $row[localpart]; ?>" class="textfield">
+	<input name="user_id" type="hidden" value="<? print $_GET['user_id']; ?>" class="textfield">
 	<tr><td>Password:</td><td><input type="password" size="25" name="clear" class="textfield"></td></tr>
 	<tr><td>Verify Password:</td><td><input type="password" size="25" name="vclear" class="textfield"></td></tr>
 	<? if ($postmasteruidgid == "yes") {
@@ -112,7 +112,7 @@
                   <option value="X-Mailer">X-Mailer:</option>
                   </select></td>
               <td><input name="blockval" type="text" size="25" class="textfield">
-                  <input name="userid" type="hidden" value="<? print $user_id; ?>">
+                  <input name="userid" type="hidden" value="<? print $_GET['user_id']; ?>">
                   <input name="username" type="hidden" value="<? print $username; ?>">
                   <input name="color" type="hidden" value="black"></td></tr>
           <tr><td><input name="submit" type="submit" value="Submit"></td></tr>

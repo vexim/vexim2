@@ -3,7 +3,7 @@
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
 ?>
 <?
-  $query = "SELECT * FROM users WHERE localpart='*' and domain_id='".$_COOKIE[vexim][2]."'";
+  $query = "SELECT smtp FROM users WHERE user_id={$_GET['user_id']}";
   $result = $db->query($query);
   $row = $result->fetchRow();
 ?>
@@ -26,13 +26,14 @@
 	  <td>Alias Name:</td><td>Catchall</td>
 	</tr>
         <tr>
-	  <td>Forward email addressed to:</td><td>*@<? print $_COOKIE[vexim][1];?></td>
+	  <td>Forward email addressed to:</td><td>*@<? print $_COOKIE['vexim'][1];?></td>
 	</tr>
         <tr>
-	  <td>Forward the email to:</td><td><input name="smtp" type="text" value="<? print $row[smtp]; ?>" class="textfield"></td>
+	  <td>Forward the email to:</td><td><input name="smtp" type="text" value="<? print $row['smtp']; ?>" class="textfield"></td>
 	</tr>
 	<tr>
-	  <td></td><td><input name="submit" type="submit" value="Submit"></td>
+	  <td><input name="user_id" type="hidden" value="<? print $_GET['user_id']; ?>" class="textfield"></td>
+	  <td><input name="submit" type="submit" value="Submit"></td>
 	</tr>
       </table>
     </form>

@@ -4,90 +4,89 @@
   include_once dirname(__FILE__) . "/config/functions.php";
 
   # Fix the boolean values
-  $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id ='" .$_COOKIE[vexim][2]. "'";
+  $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
   $result = $db->query($query);
   $row = $result->fetchRow();
-  if (isset($_POST[admin])) {$_POST[admin] = 1;} else {$_POST[admin] = 0;}
-  if (isset($_POST[on_avscan])) {$_POST[on_avscan] = 1;} else {$_POST[on_avscan] = 0;}
-  if (isset($_POST[on_forward])) {$_POST[on_forward] = 1;} else {$_POST[on_forward] = 0;}
-  if (isset($_POST[on_piped])) {$_POST[on_piped] = 1;} else {$_POST[on_piped] = 0;}
-  if (isset($_POST[on_spamassassin])) {$_POST[on_spamassassin] = 1;} else {$_POST[on_spamassassin] = 0;}
-  if (isset($_POST[on_vacation])) {$_POST[on_vacation] = 1;} else {$_POST[on_vacation] = 0;}
-  if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
-  if (!isset($_POST[gid])) {$_POST[gid] = $row[gid];}
-  if (!isset($_POST[uid])) {$_POST[uid] = $row[uid];}
-  if (!isset($_POST[quota])) {$_POST[quota] = $row[quotas];}
-  if (!isset($_POST[sa_refuse])) {$_POST[sa_refuse] = "0";}
-  if ($row[quotas] != "0") {
-    if (($_POST[quota] > $row[quotas]) || ($_POST[quota] == "0")) {
-      header ("Location: adminuser.php?quotahigh=$row[quotas]"); die;
+  if (isset($_POST['admin'])) {$_POST['admin'] = 1;} else {$_POST['admin'] = 0;}
+  if (isset($_POST['on_avscan'])) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
+  if (isset($_POST['on_forward'])) {$_POST['on_forward'] = 1;} else {$_POST['on_forward'] = 0;}
+  if (isset($_POST['on_piped'])) {$_POST['on_piped'] = 1;} else {$_POST['on_piped'] = 0;}
+  if (isset($_POST['on_spamassassin'])) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
+  if (isset($_POST['on_vacation'])) {$_POST['on_vacation'] = 1;} else {$_POST['on_vacation'] = 0;}
+  if (isset($_POST['enabled'])) {$_POST['enabled'] = 1;} else {$_POST['enabled'] = 0;}
+  if (!isset($_POST['gid'])) {$_POST['gid'] = $row['gid'];}
+  if (!isset($_POST['uid'])) {$_POST['uid'] = $row['uid'];}
+  if (!isset($_POST['quota'])) {$_POST['quota'] = $row['quotas'];}
+  if (!isset($_POST['sa_refuse'])) {$_POST['sa_refuse'] = "0";}
+  if ($row['quotas'] != "0") {
+    if (($_POST['quota'] > $row['quotas']) || ($_POST['quota'] == "0")) {
+      header ("Location: adminuser.php?quotahigh={$row['quotas']}"); die;
     }
   }
 
   # Big code block, to make sure we're not de-admining the last admin
   $query = "SELECT COUNT(admin) AS count FROM users
-                        WHERE admin='1'
-                        AND domain_id='" . $_COOKIE[vexim][2] . "'";
+                        WHERE admin=1
+                        AND domain_id={$_COOKIE['vexim'][2]}";
   $result = $db->query($query);
   $row = $result->fetchRow();
-  if ($row[count] == "1") {
-    $query = "SELECT admin FROM users WHERE localpart='$_POST[localpart]' AND domain_id='" . $_COOKIE[vexim][2] . "'";
+  if ($row['count'] == "1") {
+    $query = "SELECT admin FROM users WHERE localpart='{$_POST['localpart']}' AND domain_id={$_COOKIE['vexim'][2]}";
     $result = $db->query($query);
     $row = $result->fetchRow();
-    if (($row[admin] == "1") && ($_POST[admin] == "0")) {
-      header ("Location: adminuser.php?nodel=$_POST[localpart]");
+    if (($row['admin'] == "1") && ($_POST['admin'] == "0")) {
+      header ("Location: adminuser.php?nodel={$_POST['localpart']}");
       die;
     }
   }
 
   # Set the apporpriate maildirs
-  $query = "SELECT maildir FROM domains WHERE domain_id ='" .$_COOKIE[vexim][2]. "'";
+  $query = "SELECT maildir FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
   $result = $db->query($query);
   $row = $result->fetchRow();
-  if (($_POST[on_piped] == 1) && ($_POST[smtp] != "")) {
-    $smtphomepath = $_POST[smtp];
-    $pophomepath = "$row[maildir]/$_POST[localpart]";
-    $_POST[type] = "piped";
+  if (($_POST['on_piped'] == 1) && ($_POST['smtp'] != "")) {
+    $smtphomepath = $_POST['smtp'];
+    $pophomepath = "{$row['maildir']}/{$_POST['localpart']}";
+    $_POST['type'] = "piped";
   } else {
-    $smtphomepath = "$row[maildir]/$_POST[localpart]/Maildir";
-    $pophomepath = "$row[maildir]/$_POST[localpart]";
-    $_POST[type] = "local";
+    $smtphomepath = "{$row['maildir']}/{$_POST['localpart']}/Maildir";
+    $pophomepath = "{$row['maildir']}/{$_POST['localpart']}";
+    $_POST['type'] = "local";
   }
 
   # Update the password, if the password was given
-  if (validate_password($_POST[clear], $_POST[vclear])) {
-    $cryptedpassword = crypt($_POST[clear]);
+  if (validate_password($_POST['clear'], $_POST['vclear'])) {
+    $cryptedpassword = crypt($_POST['clear']);
     $query = "UPDATE users SET crypt='$cryptedpassword',
-		clear='$_POST[clear]'
-		WHERE localpart='$_POST[localpart]' AND domain_id='" .$_COOKIE[vexim][2]. "'";
+		clear='{$_POST['clear']}'
+		WHERE localpart='{$_POST['localpart']}' AND domain_id={$_COOKIE['vexim'][2]}";
     $result = $db->query($query);
-    if ((!DB::isError($result)) && ($_POST[localpart] == $_COOKIE[vexim][0])) { setcookie ("vexim[3]", $cryptedpassword, time()+86400); }
-    else { header ("Location: adminuser.php?failupdated=$_POST[localpart]"); }
-  } else if ($_POST[clear] != $_POST[vclear]) {
-    header ("Location: adminuser.php?badpass=$_POST[localpart]");
+    if ((!DB::isError($result)) && ($_POST['localpart'] == $_COOKIE['vexim'][0])) { setcookie ("vexim[3]", $cryptedpassword, time()+86400); }
+    else { header ("Location: adminuser.php?failupdated={$_POST['localpart']}"); }
+  } else if ($_POST['clear'] != $_POST['vclear']) {
+    header ("Location: adminuser.php?badpass={$_POST['localpart']}");
   }
 
-  $query = "UPDATE users SET uid='$_POST[uid]',
-    gid='$_POST[gid]',
-    realname='$_POST[realname]',
-    admin='$_POST[admin]',
-    on_avscan='$_POST[on_avscan]',
-    on_forward='$_POST[on_forward]',
-    on_piped='$_POST[on_piped]',
-    on_spamassassin='$_POST[on_spamassassin]',
-    on_vacation='$_POST[on_vacation]',
-    sa_refuse='$_POST[sa_refuse]',
-    enabled='$_POST[enabled]',
-    forward='$_POST[forward]',
-    maxmsgsize='$_POST[maxmsgsize]',
-    quota='$_POST[quota]',
-    sa_tag='$_POST[sa_tag]',
-    sa_refuse='$_POST[sa_refuse]',
-    type='$_POST[type]',
-    vacation='$_POST[vacation]'
-    WHERE localpart='$_POST[localpart]' AND domain_id='".$_COOKIE[vexim][2]."'";
+  $query = "UPDATE users SET uid={$_POST['uid']},
+    gid={$_POST['gid']}, smtp='$smtphomepath', pop='$pophomepath',
+    realname='{$_POST['realname']}',
+    admin={$_POST['admin']},
+    on_avscan={$_POST['on_avscan']},
+    on_forward={$_POST['on_forward']},
+    on_piped={$_POST['on_piped']},
+    on_spamassassin={$_POST['on_spamassassin']},
+    on_vacation={$_POST['on_vacation']},
+    enabled={$_POST['enabled']},
+    forward='{$_POST['forward']}',
+    maxmsgsize={$_POST['maxmsgsize']},
+    quota={$_POST['quota']},
+    sa_tag=" . ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0) . ",
+    sa_refuse=" . ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0) . ",
+    type='{$_POST['type']}',
+    vacation='" . (($_POST['vacation']) ? $_POST['vacation'] : 0) . "'
+    WHERE user_id='{$_POST['user_id']}'";
   $result = $db->query($query);
-  if (!DB::isError($result)) { header ("Location: adminuser.php?updated=$_POST[localpart]"); }
-  else { header ("Location: adminuser.php?failupdated=$_POST[localpart]"); }
+  if (!DB::isError($result)) { header ("Location: adminuser.php?updated={$_POST['localpart']}"); }
+  else { header ("Location: adminuser.php?failupdated={$_POST['localpart']}"); }
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->

@@ -19,7 +19,7 @@
       <table align="center">
 	<tr><td>Domain:</td><td><input name="domain" type="text" class="textfield"></td>
 	    <td>The name of the new domain you are adding</td></tr>
-	<? if ($_GET[type] == "local") {
+	<? if ($_GET['type'] == "local") {
 	   print "
 	     <tr><td>Domain Admin:</td><td><input name=\"localpart\" type=\"text\" value=\"postmaster\" class=\"textfield\"></td>
 		 <td>The username of the domain's administrator account</td></tr>
@@ -49,7 +49,7 @@
 	     <tr><td></td>";
 	   }
 	?>
-	    <td><input name="type" type="hidden" value="<? print $_GET[type]; ?>">
+	    <td><input name="type" type="hidden" value="<? print $_GET['type']; ?>">
 		<input name="admin" type="hidden" value="1">
 		<input name="submit" type="submit" value="Submit"></td>
 	</tr>

@@ -49,9 +49,9 @@
   $sa_refuse = "5";
 
   /* Welcome message, sent to new POP/IMAP accounts */
-  $welcome_message = "Welcome, $_POST[realname] !\n\nYour new E-mail account is all ready for you.\n\n"
+  $welcome_message = "Welcome, {$_POST['realname']} !\n\nYour new E-mail account is all ready for you.\n\n"
                      . "Here are some settings you might find useful:\n\n"
-		     . "Username: $_POST[localpart]@" . $_COOKIE[vexim][2] ."\n"
-		     . "POP3 server: mail." . $_COOKIE[vexim][2] . "\n"
-		     . "SMTP server: mail." . $_COOKIE[vexim][2] . "\n";
+		     . "Username: {$_POST['localpart']}@" . $_COOKIE['vexim'][2] ."\n"
+		     . "POP3 server: mail." . $_COOKIE['vexim'][2] . "\n"
+		     . "SMTP server: mail." . $_COOKIE['vexim'][2] . "\n";
 ?>

@@ -1,7 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
-  if (isset($_POST[listname])) {
-    header ("Location: $mailmanroot/admin/$_POST[listname]");
+  if (isset($_POST['listname'])) {
+    header ("Location: $mailmanroot/admin/{$_POST['listname']}");
   }
 ?>
 <html>

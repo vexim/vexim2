@@ -2,7 +2,7 @@
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
 
-  $query = "SELECT * FROM users WHERE localpart='" .$_GET[localpart]. "' AND domain_id='" . $_COOKIE[vexim][2] . "'";
+  $query = "SELECT localpart FROM users WHERE user_id={$_GET['user_id']}";
   $result = $db->query($query);
   $row = $result->fetchRow();
 ?>
@@ -23,8 +23,8 @@
       <form name="failchange" method="post" action="adminfailchangesubmit.php">
         <table align="center">
           <tr><td>Fail address:</td>
-	      <td><input name="localpart" type="text" value="<? print $row[localpart]; ?>" class="textfield">@<? print $_COOKIE[vexim][1]; ?></td>
-	      <td><input name="origlocalpart" type="hidden" value="<? print $row[localpart]; ?>" class="textfield"></td></tr>
+	      <td><input name="localpart" type="text" value="<? print $row['localpart']; ?>" class="textfield">@<? print $_COOKIE['vexim'][1]; ?></td>
+	      <td><input name="user_id" type="hidden" value="<? print $_GET['user_id']; ?>" class="textfield"></td></tr>
 	  <tr><td></td><td><input name="submit" type="submit" value="Submit"></td></tr>
         </table>
       </form>

@@ -13,18 +13,18 @@
     <div id="Menu">
       <a href="adminuseradd.php">Add User</a>
       <?
-		$domquery = "SELECT max_accounts FROM domains WHERE domain_id=" . $_COOKIE[vexim][2]; 
-		$domresult = $db->query($domquery);
-		$domrow = $domresult->fetchRow();
-		if ($domrow[max_accounts]) {
-			$allowed = $domrow[max_accounts];
-			$domquery = "SELECT count(user_id) AS used FROM users WHERE domain_id=" . $_COOKIE[vexim][2] . " AND type='local';";
-			$domresult = $db->query($domquery);
-			$domrow = $domresult->fetchRow();
-			$used_accounts = $domrow[used];
-			print "(" . $domrow[used] . " of $allowed)";
-		}
-	  ?>
+	$query = "SELECT count(users.user_id)
+	          AS used, max_accounts
+		  FROM domains
+		  WHERE domain_id={$_COOKIE['vexim'][2]}
+		  AND domains.domain_id=users.domain_id
+		  AND users.type='local' GROUP BY max_accounts"; 
+	$result = $db->query($query);
+	if (!DB::isError($result)) {
+	  $row = $result->fetchRow();
+	  print "({$row['used']} of {$row['max_accounts']})";
+	}
+      ?>
       <br>
       <a href="admin.php">Main Menu</a><br>
       <br><a href="logout.php">Logout</a><br>
@@ -38,23 +38,23 @@
 	<tr><th>&nbsp;</th><th>User</th><th>Email address</th><th>Admin</th></tr>
 	<?
      if ($alphausers AND $letter != '') 
-		$query = "SELECT localpart,realname,admin,enabled FROM users
-			WHERE localpart LIKE '$letter%' AND
-			domain_id='" .$_COOKIE[vexim][2]. "' AND (type='local' OR type='piped')
+		$query = "SELECT user_id,localpart,realname,admin,enabled FROM users
+			WHERE localpart LIKE '{$letter}%' AND
+			domain_id={$_COOKIE['vexim'][2]} AND (type='local' OR type='piped')
 			ORDER BY realname";
      else 
-		$query = "SELECT localpart,realname,admin,enabled FROM users
-			WHERE domain_id='" .$_COOKIE[vexim][2]. "' AND (type='local' OR type='piped')
+		$query = "SELECT user_id,localpart,realname,admin,enabled FROM users
+			WHERE domain_id={$_COOKIE['vexim'][2]} AND (type='local' OR type='piped')
 			ORDER BY realname";
 	  $result = $db->query($query);
 	  while ($row = $result->fetchRow()) {
 	    print "\t<tr>";
-	    print "<td class='trash'><a href=\"adminuserdelete.php?localpart=" . $row[localpart] . "\">";
-	    print "<img style='border:0;width:10px;height:16px' title='Delete " . $row[realname] . "' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
-	    print "\t<td><a href=\"adminuserchange.php?localpart=" . $row[localpart] . "\" title='Click to modify " . $row[realname] . "'>" . $row[realname] . "</a></td>\n";
-	    print "\t<td>" . $row[localpart] . "@" . $_COOKIE[vexim][1] . "</td>\n";
+	    print "<td class='trash'><a href=\"adminuserdelete.php?user_id={$row['user_id']}\">";
+	    print "<img style='border:0;width:10px;height:16px' title='Delete {$row['realname']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
+	    print "\t<td><a href=\"adminuserchange.php?user_id={$row['user_id']}\" title='Click to modify {$row['realname']}'>{$row['realname']}</a></td>\n";
+	    print "\t<td>{$row['localpart']}@{$_COOKIE['vexim'][1]}</td>\n";
 	    print "\t<td class='check'>";
-	    if ($row[admin] == 1) print "<img style='border:0;width:13px;height:12px' src='images/check.gif' title='" . $row[realname] . " is an administrator'>";
+	    if ($row['admin'] == 1) print "<img style='border:0;width:13px;height:12px' src='images/check.gif' title='{$row['realname']} is an administrator'>";
 	    print "</td></tr>\n";
 	  }
 	?>

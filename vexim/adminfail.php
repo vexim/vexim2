@@ -18,13 +18,13 @@
     <table align="center">
       <tr><th>&nbsp;</th><th>Failed Address..</td></tr>
       <?
-	$query = "SELECT localpart FROM users WHERE domain_id='" . $_COOKIE[vexim][2] . "' AND users.type='fail' ORDER BY localpart;";
+	$query = "SELECT user_id,localpart FROM users WHERE domain_id='{$_COOKIE['vexim'][2]}' AND users.type='fail' ORDER BY localpart;";
 	$result = $db->query($query);
 	while ($row = $result->fetchRow()) {
 	  print "<tr>";
-	  print "<td align=\"center\"><a href=\"adminfaildelete.php?localpart=$row[localpart]\">";
-	  print "<img style='border:0;width:10px;height:16px' src=\"images/trashcan.gif\" title=\"Delete fail $row[localpart]\"></a></td>\n";
-	  print "<td><a href=\"adminfailchange.php?localpart=$row[localpart]\">$row[localpart]@" . $_COOKIE[vexim][1] . "</a></td>\n";
+	  print "<td align=\"center\"><a href=\"adminfaildelete.php?user_id={$row['user_id']}\">";
+	  print "<img style='border:0;width:10px;height:16px' src=\"images/trashcan.gif\" title=\"Delete fail {$row['localpart']}\"></a></td>\n";
+	  print "<td><a href=\"adminfailchange.php?user_id={$row['user_id']}\">{$row['localpart']}@{$_COOKIE['vexim'][1]}</a></td>\n";
 	  print "</tr>\n";
 	}
       ?>
