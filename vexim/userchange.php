@@ -25,21 +25,6 @@
     <div id="menu">
       <a href="logout.php"><? echo _("Logout"); ?></a><br>
     </div>
-      <?
-	if (isset($_GET['updated'])) {
-	  print "<div id='status'>Your update was sucessful.</div>\n";
-	} else if (isset($_GET['failed'])) {
-	  print "<div id='status'>Your account could not be updated. Please see your administrator.</div>\n";
-	} else if (isset($_GET['success'])) {
-	  print "<div id='status'>Your account has been succesfully updated.</div>\n";
-	} else if (isset($_GET['failrealname'])) {
-	  print "<div id='status'>Your account could not be updated. Your Real Name was blank!</div>\n";
-	} else if (isset($_GET['badpass'])) {
-	  print "<div id='status'>Your account password was not updated.<br>\n";
-	  print "Your passwords were blank, did not match, or contained illegal characters: ' \" ` or ;<br>";
-	  print "All other settings were updated.</div>\n";
-	}
-      ?>
     <div id="forms">
       <form name="userchange" method="post" action="userchangesubmit.php">
 	<table align="center">
