@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: template\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-26 18:38+0200\n"
+"POT-Creation-Date: 2004-08-26 18:43+0200\n"
 "PO-Revision-Date: 2004-08-04 17:12+0100\n"
 "Last-Translator: Regina Salzmann <vexim@blacknet.de>\n"
 "Language-Team: German\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: config/functions.php:113
+#: config/functions.php:108
 msgid "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 msgstr "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -24,8 +24,8 @@ msgstr "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #: admincatchalladd.php:9 adminfail.php:8 adminfailadd.php:9
 #: adminfailchange.php:13 admingroup.php:8 admingroupadd.php:8
 #: admingroupchange.php:13 admingroupdelete.php:31 adminlists.php:11
-#: adminuser.php:9 adminuseradd.php:24 adminuserchange.php:21
-#: adminuserdelete.php:32 index.php:8 site.php:9 siteadd.php:9
+#: adminuser.php:26 adminuseradd.php:24 adminuserchange.php:21
+#: adminuserdelete.php:32 index.php:8 site.php:22 siteadd.php:9
 #: sitechange.php:9 sitedelete.php:55 sitepassword.php:9 userchange.php:20
 msgid "Virtual Exim"
 msgstr "Virtual Exim"
@@ -239,16 +239,16 @@ msgstr "Verwaltung der Mailing-Listen"
 #: adminaliasdelete.php:32 admincatchall.php:20 admincatchalladd.php:18
 #: adminfail.php:16 adminfailadd.php:17 adminfailchange.php:22
 #: admingroup.php:17 admingroupadd.php:16 admingroupchange.php:22
-#: admingroupdelete.php:39 adminlists.php:19 adminuser.php:32
+#: admingroupdelete.php:39 adminlists.php:19 adminuser.php:49
 #: adminuseradd.php:32 adminuserchange.php:29 adminuserdelete.php:40
-#: site.php:18 siteadd.php:17 sitechange.php:17 sitedelete.php:63
+#: site.php:31 siteadd.php:17 sitechange.php:17 sitedelete.php:63
 #: sitepassword.php:17 userchange.php:26
 msgid "Logout"
 msgstr "abmelden"
 
 #: adminalias.php:9 adminaliasadd.php:13 adminaliaschange.php:12
 #: admincatchall.php:12 admincatchalladd.php:9 adminfail.php:8
-#: adminfailadd.php:9 adminfailchange.php:13 adminuser.php:9
+#: adminfailadd.php:9 adminfailchange.php:13 adminuser.php:26
 #: adminuseradd.php:24 adminuserchange.php:21 userchange.php:20
 msgid "Manage Users"
 msgstr "Benutzerverwaltung"
@@ -266,7 +266,7 @@ msgstr "Sammelpostfach hinzuf&uuml;gen"
 #: adminaliasdelete.php:31 admincatchall.php:19 admincatchalladd.php:17
 #: adminfail.php:15 adminfailadd.php:16 adminfailchange.php:21
 #: admingroup.php:16 admingroupadd.php:15 admingroupchange.php:21
-#: admingroupdelete.php:38 adminlists.php:18 adminuser.php:31
+#: admingroupdelete.php:38 adminlists.php:18 adminuser.php:48
 #: adminuseradd.php:31 adminuserchange.php:28 adminuserdelete.php:39
 msgid "Main Menu"
 msgstr "Hauptmen&uuml;"
@@ -284,7 +284,7 @@ msgid "Forwards to.."
 msgstr "leitet weiter an"
 
 #: adminalias.php:28 adminaliasadd.php:33 adminaliaschange.php:35
-#: adminuser.php:40 adminuserchange.php:58 sitechange.php:23
+#: adminuser.php:69 adminuserchange.php:58 sitechange.php:23
 msgid "Admin"
 msgstr "Administrator"
 
@@ -293,7 +293,7 @@ msgstr "Administrator"
 msgid "Delete alias %s"
 msgstr "Alias %s l&ouml;schen"
 
-#: adminalias.php:64 adminuser.php:62
+#: adminalias.php:64 adminuser.php:95
 #, php-format
 msgid "%s is an administrator"
 msgstr "%s ist Administrator."
@@ -457,7 +457,7 @@ msgstr "Gruppe auflisten"
 msgid "Add Group"
 msgstr "Gruppe hinzuf&uuml;gen"
 
-#: admingroup.php:21 adminuser.php:40
+#: admingroup.php:21 adminuser.php:63 adminuser.php:69
 msgid "Email address"
 msgstr "Email-Adresse"
 
@@ -531,15 +531,27 @@ msgid "Please enter the name of the list to admin"
 msgstr ""
 "Bitte geben Sie den Namen der Liste ein, welche Sie administrieren wollen"
 
-#: adminuser.php:15 adminuserdelete.php:38
+#: adminuser.php:32 adminuserdelete.php:38
 msgid "Add User"
 msgstr "Benutzer hinzuf&uuml;gen"
 
-#: adminuser.php:40
+#: adminuser.php:58 site.php:39
+msgid "Search"
+msgstr "Suche"
+
+#: adminuser.php:60
+msgid "in"
+msgstr "in"
+
+#: adminuser.php:62 adminuser.php:69
 msgid "User"
 msgstr "Benutzername"
 
-#: adminuser.php:56
+#: adminuser.php:65 site.php:41
+msgid "search"
+msgstr "suchen"
+
+#: adminuser.php:89
 msgid "Click to modify"
 msgstr "zum Bearbeiten anklicken"
 
@@ -705,60 +717,60 @@ msgstr "Bitte best&auml;tigen Sie die L&ouml;schung von %s@%s"
 msgid "Username"
 msgstr "Benutzername"
 
-#: site.php:9 sitepassword.php:9
+#: site.php:22 sitepassword.php:9
 msgid "Manage Sites"
 msgstr "Site-Verwaltung"
 
-#: site.php:14
+#: site.php:27
 msgid "Add alias domain"
 msgstr "Alias-Domain hinzuf&uuml;gen"
 
-#: site.php:15
+#: site.php:28
 msgid "Add local domain"
 msgstr "lokale Domain hinzuf&uuml;gen"
 
-#: site.php:16
+#: site.php:29
 msgid "Add relay domain"
 msgstr "Relay-Domain hinzuf&uuml;gen"
 
-#: site.php:17 siteadd.php:16 sitechange.php:16 sitedelete.php:62
+#: site.php:30 siteadd.php:16 sitechange.php:16 sitedelete.php:62
 #: sitepassword.php:16
 msgid "Site Password"
 msgstr "Site-Passwort"
 
-#: site.php:27
+#: site.php:47
 msgid "Local domains"
 msgstr "lokale Domains"
 
-#: site.php:28
+#: site.php:48
 msgid "Admin account"
 msgstr "Konto des Administrators"
 
-#: site.php:29
+#: site.php:49
 msgid "Total admins"
 msgstr "Anzahl der Administratoren"
 
-#: site.php:55
+#: site.php:76
 msgid "WARNING"
 msgstr "WARNUNG"
 
-#: site.php:55
+#: site.php:76
 msgid ""
 "Deleting a domain will delete all user accounts in that domain permanently!"
 msgstr ""
 "Das L&ouml;schen einer Domain bedeutet die endg&uuml;ltige L&ouml;schung "
 "aller Benutzerkonten."
 
-#: site.php:59
+#: site.php:80
 msgid "Relay domains"
 msgstr "Relay-Domains"
 
-#: site.php:68 site.php:85 sitedelete.php:76
+#: site.php:89 site.php:106 sitedelete.php:76
 #, php-format
 msgid "Delete %s"
 msgstr "%s l&ouml;schen"
 
-#: site.php:76
+#: site.php:97
 msgid "Aliased domains"
 msgstr "Alias-Domains"
 

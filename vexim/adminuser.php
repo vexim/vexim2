@@ -12,6 +12,14 @@
   {
       $letter = '';
   }
+  if (!isset($_POST['searchfor'])) 
+  {
+      $_POST['searchfor'] = '';
+  }
+  if (!isset($_POST['field']) || ($_POST['field'] != 'localpart'))
+  {
+      $_POST['field'] = 'realname';
+  }
 ?>
 <html>
   <head>
@@ -45,6 +53,18 @@
 	<?php
 		alpha_menu($alphausers)
 	?>
+    <div id="forms">
+    <form name="search" method="post" action="adminuser.php">
+    <?php echo _("Search"); ?>:
+    <input type="text" size="20" name="searchfor" value="<?php echo $_POST['searchfor']; ?>" class="textfield" />
+    <?php echo _("in"); ?>
+    <select name="field" class="textfield">
+     <option value="realname" <?php if ($_POST['field'] == 'realname') {echo "selected=\"selected\"";} ?>) ><?php echo _("User"); ?></option>
+     <option value="localpart" <?php if ($_POST['field'] == 'localpart') {echo "selected=\"selected\"";} ?>) ><?php echo _("Email address"); ?></option>
+    </select>
+    <input type="submit" name="search" value="<?php echo _("search"); ?>" />
+    </form>
+    </div>
     <table>
 	<tr><th>&nbsp;</th><th><?php echo _("User"); ?></th><th><?php echo _("Email address"); ?></th><th><?php echo _("Admin"); ?></th></tr>
 	<?php
@@ -54,7 +74,13 @@
               AND  (type = 'local' OR type= 'piped')";
     if ($alphausers AND $letter != '') 
         $query .= " AND lower(localpart) LIKE lower('{$letter}%')";
+    elseif ($_POST['searchfor'] != '')
+    {
+        $query .= " AND " . $_POST['field'] . 
+                  " LIKE '%" . $_POST['searchfor'] . "%'";
+    }
     $query .= " ORDER BY realname";
+    echo "<!-- $query -->";
 	  $result = $db->query($query);
 	  while ($row = $result->fetchRow()) {
 	    print "\t<tr>";
