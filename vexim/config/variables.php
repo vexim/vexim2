@@ -39,7 +39,7 @@
 
   /* The location of your mailstore for new domains.
      Make sure the exim user owns it! */
-  $mailroot = "/var/mail/";
+  $mailroot = "/usr/local/mail/";
 
   /* path to Mailman */
   $mailmanroot = "http://www.EXAMPLE.com/mailman";
