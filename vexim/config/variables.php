@@ -32,7 +32,8 @@
   $domaininput = "dropdown";
 
   /* The UID's and GID's control the default UID and GID for new domains
-     and if postmasters can define their own */
+     and if postmasters can define their own.
+     THE UID AND GID MUST BE NUMERIC! */
   $uid = "90";
   $gid = "90";
   $postmasteruidgid = "yes";
