@@ -3,6 +3,15 @@
   include_once dirname(__FILE__) . "/config/authsite.php";
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
+
+  if (isset($_GET['LETTER']))
+  {
+      $letter = strtolower($_GET['LETTER']);
+  }
+  else
+  {
+      $letter = '';
+  }
 ?>
 <html>
   <head>
@@ -21,7 +30,7 @@
 	<?php
 		alpha_menu($alphadomains);
 	?>
-	<table align="center">
+	<table>
       <tr>
       	<th></th>
 	<th><?php echo _("Local domains"); ?></th>

@@ -95,12 +95,7 @@
     function alpha_menu($flag) 
     {
         global $letter;	// needs to be available to the parent
-        $letter = $_GET['LETTER'];
-        if ($letter == '') 
-        {
-            $letter = 'ALL'; // Which letter to start the menu lists all
-        }
-        if ($letter == 'ALL') 
+        if ($letter == 'all') 
         {
             $letter = '';
         }

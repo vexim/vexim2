@@ -3,6 +3,15 @@
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
+
+  if (isset($_GET['LETTER']))
+  {
+      $letter = strtolower($_GET['LETTER']);
+  }
+  else
+  {
+      $letter = '';
+  }
 ?>
 <html>
   <head>
@@ -36,18 +45,16 @@
 	<?php
 		alpha_menu($alphausers)
 	?>
-    <table align="center">
+    <table>
 	<tr><th>&nbsp;</th><th><?php echo _("User"); ?></th><th><?php echo _("Email address"); ?></th><th><?php echo _("Admin"); ?></th></tr>
 	<?php
-     if ($alphausers AND $letter != '') 
-		$query = "SELECT user_id,localpart,realname,admin,enabled FROM users
-			WHERE lower(localpart) LIKE lower('{$letter}%') AND
-			domain_id={$_SESSION['domain_id']} AND (type='local' OR type='piped')
-			ORDER BY realname";
-     else 
-		$query = "SELECT user_id,localpart,realname,admin,enabled FROM users
-			WHERE domain_id={$_SESSION['domain_id']} AND (type='local' OR type='piped')
-			ORDER BY realname";
+    $query = "SELECT user_id, localpart, realname, admin, enabled 
+              FROM users
+              WHERE domain_id = '{$_SESSION['domain_id']}' 
+              AND  (type = 'local' OR type= 'piped')";
+    if ($alphausers AND $letter != '') 
+        $query .= " AND lower(localpart) LIKE lower('{$letter}%')";
+    $query .= " ORDER BY realname";
 	  $result = $db->query($query);
 	  while ($row = $result->fetchRow()) {
 	    print "\t<tr>";
