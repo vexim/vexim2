@@ -55,9 +55,13 @@
 	   if ($domrow[spamassassin] == "1") {
 	     print "<tr><td>Spamassassin:</td><td><input name=\"on_spamassassin\" type=\"checkbox\"";
 	     if ($row[on_spamassassin] == "1") { print " checked "; } print "></td></tr>\n";
+	     print "<tr><td>SA tag score:</td>";
+	     print "<td><input type=\"text\" size=\"5\" name=\"sa_tag\" value=\"$row[sa_tag]\" class=\"textfield\"></td></tr>\n";
 	     print "<tr><td>SA refuse score:</td>";
-	     print "<td><input type=\"text\" size=\"25\" name=\"sa_refuse\" value=\"$row[sa_refuse]\" class=\"textfield\"></td></tr>\n";
+	     print "<td><input type=\"text\" size=\"5\" name=\"sa_refuse\" value=\"$row[sa_refuse]\" class=\"textfield\"></td></tr>\n";
 	   }
+	   print "<tr><td>Maximum message size:</td>";
+	   print "<td><input type=\"text\" size=\"5\" name=\"maxmsgsize\" value=\"$row[maxmsgsize]\" class=\"textfield\">Kb</td></tr>\n";
 	?>
 	<tr><td>Enabled:</td><td><input name="enabled" type="checkbox" <?
 		if ($row[enabled] == 1) { print "checked"; } ?> class="textfield"></td></tr>

@@ -35,11 +35,13 @@
 # Finally 'the rest' which is handled by the profile form
     $query = "UPDATE users SET on_avscan='$_POST[on_avscan]',
 		on_spamassassin='$_POST[on_spamassassin]',
+		sa_tag='$_POST[sa_tag]',
 		sa_refuse='$_POST[sa_refuse]',
 		on_vacation='$_POST[on_vacation]',
 		vacation='$_POST[vacation]',
 		on_forward='$_POST[on_forward]',
-		forward='$_POST[forward]'
+		forward='$_POST[forward]',
+		maxmsgsize='$_POST[maxmsgsize]'
 		WHERE localpart='" .$_COOKIE[vexim][0]. "'
     		AND domain_id='" .$_COOKIE[vexim][2]. "'";
     $result = $db->query($query);

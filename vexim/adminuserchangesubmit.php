@@ -79,7 +79,10 @@
     sa_refuse='$_POST[sa_refuse]',
     enabled='$_POST[enabled]',
     forward='$_POST[forward]',
+    maxmsgsize='$_POST[maxmsgsize]',
     quota='$_POST[quota]',
+    sa_tag='$_POST[sa_tag]',
+    sa_refuse='$_POST[sa_refuse]',
     type='$_POST[type]',
     vacation='$_POST[vacation]'
     WHERE localpart='$_POST[localpart]' AND domain_id='".$_COOKIE[vexim][2]."'";

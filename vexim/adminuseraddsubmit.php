@@ -43,7 +43,7 @@
   }
 
   if (validate_password($_POST[clear], $_POST[vclear])) {
-    $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped, on_spamassassin, enabled, quota)
+    $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped, on_spamassassin, sa_tag, sa_refuse, maxmsgsize, enabled, quota)
       VALUES ('$_POST[localpart]',
         '" . $_POST[localpart] . "@" . $_COOKIE[vexim][1] . "',
         '" . $_COOKIE[vexim][2] . "',
@@ -59,6 +59,9 @@
         '$_POST[on_avscan]',
 	'$_POST[on_piped]',
         '$_POST[on_spamassassin]',
+	'$_POST[sa_tag]',
+	'$_POST[sa_refuse]',
+        '$_POST[maxmsgsize]',
         '$_POST[enabled]',
 	'$_POST[quota]')";
     $result = $db->query($query);

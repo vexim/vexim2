@@ -31,10 +31,13 @@
   if (isset($_POST[uid])) {
     $query = "UPDATE domains SET uid='$_POST[uid]',
     		gid='$_POST[gid]',
-		quotas='$_POST[quotas]',
-		spamassassin='$_POST[spamassassin]',
 		avscan='$_POST[avscan]',
+		maxmsgsize='$_POST[maxmsgsize]',
 		pipe='$_POST[pipe]',
+		quotas='$_POST[quotas]',
+		sa_tag='$_POST[sa_tag]',
+		sa_refuse='$_POST[sa_refuse]',
+		spamassassin='$_POST[spamassassin]',
 		enabled='$_POST[enabled]' WHERE domain='$_POST[domain]'";
     $result = $db->query($query);
     if (!DB::isError($result)) {

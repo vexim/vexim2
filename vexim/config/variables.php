@@ -28,7 +28,9 @@
   /* path to Mailman */
   $mailmanroot = "http://www.EXAMPLE.com/mailman";
 
-  /* sa_refuse is the default value to offer when we create new domains for SpamAssassin */
+  /* sa_tag is the default value to offer when we create new domains for SpamAssassin tagging
+     sa_refuse is the default value to offer when we create new domains for SpamAssassin dropping */
+  $sa_tag = "2";
   $sa_refuse = "5";
 
   /* Setting this to 0 if only admins should be allowed to login */

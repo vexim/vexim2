@@ -12,9 +12,11 @@
   $pophomepath = $mailroot . $_POST[domain] . "/" . $_POST[localpart];
 
   if (validate_password($_POST[clear], $_POST[vclear])) {
-    $query = "INSERT INTO domains (domain, spamassassin, avscan, quotas, maildir, pipe, enabled, uid, gid, type)
+    $query = "INSERT INTO domains (domain, spamassassin, sa_tag, sa_refuse, avscan, quotas, maildir, pipe, enabled, uid, gid, type, maxmsgsize)
     VALUES ('" . $_POST[domain] . "',
     '" . $_POST[spamassassin] . "',
+    '" . $_POST[sa_tag] . "',
+    '" . $_POST[sa_refuse] . "',
     '" . $_POST[avscan] . "',
     '" . $_POST[quotas] . "',
     '" . $_POST[maildir] . $_POST[domain] . "',
@@ -22,7 +24,8 @@
     '" . $_POST[enabled] . "',
     '" . $_POST[uid] . "',
     '" . $_POST[gid] . "',
-    '" . $_POST[type] . "')";
+    '" . $_POST[type] . "',
+    '" . $_POST[maxmsgsize] . "')";
     $domresult = $db->query($query);
     if ((!DB::isError($domresult)) && ($_POST[type] == "local")) {
       $query = "INSERT INTO users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
