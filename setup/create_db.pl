@@ -4,47 +4,68 @@ use strict;
 use DBI();
 use Getopt::Long;
 
-my $dbh;
-my $null;
-my ($dbtype, $uid, $gid, $mailstore);
-my ($dbrootuser, $dbrootpass);
+my ($dbh, $mydbh, $pgdbh);
+my ($act, $dbtype, $uid, $gid, $mailstore);
+my ($superuser, $superpass);
 my ($veximpass, $veximpassconfirm);
 
-&GetOptions(	"dbtype=s" =>\$dbtype,
+&GetOptions(	"act=s" =>\$act,
+		"dbtype=s" =>\$dbtype,
 		"uid=i" =>\$uid,
 		"gid=i" =>\$gid,
 		"mailstore" =>\$mailstore);
+usage() unless defined $act;
 usage() unless defined $dbtype;
 my $uid = "90" unless defined $uid;
 my $gid = "90" unless defined $gid;
 $mailstore = "/usr/local/mail" unless defined $mailstore;
 
 sub usage {
-	print "Usage:\tcreate_db.pl --dbtype=<dbtype> --uid=<uid> --gid=<gid> --mailstore=<dir>\n";
+	print "Usage:\tcreate_db.pl --act=<action> --dbtype=<dbtype> --uid=<uid> --gid=<gid> --mailstore=<dir>\n";
+	print "\tPossible actions are: newdb, migratemysql, migratepostgresql\n";
 	print "\tAvailable dbtypes: mysql, pgsql\n";
 	print "\tuid and gid are the default UID's and GID's for domains\n";
-	print "\t  ->(defaults to uid 90, gid 90)\n";
+	print "\t    (defaults to uid 90, gid 90)\n";
 	print "\tmailstore is the directory under which the maildirs for domains are created\n";
-	print "\t  ->(defaults to /usr/local/mail)\n";
+	print "\t    (defaults to /usr/local/mail)\n\n";
+	print "Examples: create_db.pl --act=newdb --dbtype=mysql --uid=90 --gid=90 --mailstore=/usr/local/mail\n";
+	print "\t    (will create a new 'vexim' database for a new install with mysql)\n";
+	print "\tcreate_db.pl --act=migratemysql --dbtype=mysql --uid=90 --gid=90 --mailstore=/usr/local/mail\n";
+	print "\t    (will migrate database from a vexim 1.x mysql database, to a vexim 2.x mysql database)\n";
+	print "\tcreate_db.pl --act=migratepostgresql --dbtype=mysql --uid=90 --gid=90 --mailstore=/usr/local/mail\n";
+	print "\t    (will migrate database from a vexim 1.x mysql database, to a vexim 2.x postgres database)\n";
+	print "\n\n";
 	exit 1;
 }
 
-print "Please enter the name of the database superuser: ";
-chomp ($dbrootuser = <STDIN>);
-print "Please enter the password for the database superuser: ";
+print "Using dbtype $dbtype\n";
+print "Please enter the username of the $dbtype superuser: "; chomp($superuser = <STDIN>);
 `stty -echo`;
-chomp ($dbrootpass = <STDIN>);
+print "Please enter the password of the $dbtype superuser: "; chomp($superpass = <STDIN>);
 `stty echo`;
 
-print "Using dbtype $dbtype\n";
-
-if ($dbtype == "mysql") {
-  $dbh = DBI->connect("DBI:mysql:database=mysql;host=localhost", "$dbrootuser", "$dbrootpass", {'RaiseError' => 1});
-  $dbh->do("DROP DATABASE IF EXISTS vexim");
-  $dbh->do("CREATE DATABASE vexim")
+sub veximpw {
+  `stty -echo`;
+  print "\nPlease enter a password for the 'vexim' database user: ";
+  chomp($veximpass = <STDIN>);
+  print "\nConfirm password: ";
+  chomp($veximpassconfirm = <STDIN>);
+  while ($veximpass ne $veximpassconfirm) {
+    print "\nPassword mismatch. Please enter a password for the 'vexim' $dbtype database user: ";
+    chomp($veximpass = <STDIN>);
+    print "\nConfirm password: ";
+    chomp($veximpassconfirm = <STDIN>);
+  }
+  `stty echo`;
+}
+sub create_mysqldb {
+  $mydbh->do("DROP DATABASE IF EXISTS vexim");
+  $mydbh->do("CREATE DATABASE vexim")
     or die "Could not create the database 'vexim' in MySQL!";
-  $dbh->do("DROP TABLE IF EXISTS vexim.domains");
-  $dbh->do("CREATE TABLE IF NOT EXISTS vexim.domains (domain_id mediumint(8) unsigned NOT NULL auto_increment,
+}
+sub create_mysqltables {
+  $mydbh->do("DROP TABLE IF EXISTS vexim.domains");
+  $mydbh->do("CREATE TABLE IF NOT EXISTS vexim.domains (domain_id mediumint(8) unsigned NOT NULL auto_increment,
         domain varchar(64) NOT NULL default '',
         maildir varchar(128) NOT NULL default '',
         uid smallint(5) unsigned NOT NULL default '$uid',
@@ -62,11 +83,12 @@ if ($dbtype == "mysql") {
         UNIQUE KEY domain (domain),
         KEY domain_id (domain_id),
         KEY domains (domain))") or die "Could not create table domains in the vexim database!";
-  print "Created domains table\n";
-  $dbh->do("DROP TABLE IF EXISTS vexim.users");
-  $dbh->do("CREATE TABLE IF NOT EXISTS vexim.users (user_id int(10) unsigned NOT NULL auto_increment,
+  print "\nCreated domains table\n";
+  $mydbh->do("DROP TABLE IF EXISTS vexim.users");
+  $mydbh->do("CREATE TABLE IF NOT EXISTS vexim.users (user_id int(10) unsigned NOT NULL auto_increment,
         domain_id mediumint(8) unsigned NOT NULL,
         localpart varchar(192) NOT NULL default '',
+        username varchar(255) NOT NULL default '',
         clear varchar(255) default NULL,
         crypt varchar(48) default NULL,
         uid smallint(5) unsigned NOT NULL default '65534',
@@ -92,31 +114,229 @@ if ($dbtype == "mysql") {
         UNIQUE KEY username (localpart,domain_id),
         KEY local (localpart))") or die "Could not create table users in the vexim database!";
   print "Created users table\n";
-  sleep 1;
-  `stty -echo`;
-  print "\nPlease enter a password for the 'vexim' database user: ";
-  chomp($veximpass = <STDIN>);
-  print "\nConfirm password: ";
-  chomp($veximpassconfirm = <STDIN>);
-  while ($veximpass ne $veximpassconfirm) {
-    print "\nPassword mismatch. Please enter a password for the 'vexim' database user: ";
-    chomp($veximpass = <STDIN>);
-    print "\nConfirm password: ";
-    chomp($veximpassconfirm = <STDIN>);
-  }
-  `stty echo`;
+}
+sub create_postgrestables {
+print "\nCreating new PostgreSQL tables...\n";
+$pgdbh->do("CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
+          domain varchar(64) UNIQUE NOT NULL,
+          maildir varchar(128) NOT NULL default '',
+          uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
+          gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
+          type varchar(5) NOT NULL,
+          spamassassin BOOLEAN NOT NULL default '0',
+          avscan BOOLEAN NOT NULL default '0',
+          mailinglists BOOLEAN NOT NULL default '0',
+          quotas int NOT NULL default '0' CHECK(quotas > -1),
+          blocklists BOOLEAN NOT NULL default '0',
+          pipe BOOLEAN NOT NULL default '0',
+          enabled BOOLEAN NOT NULL default '1',
+          complexpass BOOLEAN NOT NULL default '0')") or die "Could not create table domains";
+  print "\nCreated domains table\n";
+$pgdbh->do("CREATE TABLE users (user_id SERIAL PRIMARY KEY,
+          domain_id int NOT NULL,
+          localpart varchar(192) NOT NULL,
+          username varchar(255) NOT NULL,
+          clear varchar(255) default NULL,
+          crypt varchar(48) default NULL,
+          uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
+          gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
+          smtp varchar(255) default NULL,
+          pop varchar(255) default NULL,
+          realname varchar(255) default NULL,
+          type varchar(8) CHECK(type in ('local','alias','catch', 'fail', 'piped', 'admin', 'site')) NOT NULL,
+          admin BOOLEAN NOT NULL default '0',
+          avscan BOOLEAN NOT NULL default '0',
+          spamassassin BOOLEAN NOT NULL default '0',
+          blocklist BOOLEAN NOT NULL default '0',
+          complexpass BOOLEAN NOT NULL default '0',
+          enabled BOOLEAN NOT NULL default '1',
+          quota int NOT NULL default '0',
+          sa_tag smallint NOT NULL default '5',
+          sa_refuse smallint NOT NULL default '10',
+          on_vacation BOOLEAN NOT NULL default '0',
+          vacation varchar(255) default NULL,
+          flags varchar(16) default NULL,
+          tagline varchar(255) default NULL,
+          UNIQUE (localpart,domain_id))") or die "Could not create table users";
+  print "\nCreated users table\n";
+}
+sub add_mysqlveximuser {
   print "Adding vexim database user...\n";
-  $dbh->do("GRANT SELECT,INSERT,DELETE,UPDATE ON vexim.* to vexim\@localhost IDENTIFIED BY '$veximpass'")
+  veximpw();
+  $mydbh->do("GRANT SELECT,INSERT,DELETE,UPDATE ON vexim.* to vexim\@localhost IDENTIFIED BY '$veximpass'")
     or die "Could not create the user 'vexim' in the MySQL database!";
-  $dbh->do("FLUSH PRIVILEGES") or die "Could not flush privileges!";
-  print "Adding siteadmin user...\n";
+  $mydbh->do("FLUSH PRIVILEGES") or die "Could not flush privileges!";
+}
+sub add_postgresveximuser {
+  print "Adding vexim database user...\n";
+  veximpw() unless $act eq "migratepostgresql";
+  $pgdbh->do("CREATE USER vexim WITH PASSWORD '$veximpass' NOCREATEDB NOCREATEUSER")
+    or die "Could not create the user 'vexim' in the MySQL database!";
+}
+sub add_siteadminuser {
+  print "\nAdding siteadmin user...\n";
+  if ($dbtype == "mysql") { $dbh = $mydbh; } elsif ($dbtype == "pgsql") { $dbh = $pgdbh; }
   $dbh->do("INSERT INTO vexim.domains (domain_id, domain) VALUES ('1', 'admin')");
-  $dbh->do("INSERT INTO vexim.users (domain_id, localpart, clear, crypt, uid, gid, smtp, pop, realname, type, admin) VALUES ('1', 'siteadmin', 'CHANGE', '\$1\$12345678\$2lQK5REWxaFyGz.p/dos3/', '65535', '65535', '', '', 'SiteAdmin', 'site', '1')") or die "Could not create the user 'siteadmin' in the vexim database!";
+  $dbh->do("INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin) VALUES ('1', 'siteadmin', 'siteadmin', 'CHANGE', '\$1\$12345678\$2lQK5REWxaFyGz.p/dos3/', '65535', '65535', '', '', 'SiteAdmin', 'site', '1')") or die "Could not create the user 'siteadmin' in the vexim database!";
   print "The user 'siteadmin' has been added with the password 'CHANGE'\n";
   print "Please log in to the web interface and change this!\n";
-} elsif ($dbtype == "pgsql") {
-  print "Please create the PostgreSQL database with 'su - pgsql; cd ~pgsql; createdb -U <superusername> vexim'\n";
+}
+sub migratemysql {
+  print " Starting migration of user accounts...\n";
+  my $sth = $mydbh->prepare("SELECT DISTINCT domain_id,domain FROM vexim.domains");
+  $sth->execute();
+  while (my $ref = $sth->fetchrow_hashref()) {
+    my $domain_id = $ref->{'domain_id'};
+    my $domain = $ref->{'domain'};
+    print "\tMigrating users for Domain: $domain\n";
+    my $lkp = $mydbh->prepare("INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
+			     SELECT '$domain_id' AS domain_id,
+			     local_part AS localpart,
+			     t1.username,
+			     cpassword AS clear,
+			     password AS crypt,
+			     t1.uid,
+			     t1.gid,
+			     smtphome AS smtp,
+			     pophome AS pop,
+			     t1.realname,
+			     t1.type,
+			     '0' FROM exim.users t1 INNER JOIN vexim.domains t2 ON t1.domain=t2.domain where
+			     t2.domain='$domain' and t1.admin=''")
+      or die "Error migrating users for $domain";
+    $lkp->execute();
+  }
+
+  $mydbh->do("INSERT INTO vexim.domains (domain) SELECT DISTINCT domain FROM exim.users ORDER BY domain");
+  print "Domain migration complete.\n\n";
+  print " Starting migration of user accounts...\n";
+  my $sth = $mydbh->prepare("SELECT DISTINCT domain_id,domain FROM vexim.domains");
+  $sth->execute();
+  while (my $ref = $sth->fetchrow_hashref()) {
+    my $domain_id = $ref->{'domain_id'};
+    my $domain = $ref->{'domain'};
+    print "\tMigrating users for Domain: $domain\n";
+    my $lkp = $mydbh->prepare("INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
+			       SELECT '$domain_id' AS domain_id,
+			       local_part AS localpart,
+			       t1.username,
+			       cpassword AS clear,
+			       password AS crypt,
+			       t1.uid,
+			       t1.gid,
+			       smtphome AS smtp,
+			       pophome AS pop,
+			       t1.realname,
+			       t1.type,
+			       '0' FROM exim.users t1 INNER JOIN vexim.domains t2 ON t1.domain=t2.domain where
+			       t2.domain='$domain' and t1.admin=''")
+      or die "Error migrating users for $domain";
+    $lkp->execute();
+  }
+  print " Starting migration of admin accounts (MySQL to MySQL)...\n";
+  my $sth = $mydbh->prepare("SELECT DISTINCT domain_id,domain FROM vexim.domains");
+  $sth->execute();
+  while (my $ref = $sth->fetchrow_hashref()) {
+    my $domain_id = $ref->{'domain_id'};
+    my $domain = $ref->{'domain'};
+    print "\tMigrating admins for Domain: $domain\n";
+    my $lkp = $mydbh->prepare("INSERT INTO vexim.users (domain_id, localpart, clear, crypt, uid, gid, smtp, pop, realname, type, admin, enabled)
+			       SELECT '$domain_id' AS domain_id,
+			       t1.local_part AS localpart,
+			       cpassword AS clear,
+			       password AS crypt,
+			       t1.uid,
+			       t1.gid,
+			       smtphome AS smtp,
+			       pophome AS pop,
+			       realname,
+			       t1.type,
+			       '1',
+			       '1' as admin FROM exim.users t1 INNER JOIN vexim.domains t2 ON t1.domain=t2.domain where
+			       t2.domain='$domain' and t1.admin!='' and username !='siteadmin'")
+      or die "Error migrating users for $domain";
+    $lkp->execute();
+  }
+  $mydbh->do("UPDATE vexim.domains SET type='admin' WHERE domains.domain='admin'");
+}
+sub migratepostgresql() {
+  print "Exporting user data from MySQL...\n";
+  $mydbh->do("select * INTO OUTFILE '/tmp/vexim-mysql-migrate-users' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY \"'\" LINES TERMINATED BY \"\n\" from vexim.users");
+  print "Exporting domains data from MySQL...\n";
+  $mydbh->do("select * INTO OUTFILE '/tmp/vexim-mysql-migrate-domains' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY \"'\" LINES TERMINATED BY \"\n\" from vexim.domains");
+
+  print "Importing user data into PostgreSQL...\n";
+  open IN, "</tmp/vexim-mysql-migrate-users" or die $!;
+  while(<IN>)
+  {
+    s/\\N/NULL/g;
+    s/,(\d),(\d),(\d),(\d),(\d),(\d),(\d+?,\d+?,\d+?),(\d)/,\'$1\',\'$2\',\'$3\',\'$4\',\'$5\',\'$6\',$7,\'$8\'/g;
+    s/^\d+,/nextval\('public.users_user_id_seq'::text\),/g;
+    $pgdbh->do("INSERT INTO users VALUES ($_)");
+  }
+  close IN;
+
+  print "Importing domain data into PostgreSQL...\n";
+  open IN, "</tmp/vexim-mysql-migrate-domains" or die $!;
+  while(<IN>)
+  {
+    s/\\N/'local'/g;
+    s/(\d),(\d),(\d),(\d+?),(\d),(\d),(\d),(\d)$/\'$1\',\'$2\',\'$3\',$4,\'$5\',\'$6\',\'$7\',\'$8\'/g;
+    s/^\d+,/nextval\('public.domains_domain_id_seq'::text\),/g;
+    $pgdbh->do("INSERT INTO domains VALUES ($_)");
+  }
+  close IN;
+
+  print "Migration complete!\n";
+  print "Please delete /tmp/vexim-mysql-migrate-users and /tmp/vexim-mysql-migrate-domains\n\n";
+}
+
+###########################################################
+# The actual call to the subs go below here. This comment #
+# if nothing else, provides a nice buffer between the     #
+# rather ugly subs, and the one ring that bind them...    #
+###########################################################
+
+if ($dbtype eq "mysql") {
+  $mydbh = DBI->connect("DBI:mysql:database=mysql;host=localhost", "$superuser", "$superpass", {'RaiseError' => 1});
+  create_mysqldb();
+  create_mysqltables();
+  sleep 1;
+  add_mysqlveximuser();
+  add_siteadminuser();
+  print "Database created successfully!\n\n";
+} elsif ($dbtype eq "pgsql") {
+  print "Please create the PostgreSQL database with 'su - pgsql; createdb vexim'\n";
+  print "Then press any key to continue..\n\n";
+  my $null = <STDIN>;
+  $pgdbh = DBI->connect("DBI:Pg:dbname=vexim", "$superuser", "$superpass", {'RaiseError' => 1});
+  create_postgrestables();
+  sleep 1;
+  add_postgresveximuser();
+  add_siteadminuser();
+  print "Database created successfully!\n";
+}
+
+###########################################################
+# If the user asks to migrate data from an old database,  #
+# carry on!                                               #
+###########################################################
+
+if ($act eq "migratemysql") {
+  migratemysql();
+} elsif ($act eq "migratepostgresql") {
+  print "Please create the PostgreSQL database with 'su - pgsql; createdb vexim'\n";
   print "Then press any key to continue..\n";
-  $null = <STDIN>;
-  $dbh = DBI->connect("DBI:Pg:dbname=vexim", "$dbrootuser", "$dbrootpass", {'RaiseError' => 1});
+  my $null = <STDIN>;
+  print "Please enter the username of the postgresql superuser: "; chomp(my $pgsuperuser = <STDIN>);
+  `stty -echo`;
+  print "Please enter the password of the postgresql superuser: "; chomp(my $pgsuperpass = <STDIN>);
+  `stty echo`;
+  $pgdbh = DBI->connect("DBI:Pg:dbname=vexim", "$pgsuperuser", "$pgsuperpass", {'RaiseError' => 1});
+  create_postgrestables();
+  sleep 1;
+  add_postgresveximuser();
+  print "Database created successfully!\n";
+  migratemysql();
+  migratepostgresql();
 }
