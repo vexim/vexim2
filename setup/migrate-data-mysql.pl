@@ -7,8 +7,8 @@ my $dbh = DBI->connect("DBI:mysql:database=vexim;host=localhost",
                        {'RaiseError' => 1});
 
 #print "Dropping already present tables...\n";
-#$dbh->do("DROP TABLE IF EXISTS domains");
-#$dbh->do("DROP TABLE IF EXISTS users");
+$dbh->do("DROP TABLE IF EXISTS domains");
+$dbh->do("DROP TABLE IF EXISTS users");
 print "Creating new tables...\n";
 $dbh->do("CREATE TABLE IF NOT EXISTS domains (domain_id mediumint(8) unsigned NOT NULL auto_increment,
 	domain varchar(64) NOT NULL default '',
@@ -54,7 +54,7 @@ print "Tables created. Starting domain migration...\n";
 $dbh->do("INSERT INTO vexim.domains (domain) SELECT DISTINCT domain FROM exim.users ORDER BY domain");
 print "Domain migration complete.\n\n";
 
-print " Starting user migration...\n";
+print " Starting migration of user accounts...\n";
 my $sth = $dbh->prepare("SELECT DISTINCT domain_id,domain FROM vexim.domains");
 $sth->execute();
 while (my $ref = $sth->fetchrow_hashref()) {
@@ -72,8 +72,31 @@ while (my $ref = $sth->fetchrow_hashref()) {
 		pophome AS pop,
 		realname,
 		type,
-		admin FROM exim.users t1 INNER JOIN vexim.domains t2 ON t1.domain=t2.domain where
-		t2.domain='$domain'") or die "Error migrating users for $domain";
+		'0' FROM exim.users t1 INNER JOIN vexim.domains t2 ON t1.domain=t2.domain where
+		t2.domain='$domain' and t1.admin=''") or die "Error migrating users for $domain";
+  $lkp->execute();
+}
+
+print " Starting migration of admin accounts...\n";
+my $sth = $dbh->prepare("SELECT DISTINCT domain_id,domain FROM vexim.domains");
+$sth->execute();
+while (my $ref = $sth->fetchrow_hashref()) {
+  my $domain_id = $ref->{'domain_id'};
+  my $domain = $ref->{'domain'};
+  print "\tMigrating users for Domain: $domain\n";
+  my $lkp = $dbh->prepare("INSERT INTO users (domain_id, localpart, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
+		SELECT '$domain_id' AS domain_id,
+		local_part AS localpart,
+		cpassword AS clear,
+		password AS crypt,
+		t1.uid,
+		t1.gid,
+		smtphome AS smtp,
+		pophome AS pop,
+		realname,
+		type,
+		'1' FROM exim.users t1 INNER JOIN vexim.domains t2 ON t1.domain=t2.domain where
+		t2.domain='$domain' and t1.admin!=''") or die "Error migrating users for $domain";
   $lkp->execute();
 }
 $sth->finish();
