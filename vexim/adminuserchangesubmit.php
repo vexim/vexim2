@@ -35,7 +35,7 @@
     $nxtresult = $db->query($nxtquery);
     if ($nxtresult->numRows()) { $nxtrow = $nxtresult->fetchRow(); }
     if (($nxtrow['admin'] == "1") && ($_POST['admin'] == "0")) {
-      header ("Location: adminuser.php?nodel={$_POST['localpart']}");
+      header ("Location: adminuser.php?lastadmin={$_POST['localpart']}");
       die;
     }
   }

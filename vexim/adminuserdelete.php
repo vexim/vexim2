@@ -17,7 +17,7 @@ if ($_GET['confirm'] == "1") {
 	      AND user_id!={$_GET['user_id']}";
   $result = $db->query($query);
   if ($result->numRows() == 0) {
-    header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
+    header ("Location: adminuser.php?lastadmin={$_GET['localpart']}");
     die;
   }
   $query = "SELECT localpart FROM users WHERE user_id={$_GET['user_id']}";
