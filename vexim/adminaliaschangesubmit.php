@@ -32,8 +32,8 @@ if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
     pop='$aliasto',
     realname='$_POST[realname]',
     admin='$_POST[admin]',
-    avscan='$_POST[on_avscan]',
-    spamassassin='$_POST[on_spamassassin]',
+    on_avscan='$_POST[on_avscan]',
+    on_spamassassin='$_POST[on_spamassassin]',
     enabled='$_POST[enabled]'
     WHERE localpart='$_POST[origlocalpart]' AND domain_id='" . $_COOKIE[vexim][2] . "'";
   $result = $db->query($query);
