@@ -128,9 +128,9 @@ body>#Header {height:28px;}
 	}
 
 #forms {
-	margin: 15px 200px 15px 0px;
+	margin: 15px 200px 50px 250px;
 	width: 450px; 
-	border: 0px;
+	border: 1px dashed #999; 
 	padding: 10px; 
 	overflow: visible;
 }
