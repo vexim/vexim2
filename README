@@ -128,15 +128,8 @@ Exim configuration:
     attachments) are appropriate for you or not. I have set this ACL up
     to do the appropriate lookups in the database, to see if individual
     users have requested Anti-Virus or SpamAssassin be used.
-----------
-    #acl_check_data:
-    #  deny    message       = This message contains a virus: ($malware_name)
-    #          demime        = *
-    #          malware       = *
-    # 
-    #  accept
-    *** If you are using either SpamAssassin, or Anti-Virus checking,
-    you need to uncomment these lines.
+    The entire ACL is disabled by default. Uncomment the sections which
+    are appropriate for you.
 ----------
     Finally if you are using PostgreSQL instead of MySQL, change all
     references of 'mysql' to 'pgsql'. The following vi command will do
@@ -145,33 +138,47 @@ Exim configuration:
 
 
 Databases and Authentication:
-  Needs to be installed. A script is included (mysql.sql) which will
-  create the database and table for you. Two things you need to do, are
-  edit the mysql.sql file and set a password. This password is set on
-  line 13 of mysql.sql (which starts 'GRANT'...)
-  You also need to know, if your system uses DES or MD5 password
-  encryption. BSD and Linux normally use MD5, whereas Solaris systems
-  commonly use the older style DES.
-  Uncomment the appropriate line, as noted by the comments, at the end
-  of mysql.sql.
-  After updating the mysql.sql file, run:
-    mysql -u root -p < mysql.sql
-  The password you are prompted for when doing this should be your MySQL
-  database's root user password.
-  Also it is assumed that the mysql domain socket is /tmp/mysql.sock,
-  which is where the FreeBSD port puts it. Other installations put it in
-  /var/tmp, /usr/lib, or any number of other places. If yours isn't
-  /tmp/mysql.sock, you will later need to set this in Exim's configure
-  script.
-  Finally, you will need to edit:
-    mysql/mysql_connect.php
-  and change the MySQL exim user's password there too. Set this to the
-  same as the password you put in mysql.sql. It needs to be changed on
-  the second line where the word 'CHANGE' is.
+  When creating the databases you have two options. You can either use
+  the SQL command files, or the perl script.
+  If you are creating new databases, I *HIGHLY* recommend you use the
+  SQL command files. They are much simpler.
+  However, if you are migrating from Virtual Exim 1.x to 2.x, you will
+  need to use the perl script to migrate the data.
 
-  You also need to edit the file mysql/variables.php, and set the crypt
-  type to either "md5" or "des". What you choose is not optional. It
-  must be the same as your operating system's crypt libraries use.
+  MySQL:
+    If you want to create new MySQL databases, edit the setup/mysql.sql
+    file and change the first two instances of the word 'CHANGE', to the
+    default system UID and GID you want new domains to have if one is
+    not specified. Change the third instance of the word 'CHANGE' to the
+    password you want the 'vexim' database user to have. make a note of
+    this, you'll need to put it in your Exim configuration file too.
+    You also need to know if your system uses MD5 or DES passwords.
+    BSD and Linux normally use MD5, whereas Solaris systems commonly use
+    the older style DES.
+    Uncomment the appropriate line, as noted by the comments, at the
+    end of mysql.sql.
+    Save the file, and run:
+      mysql -u root -p < mysql.sql
+    This should create the database and add the right users.
+    The password you are prompted for when doing this should be your
+    MySQL database's root user password.
+    Also it is assumed that the mysql domain socket is /tmp/mysql.sock,
+    which is where the FreeBSD port puts it. Other installations put it
+    in /var/tmp, /usr/lib, or any number of other places. If yours isn't
+    /tmp/mysql.sock, you will later need to set this in Exim's configure
+    script.
+    Finally, you will need to edit:
+      vexim/config/variables.php
+    Change the password for the vexim user as noted by the word
+    'CHANGE'. Set this to the same password that you chose in mysql.sql,
+    and change the '$cryptscheme' line to either "md5", or "des"
+    depending on what you operating system uses. The last change ts make
+    in that file is the '$uid' and '$gid'. Make these the same default
+    UID and GID you chose in mysql.sql.
+  PGSQL:
+    Unfortunately due to differences in the SQL implementation between
+    MySQL and PostgreSQL I have not had time to make the code work with
+    PostgreSQL. I will work on this for the next releases.
 
 Site Admin:
   In order to add and delete domains from the database, you need to have
@@ -184,38 +191,26 @@ Site Admin:
   I recommend you log in and change this when you get a chance :-)
 
 Virtual Domains:
-  At present, domains that Exim will accept mail for, need to be
-  specified in the configure file. This will be moved to the MySQL
-  database when I figure out how to do it, but for now that's how we
-  need to do it.
+  Virtual Exim can now control which local domains Exim accepts mail
+  for and which domains it relays mail for. The features are controlled
+  by the siteadmin, and domains can be easily added/removed from the
+  siteadmin pages. Local domains can also be enabled/disabled on the
+  fly, but relay domains are always enabled.
 
 Mailman:
-  Needs to be installed if you want to use mailing lists. The default
-  location is assumed to be /usr/local/mailman. If this is not the
-  location of your installation,
-  edit Exim's configure file, and change the paths where ever 'mailman'
-  is mentioned.
+  Mailman needs to be installed if you want to use mailing lists. The
+  default location is assumed to be /usr/local/mailman. If this is not
+  the location of your installation, edit Exim's configure file, and
+  change the paths where ever 'mailman' is mentioned, and do the same in
+  vexim/config/variables.php
 
 Mail storage and Delivery:
   The mysql configuration assumes that mail will be stored in
   /usr/local/mail/domain.com/username/Maildir. If you want to change the
-  path from '/usr/local/mail', you need to edit the file:
-    mysql/variables.php
+  path from '/usr/local/mail/', you need to edit the file:
+    vexim/config/variables.php
   and change 'mailroot' to the correct path. Don't forget the / at the
   end.
-
-  By default all users who are added, will be given a uid and gid of
-  '90' in the database. These are just what I use on my system. You need
-  to create a username and a group under this UID and GID on your
-  operating system. Exim will use these to do the actual mail delivery.
-  Currently all mail boxes share the same UID and GID. This isn't a real
-  problem in a virtual setting. If you want to use something other than
-  '90', edit the file:
-    mysql/variables.php
-  and change them there before creating the user. The name of the user
-  with this UID and GID can be anything, as long as the UID and GID on
-  the system are consistent with those in the config files.
-
 
 POP3 and IMAP daemons:
   There are many POP3 and IMAP daemons available today. Few of them are
