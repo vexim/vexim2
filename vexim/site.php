@@ -64,7 +64,7 @@
 	    print "<tr>";
 	    print "\t<td><a href=\"sitedelete.php?domain_id={$row['domain_id']}&domain={$row['domain']}&type=relay\">";
 	    print "<img style='border:0;width:10px;height:16px' title='Delete{$row['domain']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
-	    print "\t<td>{$row['domain']}</a></td>\n";
+	    print "\t<td>{$row['domain']}</td>\n";
 	    print "</tr>\n";
 	  }
 	}
@@ -81,7 +81,7 @@
 	    print "<tr>";
 	    print "\t<td><a href=\"sitedelete.php?domain_id={$row['domain_id']}&domain={$row['alias']}&type=alias\">";
 	    print "<img style='border:0;width:10px;height:16px' title='Delete{$row['alias']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
-	    print "\t<td>{$row['alias']}</a></td>\n";
+	    print "\t<td>{$row['alias']} -> {$row['domain']}</td>\n";
 	    print "</tr>\n";
 	  }
 	}
