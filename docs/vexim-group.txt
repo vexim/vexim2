@@ -1,0 +1,28 @@
+# add vexim group to an existing vexim setup
+
+    - run create table statement for groups
+    - in your exim configure just before virtual_domains_catchall add
+          .include /usr/exim/vexim-group-router.conf
+
+# Things to do :
+
+major
+
+    - translation
+    - the create SQL statement are missing for postgres and create_db.pl
+
+minor
+
+    - find a way to garbage members (user or alias) of a group that has been deleted
+    - improvment : could add spam processing and virus checking at the group level
+    - improvment : it is not possible to add member that is not a alias nor a user  
+                   if you want to put a group in a group the work around is to create 
+                       an alias for the internal group
+                   if you want to add a member that is not a user or an alias in the
+                       domain the work around is to create an alias for this user
+
+trivial
+
+    - when added the same user twice there is no clean error message
+    - a confirmation message is missing when removing a member from a group
+    - move information messages to config/header.php
