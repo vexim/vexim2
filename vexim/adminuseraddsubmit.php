@@ -37,7 +37,7 @@
 
   check_user_exists($db,$_POST['localpart'],$_COOKIE['vexim'][2],'adminuser.php');
 
-  if ($_POST['realname'] == "") {
+  if (preg_match("/^\s*$/",$_POST['realname'])) {
     header("Location: adminuser.php?blankname=yes");
     die;
   }

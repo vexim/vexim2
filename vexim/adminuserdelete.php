@@ -6,10 +6,10 @@ if ($_GET['confirm'] == "1") {
 
   $query = "DELETE FROM users WHERE user_id={$_GET['user_id']}";
   $result = $db->query($query);
-  if (!DB::isError($result)) { header ("Location: adminuser.php?deleted={$_GET['user_id']}"); }
-  else { header ("Location: adminuser.php?faildeleted={$_GET['user_id']}"); }
+  if (!DB::isError($result)) { header ("Location: adminuser.php?deleted={$_GET['localpart']}"); }
+  else { header ("Location: adminuser.php?faildeleted={$_GET['localpart']}"); }
 } else if ($_GET['confirm'] == "cancel") {		   
-    header ("Location: adminuser.php?faildeleted={$_GET['user_id']}");
+    header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
     die;						      
 } else {
   $query = "SELECT user_id AS count FROM users 
@@ -17,10 +17,10 @@ if ($_GET['confirm'] == "1") {
 	      AND user_id!={$_GET['user_id']}";
   $result = $db->query($query);
   if ($result->numRows() == 0) {
-    header ("Location: adminuser.php?faildeleted={$_GET['user_id']}");
+    header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
     die;
   }
-  $query = "SELECT localpart FROM users WHERE user_id={$_GET['user_id']}";
+  $query = "SELECT localpart FROM users WHERE user_id={$_GET['localpart']}";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
   
@@ -46,6 +46,7 @@ if ($_GET['confirm'] == "1") {
 	  <tr><td><input name='confirm' type='radio' value='1'><b> <? echo _("Delete"); ?> <? print $row['localpart']; ?>@<?=$_COOKIE['vexim'][1]?></b></td></tr>
 	  <tr><td><input name='domain' type='hidden' value='<?=$_COOKIE['vexim'][1]?>'>
 	      <input name='user_id' type='hidden' value='<?=$_GET['user_id']?>'>
+	      <input name='localpart' type='hidden' value='<?=$_GET['localpart']?>'>
 	      <input name='submit' type='submit' value='<? echo _("Continue"); ?>'></td></tr>
 	</table>
       </form>

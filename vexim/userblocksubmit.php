@@ -14,7 +14,7 @@
   }
 
 # Finally 'the rest' which is handled by the profile form
-  if ($_POST[blockval] == "") { header("Location: userchange.php"); die; }
+  if (preg_match("/^\s*$/",$_POST['blockval'])) { header("Location: userchange.php"); die; }
   $query = "INSERT INTO blocklists (domain_id, user_id, blockhdr, blockval, color) values (
 		{$_COOKIE['vexim'][2]},
 		{$_COOKIE['vexim'][4]},

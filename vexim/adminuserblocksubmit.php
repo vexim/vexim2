@@ -7,16 +7,16 @@
     $query = "DELETE FROM blocklists WHERE block_id={$_GET['block_id']}";
     $result = $db->query($query);
     if (!DB::isError($result)) {
-      header ("Location: adminuser.php?updated={$_GET['user_id']}");
+      header ("Location: adminuser.php?updated={$_GET['localpart']}");
       die;
     } else {
-      header ("Location: adminuser.php?failed={$_GET['user_id']}");
+      header ("Location: adminuser.php?failed={$_GET['localpart']}");
       die;
     }
   }
 
 # Finally 'the rest' which is handled by the profile form
-  if ($_POST[blockval] == "") { header("Location: adminuser.php"); die; }
+  if (preg_match("/^\s*$/",$_POST['blockval'])) { header("Location: adminuser.php"); die; }
   $query = "INSERT INTO blocklists (domain_id, user_id, blockhdr, blockval, color) values (
 		{$_COOKIE['vexim'][2]},
 		{$_POST['user_id']},
@@ -25,10 +25,10 @@
 		'{$_POST['color']}')";
   $result = $db->query($query);
   if (!DB::isError($result)) {
-    header ("Location: adminuser.php?updated={$_POST['user_id']}");
+    header ("Location: adminuser.php?updated={$_POST['localpart']}");
     die;
   } else {
-    header ("Location: adminuser.php?failed={$_POST['user_id']}");
+    header ("Location: adminuser.php?failed={$_POST['localpart']}");
   }
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->
