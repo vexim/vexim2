@@ -15,6 +15,10 @@
   /* Setting this to 0 if only admins should be allowed to login */
   $AllowUserLogin = 1;
 
+  /* Choose whether to break up domain and user lists alphabetically */
+  $alphadomains = 1;
+  $alphausers = 1;
+
   /* Set to either "des" or "md5" depending on your crypt() libraries */
   $cryptscheme = "md5";
 
