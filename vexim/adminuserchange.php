@@ -5,9 +5,16 @@
   $query = "SELECT * FROM users WHERE localpart='" .$_GET[localpart]. "' AND domain_id='" .$_COOKIE[vexim][2]. "'";
   $result = $db->query($query);
   $row = $result->fetchRow();
+  $username = $row[username];
+  $user_id = $row[user_id];
   $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains WHERE domain_id='" .$_COOKIE[vexim][2]. "'";
   $domresult = $db->query($domquery);
   $domrow = $domresult->fetchRow();
+  $blockquery = "SELECT blockhdr,blockval,users.user_id,users.username FROM blocklists,users
+                WHERE blocklists.domain_id='" .$_COOKIE[vexim][2]. "'
+                AND users.localpart='" .$_GET[localpart]. "'
+                AND users.user_id=blocklists.user_id";
+  $blockresult = $db->query($blockquery);
 ?>
 <html>
   <head>
@@ -25,7 +32,7 @@
     <table align="center">
       <form name="userchange" method="post" action="adminuserchangesubmit.php">
 	<tr><td>Name:</td><td><input type="text" size="25" name="realname" value="<? print $row[realname]; ?>" class="textfield"></td></tr>
-	<tr><td>Email Address:</td><td><? print $row[localpart]."@".$_COOKIE[vexim][1]; ?></td></tr>
+	<tr><td>Email Address:</td><td><? print $row[username]; ?></td></tr>
 	<input name="localpart" type="hidden" value="<? print $row[localpart]; ?>" class="textfield">
 	<tr><td>Password:</td><td><input type="password" size="25" name="clear" class="textfield"></td></tr>
 	<tr><td>Verify Password:</td><td><input type="password" size="25" name="vclear" class="textfield"></td></tr>
@@ -96,6 +103,29 @@
 	?>
 	</td></tr>
       </form>
+    </table>
+    <table align="center">
+      <form name="blocklist" method="post" action="adminuserblocksubmit.php">
+          <tr><td colspan="2">Add a new header blocking filter for this user:</td></tr>
+          <tr><td>Header:</td><td><select name="blockhdr" class="textfield">
+                  <option value="From">From:</option>
+                  <option value="X-Mailer">X-Mailer:</option>
+                  </select></td>
+              <td><input name="blockval" type="text" size="25" class="textfield">
+                  <input name="userid" type="hidden" value="<? print $user_id; ?>">
+                  <input name="username" type="hidden" value="<? print $username; ?>">
+                  <input name="color" type="hidden" value="black"></td></tr>
+          <tr><td><input name="submit" type="submit" value="Submit"></td></tr>
+      </form>
+    </table>
+    <table align="center">
+      <tr><th>Delete</th><th>Blocked Header</th><th>Content</th></tr>
+      <? if (!DB::isError($blockresult)) { while ($blockrow = $blockresult->fetchRow()) {
+              print "<tr><td><a href=\"adminuserblocksubmit.php?action=delete&blockhdr=$blockrow[blockhdr]&blockval=$blockrow[blockval]&user_id=$user_id&username=$username\"><img style=\"border:0;width:10px;height:16px\" title=\"Delete\" src=\"images/trashcan.gif\" alt=\"trashcan\"></a></td>";
+              print "<td>$blockrow[blockhdr]</td><td>$blockrow[blockval]</td></tr>\n";
+           }
+         }
+      ?>
     </table>
     </div>
   </body>
