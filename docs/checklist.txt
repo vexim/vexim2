@@ -17,13 +17,11 @@ Site management:
     [ ] Changing Boolean flags has impact on admin/users
     [ ] Changing 'Enabled' works
     [ ] Deleting domains
+    [ ] Adding domain alias
+    [ ] Deleting domain alias
 
 Siteadmin Management:
     [ ] Change siteadmin password
-
-[ ] Logging in as Postmaster, a second Admin user, and a regular user
-    [ ] Can you log in if the domain is disabled? Should work
-    [ ] Can you log in if the account is disabled? Should fail
 
 Account Additions:
     [ ] Adding aliases works
@@ -39,12 +37,6 @@ Account Additions:
         [ ] Is this displayed?
         [ ] Is the current number of accounts displayed?
         [ ] Does adding more than max accounts fail?
-
-Account Deletions:
-    [ ] Does deleting Aliases work?
-    [ ] Does deleting Catchall work?
-    [ ] Does deleteing POP/IMAP accounts work?
-    [ ] Does deleting :fail:'s work?
 
 Account Management:
     As Admin:
@@ -75,6 +67,16 @@ Account Management:
     [ ] Can you enable/disable Spamassassin?
     [ ] Can you change SpamAssassin scores?
     [ ] Can you add/remove header filters?
+
+[ ] Logging in as Postmaster, a second Admin user, and a regular user
+    [ ] Can you log in if the domain is disabled? Should work
+    [ ] Can you log in if the account is disabled? Should fail
+
+Account Deletions:
+    [ ] Does deleting Aliases work?
+    [ ] Does deleting Catchall work?
+    [ ] Does deleteing POP/IMAP accounts work?
+    [ ] Does deleting :fail:'s work?
 
 Testing Failures:
     [ ] Adding duplicate account
