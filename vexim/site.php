@@ -25,6 +25,15 @@
 	print "<div id='status'>Site Admin password has been successfully updated</div>\n";
       } else if (isset($_GET[failadded])) {
 	print "<div id='Status'>Domain '$_GET[failadded]' could not be added</div>\n";
+      } else if (isset($_GET[failaddedusrerr])) {
+	print "<div id='Status'>Domain '$_GET[failadded]' could not be added.<br>\n";
+	print "There was a problem adding the domain to the domains table.</div>\n";
+      } else if (isset($_GET[failaddedusrerr])) {
+	print "<div id='Status'>Domain '$_GET[failadded]' could not be added.<br>\n";
+	print "There was a problem adding the admin account.</div>\n";
+      } else if (isset($_GET[failaddedpassmismatch])) {
+	print "<div id='Status'>Domain '$_GET[failaddedpassmismatch]' could not be added.<br>\n";
+	print "The passwords were blank, or did not match.</div>\n";
       } else if (isset($_GET[failupdated])) {
 	print "<div id='Status'>Domain '$_GET[failupdated]' could not be updated</div>\n";
       } else if (isset($_GET[faildelete])) {

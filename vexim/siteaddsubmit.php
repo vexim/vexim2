@@ -7,6 +7,7 @@
   if (isset($_POST[spamassassin])) {$_POST[spamassassin] = 1;} else {$_POST[spamassassin] = 0;}
   if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
   if (isset($_POST[pipe])) {$_POST[pipe] = 1;} else {$_POST[pipe] = 0;}
+  if ($_POST[type] = "relay") {$_POST[clear] = $_POST[vclear] = "BLANK";}
 
   $smtphomepath = $mailroot . $_POST[domain] . "/" . $_POST[localpart] . "/Maildir";
   $pophomepath = $mailroot . $_POST[domain] . "/" . $_POST[localpart];
@@ -43,7 +44,7 @@
 			'1' FROM domains WHERE domains.domain = '" . $_POST[domain] . "'";
       $usrresult = $db->query($query);
       if (DB::isError($usrresult)) {
-        header ("Location: site.php?failadded=$_POST[domain]");
+        header ("Location: site.php?failaddedusrerr=$_POST[domain]");
 	die;
       } else {
         header ("Location: site.php?added=$_POST[domain]&type=$_POST[type]");
@@ -52,11 +53,11 @@
       header ("Location: site.php?added=$_POST[domain]&type=$_POST[type]");
       die;
     } else {
-      header ("Location: site.php?failadded=$_POST[domain]");
+      header ("Location: site.php?failaddeddomerr=$_POST[domain]");
       die;
     }
   } else {
-    header ("Location: site.php?failadded=$_POST[domain]");
+    header ("Location: site.php?failaddedpassmismatch=$_POST[domain]");
     die;
   }
 ?>
