@@ -22,9 +22,9 @@
     }
   }
   # Do some checking, to make sure the user is ALLOWED to make these changes
-  if ((isset($_POST['on_piped'])) && ({$row['pipe']}) = 1) {$_POST['on_piped'] = 1;} else {$_POST['on_piped'] = 0;}
-  if ((isset($_POST['on_avscan'])) && ({$row['avscan']) = 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
-  if ((isset($_POST['on_spamassassin'])) && ({$row['spamassassin']) = 1))) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
+  if ((isset($_POST['on_piped'])) && ($row['pipe'] = 1)) {$_POST['on_piped'] = 1;} else {$_POST['on_piped'] = 0;}
+  if ((isset($_POST['on_avscan'])) && ($row['avscan'] = 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
+  if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] = 1)) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
 
   # Big code block, to make sure we're not de-admining the last admin
   $query = "SELECT COUNT(admin) AS count FROM users
