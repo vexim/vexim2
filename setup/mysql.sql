@@ -65,6 +65,21 @@ CREATE TABLE IF NOT EXISTS vexim.blocklists (block_id int(10) unsigned NOT NULL 
 	PRIMARY KEY (block_id));
 CREATE TABLE IF NOT EXISTS vexim.domainalias (domain_id mediumint(8) unsigned NOT NULL,
 	alias varchar(64));
+drop table if exists vexim.groups;
+create table if not exists vexim.groups (
+        id                  int(10) auto_increment primary key,
+        domain_id           mediumint(8) unsigned not null,
+        name                varchar(64) not null,
+        is_public           char(1) not null default 'Y',
+        enabled             bool not null default '1'
+);
+create unique index group_name on vexim.groups(domain_id, name);
+drop table if exists vexim.group_contents;
+create table if not exists vexim.group_contents (
+        group_id            int(10) not null,
+        member_id           int(10) not null,
+        primary key (group_id,  member_id)
+);
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON vexim.* to vexim@localhost IDENTIFIED BY 'CHANGE';
 FLUSH PRIVILEGES;
@@ -78,3 +93,4 @@ INSERT INTO vexim.domains (domain_id, domain) VALUES ('1', 'admin');
 -- Uncomment the following lines by removing the initial '--', if your system uses DES passwords:
 -- INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
 -- VALUES ('1', 'siteadmin', 'siteadmin', 'CHANGE', '0Apup3ZbF9RPg', '65535', '65535', '', '', 'SiteAdmin', 'site', '1');
+

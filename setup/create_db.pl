@@ -239,6 +239,18 @@ $pgdbh->do("CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
   $pgdbh->do("CREATE TABLE IF NOT EXISTS domainalias (domain_id int NOT NULL,
 	alias varchar(64))") or die "Could not create table domainalias in the vexim database!";
 	print "Created domainalias table\n";
+  $pgdbh->do("CREATE TABLE groups (
+        id                  int SERIAL PRIMARY KEY,
+        domain_id           int CHECK(domain_id > -1),
+        name                varchar(64) NOT NULL,
+        is_public           char(1) NOT NULL DEFAULT 'Y',
+        enabled             smallint NOT NULL DEFAULT '1'") or die "Could not create table groups in the vexim database!";
+	print "Created groups table\n";
+  $pgdbh->do("CREATE INDEX groups_name ON groups(domain_id, name)") or die "Could not create index groups_name in the vexim database!";
+  $pgdbh->do("CREATE TABLE group_contents (
+        group_id            int NOT NULL,
+        member_id           int NOT NULL,
+        UNIQUE (group_id,  member_id)") or die "Could not create table group_contents in the vexim database!";;
 }
 
 

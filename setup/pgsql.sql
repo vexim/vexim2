@@ -56,6 +56,18 @@ CREATE TABLE blocklists (block_id SERIAL PRIMARY KEY,
 CREATE INDEX blocklists_user_id_key ON blocklists (user_id);
 CREATE TABLE domainalias (domain_id int NOT NULL,
         alias varchar(64));
+CREATE TABLE groups (
+        id                  int SERIAL PRIMARY KEY,
+        domain_id           int CHECK(domain_id > -1),
+        name                varchar(64) NOT NULL,
+        is_public           char(1) NOT NULL DEFAULT 'Y',
+        enabled             smallint NOT NULL DEFAULT '1'
+);
+CREATE INDEX groups_name ON groups(domain_id, name);
+CREATE TABLE group_contents (
+        group_id            int NOT NULL,
+        member_id           int NOT NULL,
+        UNIQUE (group_id,  member_id));
 
 CREATE USER vexim WITH PASSWORD 'mypass' NOCREATEDB NOCREATEUSER;
 GRANT SELECT,INSERT,DELETE,UPDATE ON domains,users,blocklists,blocklists_block_id_seq,domains_domain_id_seq,users_user_id_seq to vexim;
