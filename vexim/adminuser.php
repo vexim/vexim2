@@ -7,14 +7,14 @@
     <title>Virtual Exim: Manage Users</title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body>  
+  <body>
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="Menu">
       <a href="adminuseradd.php">Add User</a>
       <?
 		$domquery = "SELECT max_accounts FROM domains WHERE domain_id=" . $_COOKIE[vexim][2]; 
 		$domresult = $db->query($domquery);
-		$domrow= $domresult->fetchRow();
+		$domrow = $domresult->fetchRow();
 		if ($domrow[max_accounts]) {
 			$allowed = $domrow[max_accounts];
 			$domquery = "SELECT count(user_id) AS used FROM users WHERE domain_id=" . $_COOKIE[vexim][2] . " AND type='local';";
