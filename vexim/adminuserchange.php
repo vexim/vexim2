@@ -116,6 +116,7 @@
 		  </select></td>
 	      <td><input name="blockval" type="text" size="25" class="textfield">
 		  <input name="user_id" type="hidden" value="<? print $_GET['user_id']; ?>">
+		  <input name="localpart" type="hidden" value="<? print $_GET['localpart']; ?>">
 		  <input name="color" type="hidden" value="black"></td></tr>
 	  <tr><td><input name="submit" type="submit" value="<? echo _("Submit"); ?>"></td></tr>
       </form>
@@ -123,7 +124,7 @@
     <table align="center">
       <tr><th><? echo _("Delete"); ?></th><th><? echo _("Blocked Header"); ?></th><th><? echo _("Content"); ?></th></tr>
       <? if ($blockresult->numRows()) { while ($blockrow = $blockresult->fetchRow()) {
-	      print "<tr><td><a href=\"adminuserblocksubmit.php?action=delete&user_id={$_GET['user_id']}&block_id={$blockrow['block_id']}&localpart={$blockrow['localpart']}\"><img style=\"border:0;width:10px;height:16px\" title=\"Delete\" src=\"images/trashcan.gif\" alt=\"trashcan\"></a></td>";
+	      print "<tr><td><a href=\"adminuserblocksubmit.php?action=delete&user_id={$_GET['user_id']}&block_id={$blockrow['block_id']}&localpart={$_GET['localpart']}\"><img style=\"border:0;width:10px;height:16px\" title=\"Delete\" src=\"images/trashcan.gif\" alt=\"trashcan\"></a></td>";
 	      print "<td>{$blockrow['blockhdr']}</td><td>{$blockrow['blockval']}</td></tr>\n";
 	   }
 	 }
