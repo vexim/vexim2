@@ -1,5 +1,5 @@
 <?
-  // Strictly two aren't alone functions, but they are functions of sorts and we call it every
+  // Strictly three aren't alone functions, but they are functions of sorts and we call it every
   // page to prevent tainted data expoits
   foreach ($_GET as $getkey => $getval) {
     $_GET[$getkey] = preg_replace('/[\'";$%]/','',$getval);
@@ -7,6 +7,13 @@
 
   foreach ($_POST as $postkey => $postval) {
     $_POST[$postkey] = preg_replace('/[\'";$%]/','',$postval);
+  }
+
+  $globals = array('_GET', '_POST');
+  foreach ($globals as $i => $val) {
+   foreach ($$val as $j => $var) {
+      if (isset($$var)) { unset($$var); }
+    }
   }
 
   function validate_password($clear,$vclear) {
