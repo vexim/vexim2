@@ -156,19 +156,21 @@ sub create_mysqltables {
   $mydbh->do("DROP TABLE IF EXISTS vexim.blocklists");
   $mydbh->do("CREATE TABLE IF NOT EXISTS vexim.blocklists (block_id int(10) unsigned NOT NULL auto_increment,
   	domain_id mediumint(8) unsigned NOT NULL,
-	localpart varchar(192) NOT NULL default '',
-	blockaddr varchar(192) NOT NULL default '',
+	user_id int(10) unsigned NOT NULL,
+	blockhdr varchar(192) NOT NULL default '',
+	blockval varchar(192) NOT NULL default '',
+	color varchar(8) NOT NULL default '',
 	PRIMARY KEY (block_id))") or die "Could not create table blocklists in the vexim database!";
   print "Created blocklists table\n";
 }
 
 
 #####################################
-# Thsi is the equivilent code for   #
+# This is the equivilent code for   #
 # generating PostgreSQL tables. The #
 # Code is certainly not the same    #
 # due to slight difference in the   #
-# SQL implementation.	       #
+# SQL implementation.	            #
 #####################################
 
 sub create_postgrestables {
@@ -225,8 +227,10 @@ $pgdbh->do("CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
   print "\nCreated users table\n";
   $pgdbh->do("CREATE TABLE blocklists (block_id SERIAL PRIMARY KEY,
   	domain_id int NOT NULL,
-	localpart varchar(192) NOT NULL default '',
-	blockaddr varchar(192) NOT NULL default '')") or die "Could not create table blocklists in the vexim database!";
+	user_id int NOT NULL,
+	blockhdr varchar(192) NOT NULL default '',
+	blockval varchar(192) NOT NULL default '',
+	color varchar(8))") or die "Could not create table blocklists in the vexim database!";
   print "\nCreated blocklists table\n";
 }
 

@@ -25,7 +25,6 @@
   if (!DB::isError($result)) {
     header ("Location: userchange.php?updated");
   } else {
-    echo $query;
     header ("Location: userchange.php?failed");
   }
 ?>

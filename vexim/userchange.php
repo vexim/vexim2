@@ -4,10 +4,10 @@
 
   $domquery = "SELECT avscan,spamassassin FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
   $domresult = $db->query($domquery);
-  if ($domresult->numRows()) { $domrow = $domresult->fetchRow(); }
+  if (!DB::isError($domresult)) { $domrow = $domresult->fetchRow(); }
   $query = "SELECT * FROM users WHERE user_id={$_COOKIE['vexim'][4]}";
   $result = $db->query($query);
-  if ($result->numRows()) { $row = $result->fetchRow(); }
+  if (!DB::isError($result)) { $row = $result->fetchRow(); }
   $blockquery = "SELECT block_id,blockhdr,blockval FROM blocklists,users
   		WHERE blocklists.user_id={$_COOKIE['vexim'][4]}
 		AND users.user_id=blocklists.user_id";
@@ -96,7 +96,7 @@
       </form>
       <table align="center">
 	<tr><th>Delete</th><th>Blocked Header</th><th>Content</th></tr>
-	<? if ($blockresult->numRows()) {
+	<? if (!DB::isError($blockresult)) {
 	     while ($blockrow = $blockresult->fetchRow()) {
 		print "<tr><td><a href=\"userblocksubmit.php?action=delete&block_id={$blockrow['block_id']}\"><img style=\"border:0;width:10px;height:16px\" title=\"Delete\" src=\"images/trashcan.gif\" alt=\"trashcan\"></a></td>";
 		print "<td>{$blockrow['blockhdr']}</td><td>{$blockrow['blockval']}</td></tr>\n";
