@@ -27,6 +27,9 @@
 	} else if (isset($_GET[quotahigh])) {
 	  print "<div id='Status'>The quota you specified was too high.<br>\n";
 	  print "The maximum quota you can specify is: $_GET[quotahigh] Mb\n";
-        }
+        } else if (isset($_GET[domaindisabled])) {
+	  print "<div id='Status'>This domain is currently disabled.<br>\n";
+	  print "Please see yout administrator.\n";
+	}
 
 ?>

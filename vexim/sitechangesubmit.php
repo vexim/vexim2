@@ -44,6 +44,22 @@
     }
   }
 
+  if (isset($_POST[sadisable])) {
+    $query = "UPDATE users SET spamassassin='0' WHERE domain_id=$_POST[domain_id]";
+    $result = $db->query($query);
+    if (DB::isError($result)) { $result->getMessage(); }
+    header ("Location: site.php?updated=$_POST[domain]");
+    die;
+  }
+
+  if (isset($_POST[avdisable])) {
+    $query = "UPDATE users SET avscan='0' WHERE domain_id=$_POST[domain_id]";
+    $result = $db->query($query);
+    if (DB::isError($result)) { $result->getMessage(); }
+    header ("Location: site.php?updated=$_POST[domain]");
+    die;
+  }
+
 # Just-in-case catchall
 header ("Location: site.php?failupdated=$_POST[domain]");
 ?>

@@ -38,7 +38,7 @@
       			users,domains WHERE localpart='siteadmin' AND domain='admin' AND
 			users.domain_id = domains.domain_id";
     } else {
-      $query = "SELECT localpart,domain,users.domain_id,admin,users.type FROM users,domains WHERE
+      $query = "SELECT localpart,domain,users.domain_id,admin,users.type,domains.enabled AS de FROM users,domains WHERE
       			localpart='$_POST[localpart]' AND users.domain_id = domains.domain_id
 			AND domains.domain='$_POST[domain]'";
     }
@@ -52,6 +52,8 @@
       header ("Location: site.php");
     } else if ($row[admin] == "1") {
       header ("Location: admin.php");
+    } else if (($row[de] == "0") && ($row[admin] != "1")) {
+      header ("Location: index.php?domaindisabled");
     } else {
       header ("Location: userchange.php");
     }

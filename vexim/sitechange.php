@@ -46,13 +46,28 @@
 	  ?>
 	  <tr><td>System UID:</td><td><input type="text" size="25" name="uid" value="<? print $row[uid]; ?>" class="textfield"></td></tr>
 	  <tr><td>System GID:</td><td><input type="text" size="25" name="gid" value="<? print $row[gid]; ?>" class="textfield"></td></tr>
-	  <tr><td>Max mailbox quota in Mb<br>(0 for disabled):</td><td><input type="text" size="25" name="quotas" value="<? print $row[quotas]; ?>" class="textfield"></td></tr>
+	  <tr><td>Max mailbox quota in Mb<br>(0 for disabled):</td>
+	      <td><input type="text" size="25" name="quotas" value="<? print $row[quotas]; ?>" class="textfield"></td></tr>
 	  <tr><td>Spamassassin:</td><td><input type="checkbox" size="25" name="spamassassin" <? if ($row[spamassassin] == 1) {print "checked";} ?>></td></tr>
 	  <tr><td>Anti-virus:</td><td><input type="checkbox" size="25" name="avscan" <? if ($row[avscan] == 1) {print "checked";} ?>></td></tr>
 	  <tr><td>Enabled:</td><td><input type="checkbox" size="25" name="enabled" <? if ($row[enabled] == 1) {print "checked";} ?>></td>
 	  <td><input name="domain" type="hidden" value="<? print $_GET[domain]; ?>"></td></tr>
 	  <tr><td></td><td><input name="submit" size="25" type="submit" value="Submit Changes"></td></tr>
         </form>
+	<form name="sadisable" method="post" action="sitechangesubmit.php">
+	  <tr><td>Disable SpamAssassin for all domain users (Warning: cannot be reversed!):</td>
+	      <td><input name="sadisable" type="hidden" value="sadisable">
+	          <input name="domain" type="hidden" value="<? print $_GET[domain]; ?>">
+	          <input name="domain_id" type="hidden" value="<? print $_GET[domain_id]; ?>">
+	          <input name="submit" type="submit" value="Disable"></td></tr>
+	</form>
+	<form name="avdisable" method="post" action="sitechangesubmit.php">
+	  <tr><td>Disable Anti-Virus for all domain users (Warning: cannot be reversed!):</td>
+	      <td><input name="avdisable" type="hidden" value="avdisable">
+	          <input name="domain" type="hidden" value="<? print $_GET[domain]; ?>">
+	          <input name="domain_id" type="hidden" value="<? print $_GET[domain_id]; ?>">
+	          <input name="submit" type="submit" value="Disable"></td></tr>
+	</form>
       </table>
     </div>
   </body>
