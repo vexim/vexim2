@@ -1,8 +1,8 @@
 <?
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
   include_once dirname(__FILE__) . "/config/functions.php";
-  include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   $domquery = "SELECT (count(users.user_id) < domains.max_accounts)
   		OR (domains.max_accounts=0) AS allowed FROM users,domain
@@ -65,30 +65,27 @@
     $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped, on_spamassassin, sa_tag, sa_refuse, maxmsgsize, enabled, quota)
       VALUES ('{$_POST['localpart']}',
 	'{$_POST['localpart']}@{$_SESSION['domain']}',
-	{$_SESSION['domain_id']},
+	 {$_SESSION['domain_id']},
 	'" . crypt($_POST['clear'],$salt) . "',
 	'{$_POST['clear']}',
 	'{$smtphomepath}',
 	'{$pophomepath}',
-	{$_POST['uid']},
-	{$_POST['gid']},
+	 {$_POST['uid']},
+	 {$_POST['gid']},
 	'{$_POST['realname']}',
 	'{$_POST['type']}',
-	{$_POST['admin']},
-	{$_POST['on_avscan']},
-	{$_POST['on_piped']},
-	{$_POST['on_spamassassin']},
+	 {$_POST['admin']},
+	 {$_POST['on_avscan']},
+	 {$_POST['on_piped']},
+	 {$_POST['on_spamassassin']},
 	" . ((isset($_POST['sa_tag'] )) ? $_POST['sa_tag']  : 0) . ",
 	" .((isset($_POST['sa_refuse'] )) ? $_POST['sa_refuse']  : 0) . ",
-	{$_POST['maxmsgsize']},
-	{$_POST['enabled']},
-	{$_POST['quota']})";
+	 {$_POST['maxmsgsize']},
+	 {$_POST['enabled']},
+	 {$_POST['quota']})";
     $result = $db->query($query);
     if (!DB::isError($result)) { header ("Location: adminuser.php?added={$_POST['localpart']}");
-      $query = "SELECT localpart,domain FROM users,domains WHERE domain_id={$_SESSION['domain_id']}' AND users.type='admin'";
-      $result = $db->query($query);
-      $row =  $result->fetchRow();
-      mail("{$_POST['localpart']}@{$_SESSION['domain']}", "Welcome {$_POST['realname']}!",  $welcome_message, "From: {$_SESSION['localpart']}@{$_SESSION['domain']}\r\n");
+      mail("{$_POST['localpart']}@{$_SESSION['domain']}", "Welcome {$_POST['realname']}!", "$welcome_message", "From: {$_SESSION['localpart']}@{$_SESSION['domain']}\r\n");
       die; }
     else { header ("Location: adminuser.php?failadded={$_POST['localpart']}"); die; } }
   else { header ("Location: adminuser.php?badpass={$_POST['localpart']}"); die; }
