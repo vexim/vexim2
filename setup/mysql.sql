@@ -75,4 +75,4 @@ INSERT INTO vexim.domains (domain_id, domain) VALUES ('1', 'admin');
 
 -- Uncomment the following lines by removing the initial '--', if your system uses DES passwords:
 -- INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
---VALUES ('1', 'siteadmin', 'siteadmin', 'CHANGE', '0Apup3ZbF9RPg', '65535', '65535', '', '', 'SiteAdmin', 'site', '1');
+-- VALUES ('1', 'siteadmin', 'siteadmin', 'CHANGE', '0Apup3ZbF9RPg', '65535', '65535', '', '', 'SiteAdmin', 'site', '1');
