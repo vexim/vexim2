@@ -56,8 +56,7 @@
             $query .= " AND lower(domain) LIKE lower('$letter%')";
         elseif ($_POST['searchfor'] != '')
             $query .= " AND domain LIKE '%" . $_POST['searchfor'] . "%' ";
-        $query .= " GROUP BY domains.domain, domains.domain_id, users.localpart
-                   ORDER BY domain";
+        $query .= " GROUP BY domains.domain ORDER BY domain";
   	$result = $db->query($query);
 	if ($result->numRows()) {
 	  while ($row = $result->fetchRow()) {
