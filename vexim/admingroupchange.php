@@ -100,8 +100,8 @@
                 <option selected value=""> </option>
                 <?
                     $query = "select realname, username, user_id from users ";
-                    $query .= "where enabled = '1' and domain_id = {$_SESSION['domain_id']} ";
-                    $query .= "order by type desc, username";
+                    $query .= "where enabled = '1' and domain_id = {$_SESSION['domain_id']} and type != 'fail' ";
+                    $query .= "order by realname, username, type desc";
                     $result = $db->query($query);
                     while ($row = $result->fetchRow()) {
                         ?>
