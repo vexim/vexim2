@@ -1,6 +1,19 @@
 Checklist to follow after updating code, to confirm functionality
 =================================================================
 
+[ ] Logging in as Siteadmin
+Site management:
+    [ ] Adding domains: local and relay
+    [ ] Changing domain admin password
+    [ ] Changing UID/GID flags
+    [ ] Changing Boolean flags has impact on admin/users
+    [ ] Changing 'Enabled' works
+    [ ] Deleting domains
+
+Siteadmin Management:
+    [ ] Change siteadmin password
+    [ ] Setting max accounts
+
 [ ] Logging in as Postmaster, a second Admin user, and a regular user
 
 Account Additions:
@@ -8,6 +21,7 @@ Account Additions:
     [ ] Adding Catchall
     [ ] Adding POP/IMAP accounts
     [ ] Adding :fail:'s
+    [ ] Adding more than max accounts
 
 Account Deletions:
     [ ] Deleting Aliases
@@ -21,11 +35,16 @@ Account Management:
     [ ] Update Catchall - final destination
     [ ] Update POP/IMAP accounts - name, password, UID, GID, procmail, admin
     [ ] Update :fail:'s - name
+    [ ] Enable / Disable accounts
     As User:
     [ ] Updating Name
     [ ] Updating Password
+    [ ] Anti-Virus/SpamAssassin
 
 Testing Failures:
     [ ] Adding duplicate account
     [ ] Adding alias using existing account name
     [ ] Adding duplicate alias
+    [ ] Email disabled accounts
+    [ ] Going over quota
+    [ ] Quota warnings
