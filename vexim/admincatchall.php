@@ -15,7 +15,7 @@
   <body>
   <? include dirname(__FILE__) . "/config/header.php"; ?>
   <div id="menu">
-    <a href="admincatchallall.php"><? echo _("Manage Aliases"); ?></a><br>
+    <a href="adminalias.php"><? echo _("Manage Aliases"); ?></a><br>
     <a href="admin.php"><? echo _("Main Menu"); ?></a><br>
     <br><a href="logout.php"><? echo _("Logout"); ?></a><br>
   </div>
