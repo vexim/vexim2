@@ -51,11 +51,11 @@
 			} else {
 			  $row[quota] = "Unlimited";} print $row[quota]; ?></td></tr>
 	  <? if ($domrow[avscan] == "1") {
-	       print "<tr><td>Anti-Virus:</td><td><input name=\"avscan\" type=\"checkbox\"";
+	       print "<tr><td>Anti-Virus:</td><td><input name=\"on_avscan\" type=\"checkbox\"";
 	       if ($row[on_avscan] == "1") { print " checked "; } print "></td></tr>\n";
 	     }
 	     if ($domrow[spamassassin] == "1") {
-	       print "<tr><td>Spamassassin:</td><td><input name=\"spamassassin\" type=\"checkbox\"";
+	       print "<tr><td>Spamassassin:</td><td><input name=\"on_spamassassin\" type=\"checkbox\"";
 	       if ($row[on_spamassassin] == "1") { print " checked "; } print "></td></tr>\n";
 	       print "<tr><td>SA refuse score:</td>";
 	       print "<td><input type=\"text\" name=\"sa_refuse\" value=\"$row[sa_refuse]\" class=\"textfield\"></td></tr>\n";
