@@ -54,6 +54,8 @@ CREATE TABLE blocklists (block_id SERIAL PRIMARY KEY,
 	blockval varchar(192) NOT NULL default '',
 	color varchar(8) NOT NULL default '');
 CREATE INDEX blocklists_user_id_key ON blocklists (user_id);
+CREATE TABLE domainalias (domain_id int NOT NULL,
+        alias varchar(64));
 
 CREATE USER vexim WITH PASSWORD 'mypass' NOCREATEDB NOCREATEUSER;
 GRANT SELECT,INSERT,DELETE,UPDATE ON domains,users,blocklists,blocklists_block_id_seq,domains_domain_id_seq,users_user_id_seq to vexim;

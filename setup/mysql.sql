@@ -63,6 +63,8 @@ CREATE TABLE IF NOT EXISTS vexim.blocklists (block_id int(10) unsigned NOT NULL 
 	blockval varchar(192) NOT NULL default '',
 	color varchar(8) NOT NULL default '',
 	PRIMARY KEY (block_id));
+CREATE TABLE IF NOT EXISTS domainalias (domain_id mediumint(8) unsigned NOT NULL,
+	alias varchar(64));
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON vexim.* to vexim@localhost IDENTIFIED BY 'CHANGE';
 FLUSH PRIVILEGES;

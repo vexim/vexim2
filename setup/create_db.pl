@@ -162,6 +162,10 @@ sub create_mysqltables {
 	color varchar(8) NOT NULL default '',
 	PRIMARY KEY (block_id))") or die "Could not create table blocklists in the vexim database!";
   print "Created blocklists table\n";
+  $mydbh->do("DROP TABLE IF EXISTS vexim.domainalias");
+  $mydbh->do("CREATE TABLE IF NOT EXISTS domainalias (domain_id mediumint(8) unsigned NOT NULL,
+  	alias varchar(64))") or die "Could not create table domainalias in the vexim database!";
+  print "Created domainalias table\n";
 }
 
 
@@ -232,6 +236,9 @@ $pgdbh->do("CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
 	blockval varchar(192) NOT NULL default '',
 	color varchar(8))") or die "Could not create table blocklists in the vexim database!";
   print "\nCreated blocklists table\n";
+  $pgdbh->do("CREATE TABLE IF NOT EXISTS domainalias (domain_id int NOT NULL,
+	alias varchar(64))") or die "Could not create table domainalias in the vexim database!";
+	print "Created domainalias table\n";
 }
 
 
