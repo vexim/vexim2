@@ -18,6 +18,7 @@
 	o. Add the ability to choose any filesystem directory [MySQL done]
 	   -> Check the permissions to make sure Exim can create it
 	p. Add limits on how many accounts each domain can have
+	q. Add a "junior admin" with different abilities
 
     2. Domain Controls (depends on site settings)
 	a. Add/delete/modify users [MySQL done]
