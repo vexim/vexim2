@@ -615,7 +615,9 @@ virtual_domains:
   file_transport = virtual_delivery
   reply_transport = address_reply
   pipe_transport = address_pipe
-  
+
+.include /usr/local/etc/exim/vexim-group-router.conf
+
 virtual_domains_catchall:
   driver = redirect
   allow_fail
