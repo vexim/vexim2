@@ -7,7 +7,7 @@
   if (isset($_POST[spamassassin])) {$_POST[spamassassin] = 1;} else {$_POST[spamassassin] = 0;}
   if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
   if (isset($_POST[pipe])) {$_POST[pipe] = 1;} else {$_POST[pipe] = 0;}
-
+  if ($_POST[max_accounts] == '') {$_POST[max_accounts] = 'NULL';}
   if (isset($_POST[clear])) {
     if (validate_password($_POST[clear], $_POST[vclear])) {
       $query = "UPDATE users SET crypt='".crypt($_POST[clear])."',
@@ -34,6 +34,7 @@
 		avscan='$_POST[avscan]',
 		maxmsgsize='$_POST[maxmsgsize]',
 		pipe='$_POST[pipe]',
+		max_accounts=$_POST[max_accounts],
 		quotas='$_POST[quotas]',
 		sa_tag='$_POST[sa_tag]',
 		sa_refuse='$_POST[sa_refuse]',

@@ -2,6 +2,13 @@
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
 
+  $domquery = "SELECT (count(users.user_id) < domains.max_accounts) OR domains.max_accounts IS NULL AS allowed FROM users JOIN domains USING (domain_id) WHERE domains.domain_id=" . $_COOKIE[vexim][2] . " AND users.type='local'";
+  $domresult = $db->query($domquery);
+  $domrow = $domresult->fetchRow();
+  if (! $domrow[allowed]) {
+	header ("Location: adminuser.php?maxaccounts=true");
+  }
+
   $domquery = "SELECT * FROM domains WHERE domain_id ='" .$_COOKIE[vexim][2]. "'";
   $domresult = $db->query($domquery);
   $domrow = $domresult->fetchRow();

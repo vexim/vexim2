@@ -24,6 +24,9 @@
         } else if (isset($_GET[badaliaspass])) {
           print "<div id='Status'>Account $_GET[badaliaspass] could not be added.<br>\n";
           print "Your passwords do not match, or contain illegal characters: ' \" ` or ;</div>\n";
+        } else if (isset($_GET[maxaccounts])) {
+          print "<div id='Status'>Account Limit Reached.<br>\n";
+          print "Your domain account limit has been reached.</div>\n";
 	} else if (isset($_GET[quotahigh])) {
 	  print "<div id='Status'>The quota you specified was too high.<br>\n";
 	  print "The maximum quota you can specify is: $_GET[quotahigh] Mb\n";

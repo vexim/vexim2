@@ -45,6 +45,7 @@
 	  ?>
 	  <tr><td>System UID:</td><td><input type="text" size="5" name="uid" value="<? print $row[uid]; ?>" class="textfield"></td></tr>
 	  <tr><td>System GID:</td><td><input type="text" size="5" name="gid" value="<? print $row[gid]; ?>" class="textfield"></td></tr>
+	  <tr><td>Maximum accounts<br>(blank for unlimited):</td><td<input type="text" size="5" name="max_accounts" value="<? print $row[max_accounts]; ?>" class="textfield"></td></tr>
 	  <tr><td>Max mailbox quota in Mb<br>(0 for disabled):</td>
 	      <td><input type="text" size="5" name="quotas" value="<? print $row[quotas]; ?>" class="textfield"></td></tr>
           <tr><td>Maximum message size:</td>
