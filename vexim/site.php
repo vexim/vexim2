@@ -83,7 +83,7 @@
 	    print "<tr>";
 	    print "\t<td><a href=\"sitedelete.php?domain_id={$row['domain_id']}&domain={$row['alias']}&type=alias\">";
 	    print "<img style='border:0;width:10px;height:16px' title='Delete{$row['alias']}' src='images/trashcan.gif' alt='trashcan'></a></td>\n";
-	    print "\t<td>{$row['alias']} -> {$row['domain']}</td>\n";
+	    print "\t<td colspan='3'>{$row['alias']} -> {$row['domain']}</td>\n";
 	    print "</tr>\n";
 	  }
 	}
