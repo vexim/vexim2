@@ -24,7 +24,6 @@
 		<tr><td id="button" colspan="2"><input name="submit" type="submit" value="<? echo _("Submit"); ?>"></td></tr>
 	</table>
       </form>
-	<b><? echo _("WARNING") . ":</b> " . _("Changing your password will require you to re-login."); ?>
     </div>
   </body>
 </html>
