@@ -11,7 +11,8 @@
   if ($_POST['max_accounts'] == '') {$_POST['max_accounts'] = '0';}
   if (isset($_POST['clear'])) {
     if (validate_password($_POST['clear'], $_POST['vclear'])) {
-      $query = "UPDATE users SET crypt='".crypt($_POST['clear'])."',
+      $query = "UPDATE users SET crypt='" . 
+        crypt_password($_POST['clear']) . "',
    		clear='{$_POST['clear']}'
 		WHERE localpart='{$_POST['localpart']}' AND
 		domain_id={$_POST['domain_id']}";

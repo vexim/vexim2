@@ -119,4 +119,45 @@
             print "</p>\n";
         }
     }
+
+    /**
+     * crypt the plaintext password.
+     *
+     * @golbal  string  $cryptscheme
+     * @param   string  $clear  the cleartext password
+     * @param   string  $salt   optional salt
+     * @return  string          the properly crypted password
+     */
+    function crypt_password($clear, $salt = '')
+    {
+        global $cryptscheme;
+        
+        if ($cryptscheme == 'sha')
+        {
+            $hash = sha1($clear);
+            $cryptedpass = '{SHA}' . base64_encode(pack('H*', $hash));
+        }
+        else
+        {
+            if ($salt != '')
+            {
+                if ($cryptscheme == 'des') 
+                {
+                    $salt = substr($salt, 0, 2);
+                }
+                else
+                if ($cryptscheme == 'md5') 
+                {
+                    $salt = substr($salt, 0, 12);
+                }
+                else
+                {
+                    $salt = '';
+                }
+            }
+            $cryptedpass = crypt($clear, $salt);
+        }   
+        
+        return $cryptedpass;
+    }
 ?>

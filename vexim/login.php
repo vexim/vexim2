@@ -17,12 +17,7 @@
   if (DB::isError($result)) { die ($result->getMessage()); }
   $row = $result->fetchRow();
 
-  if ($cryptscheme == "des") {
-    $salt = substr("{$row['crypt']}", 0, 2);
-  } else if ($cryptscheme == "md5") {
-    $salt = substr("{$row['crypt']}", 0, 12);
-  }
-  $cryptedpass = crypt("{$_POST['crypt']}",$salt);
+  $cryptedpass = crypt_password($_POST['crypt'], $row['crypt']);
 
 //  Some debugging prints. They help when you don't know why auth is failing.
 /*

@@ -5,7 +5,7 @@
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
-    $cryptedpassword = crypt($_POST['clear']);
+    $cryptedpassword = crypt_password($_POST['clear']);
     $query = "UPDATE users SET crypt='$cryptedpassword',
 		clear='{$_POST['clear']}' WHERE localpart='siteadmin'";
     $result = $db->query($query);

@@ -39,7 +39,7 @@
 		  SELECT domain_id, '" . $_POST['localpart'] . "',
 		  '{$_POST['localpart']}@{$_POST['domain']}',
 		  '{$_POST['clear']}',
-		  '". crypt($_POST['clear'],$salt) . "',
+		  '". crypt_password($_POST['clear'],$salt) . "',
 		  {$_POST['uid']}, {$_POST['gid']},
 		  '{$smtphomepath}', '{$pophomepath}',
 		  'Domain Admin', 'local', 1 FROM domains

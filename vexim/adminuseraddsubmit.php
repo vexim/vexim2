@@ -67,7 +67,7 @@
       VALUES ('{$_POST['localpart']}',
 	'{$_POST['localpart']}@{$_SESSION['domain']}',
 	 {$_SESSION['domain_id']},
-	'" . crypt($_POST['clear'],$salt) . "',
+	'" . crypt_password($_POST['clear'],$salt) . "',
 	'{$_POST['clear']}',
 	'{$smtphomepath}',
 	'{$pophomepath}',
