@@ -1,8 +1,8 @@
-<?
+<?php
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
 ?>
-<?
+<?php
   $query = "SELECT * FROM groups WHERE id={$_GET['group_id']}";
   $result = $db->query($query);
   $row = $result->fetchRow();
@@ -10,37 +10,37 @@
 ?>
 <html>
   <head>
-    <title>Virtual Exim: Edit group</title>
+    <title><?php echo _("Virtual Exim") . ": " . _("Edit group"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body onLoad="document.groupchange.realname.focus()">
-    <? include dirname(__FILE__) . "/config/header.php"; ?>
+    <?php include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="menu">
-      <a href="admingroup.php"><? echo _("Manage Groups"); ?></a><br>
-      <a href="admingroupadd.php"><? echo _("Add Group"); ?></a></br>
-      <a href="admin.php"><? echo _("Main Menu"); ?></a><br>
-      <br><a href="logout.php"><? echo _("Logout"); ?></a><br>
+      <a href="admingroup.php"><?php echo _("Manage Groups"); ?></a><br>
+      <a href="admingroupadd.php"><?php echo _("Add Group"); ?></a></br>
+      <a href="admin.php"><?php echo _("Main Menu"); ?></a><br>
+      <br><a href="logout.php"><?php echo _("Logout"); ?></a><br>
     </div>
     <div id="Forms">
       <table align="center">
         <form name="groupchange" method="post" action="admingroupchangesubmit.php">
 	<tr>
-            <td><?=_("Group Address")?>:</td>
+            <td><?php echo _("Group Address"); ?>:</td>
             <td>
-                <input name="localpart" type="text" value="<?=$row['name']?>"class="textfield">@<?=$_SESSION['domain']?>
-                <input name="group_id" type="hidden" value="<?=$_GET['group_id']?>" class="textfield">
+                <input name="localpart" type="text" value="<?php echo $row['name']; ?>"class="textfield">@<?php echo $_SESSION['domain']; ?>
+                <input name="group_id" type="hidden" value="<?php echo $_GET['group_id']; ?>" class="textfield">
             </td>
         </tr>
 	<tr>
-            <td><?=_("Is public")?></td>
+            <td><?php echo _("Is public"); ?></td>
             <td>
-                <input name="is_public" type="checkbox" <?= $row['is_public']=='Y' ? 'checked' : '' ?> class="textfield">
+                <input name="is_public" type="checkbox" <?php echo $row['is_public']=='Y' ? 'checked' : ''; ?> class="textfield">
             </td>
         </tr>
 	<tr>
-            <td><?=_("Enabled")?></td>
+            <td><?php echo _("Enabled"); ?></td>
             <td>
-                <input name="enabled" type="checkbox" <?= $row['enabled']=='1' ? 'checked' : '' ?> class="textfield">
+                <input name="enabled" type="checkbox" <?php echo $row['enabled']=='1' ? 'checked' : ''; ?> class="textfield">
             </td>
         </tr>
 	<tr>
@@ -50,7 +50,7 @@
         <tr><td colspan="2">&nbsp;</td></tr>
         <tr>
             <td colspan="2"> 
-                <?
+                <?php
                 $query = "select u.realname, u.username, u.enabled, c.member_id ";
                 $query .= "from users u, group_contents c ";
                 $query .= "where u.user_id = c.member_id and c.group_id = {$_GET['group_id']} ";
@@ -61,28 +61,28 @@
                     <table align="center">
                         <tr>
                             <th>&nbsp;</th>
-                            <th><?=_("Real name")?></th>
-                            <th><?=_("Email Address")?></th>
-                            <th><?=_("Enabled")?></th>
+                            <th><?php echo _("Real name"); ?></th>
+                            <th><?php echo _("Email Address"); ?></th>
+                            <th><?php echo _("Enabled"); ?></th>
                         </tr>
-                        <?
+                        <?php
                             while ($row = $result->fetchRow()) {
                                 ?>
                                 <tr>
                                     <td class="trash">
-                                        <a href="admingroupcontentdeletesubmit.php?group_id=<?=$_GET['group_id']?>&member_id=<?=$row['member_id']?>&localpart=<?=$localpart?>">
-                                        <img style="border:0;width:10px;height:16px" title="Remove member <?=$row['realname']?> from group <?=$localpart?>" src="images/trashcan.gif" alt="trashcan">
+                                        <a href="admingroupcontentdeletesubmit.php?group_id=<?php echo $_GET['group_id']; ?>&member_id=<?php echo $row['member_id']; ?>&localpart=<?php echo $localpart; ?>">
+                                        <img style="border:0;width:10px;height:16px" title="Remove member <?php echo $row['realname']; ?> from group <?php echo $localpart; ?>" src="images/trashcan.gif" alt="trashcan">
                                         </a>
                                     </td>
-                                    <td><?=$row['realname']?></td>
-                                    <td><?=$row['username']?></td>
-                                    <td><? if($row['enabled']='1') { ?><img style="border:0;width:13px;height:12px" src="images/check.gif"><? } ?></td>
+                                    <td><?php echo $row['realname']; ?></td>
+                                    <td><?php echo $row['username']; ?></td>
+                                    <td><?php if($row['enabled']='1') { ?><img style="border:0;width:13px;height:12px" src="images/check.gif"><?php } ?></td>
                                 </tr>
-                                <?
+                                <?php
                             }#while
                         ?>
                     </table>
-                    <?
+                    <?php
                 } else {
                     print _("There is no member in this group");
                 }
@@ -92,28 +92,28 @@
         <tr><td colspan="2">&nbsp;</td></tr>
         <form method="post" action="admingroupcontentaddsubmit.php" name="groupcontentadd">
 	<tr>
-            <td><?=_("Add Member")?></td>
+            <td><?php echo _("Add Member"); ?></td>
             <td>
-                <input name="group_id" type="hidden" value="<?=$_GET['group_id']?>" class="textfield">
-                <input name="localpart" type="hidden" value="<?=$localpart?>" class="textfield">
+                <input name="group_id" type="hidden" value="<?php echo $_GET['group_id']; ?>" class="textfield">
+                <input name="localpart" type="hidden" value="<?php echo $localpart; ?>" class="textfield">
                 <select name="usertoadd">
                 <option selected value=""> </option>
-                <?
+                <?php
                     $query = "select realname, username, user_id from users ";
                     $query .= "where enabled = '1' and domain_id = {$_SESSION['domain_id']} and type != 'fail' ";
                     $query .= "order by realname, username, type desc";
                     $result = $db->query($query);
                     while ($row = $result->fetchRow()) {
                         ?>
-                        <option value="<?=$row['user_id']?>"><?=$row['realname']?> (<?=$row['username']?>)</option>
-                        <? 
+                        <option value="<?php echo $row['user_id']; ?>"><?php echo $row['realname']; ?> (<?php echo $row['username']; ?>)</option>
+                        <?php 
                     }
                 ?>
                 </select>
             </td>
         </tr>
 	<tr>
-            <td colspan="2" class="button"><input name="addmember" type="submit" value="Submit"></td>
+            <td colspan="2" class="button"><input name="addmember" type="submit" value="<?php echo _("Submit"); ?>"></td>
         </tr>
         </form>
       </table>

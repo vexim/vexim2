@@ -1,4 +1,4 @@
-<?
+<?php
     include_once dirname(__FILE__) . "/config/httpheaders.php";
     $_SESSION = array();
     header ("Location: index.php");

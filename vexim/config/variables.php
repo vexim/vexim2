@@ -1,4 +1,4 @@
-<?
+<?php
   /* SQL Database login information */
   require_once "DB.php";
   include_once dirname(__FILE__) . "/i18n.php";

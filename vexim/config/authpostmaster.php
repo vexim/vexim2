@@ -1,4 +1,4 @@
-<?
+<?php
   include_once dirname(__FILE__) . "/variables.php";
   include_once dirname(__FILE__) . "/httpheaders.php";
 

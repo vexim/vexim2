@@ -1,4 +1,4 @@
-<?
+<?php
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
   include_once dirname(__FILE__) . "/config/functions.php";
@@ -58,7 +58,7 @@
 
   # Update the password, if the password was given
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
-    $cryptedpassword = crypt($_POST['clear']);
+    $cryptedpassword = crypt_password($_POST['clear']);
     $query = "UPDATE users SET crypt='$cryptedpassword',
 		clear='{$_POST['clear']}'
 		WHERE localpart='{$_POST['localpart']}' AND domain_id={$_SESSION['domain_id']}";

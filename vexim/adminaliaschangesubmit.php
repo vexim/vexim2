@@ -1,4 +1,4 @@
-<?
+<?php
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
   include_once dirname(__FILE__) . "/config/functions.php";
@@ -14,9 +14,9 @@
   if ((isset($_POST['on_avscan'])) && ($row['avscan'] = 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
   if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] = 1)) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
 
-# Update the password, if the password was given
+  # Update the password, if the password was given
   if (validate_password($_POST['password'], $_POST['vpassword'])) {
-    $cryptedpassword = crypt($_POST['password']);
+    $cryptedpassword = crypt_password($_POST['password']);
     $query = "UPDATE users SET crypt='{$cryptedpassword}', clear='{$_POST['crypt']}'
 	      WHERE user_id={$_POST['user_id']}";
     $result = $db->query($query);

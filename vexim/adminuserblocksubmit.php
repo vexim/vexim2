@@ -1,4 +1,4 @@
-<?
+<?php
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authuser.php";
   include_once dirname(__FILE__) . "/config/functions.php";
