@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: template\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-30 16:17+0200\n"
+"POT-Creation-Date: 2004-09-02 19:48+0200\n"
 "PO-Revision-Date: 2004-08-04 17:12+0100\n"
-"Last-Translator: Regina Salzmann <vexim@blacknet.de>\n"
+"Last-Translator: Goetz Bock <vexim@blacknet.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,7 +93,9 @@ msgstr "-- Das Update f&uuml;r Ihr Konto war erfolgreich."
 msgid ""
 "-- Your vacation message was too long: %1$d characters. It has been "
 "truncated at %2$d."
-msgstr "-- Ihre Auto-Reply Nachricht war mit %1$d Zeichen zu lang. Sie wurde nach dem %2$d. Zeichen abgeschnitten."
+msgstr ""
+"-- Ihre Auto-Reply Nachricht war mit %1$d Zeichen zu lang. Sie wurde nach "
+"dem %2$d. Zeichen abgeschnitten."
 
 #: config/header.php:43
 #, php-format
@@ -216,7 +218,7 @@ msgstr "-- Die Gruppe %s wurde erfolgreich aktualisiert."
 msgid "-- Group %s could not be updated."
 msgstr "-- Die Gruppe %s konnte nicht aktualisiert werden."
 
-#: config/header.php:84 index.php:45
+#: config/header.php:84 index.php:50
 msgid "Login failed"
 msgstr "Anmeldung fehlgeschlagen"
 
@@ -291,7 +293,7 @@ msgid "Forwards to.."
 msgstr "leitet weiter an"
 
 #: adminalias.php:28 adminaliasadd.php:33 adminaliaschange.php:35
-#: adminuser.php:67 adminuserchange.php:58 sitechange.php:23
+#: adminuser.php:67 adminuserchange.php:68 sitechange.php:23
 msgid "Admin"
 msgstr "Administrator"
 
@@ -345,7 +347,7 @@ msgid "Forward To"
 msgstr "weiterleiten an"
 
 #: adminaliasadd.php:30 adminaliaschange.php:31 adminuseradd.php:39
-#: adminuserchange.php:37 index.php:37 siteadd.php:28 sitechange.php:42
+#: adminuserchange.php:37 index.php:42 siteadd.php:28 sitechange.php:42
 #: sitepassword.php:23 userchange.php:33
 msgid "Password"
 msgstr "Passwort"
@@ -365,25 +367,25 @@ msgid "Verify Password"
 msgstr "Passwort best&auml;tigen"
 
 #: adminaliasadd.php:35 adminaliaschange.php:37 adminuseradd.php:59
-#: adminuserchange.php:61 userchange.php:49
+#: adminuserchange.php:71 userchange.php:49
 msgid "Anti-Virus"
 msgstr "Anti-Virus"
 
 #: adminaliasadd.php:38 adminaliaschange.php:39 adminuseradd.php:62
-#: adminuserchange.php:65 sitechange.php:60 userchange.php:56
+#: adminuserchange.php:75 sitechange.php:60 userchange.php:56
 msgid "Spamassassin"
 msgstr "Spam-Filter"
 
 #: adminaliasadd.php:41 adminaliaschange.php:41 admingroup.php:21
 #: admingroupchange.php:41 admingroupchange.php:66 adminuseradd.php:73
-#: adminuserchange.php:75 sitechange.php:65
+#: adminuserchange.php:85 sitechange.php:65
 msgid "Enabled"
 msgstr "aktiviert"
 
 #: adminaliasadd.php:42 adminaliaschange.php:43 admincatchall.php:36
 #: admincatchalladd.php:33 adminfailadd.php:26 adminfailchange.php:30
 #: admingroupadd.php:26 admingroupchange.php:116 adminlists.php:26
-#: adminuseradd.php:74 adminuserchange.php:129 index.php:40 siteadd.php:58
+#: adminuseradd.php:74 adminuserchange.php:139 index.php:45 siteadd.php:58
 #: sitepassword.php:25
 msgid "Submit"
 msgstr "senden"
@@ -595,7 +597,7 @@ msgstr "Hat die Person Administratoren-Rechte?"
 msgid "Pipe to command"
 msgstr "Pipe an Shell-Kommando"
 
-#: adminuseradd.php:54 adminuserchange.php:53
+#: adminuseradd.php:54 adminuserchange.php:62
 msgid "Optional"
 msgstr "optional"
 
@@ -603,7 +605,7 @@ msgstr "optional"
 msgid "Pipe all mail to a command (e.g. procmail)"
 msgstr "Pipe alle Email an ein Shell-Kommando (z.B. procmail)"
 
-#: adminuseradd.php:55 adminuserchange.php:54
+#: adminuseradd.php:55 adminuserchange.php:63
 msgid "Check box below to enable"
 msgstr "zum Aktivieren Feld anw&auml;hlen "
 
@@ -611,7 +613,7 @@ msgstr "zum Aktivieren Feld anw&auml;hlen "
 msgid "Enable piped command?"
 msgstr "Pipe Shell-Kommandos aktivieren"
 
-#: adminuseradd.php:63 adminuserchange.php:67 siteadd.php:41 sitechange.php:56
+#: adminuseradd.php:63 adminuserchange.php:77 siteadd.php:41 sitechange.php:56
 msgid "Spamassassin tag score"
 msgstr "Header-Markierungs-Punktzahl des Spamfilters"
 
@@ -621,7 +623,7 @@ msgstr ""
 "die Punktzahl, ab welcher eine Bewertung aufgenommen, die Email aber noch "
 "zugestellt wird"
 
-#: adminuseradd.php:66 adminuserchange.php:69 siteadd.php:44 sitechange.php:58
+#: adminuseradd.php:66 adminuserchange.php:79 siteadd.php:44 sitechange.php:58
 msgid "Spamassassin refuse score"
 msgstr "Abweisungs-Punktzahl des Spamfilters"
 
@@ -629,7 +631,7 @@ msgstr "Abweisungs-Punktzahl des Spamfilters"
 msgid "The score at which to refuse potential spam mail and not deliver"
 msgstr "die Punktzahl, ab welcher eine Email zur&uuml;ckgewiesen wird"
 
-#: adminuseradd.php:70 adminuserchange.php:72 siteadd.php:38 sitechange.php:54
+#: adminuseradd.php:70 adminuserchange.php:82 siteadd.php:38 sitechange.php:54
 #: userchange.php:66
 msgid "Maximum message size"
 msgstr "maximale Gr&ouml;&szlig;e einer Email"
@@ -643,75 +645,80 @@ msgstr ""
 "dass der MTA noch alle notwendigen Rechte zum Erstellen der "
 "Benutzerverzeichnisse besitzt!"
 
-#: adminuserchange.php:51
+#: adminuserchange.php:53
+#, php-format
+msgid "Space used:"
+msgstr "Belegter Speicherplatz:"
+
+#: adminuserchange.php:60
 msgid "Pipe to command or alternative Maildir"
 msgstr "Pipe an Shell-Kommando oder alternatives Maildir"
 
-#: adminuserchange.php:53
+#: adminuserchange.php:62
 msgid " Pipe all mail to a command (e.g. procmail)."
 msgstr " Pipe alle Email an ein Shell-Kommando (z.B. procmail)."
 
-#: adminuserchange.php:55
+#: adminuserchange.php:64
 msgid "Enable piped command or alternative Maildir?"
 msgstr "Pipe an Shell-Kommando oder alternatives Maildir aktivieren"
 
-#: adminuserchange.php:77
+#: adminuserchange.php:87
 msgid "Vacation on"
 msgstr "Auto-Reply aktiviert"
 
-#: adminuserchange.php:79 userchange.php:71
+#: adminuserchange.php:89 userchange.php:71
 msgid "Vacation message"
 msgstr "Nachricht durch Auto-Reply"
 
-#: adminuserchange.php:81
+#: adminuserchange.php:91
 msgid "Forwarding on"
 msgstr "weiterleiten an"
 
-#: adminuserchange.php:83 userchange.php:76
+#: adminuserchange.php:93 userchange.php:76
 msgid "Forward mail to"
 msgstr "Nachricht weiterleiten an"
 
-#: adminuserchange.php:85 userchange.php:78
+#: adminuserchange.php:95 userchange.php:78
 msgid "Store Forwarded Mail Locally"
 msgstr "Weitergeleitete Nachricht lokal speichern"
 
-#: adminuserchange.php:90
+#: adminuserchange.php:100
 msgid "Aliases to this account"
 msgstr "Aliasse f&uuml;r dieses Konto"
 
-#: adminuserchange.php:118
+#: adminuserchange.php:128
 msgid "Add a new header blocking filter for this user"
 msgstr "eine neue Header-Filterregel f&uuml;r diesen Benutzer anlegen"
 
-#: adminuserchange.php:119
+#: adminuserchange.php:129
 msgid "Header"
 msgstr "Header"
 
-#: adminuserchange.php:120 userchange.php:88
+#: adminuserchange.php:130 userchange.php:88
 msgid "From"
 msgstr "von"
 
-#: adminuserchange.php:121 userchange.php:89
+#: adminuserchange.php:131 userchange.php:89
 msgid "To"
 msgstr "an"
 
-#: adminuserchange.php:122 userchange.php:90
+#: adminuserchange.php:132 userchange.php:90
 msgid "Subject"
 msgstr "Betreff"
 
-#: adminuserchange.php:123 userchange.php:91
+#: adminuserchange.php:133 userchange.php:91
 msgid "X-Mailer"
 msgstr "X-Mailer"
 
-#: adminuserchange.php:133 userchange.php:99
+#: adminuserchange.php:143 userchange.php:99
 msgid "Delete"
 msgstr "l&ouml;schen"
 
-#: adminuserchange.php:133 userchange.php:99
+#: adminuserchange.php:143 userchange.php:99
 msgid "Blocked Header"
 msgstr "blockierte Header"
 
-#: adminuserchange.php:133 userchange.php:99
+#: adminuserchange.php:143 userchange.php:99
 msgid "Content"
 msgstr "Inhalt"
 

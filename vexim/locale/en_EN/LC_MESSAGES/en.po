@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: template\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-26 18:43+0200\n"
+"POT-Creation-Date: 2004-09-02 19:48+0200\n"
 "PO-Revision-Date: 2004-03-19 00:00+0000\n"
 "Last-Translator: Avleen Vig <postmaster@silverwraith.com>\n"
 "Language-Team: English\n"
@@ -81,114 +81,121 @@ msgstr ""
 msgid "-- Your account has been succesfully updated."
 msgstr ""
 
-#: config/header.php:41
+#: config/header.php:40
+#, php-format
+msgid ""
+"-- Your vacation message was too long: %1$d characters. It has been "
+"truncated at %2$d."
+msgstr ""
+
+#: config/header.php:43
 #, php-format
 msgid ""
 "-- Account %s could not be added. Your passwords do not match, or contain "
 "illegal characters: ' \" ` or ;"
 msgstr ""
 
-#: config/header.php:43
+#: config/header.php:45
 #, php-format
 msgid "-- %s contains invalid characters."
 msgstr ""
 
-#: config/header.php:45
+#: config/header.php:47
 #, php-format
 msgid ""
 "-- Account %s could not be added. Your passwords were blank, do not match, "
 "or contain illegal characters: ' \" ` or ;"
 msgstr ""
 
-#: config/header.php:47
+#: config/header.php:49
 msgid "-- The destination domain you specified does not exist."
 msgstr ""
 
-#: config/header.php:49
+#: config/header.php:51
 msgid "-- You can not specify a blank realname."
 msgstr ""
 
-#: config/header.php:51
+#: config/header.php:53
 #, php-format
 msgid "-- %s could not be added."
 msgstr ""
 
-#: config/header.php:53
+#: config/header.php:55
 #, php-format
 msgid ""
 "-- Domain %s could not be added. The passwords were blank, or did not match."
 msgstr ""
 
-#: config/header.php:55
+#: config/header.php:57
 #, php-format
 msgid ""
 "-- Domain %s could not be added. There was a problem adding the admin "
 "account."
 msgstr ""
 
-#: config/header.php:57
+#: config/header.php:59
 #, php-format
 msgid "-- %s was not deleted."
 msgstr ""
 
-#: config/header.php:59
+#: config/header.php:61
 #, php-format
 msgid "-- %s could not be updated."
 msgstr ""
 
-#: config/header.php:62
+#: config/header.php:64
 #, php-format
 msgid "-- Deletion of %s was canceled."
 msgstr ""
 
-#: config/header.php:64
+#: config/header.php:66
 msgid "-- This domain is currently disabled. Please see your administrator."
 msgstr ""
 
-#: config/header.php:66
+#: config/header.php:68
 msgid ""
 "-- Your Domain Account Limit Has Been Reached. Please contact your "
 "administrator."
 msgstr ""
 
-#: config/header.php:68
+#: config/header.php:70
 #, php-format
 msgid ""
 "-- The quota you specified was too high. The maximum quota you can specify "
 "is: %s MB."
 msgstr ""
 
-#: config/header.php:70
+#: config/header.php:72
 #, php-format
 msgid "-- Group %s has been successfully deleted."
 msgstr ""
 
-#: config/header.php:72
+#: config/header.php:74
 #, php-format
 msgid "-- Group %s has been successfully added."
 msgstr ""
 
-#: config/header.php:74
+#: config/header.php:76
 #, php-format
 msgid "-- Group %s was not deleted."
 msgstr ""
 
-#: config/header.php:76
+#: config/header.php:78
 #, php-format
 msgid "-- Group %s failed to be added."
 msgstr ""
 
-#: config/header.php:78
+#: config/header.php:80
 #, php-format
 msgid "-- Group %s has been updated."
 msgstr ""
 
-#: config/header.php:80
+#: config/header.php:82
 #, php-format
 msgid "-- Group %s could not be updated."
 msgstr ""
 
-#: config/header.php:82 index.php:45
+#: config/header.php:84 index.php:50
 msgid "Login failed"
 msgstr "Login failed"
 
@@ -261,7 +268,7 @@ msgid "Forwards to.."
 msgstr ""
 
 #: adminalias.php:28 adminaliasadd.php:33 adminaliaschange.php:35
-#: adminuser.php:69 adminuserchange.php:58 sitechange.php:23
+#: adminuser.php:67 adminuserchange.php:68 sitechange.php:23
 msgid "Admin"
 msgstr "Admin"
 
@@ -270,7 +277,7 @@ msgstr "Admin"
 msgid "Delete alias %s"
 msgstr ""
 
-#: adminalias.php:64 adminuser.php:95
+#: adminalias.php:64 adminuser.php:93
 #, php-format
 msgid "%s is an administrator"
 msgstr ""
@@ -312,7 +319,7 @@ msgid "Forward To"
 msgstr "Forward To"
 
 #: adminaliasadd.php:30 adminaliaschange.php:31 adminuseradd.php:39
-#: adminuserchange.php:37 index.php:37 siteadd.php:28 sitechange.php:42
+#: adminuserchange.php:37 index.php:42 siteadd.php:28 sitechange.php:42
 #: sitepassword.php:23 userchange.php:33
 msgid "Password"
 msgstr "Password"
@@ -332,25 +339,25 @@ msgid "Verify Password"
 msgstr "Verify Password"
 
 #: adminaliasadd.php:35 adminaliaschange.php:37 adminuseradd.php:59
-#: adminuserchange.php:61 userchange.php:49
+#: adminuserchange.php:71 userchange.php:49
 msgid "Anti-Virus"
 msgstr "Anti-Virus"
 
 #: adminaliasadd.php:38 adminaliaschange.php:39 adminuseradd.php:62
-#: adminuserchange.php:65 sitechange.php:60 userchange.php:56
+#: adminuserchange.php:75 sitechange.php:60 userchange.php:56
 msgid "Spamassassin"
 msgstr "Spamassassin"
 
 #: adminaliasadd.php:41 adminaliaschange.php:41 admingroup.php:21
 #: admingroupchange.php:41 admingroupchange.php:66 adminuseradd.php:73
-#: adminuserchange.php:75 sitechange.php:65
+#: adminuserchange.php:85 sitechange.php:65
 msgid "Enabled"
 msgstr "Enabled"
 
 #: adminaliasadd.php:42 adminaliaschange.php:43 admincatchall.php:36
 #: admincatchalladd.php:33 adminfailadd.php:26 adminfailchange.php:30
 #: admingroupadd.php:26 admingroupchange.php:116 adminlists.php:26
-#: adminuseradd.php:74 adminuserchange.php:129 index.php:40 siteadd.php:58
+#: adminuseradd.php:74 adminuserchange.php:139 index.php:45 siteadd.php:58
 #: sitepassword.php:25
 msgid "Submit"
 msgstr "Submit"
@@ -430,7 +437,7 @@ msgstr ""
 msgid "Add Group"
 msgstr ""
 
-#: admingroup.php:21 adminuser.php:63 adminuser.php:69
+#: admingroup.php:21 adminuser.php:62 adminuser.php:67
 msgid "Email address"
 msgstr "Email address"
 
@@ -507,23 +514,23 @@ msgstr "Please enter the name of the list to admin"
 msgid "Add User"
 msgstr "Add User"
 
-#: adminuser.php:58 site.php:39
+#: adminuser.php:57 site.php:38
 msgid "Search"
 msgstr "Search"
 
-#: adminuser.php:60
+#: adminuser.php:59
 msgid "in"
 msgstr "in"
 
-#: adminuser.php:62 adminuser.php:69
+#: adminuser.php:61 adminuser.php:67
 msgid "User"
 msgstr ""
 
-#: adminuser.php:65 site.php:41
+#: adminuser.php:64 site.php:40
 msgid "search"
 msgstr ""
 
-#: adminuser.php:89
+#: adminuser.php:87
 msgid "Click to modify"
 msgstr "Click to modify"
 
@@ -560,7 +567,7 @@ msgstr "Has domain admin privileges?"
 msgid "Pipe to command"
 msgstr "Pipe to command"
 
-#: adminuseradd.php:54 adminuserchange.php:53
+#: adminuseradd.php:54 adminuserchange.php:62
 msgid "Optional"
 msgstr "Optional"
 
@@ -568,7 +575,7 @@ msgstr "Optional"
 msgid "Pipe all mail to a command (e.g. procmail)"
 msgstr "Pipe all mail to a command (e.g. procmail)"
 
-#: adminuseradd.php:55 adminuserchange.php:54
+#: adminuseradd.php:55 adminuserchange.php:63
 msgid "Check box below to enable"
 msgstr "Check box below to enable"
 
@@ -576,7 +583,7 @@ msgstr "Check box below to enable"
 msgid "Enable piped command?"
 msgstr ""
 
-#: adminuseradd.php:63 adminuserchange.php:67 siteadd.php:41 sitechange.php:56
+#: adminuseradd.php:63 adminuserchange.php:77 siteadd.php:41 sitechange.php:56
 msgid "Spamassassin tag score"
 msgstr "Spamassassin tag score"
 
@@ -584,7 +591,7 @@ msgstr "Spamassassin tag score"
 msgid "The score at which to tag potential spam mail but still deliver"
 msgstr ""
 
-#: adminuseradd.php:66 adminuserchange.php:69 siteadd.php:44 sitechange.php:58
+#: adminuseradd.php:66 adminuserchange.php:79 siteadd.php:44 sitechange.php:58
 msgid "Spamassassin refuse score"
 msgstr "Spamassassin refuse score"
 
@@ -592,7 +599,7 @@ msgstr "Spamassassin refuse score"
 msgid "The score at which to refuse potential spam mail and not deliver"
 msgstr ""
 
-#: adminuseradd.php:70 adminuserchange.php:72 siteadd.php:38 sitechange.php:54
+#: adminuseradd.php:70 adminuserchange.php:82 siteadd.php:38 sitechange.php:54
 #: userchange.php:66
 msgid "Maximum message size"
 msgstr "Maximum message size"
@@ -605,75 +612,80 @@ msgstr ""
 "When you update the UID or GID, please make sure your MTA still has "
 "permission to create the required user directories!"
 
-#: adminuserchange.php:51
+#: adminuserchange.php:53
+#, php-format
+msgid "Space used:"
+msgstr ""
+
+#: adminuserchange.php:60
 msgid "Pipe to command or alternative Maildir"
 msgstr "Pipe to command or alternative Maildir"
 
-#: adminuserchange.php:53
+#: adminuserchange.php:62
 msgid " Pipe all mail to a command (e.g. procmail)."
 msgstr " Pipe all mail to a command (e.g. procmail)."
 
-#: adminuserchange.php:55
+#: adminuserchange.php:64
 msgid "Enable piped command or alternative Maildir?"
 msgstr ""
 
-#: adminuserchange.php:77
+#: adminuserchange.php:87
 msgid "Vacation on"
 msgstr "Vacation on"
 
-#: adminuserchange.php:79 userchange.php:71
+#: adminuserchange.php:89 userchange.php:71
 msgid "Vacation message"
 msgstr "Vacation message"
 
-#: adminuserchange.php:81
+#: adminuserchange.php:91
 msgid "Forwarding on"
 msgstr "Forwarding on"
 
-#: adminuserchange.php:83 userchange.php:76
+#: adminuserchange.php:93 userchange.php:76
 msgid "Forward mail to"
 msgstr "Forward mail to"
 
-#: adminuserchange.php:84
+#: adminuserchange.php:95 userchange.php:78
 msgid "Store Forwarded Mail Locally"
 msgstr ""
 
-#: adminuserchange.php:90
+#: adminuserchange.php:100
 msgid "Aliases to this account"
 msgstr ""
 
-#: adminuserchange.php:118
+#: adminuserchange.php:128
 msgid "Add a new header blocking filter for this user"
 msgstr "Add a new header blocking filter for this user"
 
-#: adminuserchange.php:119
+#: adminuserchange.php:129
 msgid "Header"
 msgstr "Header"
 
-#: adminuserchange.php:120 userchange.php:88
+#: adminuserchange.php:130 userchange.php:88
 msgid "From"
 msgstr ""
 
-#: adminuserchange.php:121 userchange.php:89
+#: adminuserchange.php:131 userchange.php:89
 msgid "To"
 msgstr ""
 
-#: adminuserchange.php:122 userchange.php:90
+#: adminuserchange.php:132 userchange.php:90
 msgid "Subject"
 msgstr ""
 
-#: adminuserchange.php:123 userchange.php:91
+#: adminuserchange.php:133 userchange.php:91
 msgid "X-Mailer"
 msgstr ""
 
-#: adminuserchange.php:133 userchange.php:99
+#: adminuserchange.php:143 userchange.php:99
 msgid "Delete"
 msgstr "Delete"
 
-#: adminuserchange.php:133 userchange.php:99
+#: adminuserchange.php:143 userchange.php:99
 msgid "Blocked Header"
 msgstr ""
 
-#: adminuserchange.php:133 userchange.php:99
+#: adminuserchange.php:143 userchange.php:99
 msgid "Content"
 msgstr "Content"
 
@@ -707,37 +719,37 @@ msgstr ""
 msgid "Site Password"
 msgstr "Site Password"
 
-#: site.php:47
+#: site.php:45
 msgid "Local domains"
 msgstr ""
 
-#: site.php:48
+#: site.php:46
 msgid "Admin account"
 msgstr ""
 
-#: site.php:49
+#: site.php:47
 msgid "Total admins"
 msgstr ""
 
-#: site.php:76
+#: site.php:74
 msgid "WARNING"
 msgstr "WARNING"
 
-#: site.php:76
+#: site.php:74
 msgid ""
 "Deleting a domain will delete all user accounts in that domain permanently!"
 msgstr ""
 
-#: site.php:80
+#: site.php:78
 msgid "Relay domains"
 msgstr ""
 
-#: site.php:89 site.php:106 sitedelete.php:76
+#: site.php:87 site.php:104 sitedelete.php:76
 #, php-format
 msgid "Delete %s"
 msgstr ""
 
-#: site.php:97
+#: site.php:95
 msgid "Aliased domains"
 msgstr ""
 
