@@ -38,7 +38,7 @@
   $postmasteruidgid = "yes";
 
   /* The location of your mailstore for new domains.
-     Make sure the exim user owns it! */
+     Make sure the directory belongs to the configured $uid/$gid! */
   $mailroot = "/usr/local/mail/";
 
   /* path to Mailman */
