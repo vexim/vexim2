@@ -104,7 +104,7 @@ msgid "Address"
 msgstr "Adresa"
 
 #: adminaliasadd.php:26 adminaliaschange.php:29
-msgid "Multiple addresses should be comma seperated, with no spaces"
+msgid "Multiple addresses should be comma separated, with no spaces"
 msgstr "Adresele multiple trebuie separate prin virgula, fara spatii"
 
 #: adminaliasadd.php:27 adminaliaschange.php:30
@@ -152,7 +152,7 @@ msgstr "Trimite"
 
 #: adminaliaschange.php:33
 msgid ""
-"Password only needed if you want the user tobe able to log in, or if the "
+"Password only needed if you want the user to be able to log in, or if the "
 "Alias is the admin account"
 msgstr "Parola este necesara numai daca utilizatorul trebuie sa se logheze, sau daca este un cont de administrator"
 
