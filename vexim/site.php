@@ -63,7 +63,7 @@
 		$query = "SELECT localpart,domain,domains.domain_id FROM users,domains
 			WHERE users.domain_id = domains.domain_id
 			AND domain !='admin'
-			AND admin=1 AND domain LIKE '$letter%' ORDER BY domain";
+			AND admin=1 AND lower(domain) LIKE lower('$letter%') ORDER BY domain";
      else 
 		$query = "SELECT localpart,domain,domains.domain_id FROM users,domains
 			WHERE users.domain_id = domains.domain_id

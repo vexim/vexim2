@@ -36,7 +36,7 @@
 
   if ($cryptedpass == $row['crypt']) {
     if ($_POST['localpart'] == "siteadmin") {
-      $query = "SELECT domains.domain_id,users.admin,users.type FROM
+      $query = "SELECT user_id,domains.domain_id,users.admin,users.type FROM
       			users,domains WHERE localpart='siteadmin' AND domain='admin' AND
 			users.domain_id = domains.domain_id";
     } else {
@@ -50,6 +50,7 @@
     setcookie ("vexim[1]", $_POST['domain'], time()+86400);
     setcookie ("vexim[2]", $row['domain_id'], time()+86400);
     setcookie ("vexim[3]", $cryptedpass, time()+86400);
+    setcookie ("vexim[4]", $row['user_id'], time()+86400);
     if (($row['admin'] == "1") && ($row['type'] == "site")) {
       header ("Location: site.php");
     } else if ($row['admin'] == "1") {
@@ -57,7 +58,7 @@
     } else if (($row['de'] == "0") && ($row['admin'] != "1")) {
       header ("Location: index.php?domaindisabled");
     } else {
-      header ("Location: userchange.php?user_id={$row['user_id']}");
+      header ("Location: userchange.php");
     }
   } else {
   header ("Location: index.php?login=failed");

@@ -12,10 +12,11 @@ if ($_GET['confirm'] == "1") {
     header ("Location: adminuser.php?faildeleted={$_GET['user_id']}");
     die;                                                      
 } else {
-  $query = "SELECT user_id AS count FROM users
-              WHERE admin=1 AND domain_id={$_COOKIE[vexim][2]}";
+  $query = "SELECT user_id AS count FROM users 
+              WHERE admin=1 AND domain_id={$_COOKIE[vexim][2]}
+	      AND user_id!={$_GET['user_id']}";
   $result = $db->query($query);
-  if ($result->numRows() <= 1) {
+  if ($result->numRows() == 0) {
     header ("Location: adminuser.php?faildeleted={$_GET['user_id']}");
     die;
   }

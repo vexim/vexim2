@@ -15,13 +15,14 @@
       <?
 	$query = "SELECT count(users.user_id)
 	          AS used, max_accounts
-		  FROM domains
-		  WHERE domain_id={$_COOKIE['vexim'][2]}
+		  FROM domains,users
+		  WHERE users.domain_id={$_COOKIE['vexim'][2]}
 		  AND domains.domain_id=users.domain_id
-		  AND users.type='local' GROUP BY max_accounts"; 
+		  AND (users.type='local' OR users.type='piped')
+		  GROUP BY max_accounts"; 
 	$result = $db->query($query);
-	if (!DB::isError($result)) {
-	  $row = $result->fetchRow();
+	$row = $result->fetchRow();
+	if (!DB::isError($result) && $row['max_accounts']) {
 	  print "({$row['used']} of {$row['max_accounts']})";
 	}
       ?>
@@ -39,7 +40,7 @@
 	<?
      if ($alphausers AND $letter != '') 
 		$query = "SELECT user_id,localpart,realname,admin,enabled FROM users
-			WHERE localpart LIKE '{$letter}%' AND
+			WHERE lower(localpart) LIKE lower('{$letter}%') AND
 			domain_id={$_COOKIE['vexim'][2]} AND (type='local' OR type='piped')
 			ORDER BY realname";
      else 

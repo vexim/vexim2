@@ -6,7 +6,7 @@
   		OR (domains.max_accounts = 0)	AS allowed FROM
 		users,domains WHERE users.domain_id=domains.domain_id
 		AND domains.domain_id={$_COOKIE['vexim'][2]}
-		AND users.type='local' GROUP BY domains.max_accounts";
+		AND (users.type='local' OR users.type='piped') GROUP BY domains.max_accounts";
   $result = $db->query($query);
   $row = $result->fetchRow();
   if ($row['allowed'] == 'f') {
