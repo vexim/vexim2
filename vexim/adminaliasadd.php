@@ -25,7 +25,7 @@
       <table align="center">
 	<tr><td><?php echo _("Alias Name"); ?>:</td><td><input name="realname" type="text" class="textfield"></td></tr>
 	<tr><td><?php echo _("Address"); ?>:</td><td><input name="localpart" type="text" class="textfield">@<?php print $_SESSION['domain']; ?></td></tr>
-	<tr><td colspan="2" style="padding-bottom:1em"><?php echo _("Multiple addresses should be comma seperated, with no spaces"); ?></td></tr>
+	<tr><td colspan="2" style="padding-bottom:1em"><?php echo _("Multiple addresses should be comma separated, with no spaces"); ?></td></tr>
 	<tr><td><?php echo _("Forward To"); ?>:</td><td><input name="smtp" type="text" size="30" class="textfield"></td></tr>
 	<tr><td><?php echo _("Password"); ?>:</td><td><input name="clear" type="password" size="30" class="textfield"></td></tr>
 	<tr><td colspan="2" style="padding-bottom:1em">(<?php echo _("Password only needed if you want the user to be able to log in, or if the Alias is the admin account"); ?>)</td></tr>
