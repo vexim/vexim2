@@ -46,8 +46,10 @@
     $result = $db->query($query);
     if (!DB::isError($result)) {
       header ("Location: userchange.php?updated");
+      die;
     } else {
       header ("Location: userchange.php?failed");
+      die;
     }
 
   header ("Location: userchange.php?updated");

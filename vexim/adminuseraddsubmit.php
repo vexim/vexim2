@@ -42,7 +42,7 @@
     die;
   }
 
-  if (preg_match("/['@%!\/\| ']/",$_POST['localpart']))  {
+  if (preg_match("/['@%!\/\| ']/",$_POST['localpart']) || preg_match("/^\s*$/",$_POST['localpart'])) {
   	header("Location: adminuser.php?badname={$_POST['localpart']}");
   	die;
   }

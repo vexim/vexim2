@@ -15,6 +15,8 @@
 	} else if (isset($_GET['failupdated'])) {
 	  print "<div id='status'>User '{$_GET['failupdated']}' could not be updated</div>\n";
 	} else if (isset($_GET['canceldelete'])) {
+	  print "<div id='Status'>Deletion of user '{$_GET['canceldelete']}' was canceled</div>\n";
+	} else if (isset($_GET['badname'])) {
 	  print "<div id='status'>User '{$_GET['badname']}' contains invalid characters</div>\n";
 	} else if (isset($_GET['userexists'])) {
 	  print "<div id='status'>The account could not be added as the name {$_GET['userexists']} is already in use</div>\n";
