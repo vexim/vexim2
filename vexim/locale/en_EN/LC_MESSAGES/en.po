@@ -27,11 +27,11 @@ msgstr "Add, delete and manage aliases, forwards and a Catchall"
 msgid "Add, delete and manage :fail:'s"
 msgstr "Add, delete and manage :fail:'s"
 
-#: admin.php:19
+#: admin.php:20
 msgid "Manage mailing lists"
 msgstr "Manage mailing lists"
 
-#: admin.php:22 adminalias.php:20 adminaliasadd.php:19 adminaliaschange.php:21
+#: admin.php:25 adminalias.php:20 adminaliasadd.php:19 adminaliaschange.php:21
 #: admincatchall.php:20 admincatchalladd.php:16 adminfail.php:15
 #: adminfailadd.php:15 adminfailchange.php:20 adminlists.php:17
 #: adminuser.php:31 adminuseradd.php:30 adminuserchange.php:27
@@ -491,3 +491,6 @@ msgstr "WARNING"
 msgid "Changing your password will require you to re-login."
 msgstr "Changing your password will require you to re-login."
 
+#: admin.php:18
+msgid "Add, delete and manage groups"
+msgstr "Add, delete and manage groups"
