@@ -53,6 +53,9 @@ MAILMAN_GROUP=mail
 
 # primary_hostname =
 
+# Your IP address
+MY_IP = 66.214.182.79
+
 # The next three settings create two lists of domains and one list of hosts.
 # These lists are referred to later in this configuration using the syntax
 # +local_domains, +relay_to_domains, and +relay_from_hosts, respectively. They
@@ -128,6 +131,12 @@ acl_smtp_rcpt = acl_check_rcpt
 # acl_check_content entry in the ACL section further below.
 
 acl_smtp_data = acl_check_content
+
+# This ACL added by Avleen Vig will drop all mail where the sender's helo
+# command contains your IP address. Please check the IP address at the top
+# for the configure file to make it your own.
+
+acl_smtp_helo = acl_check_helo
 
 # This configuration variable defines the virus scanner that is used with
 # the 'malware' ACL condition of the exiscan acl-patch. If you do not use
@@ -261,6 +270,17 @@ log_selector = +subject
 
 begin acl
 
+# Lets drop all messages where the HELO argument is our IP address
+
+acl_check_helo:
+  accept hosts = :
+  accept hosts = +relay_from_hosts
+  drop condition = ${if match{$sender_helo_name}{MY_IP}{yes}{no} }
+       message   = "Dropped spammer pretending to be us"
+  drop condition = ${if match{$sender_helo_name}{^[0-9].[0-9].[0-9].[0-9]}{yes}{no} }
+       message   = "Dropped IP-only or IP-starting helo"
+  accept
+
 # This access control list is used for every RCPT command in an incoming
 # SMTP message. The tests are run in order until the address is either
 # accepted or denied.
@@ -310,6 +330,9 @@ acl_check_rcpt:
   # be verified. Otherwise deny. The "endpass" line is the border between
   # passing on to the next ACL statement (if tests above it fail) or denying
   # access (if tests below it fail).
+
+  deny    message	= DNSBL listed at $dnslist_domain\n$dnslist_text
+  	  dnslists	= sbl-xbl.spamhaus.org:list.dsbl.org:dynablock.njabl.org
 
   accept  domains       = +local_domains
           endpass
@@ -361,7 +384,7 @@ acl_check_content:
   # Reject typically wormish file extensions. There is almost no
   # sense in sending such files by email.
   deny  message = This message contains an unwanted file extension ($found_extension)
-        demime = scr:vbs:bat:lnk:pif
+        demime = scr:vbs:bat:lnk:pif:bz2
   
   # Reject virus infested messages.
   warn  message = This message contains malware ($malware_name)
@@ -535,6 +558,21 @@ ditch_hdrfrom:
   condition = ${if eq {${lookup mysql{select count(*) from blocklists,users,domains \
   			where blocklists.blockhdr = 'from' \
 			and blocklists.blockval = '${quote_mysql:$h_from:}' \
+			and users.localpart = '${quote_mysql:$local_part}' \
+  			and domains.domain = '${quote_mysql:$domain}' \
+			and domains.domain_id=blocklists.domain_id \
+			and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
+  local_part_suffix = -*
+  local_part_suffix_optional
+  retry_use_local_part
+
+ditch_hdrsubject:
+  driver = redirect
+  allow_fail
+  data = :blackhole:
+  condition = ${if eq {${lookup mysql{select count(*) from blocklists,users,domains \
+  			where blocklists.blockhdr = 'subject' \
+			and blocklists.blockval = '${quote_mysql:$h_subject:}' \
 			and users.localpart = '${quote_mysql:$local_part}' \
   			and domains.domain = '${quote_mysql:$domain}' \
 			and domains.domain_id=blocklists.domain_id \
