@@ -545,7 +545,6 @@ virtual_domains:
   			     { <{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
 			       where localpart = '${quote_mysql:$local_part}' \
 			       and domain = '${quote_mysql:$domain}' \
-			       and users.on_spamassassin = '1' \
 			       and users.domain_id=domains.domain_id}{$value}fail}} } \
 			   } {X-Spam-Score:X-Spam-Report} }
   local_part_suffix = -*
