@@ -62,8 +62,8 @@ MY_IP = 66.214.182.79
 # are all colon-separated lists:
 
 # If you are using MySQL, uncomment the following two lines:
-VIRTUAL_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains WHERE type = 'local' AND enabled = '1'
-RELAY_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains WHERE type = 'relay'
+VIRTUAL_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains WHERE type = 'local' AND enabled = '1' AND domain = '$domain'
+RELAY_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains WHERE type = 'relay'  AND domain = '$domain'
 
 # If you are using PGSQL, uncomment the following four lines:
 #VIRTUAL_DOMAINS = SELECT DISTINCT domain || ' : ' FROM domains WHERE type = 'local'
@@ -72,6 +72,7 @@ RELAY_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains WHERE type = 
 domainlist local_domains = @ : pear.silverwraith.com : ${lookup mysql{VIRTUAL_DOMAINS}}
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost : 192.168.0.0/24
+trusted_users = avleen:richard:www
 
 hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
@@ -269,17 +270,12 @@ log_selector = +subject
 ######################################################################
 
 begin acl
-
-# Lets drop all messages where the HELO argument is our IP address
+  .include /usr/local/etc/exim/spf.acl
 
 acl_check_helo:
-  accept hosts = :
-  accept hosts = +relay_from_hosts
-  drop condition = ${if match{$sender_helo_name}{MY_IP}{yes}{no} }
-       message   = "Dropped spammer pretending to be us"
-  drop condition = ${if match{$sender_helo_name}{^[0-9].[0-9].[0-9].[0-9]}{yes}{no} }
-       message   = "Dropped IP-only or IP-starting helo"
-  accept
+
+# Include Vexim specific helo ACLs
+  .include /usr/local/etc/exim/vexim-acl-check-helo.conf
 
 # This access control list is used for every RCPT command in an incoming
 # SMTP message. The tests are run in order until the address is either
@@ -291,6 +287,9 @@ acl_check_rcpt:
   # testing for an empty sending host field.
 
   accept  hosts = :
+
+  # Include Vexim specific rcpt ACLs
+  .include /usr/local/etc/exim/vexim-acl-check-rcpt.conf
 
   # Deny if the local part contains @ or % or / or | or !. These are rarely
   # found in genuine local parts, but are often tried by people looking to
@@ -330,9 +329,6 @@ acl_check_rcpt:
   # be verified. Otherwise deny. The "endpass" line is the border between
   # passing on to the next ACL statement (if tests above it fail) or denying
   # access (if tests below it fail).
-
-  deny    message	= DNSBL listed at $dnslist_domain\n$dnslist_text
-  	  dnslists	= sbl-xbl.spamhaus.org:list.dsbl.org:dynablock.njabl.org
 
   accept  domains       = +local_domains
           endpass
@@ -376,32 +372,8 @@ acl_check_rcpt:
 
 acl_check_content:
 
-  # First unpack MIME containers and reject serious errors.
-  deny  message = This message contains a MIME error ($demime_reason)
-        demime = *
-        condition = ${if >{$demime_errorlevel}{2}{1}{0}}
-        
-  # Reject typically wormish file extensions. There is almost no
-  # sense in sending such files by email.
-  deny  message = This message contains an unwanted file extension ($found_extension)
-        demime = scr:vbs:bat:lnk:pif:bz2
-  
-  # Reject virus infested messages.
-  warn  message = This message contains malware ($malware_name)
-        malware = *
-	log_message = This message contains malware ($malware_name)
-
-  # Reject messages containing "viagra" in all kinds of whitespace/case combinations
-  # WARNING: this is an example !
-  #deny  message = This message matches a blacklisted regular expression ($regex_match_string)
-  #      regex = [Vv] *[Ii] *[Aa] *[Gg] *[Rr] *[Aa]
-
-  # Always add X-Spam-Score and X-Spam-Report headers, using SA system-wide settings
-  # (user "nobody"), no matter if over threshold or not.
-  warn  message = X-Spam-Score: $spam_score ($spam_bar)
-        spam = maildeliver:true
-  warn	message = X-Spam-Report: $spam_report
-        spam = maildeliver:true
+  # Include Vexim specific rcpt ACLs
+  .include /usr/local/etc/exim/vexim-acl-check-content.conf
 
   # finally accept all the rest
   accept
