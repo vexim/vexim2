@@ -568,7 +568,6 @@ virtual_vacation:
 
 virtual_forward:
   driver = redirect
-  unseen
   check_ancestor
   data = ${lookup mysql{select forward from users,domains \
 	where localpart='${quote_mysql:$local_part}' \
