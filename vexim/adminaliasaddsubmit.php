@@ -11,8 +11,8 @@
   $query = "SELECT avscan,spamassassin from domains WHERE domain_id = {$_SESSION['domain_id']}";
   $result = $db->query($query);
   $row = $result->fetchRow();
-  if ((isset($_POST['on_avscan'])) && ($row['avscan'] = 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
-  if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] = 1)) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
+  if ((isset($_POST['on_avscan'])) && ($row['avscan'] == 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
+  if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] == 1)) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
 
   check_user_exists($db,$_POST['localpart'],$_SESSION['domain_id'],'adminalias.php');
 

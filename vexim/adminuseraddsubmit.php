@@ -33,9 +33,9 @@
     }
   }
   # Do some checking, to make sure the user is ALLOWED to make these changes
-  if ((isset($_POST['on_piped'])) && ($row['pipe'] = 1)) {$_POST['on_piped'] = 1;} else {$_POST['on_piped'] = 0;}
-  if ((isset($_POST['on_avscan'])) && ($row['avscan'] = 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
-  if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] = 1)) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
+  if ((isset($_POST['on_piped'])) && ($row['pipe'] == 1)) {$_POST['on_piped'] = 1;} else {$_POST['on_piped'] = 0;}
+  if ((isset($_POST['on_avscan'])) && ($row['avscan'] == 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
+  if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] == 1)) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
 
   check_user_exists($db,$_POST['localpart'],$_SESSION['domain_id'],'adminuser.php');
 
