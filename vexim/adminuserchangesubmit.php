@@ -2,9 +2,10 @@
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
   include_once dirname(__FILE__) . "/config/functions.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   # Fix the boolean values
-  $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
+  $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id={$_SESSION['domain_id']}";
   $result = $db->query($query);
   if (!DB::isError($result)) { $row = $result->fetchRow(); }
   if (isset($_POST['admin'])) {$_POST['admin'] = 1;} else {$_POST['admin'] = 0;}
@@ -27,11 +28,11 @@
   # Big code block, to make sure we're not de-admining the last admin
   $query = "SELECT COUNT(admin) AS count FROM users
 			WHERE admin=1
-			AND domain_id={$_COOKIE['vexim'][2]}";
+			AND domain_id={$_SESSION['domain_id']}";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
   if ($row['count'] == "1") {
-    $nxtquery = "SELECT admin FROM users WHERE localpart='{$_POST['localpart']}' AND domain_id={$_COOKIE['vexim'][2]}";
+    $nxtquery = "SELECT admin FROM users WHERE localpart='{$_POST['localpart']}' AND domain_id={$_SESSION['domain_id']}";
     $nxtresult = $db->query($nxtquery);
     if ($nxtresult->numRows()) { $nxtrow = $nxtresult->fetchRow(); }
     if (($nxtrow['admin'] == "1") && ($_POST['admin'] == "0")) {
@@ -41,7 +42,7 @@
   }
 
   # Set the apporpriate maildirs
-  $query = "SELECT maildir FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
+  $query = "SELECT maildir FROM domains WHERE domain_id={$_SESSION['domain_id']}";
   $result = $db->query($query);
   $row = $result->fetchRow();
   if (($_POST['on_piped'] == 1) && ($_POST['smtp'] != "")) {
@@ -59,9 +60,9 @@
     $cryptedpassword = crypt($_POST['clear']);
     $query = "UPDATE users SET crypt='$cryptedpassword',
 		clear='{$_POST['clear']}'
-		WHERE localpart='{$_POST['localpart']}' AND domain_id={$_COOKIE['vexim'][2]}";
+		WHERE localpart='{$_POST['localpart']}' AND domain_id={$_SESSION['domain_id']}";
     $result = $db->query($query);
-    if ((!DB::isError($result)) && ($_POST['localpart'] == $_COOKIE['vexim'][0])) { 
+    if ((!DB::isError($result)) && ($_POST['localpart'] == $_SESSION['localpart'])) { 
     	setcookie ("vexim[3]", $cryptedpassword, time()+86400); 
     } else { 
     	header ("Location: adminuser.php?failupdated={$_POST['localpart']}");

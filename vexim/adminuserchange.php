@@ -1,12 +1,13 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   $query = "SELECT * FROM users WHERE user_id={$_GET['user_id']}";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
   $username = $row[username];
-  $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
+  $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains WHERE domain_id={$_SESSION['domain_id']}";
   $domresult = $db->query($domquery);
   if ($domresult->numRows()) { $domrow = $domresult->fetchRow(); }
   $blockquery = "SELECT blockhdr,blockval,block_id FROM blocklists,users
@@ -85,14 +86,14 @@
 	<?
 	  # Print the aliases associated with this account
 	  $query = "SELECT user_id,localpart,domain,realname FROM users,domains
-			WHERE smtp='{$row['localpart']}@{$_COOKIE['vexim'][1]}'
+			WHERE smtp='{$row['localpart']}@{$_SESSION['domain']}'
 			AND users.domain_id=domains.domain_id ORDER BY realname";
 	  $result = $db->query($query);
 	  if ($result->numRows()) {
 	    while ($row = $result->fetchRow()) {
-	      if (($row['domain'] == $_COOKIE['vexim'][1]) && ($row['localpart'] != "*")) {
+	      if (($row['domain'] == $_SESSION['domain']) && ($row['localpart'] != "*")) {
 		print " <a href=\"adminaliaschange.php?user_id={$row['user_id']}\">{$row['localpart']}@{$row['domain']}</a> ";
-	      } else if (($row['domain'] == $_COOKIE['vexim'][1]) && ($row['localpart'] == "*")) {
+	      } else if (($row['domain'] == $_SESSION['domain']) && ($row['localpart'] == "*")) {
 	        print " <a href=\"admincatchall.php?user_id={$row['user_id']}\">{$row['localpart']}@{$row['domain']}</a>";
 	      } else {
 		print "{$row['localpart']}@{$row['domain']}";

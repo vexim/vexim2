@@ -1,6 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 ?>
 <html>
   <head>
@@ -12,7 +13,7 @@
     <div id="menu">
       <a href="adminaliasadd.php"><? echo _("Add Alias"); ?></a></br>
       <? $query = "SELECT user_id,realname,smtp FROM users,domains
-      		   WHERE domains.domain_id={$_COOKIE['vexim'][2]}
+      		   WHERE domains.domain_id={$_SESSION['domain_id']}
 		   AND users.domain_id=domains.domain_id
 		   AND users.type='catch'";
 	 $result = $db->query($query);
@@ -39,7 +40,7 @@
 	  print "</tr>\n";
 	}
 	$query = "SELECT user_id,localpart,smtp,realname,users.type,admin FROM users,domains WHERE
-			domains.domain_id={$_COOKIE['vexim'][2]} AND domains.domain_id=users.domain_id
+			domains.domain_id={$_SESSION['domain_id']} AND domains.domain_id=users.domain_id
 			AND users.type='alias' ORDER BY localpart;";
 	$result = $db->query($query);
 	if ($result->numRows()) {

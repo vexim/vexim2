@@ -1,5 +1,6 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   if ($_POST['localpart'] == "siteadmin") {
     $query = "SELECT crypt,localpart FROM users,domains WHERE localpart='siteadmin'
@@ -51,6 +52,13 @@
     setcookie ("vexim[2]", $row['domain_id'], time()+86400);
     setcookie ("vexim[3]", $cryptedpass, time()+86400);
     setcookie ("vexim[4]", $row['user_id'], time()+86400);
+
+    $_SESSION['localpart'] = $_POST['localpart'];
+    $_SESSION['domain'] = $_POST['domain'];
+    $_SESSION['domain_id'] = $row['domain_id'];
+    $_SESSION['crypt'] = $cryptedpass;
+    $_SESSION['user_id'] = $row['user_id'];
+
     if (($row['admin'] == "1") && ($row['type'] == "site")) {
       header ("Location: site.php");
     } else if ($row['admin'] == "1") {

@@ -1,8 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
-?>
-<?
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
   $query = "SELECT localpart,realname,smtp,on_avscan,on_spamassassin,admin,enabled FROM users WHERE user_id={$_GET['user_id']}";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
@@ -24,7 +23,7 @@
     <form name="aliaschange" method="post" action="adminaliaschangesubmit.php">
       <table align="center">
 	<tr><td><? echo _("Alias Name"); ?>:</td><td><input name="realname" type="text" value="<? print $row['realname']; ?>"class="textfield"></td></tr>
-	<tr><td><? echo _("Address"); ?>:</td><td><input name="localpart" type="text" value="<? print $row['localpart']; ?>"class="textfield">@<? print $_COOKIE['vexim'][1]; ?></td></tr>
+	<tr><td><? echo _("Address"); ?>:</td><td><input name="localpart" type="text" value="<? print $row['localpart']; ?>"class="textfield">@<? print $_SESSION['domain']; ?></td></tr>
 	<tr><td><input name="user_id" type="hidden" value="<? print $_GET['user_id']; ?>" class="textfield"></td></tr>
 	<tr><td colspan="2" style="padding-bottom:1em"><? echo _("Multiple addresses should be comma separated, with no spaces"); ?></td></tr>
 	<tr><td><? echo _("Forward To"); ?>:</td><td><input name="target" type="text" size="30"value="<? print $row['smtp']; ?>" class="textfield"></td></tr>

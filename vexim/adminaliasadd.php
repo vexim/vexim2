@@ -2,7 +2,8 @@
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
   include_once dirname(__FILE__) . "/config/i18n.php";
-  $query = "SELECT avscan,spamassassin FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
+  $query = "SELECT avscan,spamassassin FROM domains WHERE domain_id={$_SESSION['domain_id']}";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
 ?>
@@ -22,7 +23,7 @@
     <form name="adminadd" method="post" action="adminaliasaddsubmit.php">
       <table align="center">
 	<tr><td><? echo _("Alias Name"); ?>:</td><td><input name="realname" type="text" class="textfield"></td></tr>
-	<tr><td><? echo _("Address"); ?>:</td><td><input name="localpart" type="text" class="textfield">@<? print $_COOKIE['vexim'][1]; ?></td></tr>
+	<tr><td><? echo _("Address"); ?>:</td><td><input name="localpart" type="text" class="textfield">@<? print $_SESSION['domain']; ?></td></tr>
 	<tr><td colspan="2" style="padding-bottom:1em"><? echo _("Multiple addresses should be comma seperated, with no spaces"); ?></td></tr>
 	<tr><td><? echo _("Forward To"); ?>:</td><td><input name="smtp" type="text" size="30" class="textfield"></td></tr>
 	<tr><td><? echo _("Password"); ?>:</td><td><input name="clear" type="password" size="30" class="textfield"></td></tr>

@@ -1,5 +1,6 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 ?>
 <html>
   <head>

@@ -1,6 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 ?>
 <html>
   <head>
@@ -18,7 +19,7 @@
     <form name="adminadd" method="post" action="adminfailaddsubmit.php">
       <table align="center">
 	<tr>
-	  <td><? echo _("Address to fail"); ?>:</td><td><input name="localpart" type="text" class="textfield">@<? print $_COOKIE['vexim'][1]; ?></td>
+	  <td><? echo _("Address to fail"); ?>:</td><td><input name="localpart" type="text" class="textfield">@<? print $_SESSION['domain']; ?></td>
 	</tr>
 	<tr>
 	  <td colspan="2" class="button"><input name="submit" type="submit" value="<? echo _("Submit"); ?>"></td>

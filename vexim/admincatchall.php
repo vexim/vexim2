@@ -1,8 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
-?>
-<?
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
   $query = "SELECT smtp FROM users WHERE user_id={$_GET['user_id']}";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
@@ -26,7 +25,7 @@
 	  <td><? echo _("Alias Name") . ":</td><td>" . _("Catchall") . "</td>\n"; ?>
 	</tr>
 	<tr>
-	  <td><? echo _("Forward email addressed to") . ":</td><td>*@" . $_COOKIE['vexim'][1];?></td>
+	  <td><? echo _("Forward email addressed to") . ":</td><td>*@" . $_SESSION['domain'];?></td>
 	</tr>
 	<tr>
 	  <td><? echo _("Forward the email to") . ':</td><td><input name="smtp" type="text" value="' . $row['smtp']; ?>" class="textfield"></td>

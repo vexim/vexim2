@@ -1,6 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 
 if ($_GET['confirm'] == "1") {
 
@@ -13,7 +14,7 @@ if ($_GET['confirm'] == "1") {
     die;						      
 } else {
   $query = "SELECT user_id AS count FROM users 
-	      WHERE admin=1 AND domain_id={$_COOKIE[vexim][2]}
+	      WHERE admin=1 AND domain_id={$_SESSION['domain_id']}
 	      AND user_id!={$_GET['user_id']}";
   $result = $db->query($query);
   if ($result->numRows() == 0) {
@@ -40,10 +41,10 @@ if ($_GET['confirm'] == "1") {
     <div id='Content'>
       <form name='userdelete' method='get' action='adminuserdelete.php'>
 	<table align="center">
-	  <tr><td colspan='2'><? echo _("Please confirm deleting user"); ?> <?=$row['localpart']?>@<?=$_COOKIE['vexim'][1]?>:</td></tr>
-	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> <? echo _("Do Not Delete"); ?> <? print $row['localpart']; ?>@<?=$_COOKIE['vexim'][1]?></b></td></tr>
-	  <tr><td><input name='confirm' type='radio' value='1'><b> <? echo _("Delete"); ?> <? print $row['localpart']; ?>@<?=$_COOKIE['vexim'][1]?></b></td></tr>
-	  <tr><td><input name='domain' type='hidden' value='<?=$_COOKIE['vexim'][1]?>'>
+	  <tr><td colspan='2'><? echo _("Please confirm deleting user"); ?> <?=$row['localpart']?>@<?=$_SESSION['domain']?>:</td></tr>
+	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> <? echo _("Do Not Delete"); ?> <? print $row['localpart']; ?>@<?=$_SESSION['domain']?></b></td></tr>
+	  <tr><td><input name='confirm' type='radio' value='1'><b> <? echo _("Delete"); ?> <? print $row['localpart']; ?>@<?=$_SESSION['domain']?></b></td></tr>
+	  <tr><td><input name='domain' type='hidden' value='<?=$_SESSION['domain']?>'>
 	      <input name='user_id' type='hidden' value='<?=$_GET['user_id']?>'>
 	      <input name='localpart' type='hidden' value='<?=$_GET['localpart']?>'>
 	      <input name='submit' type='submit' value='<? echo _("Continue"); ?>'></td></tr>

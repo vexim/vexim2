@@ -1,11 +1,12 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   $query = "SELECT (count(users.user_id) < domains.max_accounts)
   		OR (domains.max_accounts = 0)	AS allowed FROM
 		users,domains WHERE users.domain_id=domains.domain_id
-		AND domains.domain_id={$_COOKIE['vexim'][2]}
+		AND domains.domain_id={$_SESSION['domain_id']}
 		AND (users.type='local' OR users.type='piped') GROUP BY domains.max_accounts";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
@@ -13,7 +14,7 @@
 	header ("Location: adminuser.php?maxaccounts=true");
   }
 
-  $query = "SELECT uid, gid, quotas, sa_tag, sa_refuse, maxmsgsize FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
+  $query = "SELECT uid, gid, quotas, sa_tag, sa_refuse, maxmsgsize FROM domains WHERE domain_id={$_SESSION['domain_id']}";
   $result = $db->query($query);
   $row = $result->fetchRow();
 ?>
@@ -33,7 +34,7 @@
     <form name="adminadd" method="post" action="adminuseraddsubmit.php">
       <table align="center">
 	<tr><td><? echo _("Name"); ?>:</td><td><input type="textfield" size="25" name="realname" class="textfield"></td></tr>
-	<tr><td><? echo _("Address"); ?>:</td><td><input type="textfield" size="25" name="localpart" class="textfield">@<? print $_COOKIE['vexim'][1]; ?></td></tr>
+	<tr><td><? echo _("Address"); ?>:</td><td><input type="textfield" size="25" name="localpart" class="textfield">@<? print $_SESSION['domain']; ?></td></tr>
 	<tr><td><? echo _("Password"); ?>:</td><td><input type="password" size="25" name="clear" class="textfield"></td></tr>
 	<tr><td><? echo _("Verify Password"); ?>:</td><td><input type="password" size="25" name="vclear" class="textfield"></td></tr>
 	<? if ($postmasteruidgid == "yes") {

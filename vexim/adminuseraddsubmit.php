@@ -2,11 +2,12 @@
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
   include_once dirname(__FILE__) . "/config/functions.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   $domquery = "SELECT (count(users.user_id) < domains.max_accounts)
   		OR (domains.max_accounts=0) AS allowed FROM users,domain
 		WHERE users.domain_id=domains.domain_id
-		AND domains.domain_id={$_COOKIE['vexim'][2]}
+		AND domains.domain_id={$_SESSION['domain_id']}
 		AND users.type='local'	GROUP BY domains.max_accounts";
   $domresult = $db->query($domquery);
   if (!DB::isError($domresult)) {
@@ -17,7 +18,7 @@
   }
 
   # Fix the boolean values
-  $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
+  $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id={$_SESSION['domain_id']}";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
   if (isset($_POST['admin'])) {$_POST['admin'] = 1;} else {$_POST['admin'] = 0;}
@@ -35,7 +36,7 @@
     }
   }
 
-  check_user_exists($db,$_POST['localpart'],$_COOKIE['vexim'][2],'adminuser.php');
+  check_user_exists($db,$_POST['localpart'],$_SESSION['domain_id'],'adminuser.php');
 
   if (preg_match("/^\s*$/",$_POST['realname'])) {
     header("Location: adminuser.php?blankname=yes");
@@ -47,7 +48,7 @@
   	die;
   }
 
-  $query = "SELECT maildir FROM domains WHERE domain_id ={$_COOKIE['vexim'][2]}";
+  $query = "SELECT maildir FROM domains WHERE domain_id ={$_SESSION['domain_id']}";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
   if (($_POST['on_piped'] == 1) && ($_POST['smtp'] != "")) {
@@ -63,8 +64,8 @@
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped, on_spamassassin, sa_tag, sa_refuse, maxmsgsize, enabled, quota)
       VALUES ('{$_POST['localpart']}',
-	'{$_POST['localpart']}@{$_COOKIE['vexim'][1]}',
-	{$_COOKIE['vexim'][2]},
+	'{$_POST['localpart']}@{$_SESSION['domain']}',
+	{$_SESSION['domain_id']},
 	'" . crypt($_POST['clear'],$salt) . "',
 	'{$_POST['clear']}',
 	'{$smtphomepath}',
@@ -84,10 +85,10 @@
 	{$_POST['quota']})";
     $result = $db->query($query);
     if (!DB::isError($result)) { header ("Location: adminuser.php?added={$_POST['localpart']}");
-      $query = "SELECT localpart,domain FROM users,domains WHERE domain_id={$_COOKIE['vexim'][2]}' AND users.type='admin'";
+      $query = "SELECT localpart,domain FROM users,domains WHERE domain_id={$_SESSION['domain_id']}' AND users.type='admin'";
       $result = $db->query($query);
       $row =  $result->fetchRow();
-      mail("{$_POST['localpart']}@{$_COOKIE['vexim'][1]}", "Welcome {$_POST['realname']}!",  $welcome_message, "From: {$_COOKIE['vexim'][0]}@{$_COOKIE['vexim'][1]}\r\n");
+      mail("{$_POST['localpart']}@{$_SESSION['domain']}", "Welcome {$_POST['realname']}!",  $welcome_message, "From: {$_SESSION['localpart']}@{$_SESSION['domain']}\r\n");
       die; }
     else { header ("Location: adminuser.php?failadded={$_POST['localpart']}"); die; } }
   else { header ("Location: adminuser.php?badpass={$_POST['localpart']}"); die; }

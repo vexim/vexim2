@@ -1,16 +1,16 @@
 <?
-  if (isset($_COOKIE['vexim'][2])) {
-    $domheaderquery = "SELECT enabled FROM domains WHERE domains.domain_id='" . $_COOKIE['vexim'][2] . "'";
+  if (isset($_SESSION['domain_id'])) {
+    $domheaderquery = "SELECT enabled FROM domains WHERE domains.domain_id='" . $_SESSION['domain_id'] . "'";
     $domheaderresult = $db->query($domheaderquery);
     $domheaderrow = $domheaderresult->fetchRow();
-    $usrheaderquery = "SELECT enabled FROM users WHERE localpart='" . $_COOKIE['vexim'][0] . "' AND domain_id='" . $_COOKIE['vexim'][2] . "'";
+    $usrheaderquery = "SELECT enabled FROM users WHERE localpart='" . $_SESSION['localpart'] . "' AND domain_id='" . $_SESSION['domain_id'] . "'";
     $usrheaderresult = $db->query($usrheaderquery);
     $usrheaderrow = $usrheaderresult->fetchRow();
   }
 
   print "<div id=\"Header\"><p><a href=\"http://silverwraith.com/vexim/\" target=\"_blank\">Virtual Exim</a>";
-  if (isset($_COOKIE['vexim'][1])) {
-    print " -- " . $_COOKIE['vexim'][1];
+  if (isset($_SESSION['domain'])) {
+    print " -- " . $_SESSION['domain'];
   }
   if (($domheaderrow['enabled'] == "0") || ($domheaderrow['enabled'] == "f")) {
     print "-- domain disabled (please see your administrator)";

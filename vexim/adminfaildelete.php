@@ -1,6 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   $query = "DELETE FROM users WHERE user_id='{$_GET['user_id']}'";
   $result = $db->query($query);

@@ -1,6 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 ?>
 <html>
   <head>
@@ -22,7 +23,7 @@
 	  <td><? echo _("Alias Name") . ":</td><td>" . _("Catchall") . "</td>\n"; ?>
 	</tr>
 	<tr>
-	  <td><? echo _("Forward email addressed to") . ":</td><td>*@" . $_COOKIE['vexim'][1];?></td>
+	  <td><? echo _("Forward email addressed to") . ":</td><td>*@" . $_SESSION['domain'];?></td>
 	</tr>
 	<tr>
 	  <td><? echo _("Forward the email to"); ?>:</td><td><input name="smtp" type="text" class="textfield"></td>

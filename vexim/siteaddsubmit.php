@@ -2,6 +2,7 @@
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authsite.php";
   include_once dirname(__FILE__) . "/config/functions.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   if (isset($_POST['avscan'])) {$_POST['avscan'] = 1;} else {$_POST['avscan'] = 0;}
   if (isset($_POST['spamassassin'])) {$_POST['spamassassin'] = 1;} else {$_POST['spamassassin'] = 0;}

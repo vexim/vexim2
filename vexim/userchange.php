@@ -1,15 +1,16 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authuser.php";
+  include_once dirname(__FILE__) . "/config/httpheaders.php";
 
-  $domquery = "SELECT avscan,spamassassin FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
+  $domquery = "SELECT avscan,spamassassin FROM domains WHERE domain_id={$_SESSION['domain_id']}";
   $domresult = $db->query($domquery);
   if (!DB::isError($domresult)) { $domrow = $domresult->fetchRow(); }
-  $query = "SELECT * FROM users WHERE user_id={$_COOKIE['vexim'][4]}";
+  $query = "SELECT * FROM users WHERE user_id={$_SESSION['user_id']}";
   $result = $db->query($query);
   if (!DB::isError($result)) { $row = $result->fetchRow(); }
   $blockquery = "SELECT block_id,blockhdr,blockval FROM blocklists,users
-  		WHERE blocklists.user_id={$_COOKIE['vexim'][4]}
+  		WHERE blocklists.user_id={$_SESSION['user_id']}
 		AND users.user_id=blocklists.user_id";
   $blockresult = $db->query($blockquery);
 ?>
@@ -42,7 +43,7 @@
       <form name="userchange" method="post" action="userchangesubmit.php">
 	<table align="center">
 	  <tr><td>Name:</td><td><input name="realname" type="text" value="<? print $row['realname']; ?>" class="textfield"></td></tr>
-	  <tr><td>Email Address:</td><td><? print $row['localpart']."@".$_COOKIE['vexim'][1]; ?></td>
+	  <tr><td>Email Address:</td><td><? print $row['localpart']."@".$_SESSION['domain']; ?></td>
 	  <tr><td>Password:</td><td><input name="clear" type="password" class="textfield"></td></tr>
 	  <tr><td>Verify Password:</td><td><input name="vclear" type="password" class="textfield"></td></tr>
 	  <tr><td></td><td class="button"><input name="submit" type="submit" value="Submit Password"></td></tr>
