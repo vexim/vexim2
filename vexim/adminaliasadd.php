@@ -1,7 +1,7 @@
 <?
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
-
+  include_once dirname(__FILE__) . "/config/i18n.php";
   $query = "SELECT avscan,spamassassin FROM domains WHERE domain_id={$_COOKIE['vexim'][2]}";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
@@ -14,31 +14,30 @@
   <body onLoad="document.adminadd.realname.focus()">
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="menu">
-      <a href="adminalias.php">Manage Aliases</a><br>
-      <a href="admin.php">Main Menu</a><br>
-      <br><a href="logout.php">Logout</a><br>
+      <a href="adminalias.php"><? echo _("Manage Aliases"); ?></a><br>
+      <a href="admin.php"><? echo _("Main Menu"); ?></a><br>
+      <br><a href="logout.php"><? echo _("Logout"); ?></a><br>
     </div>
     <div id="Forms">
     <form name="adminadd" method="post" action="adminaliasaddsubmit.php">
       <table align="center">
-	<tr><td>Alias Name:</td><td><input name="realname" type="text" class="textfield"></td></tr>
-	<tr><td>Address:</td><td><input name="localpart" type="text" class="textfield">@<? print $_COOKIE['vexim'][1]; ?></td></tr>
-	<tr><td colspan="2" style="padding-bottom:1em">Multiple addresses should be comma seperated, with no spaces</td></tr>
-	<tr><td>Forward To:</td><td><input name="smtp" type="text" size="30" class="textfield"></td></tr>
-	<tr><td>Password:</td><td><input name="clear" type="password" size="30" class="textfield"></td></tr>
-	<tr><td colspan="2" style="padding-bottom:1em">(Password only needed if you want the user to
-		be able to log in, or if the Alias is the admin account)</td></tr>
-	<tr><td>Verify Password:</td><td><input name="vclear" type="password" size="30" class="textfield"></td></tr>
-	<tr><td>Admin:</td><td><input name="admin" type="checkbox" class="textfield"></td></tr>
+	<tr><td><? echo _("Alias Name"); ?>:</td><td><input name="realname" type="text" class="textfield"></td></tr>
+	<tr><td><? echo _("Address"); ?>:</td><td><input name="localpart" type="text" class="textfield">@<? print $_COOKIE['vexim'][1]; ?></td></tr>
+	<tr><td colspan="2" style="padding-bottom:1em"><? echo _("Multiple addresses should be comma seperated, with no spaces"); ?></td></tr>
+	<tr><td><? echo _("Forward To"); ?>:</td><td><input name="smtp" type="text" size="30" class="textfield"></td></tr>
+	<tr><td><? echo _("Password"); ?>:</td><td><input name="clear" type="password" size="30" class="textfield"></td></tr>
+	<tr><td colspan="2" style="padding-bottom:1em">(<? echo _("Password only needed if you want the user to be able to log in, or if the Alias is the admin account"); ?>)</td></tr>
+	<tr><td><? echo _("Verify Password"); ?>:</td><td><input name="vclear" type="password" size="30" class="textfield"></td></tr>
+	<tr><td><? echo _("Admin"); ?>:</td><td><input name="admin" type="checkbox" class="textfield"></td></tr>
 	<? if ($row['on_avscan'] == "1") {
-	     print "<tr><td>Anti-Virus:</td><td><input name=\"on_avscan\" type=\"checkbox\" class=\"textfield\"></td></tr>";
+	     print "<tr><td>" . _("Anti-Virus") . ":</td><td><input name=\"on_avscan\" type=\"checkbox\" class=\"textfield\"></td></tr>";
 	   }
 	   if ($row['on_spamassassin'] == "1") {
-	     print "<tr><td>Spamassassin:</td><td><input name=\"on_spamassassin\" type=\"checkbox\" class=\"textfield\"></td></tr>";
+	     print "<tr><td>" . _("Spamassassin") . ":</td><td><input name=\"on_spamassassin\" type=\"checkbox\" class=\"textfield\"></td></tr>";
 	   }
 	?>
-	<tr><td>Enabled:</td><td><input name="enabled" type="checkbox" class="textfield" checked></td></tr>
-	<tr><td colspan="2" class="button"><input name="submit" type="submit" value="Submit"></td></tr>
+	<tr><td><? echo _("Enabled"); ?>:</td><td><input name="enabled" type="checkbox" class="textfield" checked></td></tr>
+	<tr><td colspan="2" class="button"><input name="submit" type="submit" value="<? echo _("Submit"); ?>"></td></tr>
       </table>
     </form>
     </div>

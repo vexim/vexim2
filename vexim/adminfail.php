@@ -4,19 +4,19 @@
 ?>
 <html>
   <head>
-    <title>Virtual Exim: Manage Users</title>
+    <title>Virtual Exim: <? echo _("Manage Users"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body>
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="menu">
-      <a href="adminfailadd.php">Add Fail</a><br>
-      <a href="admin.php">Main Menu</a><br>
-      <br><a href="logout.php">Logout</a><br>
+      <a href="adminfailadd.php"><? echo _("Add Fail"); ?></a><br>
+      <a href="admin.php"><? echo _("Main Menu"); ?></a><br>
+      <br><a href="logout.php"><? echo _("Logout"); ?></a><br>
     </div>
     <div id="Content">
     <table align="center">
-      <tr><th>&nbsp;</th><th>Failed Address..</td></tr>
+      <tr><th>&nbsp;</th><th><? echo _("Failed Address"); ?>..</td></tr>
       <?
 	$query = "SELECT user_id,localpart FROM users WHERE domain_id='{$_COOKIE['vexim'][2]}' AND users.type='fail' ORDER BY localpart;";
 	$result = $db->query($query);
@@ -24,7 +24,7 @@
 	  while ($row = $result->fetchRow()) {
 	    print "<tr>";
 	    print "<td align=\"center\"><a href=\"adminfaildelete.php?user_id={$row['user_id']}\">";
-	    print "<img style='border:0;width:10px;height:16px' src=\"images/trashcan.gif\" title=\"Delete fail {$row['localpart']}\"></a></td>\n";
+	    print "<img style='border:0;width:10px;height:16px' src=\"images/trashcan.gif\" title=\"" . _("Delete fail") . " {$row['localpart']}\"></a></td>\n";
 	    print "<td><a href=\"adminfailchange.php?user_id={$row['user_id']}\">{$row['localpart']}@{$_COOKIE['vexim'][1]}</a></td>\n";
 	    print "</tr>\n";
 	  }

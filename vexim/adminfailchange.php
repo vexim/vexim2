@@ -8,24 +8,24 @@
 ?>
 <html>
   <head>
-    <title>Virtual Exim: Manage Users</title>
+    <title>Virtual Exim: <? echo _("Manage Users"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body onLoad="document.failchange.username.focus()">
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="menu">
-      <a href="adminfail.php">Manage Fails</a><br>
-      <a href="adminfailadd.php">Add Fail</a><br>
-      <a href="admin.php">Main Menu</a><br>
-      <br><a href="logout.php">Logout</a><br>
+      <a href="adminfail.php"><? echo _("Manage Fails"); ?></a><br>
+      <a href="adminfailadd.php"><? echo _("Add Fail"); ?></a><br>
+      <a href="admin.php"><? echo _("Main Menu"); ?></a><br>
+      <br><a href="logout.php"><? echo _("Logout"); ?></a><br>
     </div>
     <div="Forms">
       <form name="failchange" method="post" action="adminfailchangesubmit.php">
 	<table align="center">
-	  <tr><td>Fail address:</td>
+	  <tr><td><? echo _("Fail address"); ?>:</td>
 	      <td><input name="localpart" type="text" value="<? print $row['localpart']; ?>" class="textfield">@<? print $_COOKIE['vexim'][1]; ?></td>
 	      <td><input name="user_id" type="hidden" value="<? print $_GET['user_id']; ?>" class="textfield"></td></tr>
-	  <tr><td></td><td><input name="submit" type="submit" value="Submit"></td></tr>
+	  <tr><td></td><td><input name="submit" type="submit" value="<? echo _("Submit"); ?>"></td></tr>
 	</table>
       </form>
     </div>

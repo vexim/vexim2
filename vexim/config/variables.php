@@ -1,6 +1,7 @@
 <?
   /* SQL Database login information */
   require_once "DB.php";
+  include_once dirname(__FILE__) . "/i18n.php";
 
   $sqlserver = "unix+localhost";
   $sqltype = "mysql";
@@ -32,13 +33,13 @@
 
   /* The UID's and GID's control the default UID and GID for new domains
      and if postmasters can define their own */
-  $uid = "90";
-  $gid = "90";
+  $uid = "8";
+  $gid = "8";
   $postmasteruidgid = "yes";
 
   /* The location of your mailstore for new domains.
      Make sure the exim user owns it! */
-  $mailroot = "/usr/local/mail/";
+  $mailroot = "/var/mail/";
 
   /* path to Mailman */
   $mailmanroot = "http://www.EXAMPLE.com/mailman";

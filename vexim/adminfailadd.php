@@ -4,24 +4,24 @@
 ?>
 <html>
   <head>
-    <title>Virtual Exim: Manage Users</title>
+    <title>Virtual Exim: <? echo _("Manage Users"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body onLoad="document.adminadd.username.focus()">
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="menu">
-       <a href="adminfail.php">Manage Fails</a><br>
-       <a href="admin.php">Main Menu</a><br>
-       <br><a href="logout.php">Logout</a><br>
+       <a href="adminfail.php"><? echo _("Manage Fails"); ?></a><br>
+       <a href="admin.php"><? echo _("Main Menu"); ?></a><br>
+       <br><a href="logout.php"><? echo _("Logout"); ?></a><br>
     </div>
     <div id="Forms">
     <form name="adminadd" method="post" action="adminfailaddsubmit.php">
       <table align="center">
 	<tr>
-	  <td>Address to fail:</td><td><input name="localpart" type="text" class="textfield">@<? print $_COOKIE['vexim'][1]; ?></td>
+	  <td><? echo _("Address to fail"); ?>:</td><td><input name="localpart" type="text" class="textfield">@<? print $_COOKIE['vexim'][1]; ?></td>
 	</tr>
 	<tr>
-	  <td colspan="2" class="button"><input name="submit" type="submit" value="Submit"></td>
+	  <td colspan="2" class="button"><input name="submit" type="submit" value="<? echo _("Submit"); ?>"></td>
 	</tr>
       </table>
     </form>

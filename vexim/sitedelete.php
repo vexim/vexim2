@@ -35,28 +35,28 @@
 ?>
 <html>
   <head>
-    <title>Virtual Exim: Confirm Delete</title>
+    <title>Virtual Exim: <? echo _("Confirm Delete"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
     <body>
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id='menu'>
-      <a href='site.php'>Manage Domains</a><br>
-      <a href='sitepassword.php' title='Change site password'>Site Password</a><br>
-      <br><a href='logout.php'>Logout</a><br>
+      <a href='site.php'><? echo _("Manage Domains"); ?></a><br>
+      <a href='sitepassword.php' title='Change site password'><? echo _("Site Password"); ?></a><br>
+      <br><a href='logout.php'><? echo _("Logout"); ?></a><br>
     </div>
     <div id='Content'>
       <form name='domaindelete' method='post' action='sitedelete.php'>
 	<table align="center">
-	  <tr><td colspan='2'>Please confirm deleting domain <? print $row['domain']; ?>:</td></tr>
+	  <tr><td colspan='2'><? echo _("Please confirm deleting domain") . $row['domain']; ?>:</td></tr>
 	  <? if ($row['type'] != "relay") {
-		print "<tr><td colspan='2'>There are currently <b>{$row['count']}</b> accounts in domain {$row['domain']}</td></tr>";
+		print "<tr><td colspan='2'>" . _("There are currently <b>{$row['count']}</b> accounts in domain {$row['domain']}") . " </td></tr>";
 	     }
 	  ?>
-	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> Do Not Delete <? print $row['domain']; ?></b></td></tr>
-	  <tr><td><input name='confirm' type='radio' value='1'><b> Delete <? print $row['domain']; ?></b></td></tr>
+	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> <? echo _("Do Not Delete"); ?> <? print $row['domain']; ?></b></td></tr>
+	  <tr><td><input name='confirm' type='radio' value='1'><b> <? echo _("Delete"); ?> <? print $row['domain']; ?></b></td></tr>
 	  <tr><td><input name='domain_id' type='hidden' value='<? print $_GET['domain_id']; ?>'>
-	      <input name='submit' type='submit' value='Continue'></td></tr>
+	      <input name='submit' type='submit' value='<? echo _("Continue"); ?>'></td></tr>
 	</table>
       </form>
     </div>

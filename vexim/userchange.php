@@ -15,13 +15,13 @@
 ?>
 <html>
   <head>
-    <title>Virtual Exim: Manage Users</title>
+    <title>Virtual Exim: <? echo _("Manage Users"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body onLoad="document.userchange.realname.focus()">
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="menu">
-      <a href="logout.php">logout</a><br>
+      <a href="logout.php"><? echo _("Logout"); ?></a><br>
     </div>
       <?
 	if (isset($_GET['updated'])) {

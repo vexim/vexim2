@@ -9,31 +9,31 @@
 ?>
 <html>
   <head>
-    <title>Virtual Exim: Manage Users</title>
+    <title>Virtual Exim: <? echo _("Manage Users"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body>
   <? include dirname(__FILE__) . "/config/header.php"; ?>
   <div id="menu">
-    <a href="admincatchallall.php">Manage Aliases</a><br>
-    <a href="admin.php">Main Menu</a><br>
-    <br><a href="logout.php">Logout</a><br>
+    <a href="admincatchallall.php"><? echo _("Manage Aliases"); ?></a><br>
+    <a href="admin.php"><? echo _("Main Menu"); ?></a><br>
+    <br><a href="logout.php"><? echo _("Logout"); ?></a><br>
   </div>
   </div id="Forms">
     <form name="admincatchall" method="post" action="admincatchallsubmit.php">
       <table align="center">
 	<tr>
-	  <td>Alias Name:</td><td>Catchall</td>
+	  <td><? echo _("Alias Name") . ":</td><td>" . _("Catchall") . "</td>\n"; ?>
 	</tr>
 	<tr>
-	  <td>Forward email addressed to:</td><td>*@<? print $_COOKIE['vexim'][1];?></td>
+	  <td><? echo _("Forward email addressed to") . ":</td><td>*@" . $_COOKIE['vexim'][1];?></td>
 	</tr>
 	<tr>
-	  <td>Forward the email to:</td><td><input name="smtp" type="text" value="<? print $row['smtp']; ?>" class="textfield"></td>
+	  <td><? echo _("Forward the email to") . ':</td><td><input name="smtp" type="text" value="' . $row['smtp']; ?>" class="textfield"></td>
 	</tr>
 	<tr>
 	  <td><input name="user_id" type="hidden" value="<? print $_GET['user_id']; ?>" class="textfield"></td>
-	  <td><input name="submit" type="submit" value="Submit"></td>
+	  <td><input name="submit" type="submit" value="<? echo _("Submit"); ?>"></td>
 	</tr>
       </table>
     </form>

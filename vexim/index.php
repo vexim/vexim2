@@ -12,7 +12,7 @@
     <form style="margin-top:3em;" name="login" method="post" action="login.php">
       <table valign="center" align="center">
 	 <tr>
-	  <td>Username:<td><input name="localpart" type="text" class="textfield">&nbsp;@&nbsp;</td>
+	  <td><? echo _("Username"); ?>:<td><input name="localpart" type="text" class="textfield">&nbsp;@&nbsp;</td>
 	  <td>
 	    <? if ($domaininput == "dropdown") {
 		print "<select name=\"domain\" class=\"textfield\">\n";
@@ -32,15 +32,15 @@
 	  </td>
 	</tr>
 	<tr>
-	  <td>Password:<td><input name="crypt" type="password" class="textfield"></td>
+	  <td><? echo _("Password"); ?>:<td><input name="crypt" type="password" class="textfield"></td>
 	</tr>
 	<tr>
-	  <td colspan="3" style="text-align:center;padding-top:1em"><input name="submit" type="submit" value="submit" class="longbutton"></td>
+	  <td colspan="3" style="text-align:center;padding-top:1em"><input name="submit" type="submit" value="<? echo _("Submit"); ?>" class="longbutton"></td>
 	</tr>
       </table>
     </form>
     </div>
-    <? if ($_GET['login'] == "failed") { print "<div id='status'>Login Failed</div>"; } ?>
+    <? if ($_GET['login'] == "failed") { print "<div id='status'>" . _("Login failed") . "</div>"; } ?>
   </body>
 </html>
 

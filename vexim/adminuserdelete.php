@@ -28,25 +28,25 @@ if ($_GET['confirm'] == "1") {
 ?>
 <html>
   <head>
-    <title>Domain Plus!: Confirm Delete</title>
+    <title>Virtual Exim: <? echo _("Confirm Delete"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
     <body>
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id='menu'>
-      <a href='adminuseradd.php'>Add User</a><br>
-      <a href='admin.php' title='Change site password'>Main Menu</a><br>
-      <br><a href='logout.php'>Logout</a><br>
+      <a href='adminuseradd.php'><? echo _("Add User"); ?></a><br>
+      <a href='admin.php' title='Change site password'><? echo _("Main Menu"); ?></a><br>
+      <br><a href='logout.php'><? echo _("Logout"); ?></a><br>
     </div>
     <div id='Content'>
       <form name='userdelete' method='get' action='adminuserdelete.php'>
 	<table align="center">
-	  <tr><td colspan='2'>Please confirm deleting user <?=$row['localpart']?>@<?=$_COOKIE['vexim'][1]?>:</td></tr>
-	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> Do Not Delete <? print $row['localpart']; ?>@<?=$_COOKIE['vexim'][1]?></b></td></tr>
-	  <tr><td><input name='confirm' type='radio' value='1'><b> Delete <? print $row['localpart']; ?>@<?=$_COOKIE['vexim'][1]?></b></td></tr>
+	  <tr><td colspan='2'><? echo _("Please confirm deleting user"); ?> <?=$row['localpart']?>@<?=$_COOKIE['vexim'][1]?>:</td></tr>
+	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> <? echo _("Do Not Delete"); ?> <? print $row['localpart']; ?>@<?=$_COOKIE['vexim'][1]?></b></td></tr>
+	  <tr><td><input name='confirm' type='radio' value='1'><b> <? echo _("Delete"); ?> <? print $row['localpart']; ?>@<?=$_COOKIE['vexim'][1]?></b></td></tr>
 	  <tr><td><input name='domain' type='hidden' value='<?=$_COOKIE['vexim'][1]?>'>
 	      <input name='user_id' type='hidden' value='<?=$_GET['user_id']?>'>
-	      <input name='submit' type='submit' value='Continue'></td></tr>
+	      <input name='submit' type='submit' value='<? echo _("Continue"); ?>'></td></tr>
 	</table>
       </form>
     </div>
