@@ -49,15 +49,16 @@
 	<th><?php echo _("Total admins"); ?></th>
       </tr>
       <?php
-     if ($alphadomains AND $letter != '') 
-		$query = "SELECT localpart,domain,domains.domain_id,count(*) FROM users,domains
-			WHERE users.domain_id = domains.domain_id
-			AND domain !='admin'
-			AND admin=1 AND lower(domain) LIKE lower('$letter%') GROUP BY domain ORDER BY domain";
-     else 
-		$query = "SELECT localpart,domain,domains.domain_id,count(*) AS count FROM users,domains
-			WHERE users.domain_id = domains.domain_id
-			AND domain !='admin' AND admin=1 GROUP BY domain ORDER BY domain";
+        $query = "SELECT localpart, domain, domains.domain_id, 
+                         count(*) AS count    
+                  FROM   users, domains
+                  WHERE  users.domain_id = domains.domain_id
+                  AND    domain !='admin' AND admin=1";
+        if ($alphadomains AND $letter != '') 
+            $query .= " AND lower(domain) LIKE lower('$letter%')";
+        elseif ($_POST['searchfor'] != '')
+            $query .= " AND domain LIKE '%" . $_POST['searchfor'] . "%'";
+        $query .= " GROUP BY domain ORDER BY domain";
   	$result = $db->query($query);
 	if ($result->numRows()) {
 	  while ($row = $result->fetchRow()) {
