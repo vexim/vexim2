@@ -70,7 +70,7 @@ domainlist local_domains = @ : pear.silverwraith.com : ${lookup mysql{VIRTUAL_DO
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost : 192.168.0.0/24
 
-hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/f00dlew1t
+hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
 
 # Most straightforward access control requirements can be obtained by
@@ -134,7 +134,7 @@ acl_smtp_data = acl_check_content
 # virus scanning, leave it commented. Please read doc/exiscan-acl-readme.txt
 # for a list of supported scanners.
 
-av_scanner = clamd:/tmp/clamd
+av_scanner = clamd:/var/run/clamav/clamd
 
 # The following setting is only needed if you use the 'spam' ACL condition
 # of the exiscan-acl patch. It specifies on which host and port the SpamAssassin
@@ -204,7 +204,7 @@ host_lookup = *
 # connection, leading to delays on starting up an SMTP session.
 
 rfc1413_hosts = *
-rfc1413_query_timeout = 30s
+rfc1413_query_timeout = 0s
 
 
 # By default, Exim expects all envelope addresses to be fully qualified, that
@@ -492,7 +492,38 @@ ditch_spam:
                 where localpart = '${quote_mysql:$local_part}' \
                 and domain = '${quote_mysql:$domain}' \
         	and users.on_spamassassin = '1' \
-                and users.domain_id=domains.domain_id }{$value}fail}} {yes}{no}}
+                and users.domain_id=domains.domain_id \
+		and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
+  local_part_suffix = -*
+  local_part_suffix_optional
+  retry_use_local_part
+
+ditch_hdrfrom:
+  driver = redirect
+  allow_fail
+  data = :blackhole:
+  condition = ${if eq {${lookup mysql{select count(*) from blocklists,users,domains \
+  			where blocklists.blockhdr = 'from' \
+			and blocklists.blockval = '${quote_mysql:$h_from:}' \
+			and users.localpart = '${quote_mysql:$local_part}' \
+  			and domains.domain = '${quote_mysql:$domain}' \
+			and domains.domain_id=blocklists.domain_id \
+			and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
+  local_part_suffix = -*
+  local_part_suffix_optional
+  retry_use_local_part
+
+ditch_hdrmailer:
+  driver = redirect
+  allow_fail
+  data = :blackhole:
+  condition = ${if eq {${lookup mysql{select count(*) from blocklists,users,domains \
+  			where blocklists.blockhdr = 'x-mailer' \
+			and blocklists.blockval = '${quote_mysql:$h_x-mailer:}' \
+			and users.localpart = '${quote_mysql:$local_part}' \
+  			and domains.domain = '${quote_mysql:$domain}' \
+			and domains.domain_id=blocklists.domain_id \
+			and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
   local_part_suffix = -*
   local_part_suffix_optional
   retry_use_local_part
@@ -545,12 +576,13 @@ virtual_domains:
   			     { <{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
 			       where localpart = '${quote_mysql:$local_part}' \
 			       and domain = '${quote_mysql:$domain}' \
+			       and users.on_spamassassin = 1 \
 			       and users.domain_id=domains.domain_id}{$value}fail}} } \
-			     { eq {${lookup mysql{select users.sa_tag * 10 from users,domains \
+			     { eq {0}{${lookup mysql{select users.sa_tag * 10 from users,domains \
 			       where localpart = '${quote_mysql:$local_part}' \
 			       and domain = '${quote_mysql:$domain}' \
 			       and users.on_spamassassin = 0 \
-			       and users.domain_id=domains.domain_id}{$value}fail}}{0}} \
+			       and users.domain_id=domains.domain_id}{$value}fail}}} \
 			   } {X-Spam-Score:X-Spam-Report} }
   local_part_suffix = -*
   local_part_suffix_optional
