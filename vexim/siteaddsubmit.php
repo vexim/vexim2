@@ -8,7 +8,7 @@
   if (isset($_POST['spamassassin'])) {$_POST['spamassassin'] = 1;} else {$_POST['spamassassin'] = 0;}
   if (isset($_POST['enabled'])) {$_POST['enabled'] = 1;} else {$_POST['enabled'] = 0;}
   if (isset($_POST['pipe'])) {$_POST['pipe'] = 1;} else {$_POST['pipe'] = 0;}
-  if ($_POST['type'] == ("relay"||"alias")) {$_POST['clear'] = $_POST['vclear'] = "BLANK";}
+  if ($_POST['type'] == ("relay"|"alias")) {$_POST['clear'] = $_POST['vclear'] = "BLANK";}
   if ($_POST['max_accounts'] == '') {$_POST['max_accounts'] = '0';}
 
   $smtphomepath = $mailroot . $_POST['domain'] . "/" . $_POST['localpart'] . "/Maildir";

@@ -65,7 +65,7 @@
       <form name='domaindelete' method='post' action='sitedelete.php'>
 	<table align="center">
 	  <tr><td colspan='2'><? echo _("Please confirm deleting domain ") . $_GET['domain']; ?>:</td></tr>
-	  <? if ($_GET['type'] != ("relay"||"alias")) {
+	  <? if ($_GET['type'] != ("relay"|"alias")) {
 		print "<tr><td colspan='2'>" . _("There are currently <b>{$row['count']}</b> accounts in domain {$_GET['domain']}") . " </td></tr>";
 	     }
 	  ?>
