@@ -10,10 +10,20 @@
   <body>  
     <? include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="Menu">
-      <a href="adminuseradd.php">Add User</a><br>
+      <a href="adminuseradd.php">Add User</a>
+      <?
+		$domquery = "SELECT count(users.user_id) AS used, domains.max_accounts AS max_allowed FROM users JOIN domains USING (domain_id) WHERE domains.domain_id=" . $_COOKIE[vexim][2] . " AND users.type='local' GROUP BY users.user_id";
+		$domresult = $db->query($domquery);
+		$domrow = $domresult->fetchRow();
+		if ($domrow[max_allowed]) {
+			print "(" . $domrow[used] . " of " . $domrow[max_allowed] . ")";
+		}
+	  ?>
+      <br>
       <a href="admin.php">Main Menu</a><br>
       <br><a href="logout.php">Logout</a><br>
     </div>
+
     <div id="Content">
       <table align="center">
 	<tr><th>&nbsp;</th><th>User</th><th>Email address</th><th>Admin</th></tr>
