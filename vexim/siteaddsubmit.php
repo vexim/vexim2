@@ -47,20 +47,24 @@
 	$usrresult = $db->query($query);
 	if (DB::isError($usrresult)) {
 	  header ("Location: site.php?failaddedusrerr={$_POST['domain']}");
+	  die;
 	} else {
 	  header ("Location: site.php?added={$_POST['domain']}&type={$_POST['type']}");
 	  $_SESSION['domain'] = $_POST['domain'];
 	  mail("{$_POST['localpart']}@{$_POST['domain']}", "Welcome Domain Admin!",
 	    "$welcome_newdomain", "From: {$_POST['localpart']}@{$_POST['domain']}\r\n");
+	  die;
 	}
       } else {
       	header ("Location: site.php?added={$_POST['domain']}&type={$_POST['type']}");
 	$_SESSION['domain'] = $_POST['domain'];
 	mail("{$_POST['localpart']}@{$_POST['domain']}", "Welcome Domain Admin!",
 	  "$welcome_newdomain", "From: {$_POST['localpart']}@{$_POST['domain']}\r\n");
+	die;
       }
     } else {
       header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
+      die;
     }
   } else if ($_POST['type'] == "alias") {
     $idquery = "SELECT domain_id FROM domains WHERE domain = '{$_POST['aliasdest']}' AND domain_id > 1";
@@ -76,8 +80,10 @@
     $result = $db->query($query);
     if (DB::isError($result)) {
       header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
+      die;
     } else {
       header ("Location: site.php?added={$_POST['domain']}&type={$_POST['type']}");
+      die;
     }
   } else {
     header ("Location: site.php?failaddedpassmismatch={$_POST['domain']}");
