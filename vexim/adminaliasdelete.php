@@ -2,9 +2,48 @@
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authpostmaster.php";
 
-  $query = "DELETE FROM users WHERE user_id={$_GET['user_id']}";
-  $result = $db->query($query);
-  if (!DB::isError($result)) { header ("Location: adminalias.php?deleted={$_GET['localpart']}"); }
-  else { header ("Location: adminalias.php?faildeleted={$_GET['localpart']}"); }
+  if ($_GET['confirm'] == "1") {
+    $query = "DELETE FROM users WHERE user_id={$_GET['user_id']}";
+    $result = $db->query($query);
+    if (!DB::isError($result)) {
+      header ("Location: adminalias.php?deleted={$_GET['localpart']}");
+      die;
+    } else {
+      header ("Location: adminalias.php?faildeleted={$_GET['localpart']}");
+      die;
+    }
+  } else if ($_GET['confirm'] == "cancel") {
+    header ("Location: adminalias.php?faildeleted={$_GET['localpart']}");
+    die;
+  }
 ?>
+<html>
+  <head>
+    <title>Virtual Exim: <? echo _("Confirm Delete"); ?></title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+  </head>
+    <body>
+    <? include dirname(__FILE__) . "/config/header.php"; ?>
+    <div id='menu'>
+      <a href='adminaliasadd.php'><? echo _("Add Alias"); ?></a><br>
+      <a href='admin.php'><? echo _("Main Menu"); ?></a><br>
+      <br><a href='logout.php'><? echo _("Logout"); ?></a><br>
+    </div>
+    <div id='Content'>
+      <form name='aliasdelete' method='get' action='adminaliasdelete.php'>
+        <table align="center">
+          <tr><td colspan='2'><? echo _("Please confirm deleting alias"); ?> <?=$_GET['localpart']?>@<?=$_COOKIE
+['vexim'][1]?>:</td></tr>
+          <tr><td><input name='confirm' type='radio' value='cancel' checked><b> <? echo _("Do Not Delete"); ?>
+ <? print $_GET['localpart']; ?>@<?=$_COOKIE['vexim'][1]?></b></td></tr>
+          <tr><td><input name='confirm' type='radio' value='1'><b> <? echo _("Delete"); ?> <? print $_GET['localpart']; ?>@<?=$_COOKIE['vexim'][1]?></b></td></tr>
+          <tr><td><input name='domain' type='hidden' value='<?=$_COOKIE['vexim'][1]?>'>
+              <input name='user_id' type='hidden' value='<?=$_GET['user_id']?>'>
+              <input name='localpart' type='hidden' value='<?=$_GET['localpart']?>'>
+              <input name='submit' type='submit' value='<? echo _("Continue"); ?>'></td></tr>
+        </table>
+      </form>
+    </div>
+  </body>
+</html>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->
