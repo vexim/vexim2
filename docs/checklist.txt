@@ -1,9 +1,17 @@
 Checklist to follow after updating code, to confirm functionality
 =================================================================
 
-[ ] Logging in as Siteadmin
+[x] Logging in as Siteadmin
 Site management:
     [ ] Adding domains: local and relay
+        [ ] With and without max accounts
+	[ ] With and without quotas
+	[ ] With and without maximum message size
+	[ ] Different SpamAssassin scores
+	[ ] With and without SpamAssassin
+	[ ] With and without Anti-Virus
+	[ ] With and without Piping mail option
+	[ ] With and without 'Domain enabled'
     [ ] Changing domain admin password
     [ ] Changing UID/GID flags
     [ ] Changing Boolean flags has impact on admin/users
@@ -12,34 +20,61 @@ Site management:
 
 Siteadmin Management:
     [ ] Change siteadmin password
-    [ ] Setting max accounts
 
 [ ] Logging in as Postmaster, a second Admin user, and a regular user
+    [ ] Can you log in if the domain is disabled?
+    [ ] Can you log in if the account is disabled?
 
 Account Additions:
-    [ ] Adding Aliases
-    [ ] Adding Catchall
-    [ ] Adding POP/IMAP accounts
-    [ ] Adding :fail:'s
-    [ ] Adding more than max accounts
+    [ ] Does adding Aliases
+    [ ] Adding Catchall:
+        [ ] Does the 'Add Catchall' option disappear if a Catchall exists?
+    [ ] Adding POP/IMAP accounts:
+        [ ] If the SpamAssassin/Anti-Virus/Piping options are disabled,
+	    do they still show up?
+	[ ] Can you enable/disable the availible options?
+        [ ] Can you change SpamAssassin scores?
+    [ ] Does adding :fail:'s work?
+    [ ] If you have a maximum number of accounts:
+        [ ] Is this displayed?
+        [ ] Is the current number of accounts displayed?
+        [ ] Does adding more than max accounts fail?
 
 Account Deletions:
-    [ ] Deleting Aliases
-    [ ] Deleting Catchall
-    [ ] Deleteing POP/IMAP accounts
-    [ ] Deleting :fail:'s
+    [ ] Does deleting Aliases work?
+    [ ] Does deleting Catchall work?
+    [ ] Does deleteing POP/IMAP accounts work?
+    [ ] Does deleting :fail:'s work?
 
 Account Management:
     As Admin:
-    [ ] Update Aliases - name, to address, final destination
-    [ ] Update Catchall - final destination
+    [ ] Update Aliases:
+        [ ] Can you update the name?
+	[ ] Can you update the 'to' ?
+	[ ] Can you update the final destination?
+    [ ] Update Catchall:
+        [ ] Can you update the final destination?
     [ ] Update POP/IMAP accounts - name, password, UID, GID, procmail, admin
-    [ ] Update :fail:'s - name
-    [ ] Enable / Disable accounts
+        [ ] Can you update the name?
+        [ ] Can you update the password?
+        [ ] Can you update the UID?
+        [ ] Can you update the GID?
+        [ ] Can you update the piping value?
+        [ ] Can you update the admin flag?
+        [ ] Can you update the SpamAssassin flag?
+        [ ] Can you update the Anti-Virus flag?
+        [ ] Can you update the SpamAssassin scores?
+        [ ] Can you update the enabled flag?
+	[ ] Can you add and remove header filters?
+    [ ] Update :fail:'s
+        [ ] Can you update the name?
     As User:
-    [ ] Updating Name
-    [ ] Updating Password
-    [ ] Anti-Virus/SpamAssassin
+    [ ] Can you update your name?
+    [ ] Can you change your password? (Try to re-login!)
+    [ ] Can you enable/disable Anti-Virus?
+    [ ] Can you enable/disable Spamassassin?
+    [ ] Can you change SpamAssassin scores?
+    [ ] Can you add/remove header filters?
 
 Testing Failures:
     [ ] Adding duplicate account
@@ -48,3 +83,7 @@ Testing Failures:
     [ ] Email disabled accounts
     [ ] Going over quota
     [ ] Quota warnings
+    [ ] Update mis-matched passwords as admin
+    [ ] Update mis-matched passwords as user
+    [ ] Creating POP/IMAP accounts with blank values
+    [ ] Creating alias accounts with blank values
