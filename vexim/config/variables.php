@@ -26,13 +26,15 @@
   /* Set to either "des" or "md5" depending on your crypt() libraries */
   $cryptscheme = "md5";
 
-  /* Choose the type of domain name input for the index page. It should 
-     either be 'dropdown' or 'textbox'. Dropdown uses a dropdown style
-     menu with <select> and <option>. Textbox presents a blank line for
-     the user to type their domain name one. Textbox might be prefered
-     if you have a large number of domains, or don't want to reveal the
-     names of sites which you host */
-  $domaininput = "dropdown";
+  /* Choose the type of domain name input for the index page. It should
+     either be 'static', 'dropdown' or 'textbox'. Static causes the
+     domain name part of the URL to be used automatically, and the user
+     cannot change it. Dropdown uses a dropdown style menu with <select>
+     and <option>. Textbox presents a blank line for the user to type
+     their domain name one. Textbox might be prefered if you have a
+     large number of domains, or don't want to reveal the names of sites
+     which you host */
+  $domaininput = "static";
 
   /* The UID's and GID's control the default UID and GID for new domains
      and if postmasters can define their own.

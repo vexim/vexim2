@@ -12,23 +12,28 @@
     <?php include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="Centered">
     <form style="margin-top:3em;" name="login" method="post" action="login.php">
-      <table valign="center" align="center">
+      <table align="center">
 	 <tr>
 	  <td><?php echo _("Username"); ?>:<td><input name="localpart" type="text" class="textfield">&nbsp;@&nbsp;</td>
 	  <td>
-	    <?php if ($domaininput == "dropdown") {
-		print "<select name=\"domain\" class=\"textfield\">\n";
-		print "<option value=\"\">\n";
+	    <?php
+	      $domains = array_reverse(explode(".",$_SERVER["SERVER_NAME"]));
+	      $domain = $domains[1].".".$domains[0];
+	      if ($domaininput == "dropdown") {
+		print "<select name='domain' class='textfield'>\n";
+		print "<option value=''>\n";
 		  $query = "SELECT domain FROM domains WHERE type='local' AND domain!='admin' ORDER BY domain";
 		  $result = $db->query($query);
 		  if ($result->numRows()) {
 		    while ($row = $result->fetchRow()) {
-		      print "\t<option value=\"" . $row['domain'] . '">' . $row['domain'] . '</option>' . "\n";
+		      print "\t<option value='{$row['domain']}'>{$row['domain']}</option>\n";
 		    }
 		  }
 		print "</select>\n";
 	      } else if ($domaininput == "textbox") {
-		print "<input type=\"text\" name=\"domain\" class=\"textfield\"> (domain name)\n";
+		print "<input type='text' name='domain' class='textfield'> (domain name)\n";
+	      } else if ($domaininput == "static") {
+	        print "$domain <input type='hidden' name='domain' value='{$domain}'>\n";
 	      }
 	    ?>
 	  </td>
