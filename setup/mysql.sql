@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS vexim;
 DROP TABLE IF EXISTS vexim.domains;
 CREATE TABLE IF NOT EXISTS vexim.domains (domain_id mediumint(8) unsigned NOT NULL auto_increment,
         domain varchar(64) NOT NULL default '',
