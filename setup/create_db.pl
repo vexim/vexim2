@@ -102,7 +102,7 @@ sub create_mysqltables {
         spamassassin bool NOT NULL default '0',
         blocklist bool NOT NULL default '0',
         complexpass bool NOT NULL default '0',
-        enabled bool NOT NULL default '0',
+        enabled bool NOT NULL default '1',
         quota int(10) unsigned NOT NULL default '0',
         sa_tag smallint(5) unsigned NOT NULL default '5',
         sa_refuse smallint(5) unsigned NOT NULL default '10',
@@ -240,9 +240,10 @@ sub migratemysql {
     my $domain_id = $ref->{'domain_id'};
     my $domain = $ref->{'domain'};
     print "\tMigrating admins for Domain: $domain\n";
-    my $lkp = $mydbh->prepare("INSERT INTO vexim.users (domain_id, localpart, clear, crypt, uid, gid, smtp, pop, realname, type, admin, enabled)
+    my $lkp = $mydbh->prepare("INSERT INTO vexim.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin, enabled)
 			       SELECT '$domain_id' AS domain_id,
 			       t1.local_part AS localpart,
+			       t1.username,
 			       cpassword AS clear,
 			       password AS crypt,
 			       t1.uid,
