@@ -40,10 +40,11 @@
 	    print "<td><input type=\"text\" size=\"5\" name=\"quota\" value=\"$row[quota]\" class=\"textfield\">Mb</td></tr>\n";
 	} 
 	if ($domrow[pipe] == "1") {
-             print "<tr><td>Pipe to command:</td><td><input type=\"textfield\" size=\"25\" name=\"smtp\" class=\"textfield\" value=\"$row[smtp]\"></td></tr>\n";
+             print "<tr><td>Pipe to command or alternative Maildir:</td>";
+	     print "<td><input type=\"textfield\" size=\"25\" name=\"smtp\" class=\"textfield\" value=\"$row[smtp]\"></td></tr>\n";
              print "<tr><td colspan=\"2\" style=\"padding-bottom:1em\">Optional: Pipe all mail to a command (e.g. procmail).<br>\n";
              print "Check box below to enable:</td></tr>\n";
-             print "<tr><td>Enable piped command?</td><td><input type=\"checkbox\" name=\"on_piped\"";
+             print "<tr><td>Enable piped command or alternative Maildir?</td><td><input type=\"checkbox\" name=\"on_piped\"";
 	     if ($row[on_piped] == "1") { print " checked "; } print "></td></tr>\n";
 	} ?>
 	<tr><td>Admin:</td><td><input name="admin" type="checkbox" <?
