@@ -26,7 +26,7 @@
 	  print " -- '{$_GET['lastadmin']}' is the last admin account.";
 	  print "    Create another admin account before deleting or demoting this one\n";
 	} else if (isset($_GET['sitepass'])) {
-	  print "<div id='status'>Site Admin password has been successfully updated</div>\n";
+	  print " -- Site Admin password has been successfully updated</div>\n";
 	} else if (isset($_GET['updated'])) {
 	  print " -- '{$_GET['updated']}' has been successfully updated\n";
 	} else if (isset($_GET['userexists'])) {
@@ -46,10 +46,10 @@
 	} else if (isset($_GET['failadded'])) {
 	  print " -- '{$_GET['failadded']}' could not be added\n";
 	} else if (isset($_GET['failaddedpassmismatch'])) {
-	  print "<div id='Status'>Domain '{$_GET['failaddedpassmismatch']}' could not be added.<br>\n";
+	  print " -- Domain '{$_GET['failaddedpassmismatch']}' could not be added.<br>\n";
 	  print "The passwords were blank, or did not match.</div>\n";
 	} else if (isset($_GET['failaddedusrerr'])) {
-	  print "<div id='Status'>Domain '{$_GET['failaddedusrerr']}' could not be added.<br>\n";
+	  print " -- Domain '{$_GET['failaddedusrerr']}' could not be added.<br>\n";
 	  print "There was a problem adding the admin account.</div>\n";
 	} else if (isset($_GET['faildeleted'])) {
 	  print " -- '{$_GET['faildeleted']}' was not deleted\n";
