@@ -1,4 +1,5 @@
 <?
+  include_once dirname(__FILE__) . "/httpheaders.php";
   include_once dirname(__FILE__) . "/variables.php";
 
   // Match the crypted password to the database entry
