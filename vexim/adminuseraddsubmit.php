@@ -57,7 +57,7 @@
         '$_POST[type]',
         '$_POST[admin]',
         '$_POST[on_avscan]',
-	'$_POST[on_piped],
+	'$_POST[on_piped]',
         '$_POST[on_spamassassin]',
         '$_POST[enabled]',
 	'$_POST[quota]')";
