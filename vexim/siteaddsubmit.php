@@ -11,13 +11,43 @@
   if ($_POST['type'] == "relay") {$_POST['clear'] = $_POST['vclear'] = "BLANK";}
   if ($_POST['type'] == "alias") {$_POST['clear'] = $_POST['vclear'] = "BLANK";}
   if ($_POST['max_accounts'] == '') {$_POST['max_accounts'] = '0';}
-
-  $smtphomepath = $mailroot . $_POST['domain'] . "/" . $_POST['localpart'] . "/Maildir";
-  $pophomepath = $mailroot . $_POST['domain'] . "/" . $_POST['localpart'];
+  
+// User can specify either UID, or username, the former being preferred.
+// Using posix_getpwuid/posix_getgrgid even when we have an UID is so we
+// are sure the UID exists.
+  if (isset ($_POST['uid'])) {
+    $uid = $_POST['uid'];
+  }
+  if (isset ($_POST['gid'])) {
+    $gid = $_POST['gid'];
+  }
+  
+  if ($userinfo = @posix_getpwuid ($uid)) {
+    $uid = $userinfo['uid'];
+  } elseif ($userinfo = @posix_getpwnam ($uid)) {
+    $uid = $userinfo['uid'];
+  } else {
+    header ("Location: site.php?failuidguid={$_POST['domain']}");
+    die;
+  }
+  
+  if ($groupinfo = @posix_getgrgid ($gid)) {
+    $gid = $groupinfo['gid'];
+  } elseif ($groupinfo = @posix_getgrnam ($gid)) {
+    $gid = $groupinfo['gid'];
+  } else {
+    header ("Location: site.php?failuidguid={$_POST['domain']}");
+    die;
+  }
+		    
+  $smtphomepath = realpath ($_POST['maildir'] . "/") . "/" . $_POST['domain'] . "/" . $_POST['localpart'] . "/Maildir";
+  $pophomepath = realpath ($_POST['maildir'] . "/") . "/" . $_POST['domain'] . "/" . $_POST['localpart'];
 //Gah. Transactions!! -- GCBirzan
   if ((validate_password($_POST['clear'], $_POST['vclear'])) && ($_POST['type'] != "alias")) {
-    $query = "INSERT INTO domains (domain, spamassassin, sa_tag, sa_refuse, avscan, max_accounts, quotas, maildir, pipe, enabled," .
-    ((isset($_POST['uid'])) ? "uid," : "") . ((isset($_POST['gid'])) ? "gid," : "") ." type, maxmsgsize)
+    $query = "INSERT INTO domains 
+               (domain, spamassassin, sa_tag, sa_refuse, avscan,
+	       max_accounts, quotas, maildir, pipe, enabled, uid, gid,
+	       type, maxmsgsize)
     VALUES ('" . $_POST['domain'] . "',
     {$_POST['spamassassin']},
     " . ((isset($_POST['sa_tag'])) ? $_POST['sa_tag']  : 0) . ",
@@ -25,12 +55,9 @@
     {$_POST['avscan']},
     {$_POST['max_accounts']},
     " . ((isset($_POST['quotas'])) ? $_POST['quotas']  : 0) . ",
-    '{$_POST['maildir']}{$_POST['domain']}',
+    '" . realpath ($_POST['maildir'] . "/") . "/" . $_POST['domain'] ."',
     {$_POST['pipe']},
-    {$_POST['enabled']},
-    " . ((isset($_POST['uid'])) ? $_POST['uid'] . "," : "" ) . "
-    " . ((isset($_POST['gid'])) ? $_POST['gid'] . "," : "" ) . "
-    '{$_POST['type']}',
+    {$_POST['enabled']}, $uid, $gid, '{$_POST['type']}',
     " . ((isset($_POST['maxmsgsize'] )) ? $_POST['maxmsgsize']  : 0) . ")";
     $domresult = $db->query($query);
     if (!DB::isError($domresult)) {
@@ -40,7 +67,7 @@
 		  '{$_POST['localpart']}@{$_POST['domain']}',
 		  '{$_POST['clear']}',
 		  '". crypt_password($_POST['clear'],$salt) . "',
-		  {$_POST['uid']}, {$_POST['gid']},
+		  $uid, $gid,
 		  '{$smtphomepath}', '{$pophomepath}',
 		  'Domain Admin', 'local', 1 FROM domains
 		  WHERE domains.domain = '{$_POST['domain']}'";

@@ -80,6 +80,8 @@
     printf (_("-- Group %s has been updated."), $_GET['group_updated']);
   } else if (isset($_GET['group_failupdated'])) {
     printf (_("-- Group %s could not be updated."), $_GET['group_failupdated']);
+  } else if (isset($_GET['failuidguid'])) {
+    printf (_("-- Error getting UID/GID for %s"), $_GET['failuidguid']);
   }
   if ($_GET['login'] == "failed") { print _("Login failed"); }
 
