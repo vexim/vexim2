@@ -17,7 +17,7 @@
     '" . $_POST[spamassassin] . "',
     '" . $_POST[avscan] . "',
     '" . $_POST[quotas] . "',
-    '" . $_POST[maildir] . "',
+    '" . $_POST[maildir] . $_POST[domain] . "',
     '" . $_POST[pipe] . "',
     '" . $_POST[enabled] . "',
     '" . $_POST[uid] . "',
