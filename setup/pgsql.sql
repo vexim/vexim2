@@ -57,7 +57,7 @@ CREATE INDEX blocklists_user_id_key ON blocklists (user_id);
 CREATE TABLE domainalias (domain_id int NOT NULL,
         alias varchar(64));
 CREATE TABLE groups (
-        id                  int SERIAL PRIMARY KEY,
+        id                  SERIAL PRIMARY KEY,
         domain_id           int CHECK(domain_id > -1),
         name                varchar(64) NOT NULL,
         is_public           char(1) NOT NULL DEFAULT 'Y',
@@ -70,7 +70,7 @@ CREATE TABLE group_contents (
         UNIQUE (group_id,  member_id));
 
 CREATE USER vexim WITH PASSWORD 'mypass' NOCREATEDB NOCREATEUSER;
-GRANT SELECT,INSERT,DELETE,UPDATE ON domains,users,blocklists,blocklists_block_id_seq,domains_domain_id_seq,users_user_id_seq to vexim;
+GRANT SELECT,INSERT,DELETE,UPDATE ON domains,users,blocklists,blocklists_block_id_seq,domains_domain_id_seq,users_user_id_seq,domainalias to vexim;
 
 INSERT INTO domains (domain_id, domain) VALUES ('1', 'admin');
 INSERT INTO users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
