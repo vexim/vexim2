@@ -68,7 +68,7 @@ RELAY_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains WHERE type = 
 
 domainlist local_domains = @ : pear.silverwraith.com : ${lookup mysql{VIRTUAL_DOMAINS}}
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
-hostlist   relay_from_hosts = localhost
+hostlist   relay_from_hosts = localhost : 192.168.0.0/24
 
 hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
@@ -376,9 +376,9 @@ acl_check_content:
   # Always add X-Spam-Score and X-Spam-Report headers, using SA system-wide settings
   # (user "nobody"), no matter if over threshold or not.
   warn  message = X-Spam-Score: $spam_score ($spam_bar)
-        spam = nobody:true
+        spam = maildeliver:true
   warn	message = X-Spam-Report: $spam_report
-        spam = nobody:true
+        spam = maildeliver:true
 
   # finally accept all the rest
   accept
@@ -431,6 +431,7 @@ mailman_router:
   local_part_suffix = -bounces : -bounces+* : \
                       -confirm+* : -join : -leave : \
                       -owner : -request : -admin
+  headers_remove = X-Spam-Score:X-Spam-Report
   transport = mailman_transport
 
 # The remaining routers handle addresses in the local domain(s).
@@ -539,7 +540,15 @@ virtual_domains:
   		where localpart = '${quote_mysql:$local_part}' \
 		and domain = '${quote_mysql:$domain}' \
 		and users.on_spamassassin = '1' \
+		and sa_tag > 0 \
 		and users.domain_id=domains.domain_id }{$value}fail}} {X-Spam-Flag: YES\n}{} }
+  headers_remove = ${if or { { <{$spam_score_int}{1} } \
+  			     { <{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
+			       where localpart = '${quote_mysql:$local_part}' \
+			       and domain = '${quote_mysql:$domain}' \
+			       and users.on_spamassassin = '1' \
+			       and users.domain_id=domains.domain_id}{$value}fail}} } \
+			   } {X-Spam-Score:X-Spam-Report} }
   local_part_suffix = -*
   local_part_suffix_optional
   retry_use_local_part
