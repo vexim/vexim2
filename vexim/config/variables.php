@@ -1,10 +1,6 @@
 <?
   /* SQL Database login information */
   require_once "DB.php";
-  #$sqlserver = "unix+localhost";
-  #$sqltype = "pgsql";
-  #$sqltype = "mysql";
-  #$sqldb = "avleen";
 
   $sqlserver = "unix+localhost";
   $sqltype = "mysql";
