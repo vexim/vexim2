@@ -5,8 +5,8 @@
 
 # Fix the boolean values
 if (isset($_POST[admin])) {$_POST[admin] = 1;} else {$_POST[admin] = 0;}
-if (isset($_POST[avscan])) {$_POST[avscan] = 1;} else {$_POST[avscan] = 0;}
-if (isset($_POST[spamassassin])) {$_POST[spamassassin] = 1;} else {$_POST[spamassassin] = 0;}
+if (isset($_POST[on_avscan])) {$_POST[on_avscan] = 1;} else {$_POST[on_avscan] = 0;}
+if (isset($_POST[on_spamassassin])) {$_POST[on_spamassassin] = 1;} else {$_POST[on_spamassassin] = 0;}
 if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
 
 # Update the password, if the password was given
@@ -32,8 +32,8 @@ if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
     pop='$aliasto',
     realname='$_POST[realname]',
     admin='$_POST[admin]',
-    avscan='$_POST[avscan]',
-    spamassassin='$_POST[spamassassin]',
+    avscan='$_POSTon_[avscan]',
+    spamassassin='$_POSTon_[spamassassin]',
     enabled='$_POST[enabled]'
     WHERE localpart='$_POST[origlocalpart]' AND domain_id='" . $_COOKIE[vexim][2] . "'";
   $result = $db->query($query);

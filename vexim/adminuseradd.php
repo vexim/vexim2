@@ -41,12 +41,10 @@
 	     print "<tr><td>Enable piped command?</td><td><input type=\"checkbox\" name=\"pipe\"></td></tr>\n";
 	   }
  	   if ($domrow[avscan] == "1") {
-	     print "<tr><td>Anti-Virus:</td><td><input name=\"avscan\" type=\"checkbox\"></td></tr>";
+	     print "<tr><td>Anti-Virus:</td><td><input name=\"on_avscan\" type=\"checkbox\"></td></tr>";
 	   }
 	   if ($domrow[spamassassin] == "1") {
-	     print "<tr><td>Spamassassin:</td><td><input name=\"spamassassin\" type=\"checkbox\"></td></tr>";
-	     print "<tr><td>Spamassassin warn score:</td><td><input name=\"sa_tag\" type=\"text\" class=\"textfield\" value=\"$sa_tag\"></td>
-	    		<td>The score at which to mark mail as \"Spam\" but still deliver</td></tr>";
+	     print "<tr><td>Spamassassin:</td><td><input name=\"on_spamassassin\" type=\"checkbox\"></td></tr>";
 	     print "<tr><td>Spamassassin refuse score:</td><td><input name=\"sa_refuse\" type=\"text\" class=\"textfield\" value=\"$sa_refuse\"></td>
 	    		<td>The score at which to refuse potentially spam mail and not deliver</td></tr>";
 	   }

@@ -13,16 +13,17 @@
       <table valign="center" align="center">
          <tr>
           <td>Username:<td><input name="localpart" type="text" class="textfield">&nbsp;@&nbsp;</td>
-	<td><select name='domain' class="textfield">
-	<option value="">
-<?
+	  <td><select name='domain' class="textfield">
+	    <option value="">
+	    <?
               $query = "SELECT domain FROM domains WHERE domain!='admin' ORDER BY domain";
 	      $result = $db->query($query);
+	      if (DB::isError($result)) { die ($result->getMessage()); }
               while ($row = $result->fetchRow()) {
               print "\t<option value=\"" . $row[domain] . '">' . $row[domain] . '</option>' . "\n";
               }
-?>
-	</select>
+	    ?>
+	    </select>
           </td>
         </tr>
         <tr>

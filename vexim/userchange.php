@@ -41,24 +41,36 @@
           <tr><td>Email Address:</td><td><? print $row[localpart]."@".$_COOKIE[vexim][1]; ?></td>
           <tr><td>Password:</td><td><input name="clear" type="password" class="textfield"></td></tr>
           <tr><td>Verify Password:</td><td><input name="vclear" type="password" class="textfield"></td></tr>
+          <tr><td></td><td class="button"><input name="submit" type="submit" value="Submit Password"></td></tr>
+      </form>
+      <form name="userchange" method="post" action="userchangesubmit.php">
+	</table>
+	<table align="center">
 	  <tr><td colspan="2">Your mailbox quota is currently: <? if ($row[quota] != "0") {
 	  		  $row[quota] = $row[quota] . "Mb";
 			} else {
 			  $row[quota] = "Unlimited";} print $row[quota]; ?></td></tr>
 	  <? if ($domrow[avscan] == "1") {
 	       print "<tr><td>Anti-Virus:</td><td><input name=\"avscan\" type=\"checkbox\"";
-	       if ($row[avscan] == "1") { print " checked "; } print "></td></tr>\n";
+	       if ($row[on_avscan] == "1") { print " checked "; } print "></td></tr>\n";
 	     }
 	     if ($domrow[spamassassin] == "1") {
 	       print "<tr><td>Spamassassin:</td><td><input name=\"spamassassin\" type=\"checkbox\"";
-	     if ($row[spamassassin] == "1") { print " checked "; } print "></td></tr>\n";
-	       print "<tr><td>SA warn score:</td>";
-	       print "<td><input type=\"text\" name=\"sa_tag\" value=\"$row[sa_tag]\" class=\"textfield\"></td></tr>\n";
-	       print "<tr><td>SA reject score:</td>";
+	       if ($row[on_spamassassin] == "1") { print " checked "; } print "></td></tr>\n";
+	       print "<tr><td>SA refuse score:</td>";
 	       print "<td><input type=\"text\" name=\"sa_refuse\" value=\"$row[sa_refuse]\" class=\"textfield\"></td></tr>\n";
 	     }
+	     print "<tr><td>Vacation on:</td><td><input name=\"on_vacation\" type=\"checkbox\"";
+	       if ($row[on_vacation] == "1") { print " checked "; } print "></td></tr>\n";
+ 	     print "<tr><td>Vacation message:</td>";
+	     print "<td><textarea name=\"vacation\" cols=\"40\" rows=\"5\" class=\"textfield\">$row[vacation]</textarea>";
+
+	     print "<tr><td>Forwarding on:</td><td><input name=\"on_forward\" type=\"checkbox\"";
+	       if ($row[on_forward] == "1") { print " checked "; } print "></td></tr>\n";
+ 	     print "<tr><td>Forward mail to:</td>";
+	     print "<td><input type=\"text\" name=\"forward\" value=\"$row[forward]\" class=\"textfield\"></td></tr>\n";
           ?>
-          <tr><td class="button" colspan="2"><input name="submit" type="submit" value="Submit"></td></tr>
+          <tr><td></td><td class="button"><input name="submit" type="submit" value="Submit Profile"></td></tr>
           <tr><td colspan="2" style="padding-top:1em;"><b>Note:</b> Attempting to set blank passwords does not work!<td></tr>
         </table>
       </form>

@@ -18,7 +18,7 @@
       <table align="center">
 	<tr><th>&nbsp;</th><th>User</th><th>Email address</th><th>Admin</th></tr>
 	<?
-	  $query = "SELECT localpart,realname,admin,avscan,spamassassin,enabled FROM users
+	  $query = "SELECT localpart,realname,admin,enabled FROM users
 			WHERE domain_id='" .$_COOKIE[vexim][2]. "' AND (type='local' OR type='piped')
 			ORDER BY realname";
 	  $result = $db->query($query);

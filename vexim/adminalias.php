@@ -46,7 +46,7 @@
 	  print "<td>" . $row[localpart] . "</td>\n";
 	  print "<td>" . $row[smtp] . "</td>\n";
           print "\t<td class='check'>";
-            if ($row[admin] == 1) print "<img style='border:0;width:13px;height:12px' src='images/check.gif' title='" . $row[realname] . " is an administrator'>";
+            if ($row[admin] == "1") print "<img style='border:0;width:13px;height:12px' src='images/check.gif' title='" . $row[realname] . " is an administrator'>";
 	  print "</tr>\n";
 	}
       ?>

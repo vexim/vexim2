@@ -8,9 +8,9 @@
   $result = $db->query($query);
   $row = $result->fetchRow();
   if (isset($_POST[admin])) {$_POST[admin] = 1;} else {$_POST[admin] = 0;}
-  if (isset($_POST[avscan])) {$_POST[avscan] = 1;} else {$_POST[avscan] = 0;}
+  if (isset($_POST[on_avscan])) {$_POST[on_avscan] = 1;} else {$_POST[on_avscan] = 0;}
   if (isset($_POST[pipe])) {$_POST[pipe] = 1;} else {$_POST[pipe] = 0;}
-  if (isset($_POST[spamassassin])) {$_POST[spamassassin] = 1;} else {$_POST[spamassassin] = 0;}
+  if (isset($_POST[on_spamassassin])) {$_POST[on_spamassassin] = 1;} else {$_POST[on_spamassassin] = 0;}
   if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
   if (!isset($_POST[uid])) {$_POST[uid] = $row[uid];}
   if (!isset($_POST[gid])) {$_POST[gid] = $row[gid];}
@@ -42,7 +42,7 @@
   }
 
   if (validate_password($_POST[clear], $_POST[vclear])) {
-    $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, avscan, spamassassin, enabled, quota)
+    $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_spamassassin, enabled, quota)
       VALUES ('$_POST[localpart]',
         '" . $_POST[localpart] . "@" . $_COOKIE[vexim][1] . "',
         '" . $_COOKIE[vexim][2] . "',
@@ -55,8 +55,8 @@
         '$_POST[realname]',
         'local',
         '$_POST[admin]',
-        '$_POST[avscan]',
-        '$_POST[spamassassin]',
+        '$_POST[on_avscan]',
+        '$_POST[on_spamassassin]',
         '$_POST[enabled]',
 	'$_POST[quota]')";
     $result = $db->query($query);

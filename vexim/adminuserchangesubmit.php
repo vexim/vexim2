@@ -8,13 +8,14 @@
   $result = $db->query($query);
   $row = $result->fetchRow();
   if (isset($_POST[admin])) {$_POST[admin] = 1;} else {$_POST[admin] = 0;}
-  if (isset($_POST[avscan])) {$_POST[avscan] = 1;} else {$_POST[avscan] = 0;}
-  if (isset($_POST[spamassassin])) {$_POST[spamassassin] = 1;} else {$_POST[spamassassin] = 0;}
+  if (isset($_POST[on_avscan])) {$_POST[on_avscan] = 1;} else {$_POST[on_avscan] = 0;}
+  if (isset($_POST[on_forward])) {$_POST[on_forward] = 1;} else {$_POST[on_forward] = 0;}
+  if (isset($_POST[on_spamassassin])) {$_POST[on_spamassassin] = 1;} else {$_POST[on_spamassassin] = 0;}
+  if (isset($_POST[on_vacation])) {$_POST[on_vacation] = 1;} else {$_POST[on_vacation] = 0;}
   if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
-  if (!isset($_POST[uid])) {$_POST[uid] = $row[uid];}
   if (!isset($_POST[gid])) {$_POST[gid] = $row[gid];}
+  if (!isset($_POST[uid])) {$_POST[uid] = $row[uid];}
   if (!isset($_POST[quota])) {$_POST[quota] = $row[quotas];}
-  if (!isset($_POST[sa_tag])) {$_POST[sa_tag] = "0";}
   if (!isset($_POST[sa_refuse])) {$_POST[sa_refuse] = "0";}
   if ($row[quotas] != "0") {
     if (($_POST[quota] > $row[quotas]) || ($_POST[quota] == "0")) {
@@ -68,11 +69,14 @@
     gid='$_POST[gid]',
     realname='$_POST[realname]',
     admin='$_POST[admin]',
-    avscan='$_POST[avscan]',
-    spamassassin='$_POST[spamassassin]',
-    sa_tag='$_POST[sa_tag]',
+    on_avscan='$_POST[on_avscan]',
+    on_forward='$_POST[on_forward]',
+    on_spamassassin='$_POST[on_spamassassin]',
+    on_vacation='$_POST[on_vacation]',
     sa_refuse='$_POST[sa_refuse]',
     enabled='$_POST[enabled]',
+    forward='$_POST[forward]',
+    vacation='$_POST[vacation]',
     quota='$_POST[quota]'
     WHERE localpart='$_POST[localpart]' AND domain_id='".$_COOKIE[vexim][2]."'";
   $result = $db->query($query);

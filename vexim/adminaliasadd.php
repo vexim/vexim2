@@ -31,10 +31,10 @@
         <tr><td>Verify Password:</td><td><input name="vclear" type="password" size="30" class="textfield"></td></tr>
         <tr><td>Admin:</td><td><input name="admin" type="checkbox" class="textfield"></td></tr>
 	<? if ($row[avscan] == "1") {
-             print "<tr><td>Anti-Virus:</td><td><input name=\"avscan\" type=\"checkbox\" class=\"textfield\"></td></tr>";
+             print "<tr><td>Anti-Virus:</td><td><input name=\"on_avscan\" type=\"checkbox\" class=\"textfield\"></td></tr>";
 	   }
            if ($row[spamassassin] == "1") {
-	     print "<tr><td>Spamassassin:</td><td><input name=\"spamassassin\" type=\"checkbox\" class=\"textfield\"></td></tr>";
+	     print "<tr><td>Spamassassin:</td><td><input name=\"on_spamassassin\" type=\"checkbox\" class=\"textfield\"></td></tr>";
            }
 	?>
         <tr><td>Enabled:</td><td><input name="enabled" type="checkbox" class="textfield" checked></td></tr>

@@ -32,9 +32,6 @@
 		 <td>Create the domain directory below this top-level mailstore</td></tr>
 	     <tr><td>Max mailbox quota (0 for disabled):</td>
 	         <td><input name=\"quotas\" type=\"text\" class=\"textfield\" value=\"0\"></td></tr>
-	     <tr><td>Spamassassin warn score:</td>
-	         <td><input name=\"sa_tag\" type=\"text\" class=\"textfield\" value=\"$sa_tag\"></td>
-		 <td>The score at which to mark mail as \"Spam\" but still deliver</td></tr>
 	     <tr><td>Spamassassin refuse score:</td>
 	         <td><input name=\"sa_refuse\" type=\"text\" class=\"textfield\" value=\"$sa_refuse\"></td>
 		 <td>The score at which to refuse potentially spam mail and not deliver</td></tr>

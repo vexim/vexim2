@@ -34,9 +34,9 @@
         <tr><td>Verify Password:</td><td><input name="clear" type="password" size="30" class="textfield"></td></tr>
         <tr><td>Admin:</td><td><input name="admin" type="checkbox" <? if ($row[admin] == 1)
 		{ print "checked"; } ?> class="textfield"></td></tr>
-        <tr><td>Anti-Virus:</td><td><input name="avscan" type="checkbox" <? if ($row[avscan] == 1)
+        <tr><td>Anti-Virus:</td><td><input name="on_avscan" type="checkbox" <? if ($row[on_avscan] == 1)
 		{ print "checked"; } ?> class="textfield"></td></tr>
-        <tr><td>Spamassassin:</td><td><input name="spamassassin" type="checkbox" <? if ($row[spamassassin] == 1)
+        <tr><td>Spamassassin:</td><td><input name="on_spamassassin" type="checkbox" <? if ($row[on_spamassassin] == 1)
 		{ print "checked"; } ?> class="textfield"></td></tr>
         <tr><td>Enabled:</td><td><input name="enabled" type="checkbox" <? if ($row[enabled] == 1)
 		{ print "checked"; } ?> class="textfield"></td></tr>
