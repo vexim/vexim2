@@ -80,6 +80,7 @@
 	<tr><td>Forward mail to:</td>
 	<td><input type="text" size="25" name="forward" value="<? print $row['forward']; ?>" class="textfield"></td></tr>
 	<input name="user_id" type="hidden" value="<? print $_GET['user_id']; ?>" class="textfield">
+	<input name="localpart" type="hidden" value="<? print $row['localpart']; ?>" class="textfield">
 	<tr><td colspan="2" class="button"><input name="submit" type="submit" value="Submit"></td></tr>
 	<tr><td colspan="2" style="padding-top:1em">Aliases to this account:<br>
 	<?
