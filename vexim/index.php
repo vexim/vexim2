@@ -18,9 +18,7 @@
 	    <?
               $sql = ('SELECT DISTINCT domain FROM domains WHERE domain!="admin" AND domain != "" ORDER BY domain');
               $result = $db->query($sql);
-	      if (DB::isError($result)) {
-	         die ($result->getMessage());
-	      }                             
+	      if (DB::isError($result)) { die ($result->getMessage()); }                             
               while ($row = $result->fetchRow()) {
                 print "\t<option value=\"@" . $row[domain] . '">' . $row[domain] . '</option>' . "\n";
               }
