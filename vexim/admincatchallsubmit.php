@@ -4,8 +4,9 @@
   include_once dirname(__FILE__) . "/config/functions.php";
 
   $query = "REPLACE INTO users
-    (localpart, domain_id, smtp, pop, uid, gid, realname, type, enabled)
+    (localpart, username, domain_id, smtp, pop, uid, gid, realname, type, enabled)
     SELECT '*',
+      '*@" . $_COOKIE[vexim][1] . "',
       '" . $_COOKIE[vexim][2] . "',
       '$_POST[smtp]',
       '$_POST[smtp]',

@@ -10,8 +10,9 @@
     die;
   }
 
-  $query = "INSERT INTO users (localpart, domain_id, smtp, pop, uid, gid, type, realname)
+  $query = "INSERT INTO users (localpart, username, domain_id, smtp, pop, uid, gid, type, realname)
     SELECT '$_POST[localpart]',
+      '" . $_POST[localpart] . "@" . $_COOKIE[vexim][1] . "',
       '" . $_COOKIE[vexim][2] . "',
       ':fail:',
       ':fail:',

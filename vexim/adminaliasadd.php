@@ -27,7 +27,7 @@
         <tr><td>Forward To:</td><td><input name="smtp" type="text" size="30" class="textfield"></td></tr>
         <tr><td>Password:</td><td><input name="clear" type="password" size="30" class="textfield"></td></tr>
 	<tr><td colspan="2" style="padding-bottom:1em">(Password only needed if you want the user to
-		be able to log in, or if the Alias isthe admin account)</td></tr>
+		be able to log in, or if the Alias is the admin account)</td></tr>
         <tr><td>Verify Password:</td><td><input name="vclear" type="password" size="30" class="textfield"></td></tr>
         <tr><td>Admin:</td><td><input name="admin" type="checkbox" class="textfield"></td></tr>
 	<? if ($row[avscan] == "1") {

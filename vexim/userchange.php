@@ -30,7 +30,8 @@
 	  print "<div id='status'>Your account could not be updated. Your Real Name was blank!</div>\n";
 	} else if (isset($_GET[badpass])) {
 	  print "<div id='status'>Your account password was not updated.<br>\n";
-	  print "Your passwords were blank, did not match, or contained illegal characters: ' \" ` or ;</div>\n";
+	  print "Your passwords were blank, did not match, or contained illegal characters: ' \" ` or ;<br>";
+	  print "All other settings were updated.</div>\n";
 	}
       ?>
     <div id="forms">
@@ -52,9 +53,9 @@
 	       print "<tr><td>Spamassassin:</td><td><input name=\"spamassassin\" type=\"checkbox\"";
 	     if ($row[spamassassin] == "1") { print " checked "; } print "></td></tr>\n";
 	       print "<tr><td>SA warn score:</td>";
-	       print "<td><input type=\"text\" size=\"25\" name=\"sa_tag\" value=\"$row[sa_tag]\" class=\"textfield\"></td></tr>\n";
+	       print "<td><input type=\"text\" name=\"sa_tag\" value=\"$row[sa_tag]\" class=\"textfield\"></td></tr>\n";
 	       print "<tr><td>SA reject score:</td>";
-	       print "<td><input type=\"text\" size=\"25\" name=\"sa_refuse\" value=\"$row[sa_refuse]\" class=\"textfield\"></td></tr>\n";
+	       print "<td><input type=\"text\" name=\"sa_refuse\" value=\"$row[sa_refuse]\" class=\"textfield\"></td></tr>\n";
 	     }
           ?>
           <tr><td class="button" colspan="2"><input name="submit" type="submit" value="Submit"></td></tr>

@@ -27,6 +27,7 @@ if (isset($_POST[enabled])) {$_POST[enabled] = 1;} else {$_POST[enabled] = 0;}
 
   $aliasto = preg_replace("/[, ]+/", ", ", $_POST[target]);
   $query = "UPDATE users SET localpart='$_POST[localpart]',
+    username='" . $_POST[localpart] . "@". $_COOKIE[vexim][1] . "',
     smtp='$aliasto',
     pop='$aliasto',
     realname='$_POST[realname]',

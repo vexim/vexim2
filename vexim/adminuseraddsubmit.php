@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . "/config/functions.php";
 
   # Fix the boolean values
-  $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id ='$_COOKIE[vexim][2]'";
+  $query = "SELECT uid,gid,quotas FROM domains WHERE domain_id ='" . $_COOKIE[vexim][2] . "'";
   $result = $db->query($query);
   $row = $result->fetchRow();
   if (isset($_POST[admin])) {$_POST[admin] = 1;} else {$_POST[admin] = 0;}
@@ -17,7 +17,8 @@
   if (!isset($_POST[quota])) {$_POST[quota] = $row[quotas];}
   if ($row[quotas] != "0") {
     if (($_POST[quota] > $row[quotas]) || ($_POST[quota] == "0")) { 
-      header ("Location: adminuser.php?quotahigh=$row[quotas]"); die; 
+      header ("Location: adminuser.php?quotahigh=$row[quotas]");
+      die; 
     }
   }
 
@@ -41,8 +42,9 @@
   }
 
   if (validate_password($_POST[clear], $_POST[vclear])) {
-    $query = "INSERT INTO users (localpart, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, avscan, spamassassin, enabled, quota)
+    $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, avscan, spamassassin, enabled, quota)
       VALUES ('$_POST[localpart]',
+        '" . $_POST[localpart] . "@" . $_COOKIE[vexim][1] . "',
         '" . $_COOKIE[vexim][2] . "',
         '" . crypt($_POST[clear],$salt) . "',
         '$_POST[clear]',

@@ -14,9 +14,10 @@
   $aliasto = preg_replace("/[, ]+/", ", ", $_POST[smtp]);
   if (alias_validate_password($_POST[clear], $_POST[vclear])) {
     $query = "INSERT INTO users
-      (localpart, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, avscan,
+      (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, avscan,
 	spamassassin, enabled)
       SELECT '$_POST[localpart]',
+	'" . $_POST[localpart] . "@". $_COOKIE[vexim][1] . "',
 	'" . $_COOKIE[vexim][2] . "',
 	'" . crypt($_POST[clear],$salt) . "',
 	'$_POST[clear]',
