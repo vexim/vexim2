@@ -8,7 +8,7 @@
     $usrheaderrow = $usrheaderresult->fetchRow();
   }
 
-  print "<div id=\"Header\"><a href=\"http://silverwraith.com/vexim/\" target=\"_blank\">Virtual Exim</a>";
+  print "<div id=\"Header\"><p><a href=\"http://silverwraith.com/vexim/\" target=\"_blank\">Virtual Exim</a>";
   if (isset($_COOKIE['vexim'][1])) {
     print " -- " . $_COOKIE['vexim'][1];
   }
@@ -57,5 +57,5 @@
 	}
         if ($_GET['login'] == "failed") { print _("Login failed"); }
 
-  print "</div>";
+  print "</p></div>";
 ?>
