@@ -2,15 +2,23 @@
   include_once dirname(__FILE__) . "/config/variables.php";
   include_once dirname(__FILE__) . "/config/authsite.php";
 
+  // Delete the domain's users
   if ($_POST['confirm'] == "1") {
     $usrdelquery = "DELETE FROM users WHERE domain_id={$_POST['domain_id']}";
     $usrdelresult = $db->query($usrdelquery);
+    // if we were successful, delete the domain's blocklists
     if (!DB::isError($usrdelresult)) {
-      $domdelquery = "DELETE FROM domains WHERE domain_id={$_POST['domain_id']}";
-      $domdelresult = $db->query($domdelquery);
-      if (!DB::isError($domdelresult)) {
-        header ("Location: site.php?deleted={$_POST['domain_id']}");
-        die;
+      $usrdelquery = "DELETE FROM blocklists WHERE domain_id={$_POST['domain_id']}";
+      $usrdelresult = $db->query($usrdelquery);
+      // if we were successful, delete the domain itself
+      if (!DB::isError($usrdelresult)) {
+        $domdelquery = "DELETE FROM domains WHERE domain_id={$_POST['domain_id']}";
+        $domdelresult = $db->query($domdelquery);
+	// If everything went well, redirect to a success page.
+        if (!DB::isError($domdelresult)) {
+          header ("Location: site.php?deleted={$_POST['domain_id']}");
+          die;
+        }
       }
     } else header ("Location: site.php?faildeleted={$_POST['domain_id']}");
       die;
