@@ -62,17 +62,18 @@ MY_IP = 66.214.182.79
 # are all colon-separated lists:
 
 # If you are using MySQL, uncomment the following two lines:
-VIRTUAL_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains WHERE type = 'local' AND enabled = '1' AND domain = '$domain'
-RELAY_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains WHERE type = 'relay'  AND domain = '$domain'
+VIRTUAL_DOMAINS = SELECT DISTINCT domain FROM domains WHERE type = 'local' AND enabled = '1' AND domain = '${quote_mysql:$domain}'
+RELAY_DOMAINS = SELECT DISTINCT domain FROM domains WHERE type = 'relay'  AND domain = '${quote_mysql:$domain}'
+ALIAS_DOMAINS = SELECT DISTINCT alias FROM domainalias WHERE alias = '${quote_mysql:$domain}'
 
 # If you are using PGSQL, uncomment the following four lines:
 #VIRTUAL_DOMAINS = SELECT DISTINCT domain || ' : ' FROM domains WHERE type = 'local'
 #RELAY_DOMAINS = SELECT DISTINCT domain || ' : ' FROM domains WHERE type = 'relay'
 
-domainlist local_domains = @ : pear.silverwraith.com : ${lookup mysql{VIRTUAL_DOMAINS}}
+domainlist local_domains = @ : pear.silverwraith.com : ${lookup mysql{VIRTUAL_DOMAINS}} : ${lookup mysql{ALIAS_DOMAINS}}
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost : 192.168.0.0/24
-trusted_users = avleen:richard:www
+trusted_users = avleen:www
 
 hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
@@ -625,6 +626,15 @@ virtual_domains_catchall:
   file_transport = virtual_delivery
   reply_transport = address_reply
   pipe_transport = address_pipe_catchall
+
+virtual_domain_alias:
+  driver = redirect
+  allow_fail
+  data = ${lookup mysql{select concat('${quote_mysql:$local_part}@', domain) \
+  		from domains,domainalias where domainalias.alias = '${quote_mysql:$domain}' \
+		and domainalias.domain_id = domains.domain_id}}
+  retry_use_local_part
+  
 
 # This router handles aliasing using a linearly searched alias file with the
 # name /etc/aliases. When this configuration is installed automatically,
