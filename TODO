@@ -17,7 +17,7 @@
 	m. Password complexity requirements [For later release]
 	o. Add the ability to choose any filesystem directory [MySQL done]
 	   -> Check the permissions to make sure Exim can create it
-	p. Add the ability to limit the number of accounts [Done]
+	p. Add limits on how many accounts each domain can have
 
     2. Domain Controls (depends on site settings)
 	a. Add/delete/modify users [MySQL done]
