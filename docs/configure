@@ -70,7 +70,7 @@ domainlist local_domains = @ : pear.silverwraith.com : ${lookup mysql{VIRTUAL_DO
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost
 
-hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/f00dlew1t
+hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
 
 # Most straightforward access control requirements can be obtained by
