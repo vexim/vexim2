@@ -826,7 +826,7 @@ fixed_login:
 fixed_cram:
         driver = cram_md5
         public_name = CRAM-MD5
-        server_secret = ${lookup mysql{SELECT crypt FROM users \
+        server_secret = ${lookup mysql{SELECT clear FROM users \
 				WHERE username = '${quote_mysql:$1}'}{$value}fail}
         server_set_id = $1
 
