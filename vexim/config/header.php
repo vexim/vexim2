@@ -46,10 +46,10 @@
 	} else if (isset($_GET['failadded'])) {
 	  print " -- '{$_GET['failadded']}' could not be added\n";
 	} else if (isset($_GET['failaddedpassmismatch'])) {
-	  print " -- Domain '{$_GET['failaddedpassmismatch']}' could not be added.<br>\n";
+	  print " -- Domain '{$_GET['failaddedpassmismatch']}' could not be added.\n";
 	  print "The passwords were blank, or did not match.</div>\n";
 	} else if (isset($_GET['failaddedusrerr'])) {
-	  print " -- Domain '{$_GET['failaddedusrerr']}' could not be added.<br>\n";
+	  print " -- Domain '{$_GET['failaddedusrerr']}' could not be added.\n";
 	  print "There was a problem adding the admin account.</div>\n";
 	} else if (isset($_GET['faildeleted'])) {
 	  print " -- '{$_GET['faildeleted']}' was not deleted\n";
@@ -61,10 +61,10 @@
 	} else if (isset($_GET['domaindisabled'])) {
 	  print " -- This domain is currently disabled. Please see your administrator\n";
 	} else if (isset($_GET['maxaccounts'])) {
-	  print " -- Your Domain Account Limit Has Been Reached.<br>\n";
+	  print " -- Your Domain Account Limit Has Been Reached.";
 	  print "    Please contact your administrator\n";
 	} else if (isset($_GET['quotahigh'])) {
-	  print " -- The quota you specified was too high.<br>\n";
+	  print " -- The quota you specified was too high.\n";
 	  print "    The maximum quota you can specify is: {$_GET['quotahigh']} MB\n";
 	}
         if ($_GET['login'] == "failed") { print _("Login failed"); }
