@@ -5,8 +5,11 @@
 Thanks for picking the Virtual Exim package, for your virtual mail
 hosting needs :-)
 
-This readme should be a nice step by step walk-through of how to set up
-Virtual Exim on your machine. There are a few requirements (listed
+This README provides a basic guide on how to get Virtual Exim working on
+your system. You will need to have all of the listed packets (Apache,
+and SQL database, etc) already installed and configured. If you would
+like a complete step-by-step guide on how to install each package,
+please follow the INSTALL file. There are a few requirements (listed
 below), and it is expected that you have *a little* knowledge of both
 MySQL and Exim.
 
@@ -41,7 +44,7 @@ work:
     I have no idea about older versions of Exim, as I've never used
     them myself. You can try though if you know the configure file.
     You can create the MySQL databases without the perl script if you
-    want, but if you are upgrading from VExim 1.x
+    want, but if you are upgrading from VExim 1.x you will need it
 
 
 Installation steps for each component:
