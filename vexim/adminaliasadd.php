@@ -30,10 +30,10 @@
 		be able to log in, or if the Alias is the admin account)</td></tr>
         <tr><td>Verify Password:</td><td><input name="vclear" type="password" size="30" class="textfield"></td></tr>
         <tr><td>Admin:</td><td><input name="admin" type="checkbox" class="textfield"></td></tr>
-	<? if ($row[avscan] == "1") {
+	<? if ($row[on_avscan] == "1") {
              print "<tr><td>Anti-Virus:</td><td><input name=\"on_avscan\" type=\"checkbox\" class=\"textfield\"></td></tr>";
 	   }
-           if ($row[spamassassin] == "1") {
+           if ($row[on_spamassassin] == "1") {
 	     print "<tr><td>Spamassassin:</td><td><input name=\"on_spamassassin\" type=\"checkbox\" class=\"textfield\"></td></tr>";
            }
 	?>
