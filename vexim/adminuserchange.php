@@ -81,9 +81,9 @@
 	<tr><td><?php echo _("Forwarding on"); ?>:</td><td><input name="on_forward" type="checkbox" <?php
 		if ($row['on_forward'] == "1") { print " checked "; } ?> ></td></tr>
 	<tr><td><?php echo _("Forward mail to"); ?>:</td>
-	<tr><td><? echo _("Store Forwarded Mail Locally"); ?>:</td><td><input name="unseen" type="checkbox" <?
-		if ($row['unseen'] == "1") { print " checked "; } ?> ></td></tr>
 	<td><input type="text" size="25" name="forward" value="<?php print $row['forward']; ?>" class="textfield"></td></tr>
+	<tr><td><?php echo _("Store Forwarded Mail Locally"); ?>:</td><td><input name="unseen" type="checkbox" <?php
+		if ($row['unseen'] == "1") { print " checked "; } ?> ></td></tr>
 	<input name="user_id" type="hidden" value="<?php print $_GET['user_id']; ?>" class="textfield">
 	<input name="localpart" type="hidden" value="<?php print $row['localpart']; ?>" class="textfield">
 	<tr><td colspan="2" class="button"><input name="submit" type="submit" value="Submit"></td></tr>

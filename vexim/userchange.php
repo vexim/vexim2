@@ -75,7 +75,7 @@
       print "></td></tr>\n";
       print "<tr><td>" . _("Forward mail to") . ":</td>";
       print "<td><input type=\"text\" name=\"forward\" value=\"{$row['forward']}\" class=\"textfield\"></td></tr>\n";
-      print "<tr><td>Store Forwarded Mail Locally:</td><td><input name=\"unseen\" type=\"checkbox\"";
+      print "<tr><td>" . _("Store Forwarded Mail Locally") . ":</td><td><input name=\"unseen\" type=\"checkbox\"";
       if ($row['unseen'] == "1") { print " checked "; } print "></td></tr>\n";
     ?>
     <tr><td></td><td class="button"><input name="submit" type="submit" value="<?php echo _("Submit Profile"); ?>"></td></tr>
