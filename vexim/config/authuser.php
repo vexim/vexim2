@@ -1,6 +1,6 @@
 <?
   include_once dirname(__FILE__) . "/variables.php";
-  $query = "SELECT localpart,crypt,domain_id FROM users WHERE localpart='".$_COOKIE['vexim'][0]."'
+  $query = "SELECT user_id,localpart,crypt,domain_id FROM users WHERE localpart='".$_COOKIE['vexim'][0]."'
   		AND domain_id='".$_COOKIE['vexim'][2]."';";
   $result = $db->query($query);
   $row = $result->fetchRow();
@@ -10,4 +10,6 @@
   // user to the login screen
   if ($row['localpart'] != $_COOKIE['vexim'][0]) { header ("Location: index.php?login=failed"); };
   if ($row['crypt'] != $_COOKIE['vexim'][3]) { header ("Location: index.php?login=failed"); };
+  if ($row['user_id'] != $_COOKIE['vexim'][4]) {header ("Location: index.php?login=failed"); };
+
 ?>
