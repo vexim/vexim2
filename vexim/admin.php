@@ -23,6 +23,20 @@
 	    }
 	  ?>
 	<tr><td style="padding-top:1em"><a href="logout.php"><?php echo _("Logout"); ?></a></td></tr>
+	<tr><td></td></tr>
+	<tr><td></td></tr>
+	<?php
+          $query = "SELECT alias,domain FROM domainalias,domains WHERE domainalias.domain_id = {$_SESSION['domain_id']} AND domains.domain_id = domainalias.domain_id";
+          $result = $db->query($query);
+          if ($result->numRows()) {
+	    print "<tr><td>Domain data:</td></tr>\n";
+            while ($row = $result->fetchRow()) {
+              print "<tr>";
+              print "\t<td>{$row['alias']} is an alias of {$_SESSION['domain']}</td>\n";
+              print "</tr>\n";
+            }
+          }
+	?>
       </table>
     </div>
   </body>
