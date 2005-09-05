@@ -8,9 +8,9 @@
 		die;
 	}
 
-  if ($_POST['localpart'] == "siteadmin" && $_POST['domain'] == "") {
+  if ($_POST['localpart'] == "siteadmin") {
     $query = "SELECT crypt,localpart FROM users,domains WHERE localpart='siteadmin'
-    			AND domain='admin' and users.domain_id = domains.domain_id";
+    			AND domain='admin' AND username='siteadmin' AND users.domain_id = domains.domain_id";
   } else if ($AllowUserLogin) {
     $query = "SELECT crypt,localpart FROM users,domains WHERE localpart='{$_POST['localpart']}'
     			AND users.domain_id = domains.domain_id AND domains.domain='{$_POST['domain']}';";
@@ -37,10 +37,10 @@
 */
 
   if ($cryptedpass == $row['crypt']) {
-    if ($_POST['localpart'] == "siteadmin" && $_POST['domain'] == "") {
+    if ($_POST['localpart'] == "siteadmin") {
       $query = "SELECT user_id,domains.domain_id,users.admin,users.type FROM
-      			users,domains WHERE localpart='siteadmin' AND domain='admin' AND
-			users.domain_id = domains.domain_id";
+      			users,domains WHERE localpart='siteadmin' AND username='siteadmin'
+			AND domain='admin' AND users.domain_id = domains.domain_id";
     } else {
       $query = "SELECT user_id,domain,users.domain_id,admin,users.type,domains.enabled AS de FROM users,domains WHERE
       			localpart='{$_POST['localpart']}' AND users.domain_id = domains.domain_id
