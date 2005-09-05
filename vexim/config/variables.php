@@ -34,7 +34,7 @@
      their domain name one. Textbox might be prefered if you have a
      large number of domains, or don't want to reveal the names of sites
      which you host */
-  $domaininput = "static";
+  $domaininput = "dropdown";
 
   /* The UID's and GID's control the default UID and GID for new domains
      and if postmasters can define their own.
