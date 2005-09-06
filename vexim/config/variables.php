@@ -15,6 +15,7 @@
 
   /* We use this IMAP server to check user quotas */
   $imapquotaserver = "{mail.CHANGE.com:143/imap/notls}";
+  $imap_to_check_quota = "no";
 
   /* Setting this to 0 if only admins should be allowed to login */
   $AllowUserLogin = 1;
