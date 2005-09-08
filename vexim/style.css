@@ -181,3 +181,12 @@ body>#Menu {width:150px;}
 }
 /* Again, "be nice to Opera 5". */
 body>#Status {width:500px;}
+
+img.trash { border:0;
+            width:10px;
+            height:16px
+          }
+img.check { border:0;
+            width:13px;
+            height:12px
+          }

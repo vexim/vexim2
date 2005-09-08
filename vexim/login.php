@@ -1,27 +1,36 @@
 <?php
-  include_once dirname(__FILE__) . "/config/variables.php";
-  include_once dirname(__FILE__) . "/config/functions.php";
-  include_once dirname(__FILE__) . "/config/httpheaders.php";
+  include_once dirname(__FILE__) . '/config/variables.php';
+  include_once dirname(__FILE__) . '/config/functions.php';
+  include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-	if ($_POST['crypt'] == "") {
-	  header ("Location: index.php?login=failed");
-		die;
-	}
+  if ($_POST['crypt'] == '') {
+    header ('Location: index.php?login=failed');
+    die;
+  }
 
-  if ($_POST['localpart'] == "siteadmin") {
-    $query = "SELECT crypt,localpart FROM users,domains WHERE localpart='siteadmin'
-    			AND domain='admin' AND username='siteadmin' AND users.domain_id = domains.domain_id";
+  if ($_POST['localpart'] == 'siteadmin') {
+    $query = "SELECT crypt,localpart FROM users,domains
+      WHERE localpart='siteadmin'
+      AND domain='admin'
+      AND username='siteadmin'
+      AND users.domain_id = domains.domain_id";
   } else if ($AllowUserLogin) {
-    $query = "SELECT crypt,localpart FROM users,domains WHERE localpart='{$_POST['localpart']}'
-    			AND users.domain_id = domains.domain_id AND domains.domain='{$_POST['domain']}';";
+    $query = "SELECT crypt,localpart FROM users,domains
+      WHERE localpart='{$_POST['localpart']}'
+      AND users.domain_id = domains.domain_id
+      AND domains.domain='{$_POST['domain']}';";
   } else {
-    $query = "SELECT crypt,localpart FROM users,domains WHERE localpart='{$_POST['localpart']}'
-    			AND users.domain_id = domains.domain_id AND domains.domain='{$_POST['domain']}' AND admin=1;";
-}
+    $query = "SELECT crypt,localpart FROM users,domains
+      WHERE localpart='{$_POST['localpart']}'
+      AND users.domain_id = domains.domain_id
+      AND domains.domain='{$_POST['domain']}'
+      AND admin=1;";
+  }
   $result = $db->query($query);
-  if (DB::isError($result)) { die ($result->getMessage()); }
+  if (DB::isError($result)) {
+    die ($result->getMessage());
+  }
   $row = $result->fetchRow();
-
   $cryptedpass = crypt_password($_POST['crypt'], $row['crypt']);
 
 //  Some debugging prints. They help when you don't know why auth is failing.
@@ -38,16 +47,21 @@
 
   if ($cryptedpass == $row['crypt']) {
     if ($_POST['localpart'] == "siteadmin") {
-      $query = "SELECT user_id,domains.domain_id,users.admin,users.type FROM
-      			users,domains WHERE localpart='siteadmin' AND username='siteadmin'
-			AND domain='admin' AND users.domain_id = domains.domain_id";
+      $query = "SELECT user_id,domains.domain_id,users.admin,users.type
+        FROM users,domains WHERE localpart='siteadmin' AND username='siteadmin'
+        AND domain='admin' AND users.domain_id = domains.domain_id";
     } else {
-      $query = "SELECT user_id,domain,users.domain_id,admin,users.type,domains.enabled AS de FROM users,domains WHERE
-      			localpart='{$_POST['localpart']}' AND users.domain_id = domains.domain_id
-			AND domains.domain='{$_POST['domain']}'";
+      $query = "SELECT
+        user_id,domain,users.domain_id,admin,users.type,domains.enabled AS de
+        FROM users,domains
+        WHERE localpart='{$_POST['localpart']}'
+        AND users.domain_id = domains.domain_id
+        AND domains.domain='{$_POST['domain']}'";
     }
     $result = $db->query($query);
-    if ($result->numRows()) { $row = $result->fetchRow(); }
+    if ($result->numRows()) {
+      $row = $result->fetchRow();
+    }
     $_SESSION['localpart'] = $_POST['localpart'];
     $_SESSION['domain'] = $_POST['domain'];
     $_SESSION['domain_id'] = $row['domain_id'];
@@ -66,7 +80,5 @@
   } else {
   header ("Location: index.php?login=failed");
 }
-
 ?>
-
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->
