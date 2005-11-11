@@ -17,6 +17,10 @@
     }
   }
 
+  # Strip off leading and trailing spaces
+  $_POST['localpart'] = preg_replace("/^\s+/","",$_POST['localpart']);
+  $_POST['localpart'] = preg_replace("/\s+$/","",$_POST['localpart']); 
+
   # Fix the boolean values
   $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas FROM domains 
     WHERE domain_id={$_SESSION['domain_id']}";
