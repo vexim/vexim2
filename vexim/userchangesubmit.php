@@ -7,11 +7,12 @@
   if (isset($_POST['on_forward'])) {$_POST['on_forward'] = 1;} else {$_POST['on_forward'] = 0;}
   if (isset($_POST['unseen'])) {$_POST['unseen'] = 1;} else {$_POST['unseen'] = 0;}
   # Do some checking, to make sure the user is ALLOWED to make these changes
-  $query = "SELECT avscan,spamassassin from domains WHERE domain_id = {$_SESSION['domain_id']}";
+  $query = "SELECT avscan,spamassassin,maxmsgsize from domains WHERE domain_id = {$_SESSION['domain_id']}";
   $result = $db->query($query);
   $row = $result->fetchRow();
   if ((isset($_POST['on_avscan'])) && ($row['avscan'] = 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
   if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] = 1)) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
+	if ((isset($_POST['maxmsgsize'])) && ($_POST['maxmsgsize'] > $row['maxmsgsize']) {$_POST['maxmsgsize'] = $row['maxmsgsize'];}
 
   if ($_POST['realname'] != "") {
     $query = "UPDATE users SET realname='{$_POST['realname']}'

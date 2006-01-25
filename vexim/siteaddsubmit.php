@@ -98,8 +98,8 @@
             "'{$_POST['localpart']}@{$_POST['domain']}'," .
             "'{$_POST['clear']}'," .
             "'". crypt_password($_POST['clear'],$salt) . "'," .
-            $uid,
-            $gid,
+            $uid . "," .
+            $gid . ", " .
             "'{$smtphomepath}', '{$pophomepath}'," .
             "'Domain Admin', 'local', 1 FROM domains
             WHERE domains.domain = '{$_POST['domain']}'";
