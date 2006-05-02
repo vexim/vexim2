@@ -87,7 +87,6 @@
             "$gid," .
             "'{$_POST['type']}',".
             ((isset($_POST['maxmsgsize'])) ? $_POST['maxmsgsize'] : 0) . ")";
-    print $query; die;
     $domresult = $db->query($query);
     if (!DB::isError($domresult)) {
       if ($_POST['type'] == "local") {
