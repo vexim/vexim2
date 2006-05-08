@@ -9,7 +9,8 @@
     die;
   }
   $query = "DELETE FROM group_contents 
-          WHERE group_id = {$_REQUEST['group_id']} AND member_id = {$_REQUEST['member_id']} ";
+    WHERE group_id={$_REQUEST['group_id']}
+    AND member_id={$_REQUEST['member_id']}";
   $result = $db->query($query);
   if (!DB::isError($result)) { 
     header ("Location: admingroupchange.php?group_id={$_REQUEST['group_id']}

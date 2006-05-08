@@ -8,7 +8,9 @@
     $result = $db->query($query);
     if (!DB::isError($result)) {
       # delete group
-      $query = "DELETE FROM groups WHERE id={$_GET['group_id']}";
+      $query = "DELETE FROM groups
+        WHERE id={$_GET['group_id']}
+        AND domain_id={$_SESSION['domain_id']}";
       $result = $db->query($query);
       if (!DB::isError($result)) {
         header ("Location: admingroup.php?group_deleted={$_GET['localpart']}");

@@ -6,7 +6,9 @@
 
 if ($_GET['confirm'] == '1') {
 
-  $query = "DELETE FROM users WHERE user_id={$_GET['user_id']}";
+  $query = "DELETE FROM users
+    WHERE user_id={$_GET['user_id']}
+    AND domain_id={$_SESSION['domain_id']}";
   $result = $db->query($query);
   if (!DB::isError($result)) {
     $query = "DELETE FROM group_contents WHERE member_id={$_GET['user_id']}";
