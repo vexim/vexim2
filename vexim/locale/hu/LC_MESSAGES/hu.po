@@ -1,19 +1,21 @@
-# translation of template.po to Romanian
+# translation of template.po to Hungarian
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
-# George Cristian Birzan <gcbirzan@wolfheart.ro>, 2004.
+# Ildik&oacute; Vámos-Wentworth <translate@vamos-wentworth.org>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: template\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-02 19:48+0200\n"
-"PO-Revision-Date: 2004-03-19 00:00+0000\n"
-"Last-Translator: Avleen Vig <postmaster@silverwraith.com>\n"
-"Language-Team: English\n"
+"PO-Revision-Date: 2004-03-01 15:45+0200\n"
+"Last-Translator: Ildik&oacute; V&aacute;mos-Wentworth <translate@vamos-"
+"wentworth.org>\n"
+"Language-Team: Hungarian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.2\n"
 
 #: config/functions.php:108
 msgid "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -197,27 +199,36 @@ msgstr ""
 
 #: config/header.php:84 index.php:50
 msgid "Login failed"
-msgstr "Login failed"
+msgstr "Bejelentkez&eacute;s meghi&uacute;sult"
 
 #: admin.php:16
 msgid "Add, delete and manage POP/IMAP accounts"
-msgstr "Add, delete and manage POP/IMAP accounts"
+msgstr ""
+"POP/IMAP postafi&oacute;kok hozz&aacute;ad&aacute;sa, t&ouml;rl&eacute;se "
+"&eacute;s kezel&eacute;se"
 
 #: admin.php:17
 msgid "Add, delete and manage aliases, forwards and a Catchall"
-msgstr "Add, delete and manage aliases, forwards and a Catchall"
+msgstr ""
+"Alias-ok, tov&aacute;bb&iacute;t&aacute;sok &eacute;s Catchall hozz&aacute;"
+"ad&aacute;sa, t&ouml;rl&eacute;se &eacute;s kezel&eacute;se"
 
 #: admin.php:18
+#, fuzzy
 msgid "Add, delete and manage groups"
-msgstr "Add, delete and manage groups"
+msgstr ""
+":fail: hozz&aacute;ad&aacute;sa, t&ouml;rl&eacute;se &eacute;s kezel&eacute;"
+"se"
 
 #: admin.php:19
 msgid "Add, delete and manage :fail:'s"
-msgstr "Add, delete and manage :fail:'s"
+msgstr ""
+":fail: hozz&aacute;ad&aacute;sa, t&ouml;rl&eacute;se &eacute;s kezel&eacute;"
+"se"
 
 #: admin.php:22
 msgid "Manage mailing lists"
-msgstr "Manage mailing lists"
+msgstr "Levelez&eacute;si list&aacute;k kezel&eacute;se"
 
 #: admin.php:25 adminalias.php:24 adminaliasadd.php:21 adminaliaschange.php:21
 #: adminaliasdelete.php:32 admincatchall.php:20 admincatchalladd.php:18
@@ -228,23 +239,24 @@ msgstr "Manage mailing lists"
 #: site.php:31 siteadd.php:17 sitechange.php:17 sitedelete.php:63
 #: sitepassword.php:17 userchange.php:26
 msgid "Logout"
-msgstr "Logout"
+msgstr "Kil&eacute;p&eacute;s"
 
 #: adminalias.php:9 adminaliasadd.php:13 adminaliaschange.php:12
 #: admincatchall.php:12 admincatchalladd.php:9 adminfail.php:8
 #: adminfailadd.php:9 adminfailchange.php:13 adminuser.php:26
 #: adminuseradd.php:24 adminuserchange.php:21 userchange.php:20
 msgid "Manage Users"
-msgstr "Manage Users"
+msgstr "Felhaszn&aacute;l&oacute;k kezel&eacute;se"
 
 #: adminalias.php:15 adminaliaschange.php:19 adminaliasdelete.php:30
 #: admincatchalladd.php:16
 msgid "Add Alias"
-msgstr "Add Alias"
+msgstr "Alias hozz&aacute;ad&aacute;sa"
 
 #: adminalias.php:21
+#, fuzzy
 msgid "Add Catchall"
-msgstr ""
+msgstr "Catchall"
 
 #: adminalias.php:23 adminaliasadd.php:20 adminaliaschange.php:20
 #: adminaliasdelete.php:31 admincatchall.php:19 admincatchalladd.php:17
@@ -253,7 +265,7 @@ msgstr ""
 #: admingroupdelete.php:38 adminlists.php:18 adminuser.php:48
 #: adminuseradd.php:31 adminuserchange.php:28 adminuserdelete.php:39
 msgid "Main Menu"
-msgstr "Main Menu"
+msgstr "F&ocirc;men&uuml;"
 
 #: adminalias.php:28
 msgid "Alias"
@@ -261,11 +273,12 @@ msgstr "Alias"
 
 #: adminalias.php:28
 msgid "Target address"
-msgstr "Target address"
+msgstr "Megc&eacute;lzott c&iacute;m"
 
 #: adminalias.php:28
+#, fuzzy
 msgid "Forwards to.."
-msgstr ""
+msgstr "Tov&aacute;bb&iacute;t&aacute;sok c&iacute;mzettjei"
 
 #: adminalias.php:28 adminaliasadd.php:33 adminaliaschange.php:35
 #: adminuser.php:67 adminuserchange.php:68 sitechange.php:23
@@ -273,14 +286,14 @@ msgid "Admin"
 msgstr "Admin"
 
 #: adminalias.php:36 adminalias.php:54
-#, php-format
+#, fuzzy, php-format
 msgid "Delete alias %s"
-msgstr ""
+msgstr "Alias t&ouml;rl&eacute;se"
 
 #: adminalias.php:64 adminuser.php:93
-#, php-format
+#, fuzzy, php-format
 msgid "%s is an administrator"
-msgstr ""
+msgstr "Levelez&eacute;si Lista Adminisztr&aacute;ci&oacute;"
 
 #: adminalias.php:71
 msgid "Note"
@@ -291,57 +304,66 @@ msgid "You can only have one catchall per domain."
 msgstr ""
 
 #: adminalias.php:71
+#, fuzzy
 msgid ""
 "It will catch and forward all email that does not get delivered to a "
 "specific mailbox."
 msgstr ""
+"C&iacute;mtartom&aacute;nyonk&eacute;nt csak egy Catchall megengedett.<br>Ez "
+"elkap &eacute;s tov&aacute;bb&iacute;t minden emailt, amely nem ker&uuml;l "
+"k&eacute;zbes&iacute;t&eacute;sre egy meghat&aacute;rozott postal&aacute;"
+"d&aacute;ba"
 
 #: adminaliasadd.php:19 adminaliaschange.php:18 admincatchall.php:18
 #: admincatchalladd.php:15
 msgid "Manage Aliases"
-msgstr "Manage Aliases"
+msgstr "Alias-ok kezel&eacute;se"
 
 #: adminaliasadd.php:26 adminaliaschange.php:26 admincatchall.php:26
 #: admincatchalladd.php:24
 msgid "Alias Name"
-msgstr "Alias Name"
+msgstr "Alias N&eacute;v"
 
 #: adminaliasadd.php:27 adminaliaschange.php:27 adminuseradd.php:38
 msgid "Address"
-msgstr "Address"
+msgstr "C&iacute;m"
 
 #: adminaliasadd.php:28
+#, fuzzy
 msgid "Multiple addresses should be comma seperated, with no spaces"
-msgstr "Multiple addresses should be comma seperated, with no spaces"
+msgstr ""
+"T&ouml;bb c&iacute;m elv&aacute;laszt&aacute;s&aacute;ra vessz&ocirc;t "
+"haszn&aacute;lunk, sz&oacute;k&ouml;z n&eacute;lk&uuml;l"
 
 #: adminaliasadd.php:29 adminaliaschange.php:30
 msgid "Forward To"
-msgstr "Forward To"
+msgstr "Tov&aacute;bb&iacute;t&aacute;s c&iacute;mzettje"
 
 #: adminaliasadd.php:30 adminaliaschange.php:31 adminuseradd.php:39
 #: adminuserchange.php:37 index.php:42 siteadd.php:28 sitechange.php:42
 #: sitepassword.php:23 userchange.php:33
 msgid "Password"
-msgstr "Password"
+msgstr "Jelsz&oacute;"
 
 #: adminaliasadd.php:31 adminaliaschange.php:33
 msgid ""
 "Password only needed if you want the user to be able to log in, or if the "
 "Alias is the admin account"
 msgstr ""
-"Password only needed if you want the user to be able to log in, or if the "
-"Alias is the admin account"
+"Jelsz&oacute; csak akkor sz&uuml;ks&eacute;ges, ha a felhaszn&aacute;"
+"l&oacute;nak enged&eacute;lyezni akarjuk a bejelentkez&eacute;st, vagy ha az "
+"Alias az adminisztr&aacute;tor postafi&oacute;kja"
 
 #: adminaliasadd.php:32 adminaliaschange.php:34 adminuseradd.php:40
 #: adminuserchange.php:38 siteadd.php:29 sitechange.php:43 sitepassword.php:24
 #: userchange.php:34
 msgid "Verify Password"
-msgstr "Verify Password"
+msgstr "Jelsz&oacute; Igazol&aacute;sa"
 
 #: adminaliasadd.php:35 adminaliaschange.php:37 adminuseradd.php:59
 #: adminuserchange.php:71 userchange.php:49
 msgid "Anti-Virus"
-msgstr "Anti-Virus"
+msgstr "Antiv&iacute;rus"
 
 #: adminaliasadd.php:38 adminaliaschange.php:39 adminuseradd.php:62
 #: adminuserchange.php:75 sitechange.php:60 userchange.php:56
@@ -352,7 +374,7 @@ msgstr "Spamassassin"
 #: admingroupchange.php:41 admingroupchange.php:66 adminuseradd.php:73
 #: adminuserchange.php:85 sitechange.php:65
 msgid "Enabled"
-msgstr "Enabled"
+msgstr "Aktiv&aacute;lt"
 
 #: adminaliasadd.php:42 adminaliaschange.php:43 admincatchall.php:36
 #: admincatchalladd.php:33 adminfailadd.php:26 adminfailchange.php:30
@@ -360,36 +382,40 @@ msgstr "Enabled"
 #: adminuseradd.php:74 adminuserchange.php:139 index.php:45 siteadd.php:58
 #: sitepassword.php:25
 msgid "Submit"
-msgstr "Submit"
+msgstr "Bevitel"
 
 #: adminaliaschange.php:29
 msgid "Multiple addresses should be comma separated, with no spaces"
 msgstr ""
+"T&ouml;bb c&iacute;m elv&aacute;laszt&aacute;s&aacute;ra vessz&ocirc;t "
+"haszn&aacute;lunk, sz&oacute;k&ouml;z n&eacute;lk&uuml;l"
 
 #: adminaliasdelete.php:24 admingroupdelete.php:31 adminuserdelete.php:32
 #: sitedelete.php:55
 msgid "Confirm Delete"
-msgstr "Confirm Delete"
+msgstr "T&ouml;rl&eacute;s Meger&ocirc;s&iacute;t&eacute;se"
 
 #: adminaliasdelete.php:37
-#, php-format
+#, fuzzy, php-format
 msgid "Please confirm deleting alias %s@%s"
 msgstr ""
+"K&eacute;rj&uuml;k, er&ocirc;s&iacute;tse meg a domain t&ouml;rl&eacute;"
+"s&eacute;t"
 
 #: adminaliasdelete.php:38 admingroupdelete.php:45 adminuserdelete.php:46
-#, php-format
+#, fuzzy, php-format
 msgid "Do Not Delete %s@%s"
-msgstr ""
+msgstr "Nem T&ouml;r&ouml;lni"
 
 #: adminaliasdelete.php:39 admingroupdelete.php:46 adminuserdelete.php:47
-#, php-format
+#, fuzzy, php-format
 msgid "Delete %s@%s"
-msgstr ""
+msgstr "T&ouml;r&ouml;l"
 
 #: adminaliasdelete.php:43 admingroupdelete.php:50 adminuserdelete.php:51
 #: sitedelete.php:80
 msgid "Continue"
-msgstr "Continue"
+msgstr "Folytat"
 
 #: admincatchall.php:26 admincatchalladd.php:24
 msgid "Catchall"
@@ -397,36 +423,36 @@ msgstr "Catchall"
 
 #: admincatchall.php:29 admincatchalladd.php:27
 msgid "Forward email addressed to"
-msgstr "Forward email addressed to"
+msgstr "Email tov&aacute;bb&iacute;t&aacute;s c&iacute;mzettje"
 
 #: admincatchall.php:32 admincatchalladd.php:30
 msgid "Forward the email to"
-msgstr "Forward the email to"
+msgstr "Email tov&aacute;bb&iacute;t&aacute;s c&iacute;me"
 
 #: adminfail.php:14 adminfailchange.php:20
 msgid "Add Fail"
-msgstr "Add Fail"
+msgstr "Fail hozz&aacute;ad&aacute;sa"
 
 #: adminfail.php:20
 msgid "Failed Address"
-msgstr "Failed Address"
+msgstr "Hib&aacute;s c&iacute;m"
 
 #: adminfail.php:29
-#, php-format
+#, fuzzy, php-format
 msgid "Delete fail %s"
-msgstr ""
+msgstr "Fail t&ouml;rl&eacute;se"
 
 #: adminfailadd.php:15 adminfailchange.php:19
 msgid "Manage Fails"
-msgstr "Manage Fails"
+msgstr "Fail-ek kezel&eacute;se"
 
 #: adminfailadd.php:23
 msgid "Address to fail"
-msgstr "Address to fail"
+msgstr "Meghius&iacute;tand&oacute; c&iacute;m"
 
 #: adminfailchange.php:27
 msgid "Fail address"
-msgstr "Fail address"
+msgstr "Fail c&iacute;m"
 
 #: admingroup.php:8
 msgid "List groups"
@@ -439,7 +465,7 @@ msgstr ""
 
 #: admingroup.php:21 adminuser.php:62 adminuser.php:67
 msgid "Email address"
-msgstr "Email address"
+msgstr "Email c&iacute;m"
 
 #: admingroup.php:21 admingroupchange.php:35
 msgid "Is public"
@@ -451,9 +477,9 @@ msgid "Delete group %s"
 msgstr ""
 
 #: admingroup.php:33
-#, php-format
+#, fuzzy, php-format
 msgid "Click to modify %s"
-msgstr ""
+msgstr "M&oacute;dos&iacute;t&aacute;shoz kattintson ide"
 
 #: admingroup.php:38
 #, php-format
@@ -461,17 +487,19 @@ msgid "Anyone can write to %s"
 msgstr ""
 
 #: admingroup.php:43
-#, php-format
+#, fuzzy, php-format
 msgid "%s is enabled"
-msgstr ""
+msgstr "Antiv&iacute;rus aktiv&aacute;lva"
 
 #: admingroupadd.php:14 admingroupchange.php:19
+#, fuzzy
 msgid "Manage Groups"
-msgstr ""
+msgstr "Felhaszn&aacute;l&oacute;k kezel&eacute;se"
 
 #: admingroupadd.php:22 admingroupchange.php:28
+#, fuzzy
 msgid "Group Address"
-msgstr ""
+msgstr "C&iacute;m"
 
 #: admingroupchange.php:13
 msgid "Edit group"
@@ -483,64 +511,71 @@ msgstr ""
 
 #: admingroupchange.php:65 adminuserchange.php:35 userchange.php:32
 msgid "Email Address"
-msgstr "Email Address"
+msgstr "Email c&iacute;m"
 
 #: admingroupchange.php:87
 msgid "There is no member in this group"
 msgstr ""
 
 #: admingroupchange.php:95
+#, fuzzy
 msgid "Add Member"
-msgstr ""
+msgstr "Felhasznal&oacute; Hozz&aacute;ad&aacute;sa"
 
 #: admingroupdelete.php:44
-#, php-format
+#, fuzzy, php-format
 msgid "Please confirm deleting group %s@%s"
 msgstr ""
+"K&eacute;rj&uuml;k, er&ocirc;s&iacute;tse meg a felhaszn&aacute;l&oacute; "
+"t&ouml;rl&eacute;s&eacute;t"
 
 #: adminlists.php:11
 msgid "Mailing List Administration"
-msgstr "Mailing List Administration"
+msgstr "Levelez&eacute;si Lista Adminisztr&aacute;ci&oacute;"
 
 #: adminlists.php:17
 msgid "Add a list"
-msgstr "Add a list"
+msgstr "Lista hozz&aacute;ad&aacute;sa"
 
 #: adminlists.php:24
 msgid "Please enter the name of the list to admin"
-msgstr "Please enter the name of the list to admin"
+msgstr ""
+"K&eacute;rj&uuml;k, adja meg az adminisztr&aacute;ci&oacute;ra sz&aacute;nt "
+"lista nev&eacute;t"
 
 #: adminuser.php:32 adminuserdelete.php:38
 msgid "Add User"
-msgstr "Add User"
+msgstr "Felhasznal&oacute; Hozz&aacute;ad&aacute;sa"
 
 #: adminuser.php:57 site.php:38
 msgid "Search"
-msgstr "Search"
+msgstr ""
 
 #: adminuser.php:59
 msgid "in"
-msgstr "in"
+msgstr ""
 
 #: adminuser.php:61 adminuser.php:67
+#, fuzzy
 msgid "User"
-msgstr ""
+msgstr "Felhaszn&aacute;l&oacute;i N&eacute;v"
 
 #: adminuser.php:64 site.php:40
+#, fuzzy
 msgid "search"
-msgstr ""
+msgstr "Felhaszn&aacute;l&oacute;i N&eacute;v"
 
 #: adminuser.php:87
 msgid "Click to modify"
-msgstr "Click to modify"
+msgstr "M&oacute;dos&iacute;t&aacute;shoz kattintson ide"
 
 #: adminuseradd.php:30 adminuserchange.php:27
 msgid "Manage Accounts"
-msgstr "Manage Accounts"
+msgstr "Postafi&oacute;kok Kezel&eacute;se"
 
 #: adminuseradd.php:37 adminuserchange.php:34 userchange.php:31
 msgid "Name"
-msgstr "Name"
+msgstr "N&eacute;v"
 
 #: adminuseradd.php:42 adminuserchange.php:40
 msgid "UID"
@@ -551,9 +586,9 @@ msgid "GID"
 msgstr ""
 
 #: adminuseradd.php:47 adminuserchange.php:46
-#, php-format
+#, fuzzy, php-format
 msgid "Mailbox quota (%s Mb max)"
-msgstr ""
+msgstr "Postal&aacute;da kv&oacute;ta"
 
 #: adminuseradd.php:49 siteadd.php:37
 msgid "Mb"
@@ -561,56 +596,65 @@ msgstr ""
 
 #: adminuseradd.php:51
 msgid "Has domain admin privileges?"
-msgstr "Has domain admin privileges?"
+msgstr "Vannak domain admin privil&eacute;giumok?"
 
 #: adminuseradd.php:53
 msgid "Pipe to command"
-msgstr "Pipe to command"
+msgstr "Utas&iacute;tand&oacute; Pipe"
 
 #: adminuseradd.php:54 adminuserchange.php:62
 msgid "Optional"
-msgstr "Optional"
+msgstr "V&aacute;laszthat&oacute;"
 
 #: adminuseradd.php:54
 msgid "Pipe all mail to a command (e.g. procmail)"
-msgstr "Pipe all mail to a command (e.g. procmail)"
+msgstr "Pipe minden emailt egy utas&iacute;t&aacute;shoz (pl. procmail)"
 
 #: adminuseradd.php:55 adminuserchange.php:63
 msgid "Check box below to enable"
-msgstr "Check box below to enable"
+msgstr "Aktiv&aacute;l&aacute;shoz pip&aacute;lja ki a kock&aacute;t"
 
 #: adminuseradd.php:56
+#, fuzzy
 msgid "Enable piped command?"
-msgstr ""
+msgstr "Pipe utas&iacute;t&aacute;s aktiv&aacute;l&aacute;sa"
 
 #: adminuseradd.php:63 adminuserchange.php:77 siteadd.php:41 sitechange.php:56
 msgid "Spamassassin tag score"
-msgstr "Spamassassin tag score"
+msgstr "Spamassassin c&iacute;mke pontsz&aacute;m"
 
 #: adminuseradd.php:65
+#, fuzzy
 msgid "The score at which to tag potential spam mail but still deliver"
 msgstr ""
+"Az a pontsz&aacute;m, amelyn&eacute;l esetleges spam &uuml;zenetk&eacute;nt "
+"c&iacute;mk&eacute;z&uuml;nk, de m&eacute;g k&eacute;zbes&iacute;t&uuml;nk"
 
 #: adminuseradd.php:66 adminuserchange.php:79 siteadd.php:44 sitechange.php:58
 msgid "Spamassassin refuse score"
-msgstr "Spamassassin refuse score"
+msgstr "Spamassassin visszautas&iacute;t&aacute;si pontsz&aacute;m"
 
 #: adminuseradd.php:68
+#, fuzzy
 msgid "The score at which to refuse potential spam mail and not deliver"
 msgstr ""
+"Az a pontsz&aacute;m, amelyn&eacute;l esetleges spam &uuml;zenetk&eacute;nt "
+"elutas&iacute;tunk &eacute;s nem k&eacute;zbes&iacute;t&uuml;nk"
 
 #: adminuseradd.php:70 adminuserchange.php:82 siteadd.php:38 sitechange.php:54
 #: userchange.php:66
 msgid "Maximum message size"
-msgstr "Maximum message size"
+msgstr "Maxim&aacute;lis &uuml;zenet m&eacute;ret"
 
 #: adminuserchange.php:42
 msgid ""
 "When you update the UID or GID, please make sure your MTA still has "
 "permission to create the required user directories!"
 msgstr ""
-"When you update the UID or GID, please make sure your MTA still has "
-"permission to create the required user directories!"
+"UID vagy GID friss&iacute;t&eacute;sekor kerj&uuml;k, gy&ocirc;z&ouml;"
+"dj&ouml;n meg r&oacute;la, hogy MTA-j&aacute;nak m&eacute;g mindig "
+"megengedett a sz&uuml;ks&eacute;ges felhaszn&aacute;l&oacute;i c&iacute;"
+"mt&aacute;rak l&eacute;trehoz&aacute;sa!"
 
 #: adminuserchange.php:53
 #, php-format
@@ -619,47 +663,53 @@ msgstr ""
 
 #: adminuserchange.php:60
 msgid "Pipe to command or alternative Maildir"
-msgstr "Pipe to command or alternative Maildir"
+msgstr "Utas&iacute;tand&oacute; pipe vagy alternativ Maildir"
 
 #: adminuserchange.php:62
 msgid " Pipe all mail to a command (e.g. procmail)."
-msgstr " Pipe all mail to a command (e.g. procmail)."
+msgstr "Pipe minden emailt egy utas&iacute;t&aacute;shoz (pl. procmail)"
 
 #: adminuserchange.php:64
+#, fuzzy
 msgid "Enable piped command or alternative Maildir?"
 msgstr ""
+"Pipe utas&iacute;t&aacute;s aktiv&aacute;l&aacute;sa vagy alternativ Maildir"
 
 #: adminuserchange.php:87
 msgid "Vacation on"
-msgstr "Vacation on"
+msgstr "Vak&aacute;ci&oacute; aktiv&aacute;lva"
 
 #: adminuserchange.php:89 userchange.php:71
 msgid "Vacation message"
-msgstr "Vacation message"
+msgstr "Vak&aacute;ci&oacute; uzenet"
 
 #: adminuserchange.php:91
 msgid "Forwarding on"
-msgstr "Forwarding on"
+msgstr "Tov&aacute;bb&iacute;t&aacute;s aktiv&aacute;lva"
 
 #: adminuserchange.php:93 userchange.php:76
 msgid "Forward mail to"
-msgstr "Forward mail to"
+msgstr "Tov&aacute;bb&iacute;tott &uuml;zenet c&iacute;mzettje"
 
 #: adminuserchange.php:95 userchange.php:78
+#, fuzzy
 msgid "Store Forwarded Mail Locally"
-msgstr ""
+msgstr "Tov&aacute;bb&iacute;tott &uuml;zenet c&iacute;mzettje"
 
 #: adminuserchange.php:100
+#, fuzzy
 msgid "Aliases to this account"
-msgstr ""
+msgstr "Alias-ok ehhez a postafi&oacute;khoz"
 
 #: adminuserchange.php:128
 msgid "Add a new header blocking filter for this user"
-msgstr "Add a new header blocking filter for this user"
+msgstr ""
+"&Uacute;j fejl&eacute;c blokkol&oacute; filter hozz&aacute;ad&aacute;sa "
+"ehhez a felhaszn&aacute;l&oacute;hoz"
 
 #: adminuserchange.php:129
 msgid "Header"
-msgstr "Header"
+msgstr "Fejl&eacute;c"
 
 #: adminuserchange.php:130 userchange.php:88
 msgid "From"
@@ -670,8 +720,9 @@ msgid "To"
 msgstr ""
 
 #: adminuserchange.php:132 userchange.php:90
+#, fuzzy
 msgid "Subject"
-msgstr ""
+msgstr "Bevitel"
 
 #: adminuserchange.php:133 userchange.php:91
 msgid "X-Mailer"
@@ -679,32 +730,36 @@ msgstr ""
 
 #: adminuserchange.php:143 userchange.php:99
 msgid "Delete"
-msgstr "Delete"
+msgstr "T&ouml;r&ouml;l"
 
 #: adminuserchange.php:143 userchange.php:99
+#, fuzzy
 msgid "Blocked Header"
-msgstr ""
+msgstr "Blokkolt Fejl&eacute;c"
 
 #: adminuserchange.php:143 userchange.php:99
 msgid "Content"
-msgstr "Content"
+msgstr "Tartalom"
 
 #: adminuserdelete.php:45
-#, php-format
+#, fuzzy, php-format
 msgid "Please confirm deleting user %s@%s"
 msgstr ""
+"K&eacute;rj&uuml;k, er&ocirc;s&iacute;tse meg a felhaszn&aacute;l&oacute; "
+"t&ouml;rl&eacute;s&eacute;t"
 
 #: index.php:17
 msgid "Username"
-msgstr "Username"
+msgstr "Felhaszn&aacute;l&oacute;i N&eacute;v"
 
 #: site.php:22 sitepassword.php:9
 msgid "Manage Sites"
-msgstr "Manage Sites"
+msgstr "Oldalak Kezel&eacute;se"
 
 #: site.php:27
+#, fuzzy
 msgid "Add alias domain"
-msgstr ""
+msgstr "Alias hozz&aacute;ad&aacute;sa"
 
 #: site.php:28
 msgid "Add local domain"
@@ -717,7 +772,7 @@ msgstr ""
 #: site.php:30 siteadd.php:16 sitechange.php:16 sitedelete.php:62
 #: sitepassword.php:16
 msgid "Site Password"
-msgstr "Site Password"
+msgstr "Oldal Jelszava"
 
 #: site.php:45
 msgid "Local domains"
@@ -733,7 +788,7 @@ msgstr ""
 
 #: site.php:74
 msgid "WARNING"
-msgstr "WARNING"
+msgstr "FIGYELMEZTET&Eacute;S"
 
 #: site.php:74
 msgid ""
@@ -745,26 +800,28 @@ msgid "Relay domains"
 msgstr ""
 
 #: site.php:87 site.php:104 sitedelete.php:76
-#, php-format
+#, fuzzy, php-format
 msgid "Delete %s"
-msgstr ""
+msgstr "T&ouml;r&ouml;l"
 
 #: site.php:95
+#, fuzzy
 msgid "Aliased domains"
-msgstr ""
+msgstr "Domainek Kezel&eacute;se"
 
 #: siteadd.php:9 siteadd.php:15 sitechange.php:9 sitechange.php:15
 #: sitedelete.php:61 sitepassword.php:15
 msgid "Manage Domains"
-msgstr "Manage Domains"
+msgstr "Domainek Kezel&eacute;se"
 
 #: siteadd.php:22
+#, fuzzy
 msgid "New Domain"
-msgstr ""
+msgstr "Domain"
 
 #: siteadd.php:23
 msgid "The name of the new domain you are adding"
-msgstr "The name of the new domain you are adding"
+msgstr "A hozz&aacute;ad&aacute;sra ker&uuml;l&ocirc; &uacute;j domain neve"
 
 #: siteadd.php:26
 msgid "Domain Admin"
@@ -772,35 +829,41 @@ msgstr "Domain Admin"
 
 #: siteadd.php:27
 msgid "The username of the domain's administrator account"
-msgstr "The username of the domain's administrator account"
+msgstr ""
+"A domain adminisztr&aacute;tor postafi&oacute;kj&aacute;nak felhaszn&aacute;"
+"l&oacute;i neve"
 
 #: siteadd.php:30 sitechange.php:49
 msgid "System UID"
-msgstr "System UID"
+msgstr "Rendszer UID"
 
 #: siteadd.php:31 sitechange.php:50
 msgid "System GID"
-msgstr "System GID"
+msgstr "Rendszer GID"
 
 #: siteadd.php:32
 msgid "Domain Mail directory"
-msgstr "Domain Mail directory"
+msgstr "Domain &Uuml;zenet c&iacute;mt&aacute;r"
 
 #: siteadd.php:34
 msgid "Create the domain directory below this top-level mailstore"
-msgstr "Create the domain directory below this top-level mailstore"
+msgstr ""
+"Domain c&iacute;mt&aacute;r l&eacute;trehoz&aacute;sa ez alatt a fels&ocirc; "
+"szint&ucirc; &uuml;zenett&aacute;rol&oacute; alatt"
 
 #: siteadd.php:35 sitechange.php:51
+#, fuzzy
 msgid "Maximum accounts"
-msgstr ""
+msgstr "Postafi&oacute;kok Kezel&eacute;se"
 
 #: siteadd.php:35 sitechange.php:51
 msgid "0 for unlimited"
 msgstr ""
 
 #: siteadd.php:36
+#, fuzzy
 msgid "Max mailbox quota"
-msgstr ""
+msgstr "Postal&aacute;da kv&oacute;ta"
 
 #: siteadd.php:36 sitechange.php:52
 msgid "0 for disabled"
@@ -812,31 +875,41 @@ msgstr ""
 
 #: siteadd.php:40
 msgid "The maximum size for incoming mail (user tunable)"
-msgstr "The maximum size for incoming mail (user tunable)"
+msgstr ""
+"Bej&ouml;v&ocirc; &uuml;zenetek maxim&aacute;lis m&eacute;rete "
+"(felhaszn&aacute;l&oacute; hangolhat&oacute;)"
 
 #: siteadd.php:43
 msgid "The score at the 'X-Spam-Flag: YES' header will be added"
-msgstr "The score at the 'X-Spam-Flag: YES' header will be added"
+msgstr ""
+"A pontsz&aacute;m az 'X-Spam-Flag: YES' fejl&eacute;cn&eacute;l hozz&aacute;"
+"ad&aacute;sra ker&uuml;l"
 
 #: siteadd.php:46
 msgid "The score at which to refuse potentially spam mail and not deliver"
-msgstr "The score at which to refuse potentially spam mail and not deliver"
+msgstr ""
+"Az a pontsz&aacute;m, amelyn&eacute;l esetleges spam &uuml;zenetk&eacute;nt "
+"elutas&iacute;tunk &eacute;s nem k&eacute;zbes&iacute;t&uuml;nk"
 
 #: siteadd.php:47
+#, fuzzy
 msgid "Spamassassin enabled?"
-msgstr "Spamassassin enabled?"
+msgstr "Spamassassin aktiv&aacute;lva"
 
 #: siteadd.php:48
+#, fuzzy
 msgid "Anti Virus enabled?"
-msgstr "Anti Virus enabled?"
+msgstr "Antiv&iacute;rus aktiv&aacute;lva"
 
 #: siteadd.php:49
+#, fuzzy
 msgid "Enable piping mail to command?"
-msgstr "Enable piping mail to command?"
+msgstr "&Uuml;zenet utas&iacute;tand&oacute; pipe aktiv&aacute;l&aacute;sa"
 
 #: siteadd.php:50
+#, fuzzy
 msgid "Domain enabled?"
-msgstr "Domain enabled?"
+msgstr "Domain aktiv&aacute;lva"
 
 #: siteadd.php:53
 msgid "Redirect messages to domain"
@@ -844,52 +917,59 @@ msgstr ""
 
 #: sitechange.php:21
 msgid "Modify Domain Admin"
-msgstr "Modify Domain Admin"
+msgstr "Domain Admin M&oacute;dos&iacute;t&aacute;sa"
 
 #: sitechange.php:44 userchange.php:36
 msgid "Submit Password"
-msgstr "Submit Password"
+msgstr "Jelsz&oacute; Bevitele"
 
 #: sitechange.php:47
 msgid "Modify Domain Properties"
-msgstr "Modify Domain Properties"
+msgstr "Domain Jellemz&ocirc;k M&oacute;dos&iacute;t&aacute;sa"
 
 #: sitechange.php:52
+#, fuzzy
 msgid "Max mailbox quota in Mb"
-msgstr ""
+msgstr "Postal&aacute;da kv&oacute;ta"
 
 #: sitechange.php:62
 msgid "Anti-virus"
-msgstr "Anti-virus"
+msgstr "Antiv&iacute;rus"
 
 #: sitechange.php:63
 msgid "Piping to command"
-msgstr "Piping to command"
+msgstr "Utas&iacute;tand&oacute; Pipe"
 
 #: sitechange.php:68
 msgid "Submit Changes"
-msgstr "Submit Changes"
+msgstr "V&aacute;ltoztat&aacute;sok Bevitele"
 
 #: sitechange.php:71
 msgid "Disable SpamAssassin for all domain users"
-msgstr "Disable SpamAssassin for all domain users"
+msgstr ""
+"Spamassassin deaktiv&aacute;l&aacute;sa minden domain felhaszn&aacute;"
+"l&oacute;nak"
 
 #: sitechange.php:71 sitechange.php:77
 msgid "Warning: cannot be reversed!"
-msgstr "Warning: cannot be reversed!"
+msgstr "Figyelmeztet&eacute;s: visszaford&iacute;thatatlan!"
 
 #: sitechange.php:74 sitechange.php:80
 msgid "Disable"
-msgstr "Disable"
+msgstr "Deaktiv&aacute;l&aacute;s"
 
 #: sitechange.php:77
 msgid "Disable Anti-Virus for all domain users"
-msgstr "Disable Anti-Virus for all domain users"
+msgstr ""
+"Antiv&iacute;rus deaktiv&aacute;l&aacute;sa minden domain felhaszn&aacute;"
+"l&oacute;nak"
 
 #: sitedelete.php:68
-#, php-format
+#, fuzzy, php-format
 msgid "Please confirm deleting domain %s."
 msgstr ""
+"K&eacute;rj&uuml;k, er&ocirc;s&iacute;tse meg a domain t&ouml;rl&eacute;"
+"s&eacute;t"
 
 #: sitedelete.php:71
 #, php-format
@@ -899,13 +979,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: sitedelete.php:75
-#, php-format
+#, fuzzy, php-format
 msgid "Do Not Delete %s"
-msgstr ""
+msgstr "Nem T&ouml;r&ouml;lni"
 
 #: sitepassword.php:22
 msgid "Change SiteAdmin Password"
-msgstr "Change SiteAdmin Password"
+msgstr "SiteAdmin Jelsz&oacute; Valtoztat&aacute;sa"
 
 #: userchange.php:35
 msgid "Note:"
@@ -925,25 +1005,53 @@ msgid "Your mailbox quota is currently: Unlimited"
 msgstr ""
 
 #: userchange.php:61
+#, fuzzy
 msgid "SpamAssassin tag score"
-msgstr "SpamAssassin tag score"
+msgstr "Spamassassin c&iacute;mke pontsz&aacute;m"
 
 #: userchange.php:63
+#, fuzzy
 msgid "SpamAssassin refuse score"
-msgstr "SpamAssassin refuse score"
+msgstr "Spamassassin visszautas&iacute;t&aacute;si pontsz&aacute;m"
 
 #: userchange.php:68
+#, fuzzy
 msgid "Vacation enabled"
-msgstr ""
+msgstr "Vak&aacute;ci&oacute; uzenet"
 
 #: userchange.php:73
+#, fuzzy
 msgid "Forwarding enabled"
-msgstr ""
+msgstr "Tov&aacute;bb&iacute;t&aacute;s aktiv&aacute;lva"
 
 #: userchange.php:81
+#, fuzzy
 msgid "Submit Profile"
-msgstr ""
+msgstr "Jelsz&oacute; Bevitele"
 
 #: userchange.php:86
+#, fuzzy
 msgid "Add a new header blocking filter"
 msgstr ""
+"&Uacute;j fejl&eacute;c blokkol&oacute; filter hozz&aacute;ad&aacute;sa "
+"ehhez a felhaszn&aacute;l&oacute;hoz"
+
+#~ msgid "Maximum accounts<br>(0 for unlimited)"
+#~ msgstr ""
+#~ "Postafi&oacute;kok maximuma<br>(0 korl&aacute;tlan sz&aacute;m "
+#~ "eset&eacute;n)"
+
+#~ msgid "Max mailbox quota (0 for disabled)"
+#~ msgstr ""
+#~ "Kv&oacute;ta maximum postal&aacute;d&aacute;nk&eacute;nt (0 "
+#~ "deaktiv&aacute;lt eset&eacute;n)"
+
+#~ msgid "Max mailbox quota in Mb<br>(0 for disabled)"
+#~ msgstr ""
+#~ "Maximum postal&aacute;d kv&oacute;ta Mb-ban<br>(0 deaktiv&aacute;lt "
+#~ "eset&eacute;n)"
+
+#~ msgid "Changing your password will require you to re-login."
+#~ msgstr ""
+#~ "Jelszava megv&aacute;ltoztat&aacute;s&aacute;hoz &uacute;jra be kell "
+#~ "jelentkeznie"
