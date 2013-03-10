@@ -26,6 +26,7 @@
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="scripts.js" type="text/javascript"></script>
   </head>
   <body onLoad="document.adminadd.realname.focus()">
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
@@ -39,61 +40,62 @@
       <table align="center">
         <tr>
           <td><?php echo _('Name'); ?>:</td>
-          <td>
+          <td colspan="2">
             <input type="textfield" size="25" name="realname" class="textfield">
           </td>
         </tr>
         <tr>
           <td><?php echo _('Address'); ?>:</td>
-          <td colspan='2'>
+          <td colspan="2">
             <input type="textfield" size="25" name="localpart"
               class="textfield">@<?php print $_SESSION['domain']; ?>
           </td>
         </tr>
         <tr>
           <td><?php echo _('Password'); ?>:</td>
-          <td>
-            <input type="password" size="25" name="clear" class="textfield">
+          <td colspan="2">
+            <input type="password" size="25" id="clear" name="clear" class="textfield">
           </td>
         </tr>
         <tr>
           <td><?php echo _('Verify Password'); ?>:</td>
-          <td>
-            <input type="password" size="25" name="vclear" class="textfield">
+          <td colspan="2">
+            <input type="password" size="25" id="vclear" name="vclear" class="textfield">
           </td>
         </tr>
-        <?php if ($postmasteruidgid == "yes") {
-          print '<tr><td>'
-            . _('UID')
-            . ':</td><td><input type="textfield" size="5" name="uid"'
-            . 'class="textfield" value="'
-            . $row['uid']
-            . '"></td></tr>';
-          print "<tr><td>"
-            . _('GID')
-            . ':</td><td><input type="textfield" size="5" name="gid"'
-            . 'class="textfield" value="'
-            . $row['gid']
-            . '"></td></tr>'; 
-        }
-        if ($row['quotas'] > "0") {
-          print '<tr><td>';
-          printf (_('Mailbox quota (%s Mb max)'), $row['quotas']);
-          print ':</td>';
-          print '<td><input type="text" size="5" name="quota" value="'
-            . $row['quotas']
-            . '" class="textfield">'
-            . _('Mb')
-            . '</td></tr>';
-        } ?>
+        <tr>
+          <td></td>
+          <td colspan="2">
+            <input type="button" value="<?php echo _('Generate password'); ?>" onclick="suggestPassword('suggest')">
+            <input type="text" size="15" id="suggest" class="textfield">
+            <input type="button" value="<?php echo _('Copy'); ?>" onclick="copyPassword('suggest', 'clear', 'vclear')">
+          </td>
+        </tr>
+      <?php
+        if ($postmasteruidgid == "yes") { ?>
+        <tr>
+          <td><?php echo _('UID'); ?></td>
+          <td colspan="2"><input type="textfield" size="5" name="uid" class="textfield" value="<?php echo $row['uid']; ?>"></td>
+        </tr>
+        <tr>
+          <td><?php echo _('GID'); ?></td>
+          <td colspan="2"><input type="textfield" size="5" name="gid" class="textfield" value="<?php echo $row['gid']; ?>"></td>
+        </tr>
+      <?php }
+        if ($row['quotas'] > "0") { ?>
+        <tr>
+          <td><?php printf (_('Mailbox quota (%s Mb max)'), $row['quotas']); ?></td>
+          <td colspan="2"><input type="text" size="5" name="quota" class="textfield" value="<?php echo $row['quotas']; ?>"><?php echo _('Mb'); ?></td>
+        </tr>
+      <?php } ?>
         <tr>
           <td><?php echo _('Has domain admin privileges?'); ?></td>
-          <td><input name="admin" type="checkbox"></td>
+          <td colspan="2"><input name="admin" type="checkbox"></td>
         </tr>
         <?php if ($row['pipe'] == "1") { ?>
            <tr>
             <td><?php echo _('Pipe to command'); ?>:</td>
-            <td><input type="textfield" size="25" name="smtp" class="textfield"></td>
+            <td colspan="2"><input type="textfield" size="25" name="smtp" class="textfield"></td>
           </tr>
           <tr>
             <td colspan="2" style="padding-bottom:1em">
@@ -105,21 +107,21 @@
           </tr>
           <tr>
             <td><?php echo _('Enable piped command?'); ?></td>
-            <td><input type="checkbox" name="on_piped"></td>
+            <td colspan="2"><input type="checkbox" name="on_piped"></td>
           </tr>
           <?php }
             if ($row['avscan'] == "1") {
           ?>
           <tr>
             <td><?php echo _('Anti-Virus'); ?>:</td>
-            <td><input name="on_avscan" type="checkbox"></td>
+            <td colspan="2"><input name="on_avscan" type="checkbox"></td>
           </tr>
           <?php } 
             if ($row['spamassassin'] == "1") {
           ?>
           <tr>
             <td><?php echo _('Spamassassin'); ?>:</td>
-            <td><input name="on_spamassassin" type="checkbox"></td>
+            <td colspan="2"><input name="on_spamassassin" type="checkbox"></td>
           </tr>
           <tr>
             <td><?php echo _('Spamassassin tag score'); ?>:</td>
@@ -144,18 +146,17 @@
           <?php } ?>
           <tr>
             <td><?php echo _('Maximum message size'); ?>:</td>
-            <td>
+            <td colspan="2">
               <input name="maxmsgsize" size="5" type="text"
                 value="<?php echo $row['maxmsgsize']; ?>">Kb
             </td>
           </tr>
         <tr>
           <td><?php echo _('Enabled'); ?>:</td>
-            <td><input name="enabled" type="checkbox" checked>
-          </td>
+          <td colspan="2"><input name="enabled" type="checkbox" checked></td>
         </tr>
         <tr>
-          <td colspan="2" class="button">
+          <td colspan="3" class="button">
           <input name="submit" type="submit" value="<?php echo _('Submit'); ?>">
           </td>
         </tr>

@@ -148,7 +148,7 @@
     sa_tag=" . ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0) . ",
     sa_refuse=" . ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0) . ",
     type='{$_POST['type']}',
-    vacation='" . (($_POST['vacation']) ? $_POST['vacation'] : '') . "',
+    vacation='" . (trim($_POST['vacation']) ? imap_8bit(trim($_POST['vacation'])) : '') . "',
     unseen='{$_POST['unseen']}'
     WHERE user_id='{$_POST['user_id']}'";
   $result = $db->query($query);

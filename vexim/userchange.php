@@ -69,7 +69,7 @@
       if ($row['on_vacation'] == "1") { print " checked "; } 
       print "></td></tr>\n";
       print "<tr><td>" . _("Vacation message") . ":</td>";
-      print "<td><textarea name=\"vacation\" cols=\"40\" rows=\"5\" class=\"textfield\">{$row['vacation']}</textarea>";
+      print "<td><textarea name=\"vacation\" cols=\"40\" rows=\"5\" class=\"textfield\">".imap_qprint($row['vacation'])."</textarea>";
       print "<tr><td>" . _("Forwarding enabled") . ":</td><td><input name=\"on_forward\" type=\"checkbox\"";
       if ($row['on_forward'] == "1") { print " checked "; } 
       print "></td></tr>\n";

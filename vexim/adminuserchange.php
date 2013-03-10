@@ -23,6 +23,7 @@
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="scripts.js" type="text/javascript"></script>
   </head>
   <body onLoad="document.userchange.realname.focus()">
   <?php include dirname(__FILE__) . '/config/header.php'; ?>
@@ -50,13 +51,21 @@
         <tr>
           <td><?php echo _('Password'); ?>:</td>
           <td>
-            <input type="password" size="25" name="clear" class="textfield">
+            <input type="password" size="25" id="clear" name="clear" class="textfield">
           </td>
         </tr>
         <tr>
           <td><?php echo _('Verify Password'); ?>:</td>
           <td>
-            <input type="password" size="25" name="vclear" class="textfield">
+            <input type="password" size="25" id="vclear" name="vclear" class="textfield">
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <input type="button" value="<?php echo _('Generate password'); ?>" onclick="suggestPassword('suggest')">
+            <input type="text" size="15" id="suggest" class="textfield">
+            <input type="button" value="<?php echo _('Copy'); ?>" onclick="copyPassword('suggest', 'clear', 'vclear')">
           </td>
         </tr>
         <?php
@@ -84,28 +93,27 @@
           </tr>
         <?php
           }
-          if ($domrow['quotas'] > "0") {
+          //if ($domrow['quotas'] > "0") {
         ?>
             <tr>
                <td>
                  <?php printf (_('Mailbox quota (%s Mb max)'),
-                   $domrow['quotas']); ?>
-                :</td>
+                   $domrow['quotas']); ?>:</td>
                 <td>
-                  <input type="text" size="5" name="quota"
-                    value="<?php echo $row['quota']; ?>"
-                    class="textfield">Mb
+                  <input type="text" size="5" name="quota" class="textfield"
+                    value="<?php echo ($domrow['quotas'] == 0 ? $row['quota'] : ($row['quota'] == 0 ? $domrow['quotas'] : min($domrow['quotas'], $row['quota']))); ?>">
+                    <?php echo _('Mb'); ?>
                 </td>
               </tr>
           <?php
-            }
+            //}
             if ((function_exists(imap_get_quotaroot))
               && ($imap_to_check_quota == "yes")) {
               $mbox = imap_open(
                 $imapquotaserver, $row['username'], $row['clear'], OP_HALFOPEN
               );
               $quota = imap_get_quotaroot($mbox, "INBOX");
-              if (is_array($quota)) {
+              if (is_array($quota) && !empty($quota)) {
               printf ("<tr><td>"
                 . _('Space used:')
                 . "</td><td>%.2f MB</td></tr>",
@@ -219,9 +227,7 @@
         <tr>
           <td><?php echo _('Vacation message'); ?>:</td>
           <td>
-            <textarea name="vacation" cols="40" rows="5" class="textfield">
-              <?php print $row['vacation']; ?>
-            </textarea>
+            <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print imap_qprint($row['vacation']); ?></textarea>
           </td>
         <tr>
           <td><?php echo _('Forwarding on'); ?>:</td>

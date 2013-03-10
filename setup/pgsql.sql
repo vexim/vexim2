@@ -1,3 +1,4 @@
+CREATE DATABASE vexim WITH ENCODING 'UTF8';
 CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
 	domain varchar(64) UNIQUE NOT NULL,
 	maildir varchar(128) NOT NULL default '',
@@ -44,7 +45,7 @@ CREATE TABLE users (user_id SERIAL PRIMARY KEY,
 	sa_tag smallint NOT NULL default '0',
 	sa_refuse smallint NOT NULL default '0',
 	tagline varchar(255) default NULL,
-	vacation varchar(255) default NULL,
+	vacation varchar(1024) default NULL,
 	UNIQUE (localpart,domain_id));
 CREATE TABLE blocklists (block_id SERIAL PRIMARY KEY,
 	domain_id int NOT NULL,

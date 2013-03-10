@@ -12,7 +12,7 @@ holds data on the type of account: local, alias, catch, piped
 MySQL:
 Database name:	vexim
     Table: domains
-    CREATE DATABASE vexim;
+    CREATE DATABASE vexim  DEFAULT CHARACTER SET utf8;
 	CREATE TABLE domains (
 	  domain_id mediumint(8) unsigned NOT NULL auto_increment,
 	  domain varchar(64) NOT NULL default '',
@@ -51,7 +51,7 @@ Database name:	vexim
 	  sa_tag smallint(5) unsigned NOT NULL default '5',
 	  sa_refuse smallint(5) unsigned NOT NULL default '10',
 	  on_vacation bool NOT NULL default '0',
-	  vacation varchar(255) default NULL,
+	  vacation varchar(1024) default NULL,
 	  flags varchar(16) default NULL,
 	  tagline varchar(255) default NULL,
 	  PRIMARY KEY  (user_id),
@@ -63,7 +63,7 @@ Database name:	vexim
 PostgreSQL:
 Database name:	vexim
     Table: domains
-    CREATE DATABASE vexim;
+    CREATE DATABASE vexim WITH ENCODING 'UTF8';
 	CREATE TABLE domains (
 	  domain_id INT PRIMARY KEY DEFAULT NEXTVAL('serial'),
 	  domain varchar(64) UNIQUE NOT NULL,
@@ -98,7 +98,7 @@ Database name:	vexim
 	  sa_tag smallint NOT NULL default '5',
 	  sa_refuse smallint NOT NULL default '10',
 	  on_vacation BOOLEAN NOT NULL default '0',
-	  vacation varchar(255) default NULL,
+	  vacation varchar(1024) default NULL,
 	  flags varchar(16) default NULL,
 	  tagline varchar(255) default NULL
 	);

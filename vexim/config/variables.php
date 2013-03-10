@@ -12,6 +12,8 @@
   $db = DB::connect($dsn);
   if (DB::isError($db)) { die ($db->getMessage()); }
   $db->setFetchMode(DB_FETCHMODE_ASSOC); 
+  $db->Query("SET CHARACTER SET UTF8");
+  $db->Query("SET NAMES UTF8");
 
   /* We use this IMAP server to check user quotas */
   $imapquotaserver = "{mail.CHANGE.com:143/imap/notls}";
@@ -57,7 +59,7 @@
   $sa_refuse = "5";
 
   /* max size of a vacation message */
-  $max_vacation_length = 255;
+  $max_vacation_length = 1023;
 
   /* Welcome message, sent to new POP/IMAP accounts */
   $welcome_message = "Welcome, {$_POST['realname']} !\n\nYour new E-mail account is all ready for you.\n\n"
