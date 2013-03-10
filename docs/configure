@@ -794,6 +794,7 @@ virtual_vacation_delivery:
   from     = "${local_part}@${domain}"
   to       = ${sender_address}
   subject  = "Autoreply from ${local_part}@${domain}"
+  headers  = "Content-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: quoted-printable"
   text     = ${lookup mysql{select vacation from users,domains \
 		where domain='${quote_mysql:$domain}' \
 		and localpart='${quote_mysql:$local_part}' \

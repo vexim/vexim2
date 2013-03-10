@@ -83,7 +83,7 @@
             . $_POST['searchfor']
             . '%"';
         }
-        $query .= ' ORDER BY realname';
+        $query .= ' ORDER BY realname, localpart';
         $result = $db->query($query);
         while ($row = $result->fetchRow()) {
           print '<tr>';
@@ -98,11 +98,19 @@
           print '<td><a href="adminuserchange.php?user_id=' . $row['user_id']
             . '&localpart=' . $row['localpart']
             . '" title="' . _('Click to modify')
+            . ' '
             . $row['realname']
             . '">'
             . $row['realname']
             . '</a></td>';
-          print '<td>' . $row['localpart'] .'@'. $_SESSION['domain'] . '</td>';
+          print '<td><a href="adminuserchange.php?user_id=' . $row['user_id']
+            . '&localpart=' . $row['localpart']
+            . '" title="' . _('Click to modify')
+            . ' '
+            . $row['realname']
+            . '">'
+            . $row['localpart'] .'@'. $_SESSION['domain']
+            . '</a></td>';
           print '<td class="check">';
           if ($row['admin'] == 1) {
             print  '<img class="check" src="images/check.gif" title="'

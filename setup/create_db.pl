@@ -170,7 +170,7 @@ sub veximpw {
 #####################################
 
 sub create_mysqldb {
-   	 $mydbh->do("CREATE DATABASE $databasename") or die "Could not create the database '$databasename' in MySQL!";
+   	 $mydbh->do("CREATE DATABASE $databasename  DEFAULT CHARACTER SET utf8") or die "Could not create the database '$databasename' in MySQL!";
 }
 
 
@@ -232,7 +232,7 @@ sub create_mysqltables {
 	sa_tag smallint(5) unsigned NOT NULL default '0',
 	sa_refuse smallint(5) unsigned NOT NULL default '0',
 	tagline varchar(255) default NULL,
-	vacation varchar(255) default NULL,
+	vacation varchar(1024) default NULL,
 	comment varchar(255) default NULL,
 	unseen bool NOT NULL default '0',
 	PRIMARY KEY (user_id),
@@ -276,7 +276,7 @@ sub create_mysqltables {
 sub create_pgsqldb {
 	print "Sorry, the postgres part of this script is currently unmaintained.\nTo progress use the pgsql.sql file.\n\n";
 	exit 0;
-#    $pgdbh->do("CREATE DATABASE $databasename") or die "Could not create the database '$databasename' in PostgreSQL!";
+#    $pgdbh->do("CREATE DATABASE $databasename WITH ENCODING 'UTF8'") or die "Could not create the database '$databasename' in PostgreSQL!";
 
 }
 
@@ -338,7 +338,7 @@ sub create_postgrestables {
 #	  sa_tag smallint NOT NULL default '0',
 #	  sa_refuse smallint NOT NULL default '0',
 #	  tagline varchar(255) default NULL,
-#	  vacation varchar(255) default NULL,
+#	  vacation varchar(1024) default NULL,
 #	  UNIQUE (localpart,domain_id))") or die "Could not create table users";
 # print "\nCreated users table\n";
 #  $pgdbh->do("CREATE TABLE blocklists (block_id SERIAL PRIMARY KEY,

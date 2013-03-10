@@ -46,7 +46,7 @@
 		sa_tag='{$_POST['sa_tag']}',
 		sa_refuse='{$_POST['sa_refuse']}',
 		on_vacation='{$_POST['on_vacation']}',
-		vacation='{$_POST['vacation']}',
+		vacation='".imap_8bit(trim($_POST['vacation']))."',
 		on_forward='{$_POST['on_forward']}',
 		forward='{$_POST['forward']}',
 		maxmsgsize='{$_POST['maxmsgsize']}',

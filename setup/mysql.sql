@@ -1,7 +1,7 @@
 ---
 --- Database: `vexim`
 ---
-CREATE DATABASE IF NOT EXISTS `vexim`;
+CREATE DATABASE IF NOT EXISTS `vexim` DEFAULT CHARACTER SET utf8;
 
 ---
 --- Table: `domains`
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `vexim`.`users`
 	sa_tag           smallint(5)   unsigned  NOT NULL  default '0',
 	sa_refuse        smallint(5)   unsigned  NOT NULL  default '0',
 	tagline          varchar(255)                      default NULL,
-	vacation         varchar(255)                      default NULL,
+	vacation         varchar(1024)                      default NULL,
 	PRIMARY KEY (user_id),
 	UNIQUE KEY username (localpart, domain_id),
 	KEY local (localpart)
