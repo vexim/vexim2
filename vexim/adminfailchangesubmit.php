@@ -6,12 +6,13 @@
 
   $query = "UPDATE users SET localpart='{$_POST['localpart']}',
     username='{$_POST['localpart']}@{$_SESSION['domain']}'
-    WHERE user_id={$_POST['user_id']}";
+    WHERE user_id='{$_POST['user_id']}' AND domain_id='{$_SESSION['domain_id']}' AND type='fail'";
   $result = $db->query($query);
   if (!DB::isError($result)) {
-    header ("Location: adminfail.php?updated={$_POST['localpart']}");
+    header ("Location: adminfail.php?updated={$_POST['localpart']}");	
   } else {
     header ("Location: adminfail.php?failupdated={$_POST['localpart']}");
+	die;
   }
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->

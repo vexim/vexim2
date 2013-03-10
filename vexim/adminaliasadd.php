@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
   $query = "SELECT avscan,spamassassin FROM domains
-    WHERE domain_id={$_SESSION['domain_id']}";
+    WHERE domain_id='{$_SESSION['domain_id']}'";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
 ?>

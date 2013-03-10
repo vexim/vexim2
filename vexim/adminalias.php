@@ -13,10 +13,8 @@
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="menu">
       <a href="adminaliasadd.php"><?php echo _('Add Alias'); ?></a></br>
-      <?php $query = "SELECT user_id,realname,smtp FROM users,domains
-        WHERE domains.domain_id={$_SESSION['domain_id']}
-        AND users.domain_id=domains.domain_id
-        AND users.type='catch'";
+      <?php $query = "SELECT user_id,realname,smtp FROM users
+        WHERE domain_id='{$_SESSION['domain_id']}' AND type='catch'";
         $result = $db->query($query);
         if (!$result->numRows()) {
           print '<a href="admincatchalladd.php">'
@@ -60,11 +58,10 @@
           print '<td class="check">';
           print '</tr>';
         }
-        $query = "SELECT user_id,localpart,smtp,realname,users.type,admin
-          FROM users,domains
-          WHERE domains.domain_id={$_SESSION['domain_id']}
-          AND domains.domain_id=users.domain_id
-          AND users.type='alias' ORDER BY localpart;";
+        $query = "SELECT user_id,localpart,smtp,realname,type,admin
+          FROM users
+          WHERE domain_id='{$_SESSION['domain_id']}' AND type='alias' 
+		  ORDER BY localpart;";
         $result = $db->query($query);
         if ($result->numRows()) {
           while ($row = $result->fetchRow()) {

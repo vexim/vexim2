@@ -13,13 +13,14 @@
   );
 
   $query = "INSERT INTO groups (name, domain_id)
-    VALUES ('{$_POST['localpart']}', {$_SESSION['domain_id']} ) ";
+    VALUES ('{$_POST['localpart']}', '{$_SESSION['domain_id']}' ) ";
   $result = $db->query($query);
 
   if (!DB::isError($result)) { 
     header ("Location: admingroup.php?group_added={$_POST['localpart']}"); 
   } else { 
     header ("Location: admingroup.php?group_failadded={$_POST['localpart']}"); 
+	die;
   } 
 ?>
 

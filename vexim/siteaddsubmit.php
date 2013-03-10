@@ -74,19 +74,19 @@
               max_accounts, quotas, maildir, pipe, enabled, uid, gid,
               type, maxmsgsize)
               VALUES ('" . $_POST['domain'] . "'," .
-            "{$_POST['spamassassin']},".
-            ((isset($_POST['sa_tag'])) ? $_POST['sa_tag']  : 0) . "," .
-            ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse']  : 0) . "," .
-            "{$_POST['avscan']}," .
-            "{$_POST['max_accounts']},".
-            ((isset($_POST['quotas'])) ? $_POST['quotas'] : 0) . ",'" .
-            realpath ($_POST['maildir'] . "/") . "/" . $_POST['domain'] ."'," .
-            "{$_POST['pipe']}," .
-            "{$_POST['enabled']}," .
-            "$uid," .
-            "$gid," .
-            "'{$_POST['type']}',".
-            ((isset($_POST['maxmsgsize'])) ? $_POST['maxmsgsize'] : 0) . ")";
+            "'{$_POST['spamassassin']}','".
+            ((isset($_POST['sa_tag'])) ? $_POST['sa_tag']  : 0) . "','" .
+            ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse']  : 0) . "','" .
+            "{$_POST['avscan']}','".
+            "{$_POST['max_accounts']}','".
+            ((isset($_POST['quotas'])) ? $_POST['quotas'] : 0) . "','" .
+            realpath ($_POST['maildir'] . "/") . "/" . $_POST['domain'] ."','" .
+            "{$_POST['pipe']}','" .
+            "{$_POST['enabled']}'," .
+            "'$uid'," .
+            "'$gid'," .
+            "'{$_POST['type']}','".
+            ((isset($_POST['maxmsgsize'])) ? $_POST['maxmsgsize'] : 0) . "')";
     $domresult = $db->query($query);
     if (!DB::isError($domresult)) {
       if ($_POST['type'] == "local") {
@@ -96,9 +96,9 @@
             SELECT domain_id, '" . $_POST['localpart'] . "'," .
             "'{$_POST['localpart']}@{$_POST['domain']}'," .
             "'{$_POST['clear']}'," .
-            "'". crypt_password($_POST['clear'],$salt) . "'," .
-            $uid . "," .
-            $gid . ", " .
+            "'". crypt_password($_POST['clear'],$salt) . "','" .
+            $uid . "','" .
+            $gid . "', " .
             "'{$smtphomepath}', '{$pophomepath}'," .
             "'Domain Admin', 'local', 1 FROM domains
             WHERE domains.domain = '{$_POST['domain']}'";
@@ -110,7 +110,6 @@
         } else {
           header ("Location: site.php?added={$_POST['domain']}" .
                   "&type={$_POST['type']}");
-          $_SESSION['domain'] = $_POST['domain'];
           mail("{$_POST['localpart']}@{$_POST['domain']}",
                 "Welcome Domain Admin!",
                 "$welcome_newdomain",
@@ -120,7 +119,6 @@
       } else {
         header ("Location: site.php?added={$_POST['domain']}" .
                 "&type={$_POST['type']}");
-        $_SESSION['domain'] = $_POST['domain'];
         mail("{$_POST['localpart']}@{$_POST['domain']}",
               "Welcome Domain Admin!",
               "$welcome_newdomain",

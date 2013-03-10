@@ -42,7 +42,7 @@
             </td>
           </tr>
           <tr>
-            <td><?php _('Password'); ?>:</td>
+            <td><?php echo _('Password'); ?>:</td>
             <td>
               <input name="clear" type="password" class="textfield">
             </td>

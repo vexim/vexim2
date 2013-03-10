@@ -4,19 +4,21 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  $query = "SELECT * FROM users WHERE user_id={$_GET['user_id']}";
+  $query = "SELECT * FROM users WHERE user_id='{$_GET['user_id']}'
+		AND domain_id='{$_SESSION['domain_id']}'
+		AND (type='local' OR type='piped')";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
+  
   $username = $row[username];
   $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains
-    WHERE domain_id={$_SESSION['domain_id']}";
+    WHERE domain_id='{$_SESSION['domain_id']}'";
   $domresult = $db->query($domquery);
   if ($domresult->numRows()) {
     $domrow = $domresult->fetchRow();
   }
-  $blockquery = "SELECT blockhdr,blockval,block_id FROM blocklists,users
-    WHERE blocklists.user_id='{$_GET['user_id']}'
-    AND users.user_id=blocklists.user_id";
+  $blockquery = "SELECT blockhdr,blockval,block_id FROM blocklists
+    WHERE blocklists.user_id='{$_GET['user_id']}'";
   $blockresult = $db->query($blockquery);
 ?>
 <html>
@@ -32,6 +34,15 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div id="forms">
+	<?php 
+		# ensure this page can only be used to view/edit user accounts that already exist for the domain of the admin account
+		if (!$result->numRows()) {			
+			echo '<table align="center"><tr><td>';
+			echo "Invalid userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
+			echo '</td></tr></table>';
+		}else{	
+	?>
+	
     <table align="center">
       <form name="userchange" method="post" action="adminuserchangesubmit.php">
         <tr>
@@ -69,7 +80,7 @@
             </td>
           </tr>
           <tr>
-            <td><?php _('GID'); ?>:</td>
+            <td><?php echo _('GID'); ?>:</td>
             <td>
               <input type="text" size="25" name="gid" class="textfield"
                 value="<?php echo $row['gid']; ?>">
@@ -243,7 +254,7 @@
               <?php
                 $queryuserlist = "SELECT realname, username, user_id, unseen
                 FROM users
-                WHERE enabled = '1' AND domain_id = {$_SESSION['domain_id']}
+                WHERE enabled = '1' AND domain_id = '{$_SESSION['domain_id']}'
                 AND type != 'fail' ORDER BY realname, username, type desc";
                 $resultuserlist = $db->query($queryuserlist);
                 while ($rowuserlist = $resultuserlist->fetchRow()) {
@@ -361,10 +372,12 @@
       ?>
             <tr>
               <td>
-                <a href="adminuserblocksubmit.php?action=delete&user_id=
-                  <?php echo $_GET['user_id']; ?>&block_id=
-                  <?php echo $blockrow['block_id']; ?>&localpart=
-                  <?php $_GET['localpart']; ?>">
+                <a href="adminuserblocksubmit.php?action=delete&user_id=<?php 
+					print $_GET['user_id']
+					. '&block_id='
+					. $blockrow['block_id']
+					.'&localpart='
+					. $_GET['localpart'];?>">
                   <img class="trash" title="Delete" src="images/trashcan.gif"
                     alt="trashcan">
                 </a>
@@ -377,6 +390,10 @@
         }
       ?>
     </table>
+	<?php 		
+		# end of the block editing an alias within the domain
+	}  
+	?>	
     </div>
   </body>
 </html>

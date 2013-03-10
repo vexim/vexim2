@@ -4,11 +4,13 @@
   include_once dirname(__FILE__) . '/config/authpostmaster.php';
   include_once dirname(__FILE__) . '/config/functions.php';
 
+  # enforce limit on the maximum number of user accounts in the domain
   $domquery = "SELECT (count(users.user_id) < domains.max_accounts)
     OR (domains.max_accounts=0) AS allowed FROM users,domain
     WHERE users.domain_id=domains.domain_id
-    AND domains.domain_id={$_SESSION['domain_id']}
-    AND users.type='local'  GROUP BY domains.max_accounts";
+    AND domains.domain_id='{$_SESSION['domain_id']}'
+	AND (users.type='local' OR users.type='piped')
+    GROUP BY domains.max_accounts";
   $domresult = $db->query($domquery);
   if (!DB::isError($domresult)) {
     $domrow = $domresult->fetchRow();
@@ -21,13 +23,15 @@
   $_POST['localpart'] = preg_replace("/^\s+/","",$_POST['localpart']);
   $_POST['localpart'] = preg_replace("/\s+$/","",$_POST['localpart']); 
 
-  # Fix the boolean values
+  # get the settings for the domain 
   $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas FROM domains 
-    WHERE domain_id={$_SESSION['domain_id']}";
+    WHERE domain_id='{$_SESSION['domain_id']}'";
   $result = $db->query($query);
   if ($result->numRows()) {
     $row = $result->fetchRow();
   }
+  
+  # Fix the boolean values
   if (isset($_POST['admin'])) {
     $_POST['admin'] = 1;
   } else {
@@ -38,21 +42,28 @@
   } else {
     $_POST['enabled'] = 0;
   }
-  if (!isset($_POST['uid'])) {
-    $_POST['uid'] = $row['uid'];
+  if ($postmasteruidgid == "yes"){
+	  if(!isset($_POST['uid'])) {
+		$_POST['uid'] = $row['uid'];
+	  }
+	  if(!isset($_POST['gid'])) {
+		$_POST['gid'] = $row['gid'];
+	  }
+  }else{
+	# customisation of the uid and gid is not permitted for postmasters, use the domain defaults
+	$_POST['uid'] = $row['uid'];
+	$_POST['gid'] = $row['gid'];  
   }
-  if (!isset($_POST['gid'])) {
-    $_POST['gid'] = $row['gid'];
-  }
-  if (!isset($_POST['quota'])) {
+  if(!isset($_POST['quota'])) {
     $_POST['quota'] = $row['quotas'];
   }
-  if ($row['quotas'] != "0") {
+  if($row['quotas'] != "0") {
     if (($_POST['quota'] > $row['quotas']) || ($_POST['quota'] == "0")) { 
       header ("Location: adminuser.php?quotahigh={$row['quotas']}");
       die; 
     }
   }
+  
   # Do some checking, to make sure the user is ALLOWED to make these changes
   if ((isset($_POST['on_piped'])) && ($row['pipe'] == 1)) {
     $_POST['on_piped'] = 1;
@@ -86,7 +97,7 @@
   }
 
   $query = "SELECT maildir FROM domains
-    WHERE domain_id ={$_SESSION['domain_id']}";
+    WHERE domain_id ='{$_SESSION['domain_id']}'";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
   if (($_POST['on_piped'] == 1) && ($_POST['smtp'] != '')) {
@@ -105,24 +116,24 @@
       on_spamassassin, sa_tag, sa_refuse, maxmsgsize, enabled, quota)
       VALUES ('{$_POST['localpart']}',
       '{$_POST['localpart']}@{$_SESSION['domain']}',
-      {$_SESSION['domain_id']},
+      '{$_SESSION['domain_id']}',
       '" . crypt_password($_POST['clear'],$salt) . "',
       '{$_POST['clear']}',
       '{$smtphomepath}',
       '{$pophomepath}',
-      {$_POST['uid']},
-      {$_POST['gid']},
+      '{$_POST['uid']}',
+      '{$_POST['gid']}',
       '{$_POST['realname']}',
       '{$_POST['type']}',
-      {$_POST['admin']},
-      {$_POST['on_avscan']},
-      {$_POST['on_piped']},
-      {$_POST['on_spamassassin']},
-      " . ((isset($_POST['sa_tag'] )) ? $_POST['sa_tag']  : 0) . ",
-      " .((isset($_POST['sa_refuse'] )) ? $_POST['sa_refuse']  : 0) . ",
-      {$_POST['maxmsgsize']},
-      {$_POST['enabled']},
-      {$_POST['quota']})";
+      '{$_POST['admin']}',
+      '{$_POST['on_avscan']}',
+      '{$_POST['on_piped']}',
+      '{$_POST['on_spamassassin']}',
+      '" . ((isset($_POST['sa_tag'] )) ? $_POST['sa_tag']  : 0) . "',
+      '" .((isset($_POST['sa_refuse'] )) ? $_POST['sa_refuse']  : 0) . "',
+      '{$_POST['maxmsgsize']}',
+      '{$_POST['enabled']}',
+      '{$_POST['quota']}')";
     $result = $db->query($query);
     if (!DB::isError($result)) {
       header ("Location: adminuser.php?added={$_POST['localpart']}");

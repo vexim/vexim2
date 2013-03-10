@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  $query = "SELECT localpart FROM users WHERE user_id={$_GET['user_id']}";
+  $query = "SELECT localpart FROM users WHERE user_id='{$_GET['user_id']}' AND domain_id='{$_SESSION['domain_id']}' AND users.type='fail'";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
 ?>
@@ -22,6 +22,14 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div="Forms">
+	<?php 
+		# ensure this page can only be used to view/edit fail's that already exist for the domain of the admin account
+		if (!$result->numRows()) {			
+			echo '<table align="center"><tr><td>';
+			echo "Invalid fail userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
+			echo '</td></tr></table>';
+		}else{	
+	?>
       <form name="failchange" method="post" action="adminfailchangesubmit.php">
 	<table align="center">
 	  <tr>
@@ -45,6 +53,10 @@
           </tr>
 	</table>
       </form>
+		<?php 		
+			# end of the block editing a fail within the domain
+		}  
+		?>	  
     </div>
   </body>
 </html>

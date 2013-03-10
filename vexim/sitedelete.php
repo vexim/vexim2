@@ -6,15 +6,15 @@
 
   // Delete the domain's users
   if (($_POST['confirm'] == "1") && ($_POST['type'] != "alias")) {
-    $usrdelquery = "DELETE FROM users WHERE domain_id={$_POST['domain_id']}";
+    $usrdelquery = "DELETE FROM users WHERE domain_id='{$_POST['domain_id']}'";
     $usrdelresult = $db->query($usrdelquery);
     // if we were successful, delete the domain's blocklists
     if (!DB::isError($usrdelresult)) {
-      $usrdelquery = "DELETE FROM blocklists WHERE domain_id={$_POST['domain_id']}";
+      $usrdelquery = "DELETE FROM blocklists WHERE domain_id='{$_POST['domain_id']}'";
       $usrdelresult = $db->query($usrdelquery);
       // if we were successful, delete the domain itself
       if (!DB::isError($usrdelresult)) {
-	$domdelquery = "DELETE FROM domains WHERE domain_id={$_POST['domain_id']}";
+      $domdelquery = "DELETE FROM domains WHERE domain_id='{$_POST['domain_id']}'";
 	$domdelresult = $db->query($domdelquery);
 	// If everything went well, redirect to a success page.
 	if (!DB::isError($domdelresult)) {
@@ -43,7 +43,7 @@
 
   if ($_GET['type'] != "alias") {
     $query = "SELECT COUNT(*) AS count, domain, domains.type FROM users,domains
-  		WHERE (domains.domain_id={$_GET['domain_id']}
+              WHERE (domains.domain_id='{$_GET['domain_id']}'
 		AND users.domain_id=domains.domain_id)
 		GROUP BY domain,domains.type";
     $result = $db->query($query);

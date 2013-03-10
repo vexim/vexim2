@@ -4,7 +4,8 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
   $query = "SELECT localpart,realname,smtp,on_avscan,on_spamassassin,
-    admin,enabled FROM users WHERE user_id={$_GET['user_id']}";
+    admin,enabled FROM users 	
+	WHERE user_id='{$_GET['user_id']}' AND domain_id='{$_SESSION['domain_id']}' AND type='alias'";
   $result = $db->query($query);
   if ($result->numRows()) {
     $row = $result->fetchRow();
@@ -24,7 +25,15 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div id="Forms">
-      <form name="aliaschange" method="post" action="adminaliaschangesubmit.php">
+	<?php 
+		# ensure this page can only be used to view/edit aliases that already exist for the domain of the admin account
+		if (!$result->numRows()) {			
+			echo '<table align="center"><tr><td>';
+			echo "Invalid alias userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
+			echo '</td></tr></table>';
+		}else{	
+	?>
+	<form name="aliaschange" method="post" action="adminaliaschangesubmit.php">
         <table align="center">
           <tr>
             <td><?php echo _('Alias Name'); ?>:</td>
@@ -65,7 +74,7 @@
           <tr>
             <td><?php echo _('Password'); ?>:</td>
             <td>
-              <input name="clear" type="password" size="30" class="textfield">
+              <input name="password" type="password" size="30" class="textfield">
             </td>
           </tr>
           <tr>
@@ -77,7 +86,7 @@
           <tr
             ><td><?php echo _('Verify Password'); ?>:</td>
             <td>
-              <input name="clear" type="password" size="30" class="textfield">
+              <input name="vpassword" type="password" size="30" class="textfield">
             </td>
           </tr>
           <tr>
@@ -124,6 +133,10 @@
           </tr>
         </table>
       </form>
+		<?php 		
+			# end of the block editing an alias within the domain
+		}  
+		?>	
     </div>
   </body>
 </html>

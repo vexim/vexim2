@@ -15,9 +15,8 @@
   } else {
     $_POST['enabled'] = 0;
   }
-  # Do some checking, to make sure the user is ALLOWED to make these changes
   $query = "SELECT avscan,spamassassin from domains
-    WHERE domain_id = {$_SESSION['domain_id']}";
+    WHERE domain_id = '{$_SESSION['domain_id']}'";
   $result = $db->query($query);
   $row = $result->fetchRow();
   if ((isset($_POST['on_avscan'])) && ($row['avscan'] == 1)) {
@@ -30,13 +29,20 @@
   } else {
     $_POST['on_spamassassin'] = 0;
   }
-  // Don't accept blank passwords
+  # If a password wasn't specified, create a randomised 128bit password
   if (($_POST['clear'] == "") && ($_POST['vclear'] == "")) {
-    $junk = md5(time());
+    $junk = md5(rand().time().rand());
     $_POST['clear'] = $junk;
     $_POST['vclear'] = $junk;
   }
 
+  # aliases must have a localpart defined
+  if ($_POST['localpart']==''){
+    header("Location: adminalias.php?badname={$_POST['localpart']}");
+    die;
+  }
+
+  # check_user_exists() will die if a user account already exists with the same localpart and domain id
   check_user_exists(
     $db,$_POST['localpart'],$_SESSION['domain_id'],'adminalias.php'
   );
@@ -63,11 +69,11 @@
       gid,
       '{$_POST['realname']}',
       'alias',
-      {$_POST['admin']},
-      {$_POST['on_avscan']},
-      {$_POST['on_spamassassin']},
-      {$_POST['enabled']} from domains
-      WHERE domains.domain_id={$_SESSION['domain_id']}";
+      '{$_POST['admin']}',
+      '{$_POST['on_avscan']}',
+      '{$_POST['on_spamassassin']}',
+      '{$_POST['enabled']}' from domains
+      WHERE domains.domain_id='{$_SESSION['domain_id']}'";
     $result = $db->query($query);
     if (!DB::isError($result)) {
       header ("Location: adminalias.php?added={$_POST['localpart']}");

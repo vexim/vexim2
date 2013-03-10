@@ -7,7 +7,7 @@
   if (isset($_POST['on_forward'])) {$_POST['on_forward'] = 1;} else {$_POST['on_forward'] = 0;}
   if (isset($_POST['unseen'])) {$_POST['unseen'] = 1;} else {$_POST['unseen'] = 0;}
   # Do some checking, to make sure the user is ALLOWED to make these changes
-  $query = "SELECT avscan,spamassassin,maxmsgsize from domains WHERE domain_id = {$_SESSION['domain_id']}";
+  $query = "SELECT avscan,spamassassin,maxmsgsize from domains WHERE domain_id = '{$_SESSION['domain_id']}'";
   $result = $db->query($query);
   $row = $result->fetchRow();
   if ((isset($_POST['on_avscan'])) && ($row['avscan'] = 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
@@ -16,7 +16,7 @@
 
   if ($_POST['realname'] != "") {
     $query = "UPDATE users SET realname='{$_POST['realname']}'
-		WHERE user_id={$_SESSION['user_id']}";
+		WHERE user_id='{$_SESSION['user_id']}'";
     $result = $db->query($query);
   }
 
@@ -25,7 +25,7 @@
     $cryptedpassword = crypt_password($_POST['clear']);
     $query = "UPDATE users SET crypt='$cryptedpassword',
 		clear='{$_POST['clear']}'
-		WHERE user_id={$_SESSION['user_id']}";
+            WHERE user_id='{$_SESSION['user_id']}'";
     $result = $db->query($query);
     if (!DB::isError($result)) {
       $_SESSION['crypt'] = $cryptedpassword;
@@ -51,7 +51,7 @@
 		forward='{$_POST['forward']}',
 		maxmsgsize='{$_POST['maxmsgsize']}',
 		unseen='{$_POST['unseen']}'
-		WHERE user_id={$_SESSION['user_id']}";
+            WHERE user_id='{$_SESSION['user_id']}'";
     $result = $db->query($query);
     if (!DB::isError($result)) {
       if (strlen($_POST['vacation']) > $max_vacation_length)

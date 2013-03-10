@@ -29,7 +29,7 @@
         $query = "SELECT count(users.user_id)
           AS used, max_accounts
           FROM domains,users
-          WHERE users.domain_id={$_SESSION['domain_id']}
+          WHERE users.domain_id='{$_SESSION['domain_id']}'
           AND domains.domain_id=users.domain_id
           AND (users.type='local' OR users.type='piped')
           GROUP BY max_accounts"; 

@@ -2,6 +2,7 @@
   include_once dirname(__FILE__) . '/config/variables.php';
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
+  include_once dirname(__FILE__) . '/config/authpostmaster.php';
   if (isset($_POST['listname'])) {
     header ("Location: $mailmanroot/admin/{$_POST['listname']}");
   }

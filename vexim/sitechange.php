@@ -23,7 +23,7 @@
 	  <tr><td><?php echo _("Admin"); ?>:</td><td><select name="localpart" class="textfield">
 	    <?php
 	      $query = "SELECT localpart,domain FROM users,domains
-		WHERE domains.domain_id=" . $_GET['domain_id'] . "
+		WHERE domains.domain_id='" . $_GET['domain_id'] . "'
 		AND admin=1 AND users.domain_id=domains.domain_id";
 	      $result = $db->query($query);
 	      if ($result->numRows()) {
@@ -33,7 +33,7 @@
 	      }
 	    ?>
 	    </select>@<?php 
-	    $query = "SELECT * FROM domains WHERE domain_id={$_GET['domain_id']}";
+          $query = "SELECT * FROM domains WHERE domain_id='{$_GET['domain_id']}'";
 	    $result = $db->query($query);
 	    if ($result->numRows()) { $row = $result->fetchRow(); }
 	    print $row['domain']; ?></td>

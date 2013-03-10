@@ -157,6 +157,14 @@
       <?php
           }
         }
+		
+		# display status of $AllowUserLogin
+		echo '<tr><td colspan="3">&nbsp;</td></tr>';       
+		if($AllowUserLogin){
+		    echo '<tr><td colspan="3">Standard user accounts are currently able to login and change their own personal details.</td></tr>';
+		}else{
+			echo '<tr><td colspan="3">The system is currently configured to prevent standard users logging in to change their own personal details.</td></tr>';
+		}
       ?>
     </table>
     </div>

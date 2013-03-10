@@ -5,7 +5,8 @@
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
   if ($_GET[action] == 'delete') {
-    $query = "DELETE FROM blocklists WHERE block_id={$_GET['block_id']}";
+    $query = "DELETE FROM blocklists WHERE block_id='{$_GET['block_id']}'
+			AND domain_id='{$_SESSION['domain_id']}' AND user_id='{$_GET['user_id']}'";
     $result = $db->query($query);
     if (!DB::isError($result)) {
       header ("Location: adminuser.php?updated={$_GET['localpart']}");
@@ -23,8 +24,8 @@
   }
   $query = "INSERT INTO blocklists
     (domain_id, user_id, blockhdr, blockval, color) VALUES (
-    {$_SESSION['domain_id']},
-    {$_POST['user_id']},
+    '{$_SESSION['domain_id']}',
+    '{$_POST['user_id']}',
     '{$_POST['blockhdr']}',
     '{$_POST['blockval']}',
     '{$_POST['color']}')";

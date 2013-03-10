@@ -26,31 +26,27 @@
         </tr>
         <?php
           $query = "SELECT id, name, is_public, enabled FROM groups
-            WHERE domain_id = {$_SESSION['domain_id']}
+            WHERE domain_id = '{$_SESSION['domain_id']}'
             ORDER BY NAME ASC";
           $result = $db->query($query);
           while ($row = $result->fetchRow()) {
         ?>
         <tr>
           <td class="trash">
-            <a href="admingroupdelete.php?group_id=
-              <?php echo $row['id']; ?>&localpart=
-              <?php echo $row['name']; ?>">
-            <img class='trash' title="
-              <?php print _('Delete group') . $row['name']; ?>"
+            <a href="admingroupdelete.php?group_id=<?php echo $row['id']; ?>&localpart=<?php echo $row['name']; ?>">
+            <img class='trash' title="<?php print _('Delete group') . $row['name']; ?>"
               src="images/trashcan.gif" alt="trashcan">
             </a>
           </td>
           <td>
-            <a href="admingroupchange.php?group_id=
-              <?php echo $row['id']; ?>"
+            <a href="admingroupchange.php?group_id=<?php echo $row['id']; ?>"
               title="<?php print _('Click to modify ') . $row['name']; ?>">
             <?php echo $row['name'].'@'.$_SESSION['domain']; ?></a>
           </td>
           <td>
             <?php if ('Y' == $row['is_public']) { ?>
               <img class="check" src="images/check.gif"
-                title="<?php print _('Anyone can write to') . $row['name']; ?>">
+                title="<?php print _('Anyone can write to') . ' '. $row['name']; ?>">
             <?php } ?>
           </td>
           <td>

@@ -4,10 +4,11 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
+  # enforce limit on the maximum number of user accounts in the domain
   $query = "SELECT (count(users.user_id) < domains.max_accounts)
-    OR (domains.max_accounts = 0)   AS allowed FROM
+    OR (domains.max_accounts = 0) AS allowed FROM
     users,domains WHERE users.domain_id=domains.domain_id
-    AND domains.domain_id={$_SESSION['domain_id']}
+    AND domains.domain_id='{$_SESSION['domain_id']}'
     AND (users.type='local' OR users.type='piped')
     GROUP BY domains.max_accounts";
   $result = $db->query($query);
@@ -18,7 +19,7 @@
     header ('Location: adminuser.php?maxaccounts=true');
   }
 
-  $query = "SELECT * FROM domains WHERE domain_id={$_SESSION['domain_id']}";
+  $query = "SELECT * FROM domains WHERE domain_id='{$_SESSION['domain_id']}'";
   $result = $db->query($query);
   $row = $result->fetchRow();
 ?>

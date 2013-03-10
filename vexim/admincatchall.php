@@ -3,7 +3,8 @@
   include_once dirname(__FILE__) . '/config/authpostmaster.php';
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
-  $query = "SELECT smtp FROM users WHERE user_id={$_GET['user_id']}";
+  $query = "SELECT smtp FROM users WHERE user_id='{$_GET['user_id']}' 
+			AND domain_id='{$_SESSION['domain_id']}' AND type='catch'";
   $result = $db->query($query);
   if ($result->numRows()) { $row = $result->fetchRow(); }
 ?>
@@ -20,7 +21,15 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div id="Forms">
-      <form name="admincatchall" method="post" action="admincatchallsubmit.php">
+	<?php 
+		# ensure this page can only be used to view/edit the catchall that already exist for the domain of the admin account
+		if (!$result->numRows()) {			
+			echo '<table align="center"><tr><td>';
+			echo "Invalid catchall userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";
+			echo '</td></tr></table>';
+		}else{	
+	?>
+	<form name="admincatchall" method="post" action="admincatchallsubmit.php">
         <table align="center">
           <tr>
             <td><?php echo _('Alias Name'); ?>:</td>
@@ -50,6 +59,10 @@
           </tr>
         </table>
       </form>
+		<?php 		
+			# end of block shown for editing the domains catchall
+		}  
+		?>  
     </div>
   </body>
 </html>

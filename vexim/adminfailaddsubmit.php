@@ -22,7 +22,7 @@
        uid,
        gid,
       'fail',
-      'Fail' FROM domains WHERE domain_id={$_SESSION['domain_id']}";
+      'Fail' FROM domains WHERE domain_id='{$_SESSION['domain_id']}'";
   $result = $db->query($query);
   if (!DB::isError($result)) {
     header ("Location: adminfail.php?added={$_POST['localpart']}");
