@@ -149,8 +149,12 @@
                 {
                     $salt = '';
                 }
+                $cryptedpass = crypt($clear, $salt);
             }
-            $cryptedpass = crypt($clear, $salt);
+            else
+            {
+                $cryptedpass = crypt($clear);
+            }
         }   
         
         return $cryptedpass;
