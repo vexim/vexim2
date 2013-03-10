@@ -159,4 +159,18 @@
         
         return $cryptedpass;
     }
+
+    /**
+     * Properly encode a mail header text for using with mail().
+     *
+     * @param   string  $text   the text to encode
+     */
+    function vexim_encode_header($text)
+    {
+        $text = str_replace(" ", "_", imap_8bit(trim($text)));
+        $text = str_replace("?", "=3F", $text);
+        $text = str_replace("=\r\n", "?=\r\n =?UTF-8?Q?", $text);
+        $text = "=?UTF-8?Q?" . $text . "?=" ;
+        return $text;
+    }
 ?>

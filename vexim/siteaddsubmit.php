@@ -111,18 +111,18 @@
           header ("Location: site.php?added={$_POST['domain']}" .
                   "&type={$_POST['type']}");
           mail("{$_POST['localpart']}@{$_POST['domain']}",
-                "Welcome Domain Admin!",
+                vexim_encode_header(_("Welcome Domain Admin!")),
                 "$welcome_newdomain",
-                "From: {$_POST['localpart']}@{$_POST['domain']}\r\n");
+                "From: {$_POST['localpart']}@{$_POST['domain']}\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\n");
           die;
         }
       } else {
         header ("Location: site.php?added={$_POST['domain']}" .
                 "&type={$_POST['type']}");
         mail("{$_POST['localpart']}@{$_POST['domain']}",
-              "Welcome Domain Admin!",
+              vexim_encode_header(_("Welcome Domain Admin!")),
               "$welcome_newdomain",
-              "From: {$_POST['localpart']}@{$_POST['domain']}\r\n");
+              "From: {$_POST['localpart']}@{$_POST['domain']}\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\n");
         die;
       }
     } else {

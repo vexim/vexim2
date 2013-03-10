@@ -138,9 +138,9 @@
     if (!DB::isError($result)) {
       header ("Location: adminuser.php?added={$_POST['localpart']}");
       mail("{$_POST['localpart']}@{$_SESSION['domain']}",
-        "Welcome {$_POST['realname']}!",
+        vexim_encode_header(sprintf(_("Welcome %s!"), $_POST['realname'])),
         "$welcome_message",
-        "From: {$_SESSION['localpart']}@{$_SESSION['domain']}\r\n");
+        "From: {$_SESSION['localpart']}@{$_SESSION['domain']}\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\n");
       die;
     } else {
       header ("Location: adminuser.php?failadded={$_POST['localpart']}");
