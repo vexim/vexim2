@@ -1,11 +1,11 @@
----
---- Database: `vexim`
----
+--
+-- Database: `vexim`
+--
 CREATE DATABASE IF NOT EXISTS `vexim` DEFAULT CHARACTER SET utf8;
 
----
---- Table: `domains`
----
+--
+-- Table: `domains`
+--
 DROP TABLE IF EXISTS `vexim`.`domains`;
 CREATE TABLE IF NOT EXISTS `vexim`.`domains`
 (
@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS `vexim`.`domains`
 	KEY domains (domain)
 );
 
----
---- Table: `users`
----
+--
+-- Table: `users`
+--
 DROP TABLE IF EXISTS `vexim`.`users`;
 CREATE TABLE IF NOT EXISTS `vexim`.`users` 
 (
@@ -77,9 +77,9 @@ CREATE TABLE IF NOT EXISTS `vexim`.`users`
 	KEY local (localpart)
 );
 
----
---- Table: `blocklists`
----
+--
+-- Table: `blocklists`
+--
 DROP TABLE IF EXISTS `vexim`.`blocklists`;
 CREATE TABLE IF NOT EXISTS `vexim`.`blocklists`
 (
@@ -93,18 +93,18 @@ CREATE TABLE IF NOT EXISTS `vexim`.`blocklists`
 );
 
 
----
---- Table: `domainalias`
----
+--
+-- Table: `domainalias`
+--
 CREATE TABLE IF NOT EXISTS `vexim`.`domainalias` 
 (
     domain_id        mediumint(8)  unsigned  NOT NULL,
 	alias varchar(64)
 );
 
----
---- Table: `groups`
----
+--
+-- Table: `groups`
+--
 DROP TABLE IF EXISTS `vexim`.`groups`;
 CREATE TABLE IF NOT EXISTS `vexim`.`groups`
 (
@@ -117,9 +117,9 @@ CREATE TABLE IF NOT EXISTS `vexim`.`groups`
     UNIQUE KEY group_name(domain_id, name)
 );
 
----
---- Table: `group_contents`
----
+--
+-- Table: `group_contents`
+--
 DROP TABLE IF EXISTS `vexim`.`group_contents`;
 CREATE TABLE IF NOT EXISTS `vexim`.`group_contents` 
 (
@@ -128,21 +128,21 @@ CREATE TABLE IF NOT EXISTS `vexim`.`group_contents`
     PRIMARY KEY (group_id, member_id)
 );
 
----
---- Priviledges:
----
+--
+-- Priviledges:
+--
 GRANT SELECT,INSERT,DELETE,UPDATE ON `vexim`.* to "vexim"@"localhost" 
     IDENTIFIED BY 'CHANGE';
 FLUSH PRIVILEGES;
 
----
---- add initial domain: admin
----
+--
+-- add initial domain: admin
+--
 INSERT INTO `vexim`.`domains` (domain_id, domain) VALUES ('1', 'admin');
 
----
---- add initial user; postmaster
----
+--
+-- add initial user; postmaster
+--
 INSERT INTO `vexim`.`users`
 (
     domain_id, localpart, username, clear, crypt, uid, gid, 
@@ -154,7 +154,7 @@ VALUES
     'SiteAdmin', 'site', '1'
 );
 
---- fix password when using DES encrypted password:
+-- fix password when using DES encrypted password:
 -- UPDATE `vexim`.`users` SET `crypt` = '0Apup3ZbF9RPg'
 --   WHERE `user_id` = '1' LIMIT 1 ;
 
