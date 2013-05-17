@@ -23,6 +23,8 @@ done, on the Internet.
 
 The Virtual Exim project currently lives on GitHub:
   https://github.com/avleen/vexim2
+And its mailing list/Google group is available at:
+  https://groups.google.com/group/vexim
 
 
 Requirements:
@@ -31,7 +33,7 @@ work:
     * Exim v4 compiled against mysql (tested on v3.23.x/v4.1x/4.2x)
     * Mysql (tested on v3.23.x/v4.0.x/4.1x/4.2x/5.1.x)
     * Apache (Tested in 1.3.27 as well as in 2.2.x)
-    * PHP v4 or v5 (tested on v4.3.x and v5.3.x) + pear-DB
+    * PHP v5 (tested on v5.3.x) + pear-DB
     * Perl + DBI module for creating the databases (optional)
     * Perl DBD-mysql or DBD-Pg modules for creating databases (optional)
     This might work on older versions of MySQL or PostgreSQL.
