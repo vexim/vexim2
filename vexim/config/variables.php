@@ -62,14 +62,14 @@
   $max_vacation_length = 1023;
 
   /* Welcome message, sent to new POP/IMAP accounts */
-  $welcome_message = "Welcome, {$_POST['realname']} !\n\nYour new E-mail account is all ready for you.\n\n"
+  @$welcome_message = "Welcome, {$_POST['realname']} !\n\nYour new E-mail account is all ready for you.\n\n"
                    . "Here are some settings you might find useful:\n\n"
 		   . "Username: {$_POST['localpart']}@{$_SESSION['domain']}\n"
 		   . "POP3 server: mail.{$_SESSION['domain']}\n"
 		   . "SMTP server: mail.{$_SESSION['domain']}\n";
 
   /* Welcome message, sent to new domains */
-  $welcome_newdomain = "Welcome, and thank you for registering your e-mail domain\n"
+  @$welcome_newdomain = "Welcome, and thank you for registering your e-mail domain\n"
   		     . "{$_POST['domain']} with us.\n\nIf you have any questions, please\n"
 		     . "don't hesitate to ask your account representitive.\n";
 ?>

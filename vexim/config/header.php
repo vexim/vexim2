@@ -12,10 +12,12 @@
   if (isset($_SESSION['domain'])) {
     print     "-- " . $_SESSION['domain'] . " ";
   }
-  if (($domheaderrow['enabled'] == "0") || ($domheaderrow['enabled'] == "f")) {
-    print   _("-- domain disabled (please see your administrator).");
-  } else if (($usrheaderrow['enabled'] == "0") ||($usrheaderrow['enabled'] == "f")) {
-    print   _("-- account disabled (please see your administrator).");
+  if (isset($_SESSION['domain_id'])) {
+    if (($domheaderrow['enabled'] == "0") || ($domheaderrow['enabled'] == "f")) {
+      print   _("-- domain disabled (please see your administrator).");
+    } else if (($usrheaderrow['enabled'] == "0") ||($usrheaderrow['enabled'] == "f")) {
+      print   _("-- account disabled (please see your administrator).");
+    }
   }
   // First a few status messages about account maintenance
   if (isset($_GET['added'])) {
@@ -83,7 +85,7 @@
   } else if (isset($_GET['failuidguid'])) {
     printf (_("-- Error getting UID/GID for %s"), $_GET['failuidguid']);
   }
-  if ($_GET['login'] == "failed") { print _("Login failed"); }
+  if (isset($_GET['login']) && ($_GET['login'] == "failed")) { print _("Login failed"); }
 
   print "</p></div>";
 ?>

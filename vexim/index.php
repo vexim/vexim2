@@ -57,7 +57,7 @@
       </form>
     </div>
     <?php
-      if ($_GET['login'] == "failed") {
+      if (isset($_GET['login']) && ($_GET['login'] == "failed")) {
         print "<div id='status'>" . _("Login failed") . "</div>";
       }
     ?>
