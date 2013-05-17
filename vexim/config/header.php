@@ -8,7 +8,7 @@
     $usrheaderrow = $usrheaderresult->fetchRow();
   }
 
-  print "<div id=\"Header\"><p><a href=\"http://silverwraith.com/vexim/\" target=\"_blank\">" . _("Virtual Exim") . "</a> ";
+  print "<div id=\"Header\"><p><a href=\"https://github.com/avleen/vexim2\" target=\"_blank\">" . _("Virtual Exim") . "</a> ";
   if (isset($_SESSION['domain'])) {
     print     "-- " . $_SESSION['domain'] . " ";
   }

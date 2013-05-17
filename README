@@ -21,21 +21,17 @@ Finally, a special note of thanks to Dan Bernstein for his Qmail MTA.
 Dan, thank you for educating me how mail delivery really shouldn't be
 done, on the Internet.
 
-You can always find the latest version of this software from:
-  WEB: http://silverwraith.com/vexim
-       This is the mail Virtual Exim website
-  CVS: :pserver:cvs@silverwraith.com:/home/cvs
-       password: anonymous
-       This is the mail Virtual Exim CVS repository
+The Virtual Exim project currently lives on GitHub:
+  https://github.com/avleen/vexim2
 
 
 Requirements:
 The following packages must be installed on your system, for VExim to
 work:
     * Exim v4 compiled against mysql (tested on v3.23.x/v4.1x/4.2x)
-    * Mysql (tested on v3.23.x/v4.0.x/4.1x/4.2x)
-    * Apache (Tested in 1.3.27)
-    * PHP v4 (tested on v4.3.x) + pear-DB
+    * Mysql (tested on v3.23.x/v4.0.x/4.1x/4.2x/5.1.x)
+    * Apache (Tested in 1.3.27 as well as in 2.2.x)
+    * PHP v4 or v5 (tested on v4.3.x and v5.3.x) + pear-DB
     * Perl + DBI module for creating the databases (optional)
     * Perl DBD-mysql or DBD-Pg modules for creating databases (optional)
     This might work on older versions of MySQL or PostgreSQL.
