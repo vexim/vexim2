@@ -134,36 +134,65 @@
         }
         else
         {
-            if ($salt != '')
+            if ($cryptscheme == 'des')
             {
-                if ($cryptscheme == 'des') 
+                if (!empty($salt))
                 {
                     $salt = substr($salt, 0, 2);
                 }
                 else
-                if ($cryptscheme == 'md5') 
+                {
+                    $salt = get_random_bytes(2);
+                }
+            }
+            else
+            if ($cryptscheme == 'md5')
+            {
+                if (!empty($salt))
                 {
                     $salt = substr($salt, 0, 12);
                 }
                 else
                 {
-                    $salt = '';
+                    $salt = '$1$'.get_random_bytes(8).'$';
                 }
-                $cryptedpass = crypt($clear, $salt);
             }
             else
             {
-                $cryptedpass = crypt($clear);
+                $salt = '';
             }
-        }   
+            $cryptedpass = crypt($clear, $salt);
+        }
         
         return $cryptedpass;
+    }
+
+    /**
+     * Generate pseudo random bytes
+     *
+     * @param   int     $count  number of bytes to generate
+     * @return  string          A string with the hexadecimal number
+     */
+    function get_random_bytes($count)
+    {
+        if($count <= 13)
+        {
+            $output = uniqid();
+        }
+        else
+        {
+            $output = uniqid('', true);
+        }
+        $output = substr($output, -1*$count);
+
+        return $output;
     }
 
     /**
      * Properly encode a mail header text for using with mail().
      *
      * @param   string  $text   the text to encode
+     * @return  string          The encoded header
      */
     function vexim_encode_header($text)
     {
