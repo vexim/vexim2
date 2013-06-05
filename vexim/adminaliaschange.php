@@ -5,10 +5,11 @@
   include_once dirname(__FILE__) . '/config/httpheaders.php';
   $query = "SELECT localpart,realname,smtp,on_avscan,on_spamassassin,
     admin,enabled FROM users 	
-	WHERE user_id='{$_GET['user_id']}' AND domain_id='{$_SESSION['domain_id']}' AND type='alias'";
-  $result = $db->query($query);
-  if ($result->numRows()) {
-    $row = $result->fetchRow();
+	WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
+  $sth = $dbh->prepare($query);
+  $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
+  if ($sth->rowCount()) {
+    $row = $sth->fetch();
   }
 ?>
 <html>
@@ -27,7 +28,7 @@
     <div id="Forms">
 	<?php 
 		# ensure this page can only be used to view/edit aliases that already exist for the domain of the admin account
-		if (!$result->numRows()) {			
+		if (!$sth->rowCount()) {
 			echo '<table align="center"><tr><td>';
 			echo "Invalid alias userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
 			echo '</td></tr></table>';

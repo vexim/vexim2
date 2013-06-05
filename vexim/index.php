@@ -20,13 +20,13 @@
                 $domain = preg_replace ("/^mail\./", "", $_SERVER["SERVER_NAME"]);
                 if ($domaininput == 'dropdown') {
                   $query = "SELECT domain FROM domains WHERE type='local' AND domain!='admin' ORDER BY domain";
-                  $result = $db->query($query);
+                  $result = $dbh->query($query);
               ?>
                   <select name="domain" class="textfield">
-                  <option value=''>
+                  <option value=''></option>
               <?php
-                    if ($result->numRows()) {
-                      while ($row = $result->fetchRow()) {
+                    if ($result->rowCount()) {
+                      while ($row = $result->fetch()) {
                         print "<option value='{$row['domain']}'>{$row['domain']}"
                         . '</option>';
                       }

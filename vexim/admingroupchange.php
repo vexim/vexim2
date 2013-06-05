@@ -4,10 +4,13 @@
   include_once dirname(__FILE__) . "/config/functions.php";
 ?>
 <?php
-  $query = "SELECT * FROM groups WHERE id='{$_GET['group_id']}' AND domain_id='{$_SESSION['domain_id']}'";
-  $result = $db->query($query);
-  $row = $result->fetchRow();
-  $grouplocalpart = $row['name'];
+  $query = "SELECT * FROM groups WHERE id=:group_id AND domain_id=:domain_id";
+  $sth = $dbh->prepare($query);
+  $sth->execute(array(':group_id'=>$_GET['group_id'], ':domain_id'=>$_SESSION['domain_id']));
+  if($sth->rowCount()) {
+    $row = $sth->fetch();
+    $grouplocalpart = $row['name'];
+  }
 ?>
 <html>
   <head>
@@ -25,11 +28,11 @@
     <div id="Forms">
 	<?php 
 		# ensure this page can only be used to view/edit aliases that already exist for the domain of the admin account
-		if (!$result->numRows()) {			
+		if (!$sth->rowCount()) {			
 			echo '<table align="center"><tr><td>';
 			echo "Invalid groupid '" . htmlentities($_GET['group_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
 			echo '</td></tr></table>';
-		}else{	
+		}else{
 	?>	
       <table align="center">
         <form name="groupchange" method="post"
@@ -72,12 +75,13 @@
         <tr>
           <td colspan="2"> 
             <?php
-              $query = "select u.realname, u.username, u.enabled, c.member_id
-                from users u, group_contents c
-                where u.user_id = c.member_id and c.group_id = '{$_GET['group_id']}'
-                order by u.enabled desc, u.realname asc";
-              $result = $db->query($query);
-              if ($result->numRows()) {
+              $query = "SELECT u.realname, u.username, u.enabled, c.member_id
+                FROM users u, group_contents c
+                WHERE u.user_id=c.member_id and c.group_id=:group_id
+                ORDER BY u.enabled desc, u.realname asc";
+              $sth = $dbh->prepare($query);
+              $sth->execute(array(':group_id'=>$_GET['group_id']));
+              if ($sth->rowCount()) {
             ?>
             <table align="center">
               <tr>
@@ -87,7 +91,7 @@
                 <th><?php echo _('Enabled'); ?></th>
               </tr>
               <?php
-                while ($row = $result->fetchRow()) {
+                while ($row = $sth->fetch()) {
               ?>
               <tr>
                 <td class="trash">
@@ -139,11 +143,12 @@
               <select name="usertoadd">
                 <option selected value=""></option>
                 <?php
-                  $query = "select realname, username, user_id from users
-                    where enabled = '1' and domain_id = '{$_SESSION['domain_id']}' and type != 'fail'
-                    order by realname, username, type desc";
-                  $result = $db->query($query);
-                  while ($row = $result->fetchRow()) {
+                  $query = "SELECT realname, username, user_id FROM users
+                    WHERE enabled='1' AND domain_id=:domain_id AND type!='fail'
+                    ORDER BY realname, username, type desc";
+                  $sth = $dbh->prepare($query);
+                  $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
+                  while ($row = $sth->fetch()) {
                 ?>
                   <option value="<?php echo $row['user_id']; 
 					?>"><?php echo $row['realname']; 

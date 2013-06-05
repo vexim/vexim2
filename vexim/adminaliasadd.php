@@ -4,9 +4,10 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
   $query = "SELECT avscan,spamassassin FROM domains
-    WHERE domain_id='{$_SESSION['domain_id']}'";
-  $result = $db->query($query);
-  if ($result->numRows()) { $row = $result->fetchRow(); }
+    WHERE domain_id=:domain_id";
+  $sth = $dbh->prepare($query);
+  $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
+  if ($sth->rowCount()) { $row = $sth->fetch(); }
 ?>
 <html>
   <head>
@@ -67,13 +68,13 @@
             <td><input name="admin" type="checkbox" class="textfield"></td>
           </tr>
           <?php
-            if ($row['on_avscan'] == "1") {
+            if ($row['avscan'] == "1") {
               print '<tr><td>' . _('Anti-Virus')
                 . ':</td><td>'
                 . '<input name="on_avscan" type="checkbox" class="textfield">'
                 . '</td></tr>';
             }
-            if ($row['on_spamassassin'] == "1") {
+            if ($row['spamassassin'] == "1") {
               print '<tr><td>' . _('Spamassassin')
               . ':</td><td>'
               . '<input name="on_spamassassin" type="checkbox" class="textfield">'

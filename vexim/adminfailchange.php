@@ -4,9 +4,12 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  $query = "SELECT localpart FROM users WHERE user_id='{$_GET['user_id']}' AND domain_id='{$_SESSION['domain_id']}' AND users.type='fail'";
-  $result = $db->query($query);
-  if ($result->numRows()) { $row = $result->fetchRow(); }
+  $query = "SELECT localpart FROM users WHERE user_id=:user_id AND domain_id=:domain_id AND users.type='fail'";
+  $sth = $dbh->prepare($query);
+  $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
+  if($sth->rowCount()) {
+      $row = $sth->fetch();
+  }
 ?>
 <html>
   <head>
@@ -24,7 +27,7 @@
     <div="Forms">
 	<?php 
 		# ensure this page can only be used to view/edit fail's that already exist for the domain of the admin account
-		if (!$result->numRows()) {			
+		if (!$sth->rowCount()) {			
 			echo '<table align="center"><tr><td>';
 			echo "Invalid fail userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
 			echo '</td></tr></table>';

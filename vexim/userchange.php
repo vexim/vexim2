@@ -4,16 +4,19 @@
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
-  $domquery = "SELECT avscan,spamassassin FROM domains WHERE domain_id='{$_SESSION['domain_id']}'";
-  $domresult = $db->query($domquery);
-  if (!DB::isError($domresult)) { $domrow = $domresult->fetchRow(); }
-  $query = "SELECT * FROM users WHERE user_id='{$_SESSION['user_id']}'";
-  $result = $db->query($query);
-  if (!DB::isError($result)) { $row = $result->fetchRow(); }
+  $domquery = "SELECT avscan,spamassassin FROM domains WHERE domain_id=:domain_id";
+  $domsth = $dbh->prepare($domquery);
+  $success = $domsth->execute(array(':domain_id'=>$_SESSION['domain_id']));
+  if ($success) { $domrow = $domsth->fetch(); }
+  $query = "SELECT * FROM users WHERE user_id=:user_id";
+  $sth = $dbh->prepare($query);
+  $success = $sth->execute(array(':user_id'=>$_SESSION['user_id']));
+  if ($success) { $row = $sth->fetch(); }
   $blockquery = "SELECT block_id,blockhdr,blockval FROM blocklists,users
-              WHERE blocklists.user_id='{$_SESSION['user_id']}'
+              WHERE blocklists.user_id=:user_id
 		AND users.user_id=blocklists.user_id";
-  $blockresult = $db->query($blockquery);
+  $blocksth = $dbh->prepare($blockquery);
+  $blocksuccess = $blocksth->execute(array(':user_id'=>$_SESSION['user_id']));
 ?>
 <html>
   <head>
@@ -98,8 +101,8 @@
     </form>
     <table align="center">
       <tr><th><?php echo _("Delete"); ?></th><th><?php echo _("Blocked Header"); ?></th><th><?php echo _("Content"); ?></th></tr>
-      <?php if (!DB::isError($blockresult)) {
-	while ($blockrow = $blockresult->fetchRow()) {
+      <?php if ($blocksuccess) {
+	while ($blockrow = $blocksth->fetch()) {
 	  print "<tr><td><a href=\"userblocksubmit.php?action=delete&block_id={$blockrow['block_id']}\"><img style=\"border:0;width:10px;height:16px\" title=\"Delete\" src=\"images/trashcan.gif\" alt=\"trashcan\"></a></td>";
 	  print "<td>{$blockrow['blockhdr']}</td><td>{$blockrow['blockval']}</td></tr>\n";
 	}
