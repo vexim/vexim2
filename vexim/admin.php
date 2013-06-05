@@ -59,14 +59,12 @@
         <tr><td></td></tr>
         <?php
           $query = "SELECT alias,domain FROM domainalias,domains 
-            WHERE domainalias.domain_id=:domain_id
+            WHERE domainalias.domain_id = {$_SESSION['domain_id']}
             AND domains.domain_id = domainalias.domain_id";
-          $sth = $dbh->prepare($query);
-          $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-
-          if($sth->rowCount()) {
+          $result = $db->query($query);
+          if ($result->numRows()) {
             print '<tr><td>Domain data:</td></tr>';
-            while ($row = $sth->fetch()) {
+            while ($row = $result->fetchRow()) {
               print '<tr><td>';
               print "{$row['alias']} is an alias of {$_SESSION['domain']}";
               print '</td></tr>';

@@ -5,19 +5,17 @@
   include_once dirname(__FILE__) . '/config/functions.php';
 
   # enforce limit on the maximum number of user accounts in the domain
-  $query = "SELECT (count(users.user_id) < domains.max_accounts)
+  $domquery = "SELECT (count(users.user_id) < domains.max_accounts)
     OR (domains.max_accounts=0) AS allowed FROM users,domain
     WHERE users.domain_id=domains.domain_id
-    AND domains.domain_id=:domain_id
+    AND domains.domain_id='{$_SESSION['domain_id']}'
 	AND (users.type='local' OR users.type='piped')
     GROUP BY domains.max_accounts";
-  $sth = $dbh->prepare($query);
-  $success = $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-  if ($success) {
-    $domrow = $sth->fetch();
+  $domresult = $db->query($domquery);
+  if (!DB::isError($domresult)) {
+    $domrow = $domresult->fetchRow();
     if (!$domrow['allowed']) {
         header ("Location: adminuser.php?maxaccounts=true");
-        die();
     }
   }
 
@@ -27,11 +25,10 @@
 
   # get the settings for the domain 
   $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas FROM domains 
-    WHERE domain_id=:domain_id";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-  if ($sth->rowCount()) {
-    $row = $sth->fetch();
+    WHERE domain_id='{$_SESSION['domain_id']}'";
+  $result = $db->query($query);
+  if ($result->numRows()) {
+    $row = $result->fetchRow();
   }
   
   # Fix the boolean values
@@ -85,7 +82,7 @@
   }
 
   check_user_exists(
-    $dbh,$_POST['localpart'],$_SESSION['domain_id'],'adminuser.php'
+    $db,$_POST['localpart'],$_SESSION['domain_id'],'adminuser.php'
   );
 
   if (preg_match("/^\s*$/",$_POST['realname'])) {
@@ -99,10 +96,10 @@
     die;
   }
 
-  $query = "SELECT maildir FROM domains WHERE domain_id=:domain_id";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-  if ($sth->rowCount()) { $row = $sth->fetch(); }
+  $query = "SELECT maildir FROM domains
+    WHERE domain_id ='{$_SESSION['domain_id']}'";
+  $result = $db->query($query);
+  if ($result->numRows()) { $row = $result->fetchRow(); }
   if (($_POST['on_piped'] == 1) && ($_POST['smtp'] != '')) {
     $smtphomepath = $_POST['smtp'];
     $pophomepath = "{$row['maildir']}/{$_POST['localpart']}";
@@ -117,33 +114,28 @@
     $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear,
       smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped,
       on_spamassassin, sa_tag, sa_refuse, maxmsgsize, enabled, quota)
-      VALUES (:localpart, :username, :domain_id, :crypt, :clear, :smtp, :pop,
-      :uid, :gid, :realname, :type, :admin, :on_avscan, :on_piped, :on_spamassassin,
-      :sa_tag, :sa_refuse, :maxmsgsize, :enabled, :quota)";
-    $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
-        ':localpart'=>$_POST['localpart'],
-        ':username'=>$_POST['localpart'].'@'.$_SESSION['domain'],
-        ':domain_id'=>$_SESSION['domain_id'],
-        ':crypt'=>crypt_password($_POST['clear'],$salt),
-        ':clear'=>$_POST['clear'],
-        ':smtp'=>$smtphomepath,
-        ':pop'=>$pophomepath,
-        ':uid'=>$_POST['uid'],
-        ':gid'=>$_POST['gid'],
-        ':realname'=>$_POST['realname'],
-        ':type'=>$_POST['type'],
-        ':admin'=>$_POST['admin'],
-        ':on_avscan'=>$_POST['on_avscan'],
-        ':on_piped'=>$_POST['on_piped'],
-        ':on_spamassassin'=>$_POST['on_spamassassin'],
-        ':sa_tag'=>((isset($_POST['sa_tag'] )) ? $_POST['sa_tag']  : 0),
-        ':sa_refuse'=>((isset($_POST['sa_refuse'] )) ? $_POST['sa_refuse']  : 0),
-        ':maxmsgsize'=>$_POST['maxmsgsize'],
-        ':enabled'=>$_POST['enabled'],
-        ':quota'=>$_POST['quota'],
-        ));
-    if ($success) {
+      VALUES ('{$_POST['localpart']}',
+      '{$_POST['localpart']}@{$_SESSION['domain']}',
+      '{$_SESSION['domain_id']}',
+      '" . crypt_password($_POST['clear'],$salt) . "',
+      '{$_POST['clear']}',
+      '{$smtphomepath}',
+      '{$pophomepath}',
+      '{$_POST['uid']}',
+      '{$_POST['gid']}',
+      '{$_POST['realname']}',
+      '{$_POST['type']}',
+      '{$_POST['admin']}',
+      '{$_POST['on_avscan']}',
+      '{$_POST['on_piped']}',
+      '{$_POST['on_spamassassin']}',
+      '" . ((isset($_POST['sa_tag'] )) ? $_POST['sa_tag']  : 0) . "',
+      '" .((isset($_POST['sa_refuse'] )) ? $_POST['sa_refuse']  : 0) . "',
+      '{$_POST['maxmsgsize']}',
+      '{$_POST['enabled']}',
+      '{$_POST['quota']}')";
+    $result = $db->query($query);
+    if (!DB::isError($result)) {
       header ("Location: adminuser.php?added={$_POST['localpart']}");
       mail("{$_POST['localpart']}@{$_SESSION['domain']}",
         vexim_encode_header(sprintf(_("Welcome %s!"), $_POST['realname'])),

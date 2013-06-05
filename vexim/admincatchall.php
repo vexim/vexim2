@@ -3,13 +3,10 @@
   include_once dirname(__FILE__) . '/config/authpostmaster.php';
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
-  $query = "SELECT smtp FROM users WHERE user_id=:user_id 
-			AND domain_id=:domain_id AND type='catch'";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
-  if ($sth->rowCount()) {
-    $row = $sth->fetch();
-  }
+  $query = "SELECT smtp FROM users WHERE user_id='{$_GET['user_id']}' 
+			AND domain_id='{$_SESSION['domain_id']}' AND type='catch'";
+  $result = $db->query($query);
+  if ($result->numRows()) { $row = $result->fetchRow(); }
 ?>
 <html>
   <head>
@@ -26,9 +23,9 @@
     <div id="Forms">
 	<?php 
 		# ensure this page can only be used to view/edit the catchall that already exist for the domain of the admin account
-		if (!$sth->rowCount()) {			
+		if (!$result->numRows()) {			
 			echo '<table align="center"><tr><td>';
-			printf(_("Invalid catchall userid '%s' for domain '%s'"), htmlentities($_GET['user_id']), htmlentities($_SESSION['domain']));
+			echo "Invalid catchall userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";
 			echo '</td></tr></table>';
 		}else{	
 	?>

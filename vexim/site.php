@@ -52,18 +52,14 @@
           FROM   users, domains
           WHERE  users.domain_id = domains.domain_id
           AND    domain !='admin' AND admin=1";
-        $queryParams = array();
-        if ($alphadomains AND $letter != '') {
-          $query .= " AND lower(domain) LIKE lower(:letter)";
-          $queryParams[':letter'] = $letter.'%';
-        } elseif ($_POST['searchfor'] != '') {
-          $query .= " AND domain LIKE :searchfor";
-          $queryParams[':searchfor'] = '%'.$_POST['searchfor'].'%';
-        }
+        if ($alphadomains AND $letter != '') 
+          $query .= " AND lower(domain) LIKE lower('$letter%')";
+        elseif ($_POST['searchfor'] != '')
+          $query .= " AND domain LIKE '%" . $_POST['searchfor'] . "%' ";
         $query .= " GROUP BY domains.domain, domains.domain_id ORDER BY domain";
-        $sth = $dbh->prepare($query);
-        $sth->execute($queryParams);
-        while ($row = $sth->fetch()) {
+        $result = $db->query($query);
+        if ($result->numRows()) {
+          while ($row = $result->fetchRow()) {
       ?>
             <tr>
               <td>
@@ -93,6 +89,7 @@
             <td><?php echo $row['count']; ?></td>
            </tr>
           <?php
+          }
         }
       ?>
       <tr><td></td></tr>
@@ -114,8 +111,9 @@
         $query = "SELECT domain,domain_id FROM domains
         WHERE domain !='admin'
         AND type='relay' ORDER BY domain";
-        $sth = $dbh->query($query);
-        while ($row = $sth->fetch()) {
+        $result = $db->query($query);
+        if ($result->numRows()) {
+          while ($row = $result->fetchRow()) {
       ?>
             <tr>
               <td>
@@ -129,6 +127,7 @@
               <td><?php echo $row['domain']; ?></td>
             </tr>
       <?php
+          }
         }
       ?>
       <tr>
@@ -136,10 +135,11 @@
         <th><?php echo _('Aliased domains'); ?></th>
       </tr>
       <?php
-        $query = "SELECT alias,domain,domains.domain_id AS domain_id FROM domainalias,domains
+        $query = "SELECT alias,domain FROM domainalias,domains
           WHERE domainalias.domain_id = domains.domain_id";
-        $sth = $dbh->query($query);
-        while ($row = $sth->fetch()) {
+        $result = $db->query($query);
+        if ($result->numRows()) {
+          while ($row = $result->fetchRow()) {
       ?>
             <tr>
               <td>
@@ -151,10 +151,11 @@
                 </a>
               </td>
             <td colspan="3">
-              <?php echo $row['alias'] . ' → ' . $row['domain']; ?>
+              <?php echo $row['alias'] . '->' . $row['domain']; ?>
             </td>
           </tr>
       <?php
+          }
         }
 		
 		# display status of $AllowUserLogin

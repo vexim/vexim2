@@ -9,18 +9,18 @@
   }
 
   check_user_exists(
-    $dbh,$_POST['localpart'],$_SESSION['domain_id'],'admingroup.php'
+    $db,$_POST['localpart'],$_SESSION['domain_id'],'admingroup.php'
   );
 
   $query = "INSERT INTO groups (name, domain_id)
-    VALUES (:localpart, :domain_id)";
-  $sth = $dbh->prepare($query);
-  $success = $sth->execute(array(':localpart'=>$_POST['localpart'], ':domain_id'=>$_SESSION['domain_id']));
+    VALUES ('{$_POST['localpart']}', '{$_SESSION['domain_id']}' ) ";
+  $result = $db->query($query);
 
-  if ($success) { 
+  if (!DB::isError($result)) { 
     header ("Location: admingroup.php?group_added={$_POST['localpart']}"); 
   } else { 
     header ("Location: admingroup.php?group_failadded={$_POST['localpart']}"); 
+	die;
   } 
 ?>
 

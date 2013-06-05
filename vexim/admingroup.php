@@ -26,11 +26,10 @@
         </tr>
         <?php
           $query = "SELECT id, name, is_public, enabled FROM groups
-            WHERE domain_id=:domain_id
+            WHERE domain_id = '{$_SESSION['domain_id']}'
             ORDER BY NAME ASC";
-          $sth = $dbh->prepare($query);
-          $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-          while ($row = $sth->fetch()) {
+          $result = $db->query($query);
+          while ($row = $result->fetchRow()) {
         ?>
         <tr>
           <td class="trash">

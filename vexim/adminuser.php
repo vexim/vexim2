@@ -29,15 +29,14 @@
         $query = "SELECT count(users.user_id)
           AS used, max_accounts
           FROM domains,users
-          WHERE users.domain_id=:domain_id
+          WHERE users.domain_id='{$_SESSION['domain_id']}'
           AND domains.domain_id=users.domain_id
           AND (users.type='local' OR users.type='piped')
           GROUP BY max_accounts"; 
-        $sth = $dbh->prepare($query);
-        $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-        $row = $sth->fetch();
-        if (($sth->rowCount()) && $row['max_accounts']) {
-          printf(_("(%d of %d)", $row['used'], $row['max_accounts']));
+        $result = $db->query($query);
+        $row = $result->fetchRow();
+        if (($result->numRows()) && $row['max_accounts']) {
+          print "({$row['used']} of {$row['max_accounts']})";
         }
       ?>
       <br>
@@ -73,20 +72,20 @@
         <?php
         $query = "SELECT user_id, localpart, realname, admin, enabled 
           FROM users
-          WHERE domain_id=:domain_id
+          WHERE domain_id = '{$_SESSION['domain_id']}' 
           AND  (type = 'local' OR type= 'piped')";
-        $queryParams=array(':domain_id'=>$_SESSION['domain_id']);
         if ($alphausers AND $letter != '') {
-          $query .= " AND lower(localpart) LIKE lower(:letter)";
-          $queryParams[':letter'] = $letter.'%';
+          $query .= " AND lower(localpart) LIKE lower('{$letter}%')";
         } elseif ($_POST['searchfor'] != '') {
-          $query .= ' AND ' . $dbh->quote($_POST['field']) .  ' LIKE :searchfor"%';
-          $queryParams[':searchfor'] = '%'.$_POST['searchfor'].'%';
+          $query .= ' AND '
+            . $_POST['field']
+            .  ' LIKE "%'
+            . $_POST['searchfor']
+            . '%"';
         }
         $query .= ' ORDER BY realname, localpart';
-        $sth = $dbh->prepare($query);
-        $sth->execute($queryParams);
-        while ($row = $sth->fetch()) {
+        $result = $db->query($query);
+        while ($row = $result->fetchRow()) {
           print '<tr>';
           print '<td class="trash"><a href="adminuserdelete.php?user_id='
             . $row['user_id']

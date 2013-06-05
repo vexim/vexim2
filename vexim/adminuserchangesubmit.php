@@ -5,11 +5,11 @@
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
   # confirm that the postmaster is updating a user they are permitted to change before going further  
-  $query = "SELECT * FROM users WHERE user_id=:user_id
-		AND domain_id=:domain_id AND (type='local' OR type='piped')";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
-  if (!$sth->rowCount()) {
+  $query = "SELECT * FROM users WHERE user_id='{$_POST['user_id']}'
+		AND domain_id='{$_SESSION['domain_id']}'
+		AND (type='local' OR type='piped')";
+  $result = $db->query($query);
+  if ($result->numRows()<1) {
 	  header ("Location: adminuser.php?failupdated={$_POST['localpart']}");
 	  die();  
   }
@@ -17,11 +17,10 @@
   # Fix the boolean values
   $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas
     FROM domains
-    WHERE domain_id=:domain_id";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-  if ($sth->rowCount()) {
-    $row = $sth->fetch();
+    WHERE domain_id='{$_SESSION['domain_id']}'";
+  $result = $db->query($query);
+  if (!DB::isError($result)) {
+    $row = $result->fetchRow();
   }
   if (isset($_POST['admin'])) {
     $_POST['admin'] = 1;
@@ -96,24 +95,31 @@
     $forwardaddr = $_POST['forward'];
   }
 
-  # Prevent de-admining the last admin
-  $query = "SELECT COUNT(user_id) AS count FROM users
-    WHERE admin=1 AND domain_id=:domain_id
-	AND (type='local' OR type='piped')
-    AND user_id!=:user_id";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':domain_id'=>$_SESSION['domain_id'], ':user_id'=>$_POST['user_id']));
-  $row = $sth->fetch();
-  if (($row['count'] == "0") && ($_POST['admin'] == "0")) {
-    header ("Location: adminuser.php?lastadmin={$_POST['localpart']}");
-    die;
+  # Big code block, to make sure we're not de-admining the last admin
+  $query = "SELECT COUNT(admin) AS count FROM users
+    WHERE admin=1 AND domain_id='{$_SESSION['domain_id']}' 
+	AND (type='local' OR type='piped')";
+  $result = $db->query($query);
+  if ($result->numRows()) {
+    $row = $result->fetchRow();
+  }
+  if ($row['count'] == "1") {
+    $nxtquery = "SELECT admin FROM users WHERE localpart='{$_POST['localpart']}'
+      AND domain_id='{$_SESSION['domain_id']}' AND (type='local' OR type='piped')";
+    $nxtresult = $db->query($nxtquery);
+    if ($nxtresult->numRows()) {
+      $nxtrow = $nxtresult->fetchRow();
+    }
+    if (($nxtrow['admin'] == "1") && ($_POST['admin'] == "0")) {
+      header ("Location: adminuser.php?lastadmin={$_POST['localpart']}");
+      die;
+    }
   }
 
   # Set the appropriate maildirs
-  $query = "SELECT maildir FROM domains WHERE domain_id=:domain_id";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-  $row = $sth->fetch();
+  $query = "SELECT maildir FROM domains WHERE domain_id='{$_SESSION['domain_id']}'";
+  $result = $db->query($query);
+  $row = $result->fetchRow();
   if (($_POST['on_piped'] == 1) && ($_POST['smtp'] != "")) {
     $smtphomepath = $_POST['smtp'];
     $pophomepath = "{$row['maildir']}/{$_POST['localpart']}";
@@ -128,13 +134,11 @@
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $cryptedpassword = crypt_password($_POST['clear']);
     $query = "UPDATE users
-      SET crypt=:crypt, clear=:clear
-      WHERE localpart=:localpart
-      AND domain_id=:domain_id";
-    $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':clear'=>$_POST['clear'],
-        ':localpart'=>$_POST['localpart'], ':domain_id'=>$_SESSION['domain_id']));
-    if ($success) {
+      SET crypt='$cryptedpassword', clear='{$_POST['clear']}'
+      WHERE localpart='{$_POST['localpart']}'
+      AND domain_id='{$_SESSION['domain_id']}'";
+    $result = $db->query($query);
+    if (!DB::isError($result)) {
       if ($_POST['localpart'] == $_SESSION['localpart']) { 
         $_SESSION['crypt'] = $cryptedpassword;
       }
@@ -147,41 +151,27 @@
       die;
   }
 
-  $query = "UPDATE users SET uid=:uid,
-    gid=:gid, smtp=:smtp, pop=:pop,
-    realname=:realname,
-    admin=:admin,
-    on_avscan=:on_avscan,
-    on_forward=:on_forward,
-    on_piped=:on_piped,
-    on_spamassassin=:on_spamassassin,
-    on_vacation=:on_vacation,
-    enabled=:enabled,
-    forward=:forward,
-    maxmsgsize=:maxmsgsize,
-    quota=:quota,
-    sa_tag=:sa_tag,
-    sa_refuse=:sa_refuse,
-    type=:type,
-    vacation=:vacation,
-    unseen=:unseen
-    WHERE user_id=:user_id";
-  $sth = $dbh->prepare($query);
-  $success = $sth->execute(array(':uid'=>$_POST['uid'], ':gid'=>$_POST['gid'],
-    ':smtp'=>$smtphomepath, ':pop'=>$pophomepath, ':realname'=>$_POST['realname'],
-    ':admin'=>$_POST['admin'], ':on_avscan'=>$_POST['on_avscan'],
-    ':on_forward'=>$_POST['on_forward'], ':on_piped'=>$_POST['on_piped'],
-    ':on_spamassassin'=>$_POST['on_spamassassin'],
-    ':on_vacation'=>$_POST['on_vacation'], ':enabled'=>$_POST['enabled'],
-    ':forward'=>$forwardaddr, ':maxmsgsize'=>$_POST['maxmsgsize'],
-    ':quota'=>$_POST['quota'],
-    ':sa_tag'=>((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0),
-    ':sa_refuse'=>((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0),
-    ':type'=>$_POST['type'],
-    ':vacation'=>(trim($_POST['vacation']) ? imap_8bit(trim($_POST['vacation'])) : ''),
-    ':unseen'=>$_POST['unseen'], ':user_id'=>$_POST['user_id'],
-    ));
-  if ($success) {
+  $query = "UPDATE users SET uid='{$_POST['uid']}',
+    gid='{$_POST['gid']}', smtp='$smtphomepath', pop='$pophomepath',
+    realname='{$_POST['realname']}',
+    admin='{$_POST['admin']}',
+    on_avscan='{$_POST['on_avscan']}',
+    on_forward='{$_POST['on_forward']}',
+    on_piped='{$_POST['on_piped']}',
+    on_spamassassin='{$_POST['on_spamassassin']}',
+    on_vacation='{$_POST['on_vacation']}',
+    enabled='{$_POST['enabled']}',
+    forward='{$forwardaddr}',
+    maxmsgsize='{$_POST['maxmsgsize']}',
+    quota='{$_POST['quota']}',
+    sa_tag='" . ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0) . "',
+    sa_refuse='" . ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0) . "',
+    type='{$_POST['type']}',
+    vacation='" . (trim($_POST['vacation']) ? imap_8bit(trim($_POST['vacation'])) : '') . "',
+    unseen='{$_POST['unseen']}'
+    WHERE user_id='{$_POST['user_id']}'";
+  $result = $db->query($query);
+  if (!DB::isError($result)) {
     header ("Location: adminuser.php?updated={$_POST['localpart']}");
   } else {
     header ("Location: adminuser.php?failupdated={$_POST['localpart']}");

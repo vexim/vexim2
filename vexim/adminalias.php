@@ -13,11 +13,10 @@
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="menu">
       <a href="adminaliasadd.php"><?php echo _('Add Alias'); ?></a></br>
-      <?php $query = "SELECT user_id,realname,smtp,localpart FROM users
-        WHERE domain_id=:domain_id AND type='catch'";
-        $sth = $dbh->prepare($query);
-        $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-        if (!$sth->rowCount()) {
+      <?php $query = "SELECT user_id,realname,smtp FROM users
+        WHERE domain_id='{$_SESSION['domain_id']}' AND type='catch'";
+        $result = $db->query($query);
+        if (!$result->numRows()) {
           print '<a href="admincatchalladd.php">'
             . _('Add Catchall')
             . '</a></br>';
@@ -36,8 +35,8 @@
         <th><?php echo _('Admin'); ?></th>
       </tr>
       <?php
-        if ($sth->rowCount()) {
-          $row = $sth->fetch();
+        if ($result->numRows()) {
+          $row = $result->fetchRow();
           print '<tr><td align="center">'
             . '<a href="adminaliasdelete.php?user_id='
             . $row['user_id']
@@ -61,12 +60,11 @@
         }
         $query = "SELECT user_id,localpart,smtp,realname,type,admin
           FROM users
-          WHERE domain_id=:domain_id AND type='alias'
+          WHERE domain_id='{$_SESSION['domain_id']}' AND type='alias' 
 		  ORDER BY localpart;";
-        $sth = $dbh->prepare($query);
-        $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-        if ($sth->rowCount()) {
-          while ($row = $sth->fetch()) {
+        $result = $db->query($query);
+        if ($result->numRows()) {
+          while ($row = $result->fetchRow()) {
             print '<tr><td align="center">'
               . '<a href="adminaliasdelete.php?user_id='
               . $row['user_id']

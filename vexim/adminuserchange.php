@@ -4,25 +4,22 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  $query = "SELECT * FROM users WHERE user_id=:user_id
-		AND domain_id=:domain_id
+  $query = "SELECT * FROM users WHERE user_id='{$_GET['user_id']}'
+		AND domain_id='{$_SESSION['domain_id']}'
 		AND (type='local' OR type='piped')";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
-  if ($sth->rowCount()) { $row = $sth->fetch(); }
+  $result = $db->query($query);
+  if ($result->numRows()) { $row = $result->fetchRow(); }
   
-  $username = $row['username'];
+  $username = $row[username];
   $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains
-    WHERE domain_id=:domain_id";
-  $domsth = $dbh->prepare($domquery);
-  $domsth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-  if ($domsth->rowCount()) {
-    $domrow = $sth->fetch();
+    WHERE domain_id='{$_SESSION['domain_id']}'";
+  $domresult = $db->query($domquery);
+  if ($domresult->numRows()) {
+    $domrow = $domresult->fetchRow();
   }
   $blockquery = "SELECT blockhdr,blockval,block_id FROM blocklists
-    WHERE blocklists.user_id=:user_id";
-  $blocksth = $dbh->prepare($blockquery);
-  $blocksth->execute(array(':user_id'=>$_GET['user_id']));
+    WHERE blocklists.user_id='{$_GET['user_id']}'";
+  $blockresult = $db->query($blockquery);
 ?>
 <html>
   <head>
@@ -40,11 +37,11 @@
     <div id="forms">
 	<?php 
 		# ensure this page can only be used to view/edit user accounts that already exist for the domain of the admin account
-		if (!$sth->rowCount()) {			
+		if (!$result->numRows()) {			
 			echo '<table align="center"><tr><td>';
 			echo "Invalid userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
 			echo '</td></tr></table>';
-		}else{
+		}else{	
 	?>
 	
     <table align="center">
@@ -111,17 +108,17 @@
         ?>
             <tr>
                <td>
-                 <?php printf (_('Mailbox quota (%s MB max)'),
+                 <?php printf (_('Mailbox quota (%s Mb max)'),
                    $domrow['quotas']); ?>:</td>
                 <td>
                   <input type="text" size="5" name="quota" class="textfield"
                     value="<?php echo ($domrow['quotas'] == 0 ? $row['quota'] : ($row['quota'] == 0 ? $domrow['quotas'] : min($domrow['quotas'], $row['quota']))); ?>">
-                    <?php echo _('MB'); ?>
+                    <?php echo _('Mb'); ?>
                 </td>
               </tr>
           <?php
             //}
-            if ((function_exists('imap_get_quotaroot'))
+            if ((function_exists(imap_get_quotaroot))
               && ($imap_to_check_quota == "yes")) {
               $mbox = imap_open(
                 $imapquotaserver, $row['username'], $row['clear'], OP_HALFOPEN
@@ -130,12 +127,11 @@
               if (is_array($quota) && !empty($quota)) {
               printf ("<tr><td>"
                 . _('Space used:')
-                . "</td><td>"
-                . _('%.2f MB')
-                . "</td></tr>",
+                . "</td><td>%.2f MB</td></tr>",
                 $quota['STORAGE']['usage'] / 1024);
               }
               imap_close($mbox);
+              print "</tr>";
             }
           if ($domrow['pipe'] == "1") {
           ?>
@@ -264,11 +260,10 @@
               <?php
                 $queryuserlist = "SELECT realname, username, user_id, unseen
                 FROM users
-                WHERE enabled='1' AND domain_id=:domain_id AND type != 'fail'
-                ORDER BY realname, username, type desc";
-                $sthuserlist = $dbh->prepare($queryuserlist);
-                $sthuserlist->execute(array(':domain_id'=>$_SESSION['domain_id']));
-                while ($rowuserlist = $sthuserlist->fetch()) {
+                WHERE enabled = '1' AND domain_id = '{$_SESSION['domain_id']}'
+                AND type != 'fail' ORDER BY realname, username, type desc";
+                $resultuserlist = $db->query($queryuserlist);
+                while ($rowuserlist = $resultuserlist->fetchRow()) {
               ?>
                 <option value="<?php echo $rowuserlist['username']; ?>">
                   <?php echo $rowuserlist['realname']; ?>
@@ -303,12 +298,11 @@
           <?php
             # Print the aliases associated with this account
             $query = "SELECT user_id,localpart,domain,realname FROM users,domains
-              WHERE smtp=:smtp'{$row['localpart']}@{$_SESSION['domain']}'
+              WHERE smtp='{$row['localpart']}@{$_SESSION['domain']}'
               AND users.domain_id=domains.domain_id ORDER BY realname";
-            $sth = $dbh->prepare($query);
-            $sth->execute(array(':smtp'=>$row['localpart'].'@'.$_SESSION['domain']));
-            if ($sth->rowCount()) {
-              while ($row = $sth->fetch()) {
+            $result = $db->query($query);
+            if ($result->numRows()) {
+              while ($row = $result->fetchRow()) {
                 if (($row['domain'] == $_SESSION['domain'])
                   && ($row['localpart'] != "*")) {
                   print '<a href="adminaliaschange.php?user_id='
@@ -379,8 +373,8 @@
         <th><?php echo _('Content'); ?></th>
       </tr>
       <?php
-        if ($blocksth->rowCount()) {
-          while ($blockrow = $blocksth->fetch()) {
+        if ($blockresult->numRows()) {
+          while ($blockrow = $blockresult->fetchRow()) {
       ?>
             <tr>
               <td>

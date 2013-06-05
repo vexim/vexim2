@@ -4,46 +4,32 @@
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
-  if(!isset($_POST['confirm'])) {
-      $_POST['confirm'] = null;
-  }
-  if(!isset($_POST['type'])) {
-      $_POST['type'] = null;
-  }
-  if(!isset($_GET['type'])) {
-      $_GET['type'] = null;
-  }
-  
   // Delete the domain's users
   if (($_POST['confirm'] == "1") && ($_POST['type'] != "alias")) {
-    $usrdelquery = "DELETE FROM users WHERE domain_id=:domain_id";
-    $usrdelsth = $dbh->prepare($usrdelquery);
-    $usrdelsuccess = $usrdelsth->execute(array(':domain_id'=>$_POST['domain_id']));
+    $usrdelquery = "DELETE FROM users WHERE domain_id='{$_POST['domain_id']}'";
+    $usrdelresult = $db->query($usrdelquery);
     // if we were successful, delete the domain's blocklists
-    if ($usrdelsuccess) {
-      $usrdelquery = "DELETE FROM blocklists WHERE domain_id=:domain_id";
-      $usrdelsth = $dbh->prepare($usrdelquery);
-      $usrdelsuccess = $usrdelsth->execute(array(':domain_id'=>$_POST['domain_id']));
+    if (!DB::isError($usrdelresult)) {
+      $usrdelquery = "DELETE FROM blocklists WHERE domain_id='{$_POST['domain_id']}'";
+      $usrdelresult = $db->query($usrdelquery);
       // if we were successful, delete the domain itself
-      if ($usrdelsuccess) {
-        $domdelquery = "DELETE FROM domains WHERE domain_id=:domain_id";
-        $domdelsth = $dbh->prepare($domdelquery);
-        $domdelsuccess = $domdelsth->execute(array(':domain_id'=>$_POST['domain_id']));
-        // If everything went well, redirect to a success page.
-	    if ($domdelsuccess) {
-	      header ("Location: site.php?deleted={$_POST['domain']}");
-	      die;
-	    }
+      if (!DB::isError($usrdelresult)) {
+      $domdelquery = "DELETE FROM domains WHERE domain_id='{$_POST['domain_id']}'";
+	$domdelresult = $db->query($domdelquery);
+	// If everything went well, redirect to a success page.
+	if (!DB::isError($domdelresult)) {
+	  header ("Location: site.php?deleted={$_POST['domain']}");
+	  die;
+	}
       }
     } else {
       header ("Location: site.php?faildeleted={$_POST['domain']}");
       die;
     }
   } else if (($_POST['confirm'] == "1") && ($_POST['type'] == "alias")) {
-    $aliasdeletequery = "DELETE FROM domainalias WHERE alias=:domain";
-    $sth = $dbh->prepare($aliasdeletequery);
-    $success = $sth->execute(array(':domain'=>$_POST['domain']));
-    if ($success) {
+    $aliasdeletequery = "DELETE FROM domainalias WHERE alias='{$_POST['domain']}'";
+    $aliasdeleteresult = $db->query($aliasdeletequery);
+    if (!DB::isError($aliasdeleteresult)) {
       header ("Location: site.php?deleted={$_POST['domain']}");
       die;
     } else {
@@ -57,12 +43,11 @@
 
   if ($_GET['type'] != "alias") {
     $query = "SELECT COUNT(*) AS count, domain, domains.type FROM users,domains
-              WHERE (domains.domain_id=:domain_id
+              WHERE (domains.domain_id='{$_GET['domain_id']}'
 		AND users.domain_id=domains.domain_id)
 		GROUP BY domain,domains.type";
-    $sth = $dbh->prepare($query);
-    $sth->execute(array(':domain_id'=>$_GET['domain_id']));
-    $row = $sth->fetch();
+    $result = $db->query($query);
+    if ($result->numRows()) { $row = $result->fetchRow(); }
   }
 ?>
 <html>
@@ -81,7 +66,7 @@
       <form name='domaindelete' method='post' action='sitedelete.php'>
 	<table align="center">
 	  <tr><td colspan='2'><?php printf (_("Please confirm deleting domain %s."), $_GET['domain']); ?>:</td></tr>
-	  <?php if (($_GET['type'] != "relay") && ($_GET['type'] != "alias")) {
+	  <?php if ($_GET['type'] != ("relay"|"alias")) {
 		print   "<tr><td colspan='2'>";
         printf (ngettext("There is currently <b>%1\$d</b> account in domain %2\$s", "There are currently <b>%1\$d</b> accounts in domain %2\$s", $row['count']), $row['count'], $_GET['domain']);
         print   "</td></tr>";

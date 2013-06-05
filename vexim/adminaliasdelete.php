@@ -4,25 +4,22 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  if(array_key_exists('confirm', $_GET)) {
-    if ($_GET['confirm'] == '1') {
-      $query = "DELETE FROM users 
-        WHERE user_id=:user_id
-        AND domain_id=:domain_id
-	    AND (type='alias' OR type='catch')";
-      $sth = $dbh->prepare($query);
-      $success = $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
-      if ($success) {
-        header ("Location: adminalias.php?deleted={$_GET['localpart']}");
-        die;
-      } else {
-        header ("Location: adminalias.php?faildeleted={$_GET['localpart']}");
-        die;
-      }
-    } else if ($_GET['confirm'] == 'cancel') {
+  if ($_GET['confirm'] == '1') {
+    $query = "DELETE FROM users 
+      WHERE user_id='{$_GET['user_id']}'
+      AND domain_id='{$_SESSION['domain_id']}'
+	  AND (type='alias' OR type='catch')";
+    $result = $db->query($query);
+    if (!DB::isError($result)) {
+      header ("Location: adminalias.php?deleted={$_GET['localpart']}");
+      die;
+    } else {
       header ("Location: adminalias.php?faildeleted={$_GET['localpart']}");
       die;
     }
+  } else if ($_GET['confirm'] == 'cancel') {
+    header ("Location: adminalias.php?faildeleted={$_GET['localpart']}");
+    die;
   }
 ?>
 <html>

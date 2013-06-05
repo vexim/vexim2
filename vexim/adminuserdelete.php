@@ -5,41 +5,37 @@
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
 # confirm that the postmaster is looking to delete a user they are permitted to change before going further  
-$query = "SELECT * FROM users WHERE user_id=:user_id
-	AND domain_id=:domain_id	
+$query = "SELECT * FROM users WHERE user_id='{$_GET['user_id']}'
+	AND domain_id='{$_SESSION['domain_id']}'	
 	AND (type='local' OR type='piped')";
-$sth = $dbh->prepare($query);
-$sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
-if (!$sth->rowCount()) {
+$result = $db->query($query);
+if ($result->numRows()<1) {
   header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
   die();  
 }
-if(!isset($_GET['confirm'])) { $_GET['confirm'] = null; }
 
+  
 if ($_GET['confirm'] == '1') {
+
   # prevent deleting the last admin
-  $query = "SELECT COUNT(user_id) AS count FROM users 
-    WHERE admin=1 AND domain_id=:domain_id
+  $query = "SELECT user_id AS count FROM users 
+    WHERE admin=1 AND domain_id='{$_SESSION['domain_id']}'
 	AND (type='local' OR type='piped')
-    AND user_id!=:user_id";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':domain_id'=>$_SESSION['domain_id'], ':user_id'=>$_GET['user_id']));
-  $row = $sth->fetch();
-  if ($row['count'] == "0") {
+    AND user_id!='{$_GET['user_id']}'";
+  $result = $db->query($query);
+  if ($result->numRows() == 0) {
     header ("Location: adminuser.php?lastadmin={$_GET['localpart']}");
     die;
   }  
 
   $query = "DELETE FROM users
-    WHERE user_id=:user_id
-    AND domain_id=:domain_id
+    WHERE user_id='{$_GET['user_id']}'
+    AND domain_id='{$_SESSION['domain_id']}'
 	AND (type='local' OR type='piped')";
-  $sth = $dbh->prepare($query);
-  $success = $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
-  if ($success) {
-    $query = "DELETE FROM group_contents WHERE member_id=:user_id";
-    $sth = $dbh->prepare($query);
-    $sth->execute(array(':user_id'=>$_GET['user_id']));
+  $result = $db->query($query);
+  if (!DB::isError($result)) {
+    $query = "DELETE FROM group_contents WHERE member_id='{$_GET['user_id']}'";
+    $result = $db->query($query);
     header ("Location: adminuser.php?deleted={$_GET['localpart']}");
   } else {
     header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
@@ -48,21 +44,18 @@ if ($_GET['confirm'] == '1') {
     header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
     die;                                                      
 } else {
-  $query = "SELECT COUNT(user_id) AS count FROM users 
-    WHERE admin=1 AND domain_id=:domain_id
+  $query = "SELECT user_id AS count FROM users 
+    WHERE admin=1 AND domain_id='{$_SESSION['domain_id']}'
 	AND (type='local' OR type='piped')
-    AND user_id!=:user_id";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':domain_id'=>$_SESSION['domain_id'], ':user_id'=>$_GET['user_id']));
-  $row = $sth->fetch();
-  if ($row['count'] == "0") {
+    AND user_id!='{$_GET['user_id']}'";
+  $result = $db->query($query);
+  if ($result->numRows() == 0) {
     header ("Location: adminuser.php?lastadmin={$_GET['localpart']}");
     die;
-  }  
-  $query = "SELECT localpart FROM users WHERE user_id=:user_id";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':user_id'=>$_GET['user_id']));
-  if ($sth->rowCount()) { $row = $sth->fetch(); }
+  }
+  $query = "SELECT localpart FROM users WHERE user_id='{$_GET['user_id']}'";
+  $result = $db->query($query);
+  if ($result->numRows()) { $row = $result->fetchRow(); }
 }
 ?>
 <html>

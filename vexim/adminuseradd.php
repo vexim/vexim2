@@ -8,23 +8,20 @@
   $query = "SELECT (count(users.user_id) < domains.max_accounts)
     OR (domains.max_accounts = 0) AS allowed FROM
     users,domains WHERE users.domain_id=domains.domain_id
-    AND domains.domain_id=:domain_id
+    AND domains.domain_id='{$_SESSION['domain_id']}'
     AND (users.type='local' OR users.type='piped')
     GROUP BY domains.max_accounts";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-  if ($sth->rowCount()) {
-    $row = $sth->fetch();
+  $result = $db->query($query);
+  if ($result->numRows()) {
+    $row = $result->fetchRow();
   }
   if (!$row['allowed']) {
     header ('Location: adminuser.php?maxaccounts=true');
-    die();
   }
 
-  $query = "SELECT * FROM domains WHERE domain_id=:domain_id";
-  $sth = $dbh->prepare($query);
-  $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
-  $row = $sth->fetch();
+  $query = "SELECT * FROM domains WHERE domain_id='{$_SESSION['domain_id']}'";
+  $result = $db->query($query);
+  $row = $result->fetchRow();
 ?>
 <html>
   <head>

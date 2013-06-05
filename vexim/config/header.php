@@ -1,11 +1,11 @@
 <?php
   if (isset($_SESSION['domain_id'])) {
     $domheaderquery = "SELECT enabled FROM domains WHERE domains.domain_id='" . $_SESSION['domain_id'] . "'";
-    $domheaderresult = $dbh->query($domheaderquery);
-    $domheaderrow = $domheaderresult->fetch();
+    $domheaderresult = $db->query($domheaderquery);
+    $domheaderrow = $domheaderresult->fetchRow();
     $usrheaderquery = "SELECT enabled FROM users WHERE localpart='" . $_SESSION['localpart'] . "' AND domain_id='" . $_SESSION['domain_id'] . "'";
-    $usrheaderresult = $dbh->query($usrheaderquery);
-    $usrheaderrow = $usrheaderresult->fetch();
+    $usrheaderresult = $db->query($usrheaderquery);
+    $usrheaderrow = $usrheaderresult->fetchRow();
   }
 
   print "<div id=\"Header\"><p><a href=\"https://github.com/avleen/vexim2\" target=\"_blank\">" . _("Virtual Exim") . "</a> ";

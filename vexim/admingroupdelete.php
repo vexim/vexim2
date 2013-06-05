@@ -3,41 +3,38 @@
   include_once dirname(__FILE__) . '/config/authpostmaster.php';
   include_once dirname(__FILE__) . "/config/functions.php";
 
-  if(array_key_exists('confirm', $_GET)) {
-    if ($_GET['confirm'] == '1') {
-      # confirm that the user is deleting a group they are permitted to change before going further  
-	  $query = "SELECT * FROM groups WHERE id=:group_id AND domain_id=:domain_id";
-      $sth = $dbh->prepare($query);
-      $sth->execute(array(':group_id'=>$_GET['group_id'], ':domain_id'=>$_SESSION['domain_id']));
-	  if (!$sth->rowCount()) {
-  	    header ("Location: admingroup.php?group_faildeleted={$_GET['localpart']}");
-	    die();  
-	  }
+  if ($_GET['confirm'] == '1') {
+    # confirm that the user is deleting a group they are permitted to change before going further  
+	$query = "SELECT * FROM groups WHERE id='{$_GET['group_id']}' AND domain_id='{$_SESSION['domain_id']}'";
+	$result = $db->query($query);
+	if ($result->numRows()<1) {
+	  header ("Location: admingroup.php?group_faildeleted={$_GET['localpart']}");
+	  die();  
+	}
 	
-      # delete group member first
-      $query = "DELETE FROM group_contents WHERE group_id=:group_id";
-      $sth = $dbh->prepare($query);
-      $success = $sth->execute(array(':group_id'=>$_GET['group_id']));
-      if ($success) {
-        # delete group
-        $query = "DELETE FROM groups WHERE id=:group_id AND domain_id=:domain_id";
-        $sth = $dbh->prepare($query);
-        $success = $sth->execute(array(':group_id'=>$_GET['group_id'], ':domain_id'=>$_SESSION['domain_id']));
-        if ($success) {
-          header ("Location: admingroup.php?group_deleted={$_GET['localpart']}");
-          die;
-        } else {
-          header ("Location: admingroup.php?group_faildeleted={$_GET['localpart']}");
-          die;
-        }
+    # delete group member first
+    $query = "DELETE FROM group_contents WHERE group_id='{$_GET['group_id']}'";
+    $result = $db->query($query);
+    if (!DB::isError($result)) {
+      # delete group
+      $query = "DELETE FROM groups
+        WHERE id='{$_GET['group_id']}'
+        AND domain_id='{$_SESSION['domain_id']}'";
+      $result = $db->query($query);
+      if (!DB::isError($result)) {
+        header ("Location: admingroup.php?group_deleted={$_GET['localpart']}");
+        die;
       } else {
         header ("Location: admingroup.php?group_faildeleted={$_GET['localpart']}");
         die;
       }
-    } else if ($_GET['confirm'] == 'cancel') {
+    } else {
       header ("Location: admingroup.php?group_faildeleted={$_GET['localpart']}");
       die;
     }
+  } else if ($_GET['confirm'] == 'cancel') {
+    header ("Location: admingroup.php?group_faildeleted={$_GET['localpart']}");
+    die;
   }
 ?>
 <html>

@@ -11,13 +11,13 @@
   if ($_POST['max_accounts'] == '') {$_POST['max_accounts'] = '0';}
   if (isset($_POST['clear'])) {
     if (validate_password($_POST['clear'], $_POST['vclear'])) {
-      $query = "UPDATE users SET crypt=:crypt, clear=:clear
-		WHERE localpart=:localpart AND domain_id=:domain_id";
-      $sth = $dbh->prepare($query);
-      $success = $sth->execute(array(':crypt'=>crypt_password($_POST['clear']),
-              ':clear'=>$_POST['clear'], ':localpart'=>$_POST['localpart'],
-              ':domain_id'=>$_POST['domain_id']));
-      if ($success) {
+      $query = "UPDATE users SET crypt='" . 
+        crypt_password($_POST['clear']) . "',
+   		clear='{$_POST['clear']}'
+		WHERE localpart='{$_POST['localpart']}' AND
+            domain_id='{$_POST['domain_id']}'";
+      $result = $db->query($query);
+      if (!DB::isError($result)) {
 	header ("Location: site.php?updated={$_POST['domain']}");
 	die;
       } else {
@@ -58,22 +58,19 @@
     die;
   }
 
-  $query = "UPDATE domains SET uid=:uid, gid=:gid, avscan=:avscan,
-		maxmsgsize=:maxmsgsize, pipe=:pipe, max_accounts=:max_accounts,
-		quotas=:quotas, sa_tag=:sa_tag, sa_refuse=:sa_refuse,
-		spamassassin=:spamassassin, enabled=:enabled
-        WHERE domain_id=:domain_id";
-  $sth = $dbh->prepare($query);
-  $success = $sth->execute(array(':uid'=>$uid, ':gid'=>$gid,
-      ':avscan'=>$_POST['avscan'], ':maxmsgsize'=>$_POST['maxmsgsize'],
-      ':pipe'=>$_POST['pipe'], ':max_accounts'=>$_POST['max_accounts'],
-      ':quotas'=>$_POST['quotas'],
-      ':sa_tag'=>((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0),
-      ':sa_refuse'=>((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0),
-      ':spamassassin'=>$_POST['spamassassin'], ':enabled'=>$_POST['enabled'],
-      ':domain_id'=>$_POST['domain_id'],
-      ));
-  if ($success) {
+  $query = "UPDATE domains SET uid=$uid,
+    		gid='$gid',
+		avscan='{$_POST['avscan']}',
+		maxmsgsize='{$_POST['maxmsgsize']}',
+		pipe='{$_POST['pipe']}',
+		max_accounts='{$_POST['max_accounts']}',
+		quotas='{$_POST['quotas']}',
+		sa_tag='" . ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0) . "',
+		sa_refuse='" .((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0) . "',
+		spamassassin='{$_POST['spamassassin']}',
+		enabled='{$_POST['enabled']}' WHERE domain_id='{$_POST['domain_id']}'";
+  $result = $db->query($query);
+  if (!DB::isError($result)) {
     header ("Location: site.php?updated={$_POST['domain']}");
     die; 
   } else {
@@ -83,23 +80,19 @@
   
 
   if (isset($_POST['sadisable'])) {
-    $query = "UPDATE users SET on_spamassassin='0' WHERE domain_id=:domain_id";
-    $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':domain_id'=>$_POST['domain_id']));
-    if ($success) {
-      header ("Location: site.php?updated={$_POST['domain']}");
-      die;
-    }
+    $query = "UPDATE users SET on_spamassassin='0' WHERE domain_id='{$_POST['domain_id']}'";
+    $result = $db->query($query);
+    if (DB::isError($result)) { $result->getMessage(); }
+    header ("Location: site.php?updated={$_POST['domain']}");
+    die;
   }
 
   if (isset($_POST['avdisable'])) {
-    $query = "UPDATE users SET on_avscan='0' WHERE domain_id=:domain_id";
-    $sth = $dbh->prepare($query);
-    $success = $sth->excecute(array(':domain_id'=>$_POST['domain_id']));
-    if ($success) {
-      header ("Location: site.php?updated={$_POST['domain']}");
-      die;
-    }
+    $query = "UPDATE users SET on_avscan='0' WHERE domain_id='{$_POST['domain_id']}'";
+    $result = $db->query($query);
+    if (DB::isError($result)) { $result->getMessage(); }
+    header ("Location: site.php?updated={$_POST['domain']}");
+    die;
   }
 
 # Just-in-case catchall
