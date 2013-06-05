@@ -9,10 +9,10 @@ Configuring Dovecot to work with Virtual Exim
 
   Setting Dovecot up to work with Vexim is indeed rather trivial:
 
-1. Edit /etc/dovecot/dovecot.conf. It is documented rather extensively
-   on Debian, so I won't go through everything. For Vexim auth to work,
-   you can comment out the `passdb pam' block, and uncomment the
-   `passdb sql` one instead. My `passdb sql' looks like this:
+1. Edit /etc/dovecot/dovecot.conf. It is documented rather extensively,
+   at least in Debian, so I won't go through everything. For Vexim auth
+   to work, you can comment out the `passdb pam' block, and uncomment the
+   `passdb sql' block instead. My `passdb sql' looks like this:
 
       passdb sql {
         # Path for SQL configuration file
@@ -24,8 +24,8 @@ Configuring Dovecot to work with Virtual Exim
       userdb prefetch {
       }
 
-2. Edit /etc/dovecot/dovecot-sql.conf. Again, it is well documeted,
-   so I won't go into detail. With comments stripped out, my file
+2. Edit /etc/dovecot/dovecot-sql.conf. Again, it is well documeted, so I
+   won't go into detail. With comments stripped out, my dovecot-sql.conf
    looks like following:
 
       driver = mysql
@@ -35,6 +35,9 @@ Configuring Dovecot to work with Virtual Exim
         SELECT `username` AS `user`, `crypt` AS `password`, \
           `pop` AS `userdb_home`, `uid` AS `userdb_uid`, `gid` AS `userdb_gid` \
         FROM `users` WHERE `username` = '%u'
+
+   Dovecot expects the select to return a set of columns with particular
+   names, hence usage of the `AS' keyword above.
 
 3. There's no step 3! Just restart Dovecot, and it should work.
 
