@@ -63,22 +63,23 @@
     /**
      * Check if a user already exists.
      *
-     * Queries database $db, and redirects to the $page is the user already
+     * Queries database $dbh, and redirects to the $page is the user already
      * exists.
      *
-     * @param  mixed   $db         database to query
+     * @param  mixed   $dbh         database to query
      * @param  string  $localpart  
      * @param  string  $domain_id
      * @param  string  $page       page to return to
      */
-    function check_user_exists($db,$localpart,$domain_id,$page) 
+    function check_user_exists($dbh,$localpart,$domain_id,$page)
     {
         $query = "SELECT COUNT(*) AS c 
                   FROM   users 
-                  WHERE  localpart='$localpart' 
-                  AND    domain_id='$domain_id'";
-        $result = $db->query($query);
-        $row = $result->fetchRow();
+                  WHERE  localpart=:localpart
+                  AND    domain_id=:domain_id";
+        $sth = $dbh->prepare($query);
+        $sth->execute(array(':localpart'=>$localpart, ':domain_id'=>$domain_id));
+        $row = $sth->fetch();
         if ($row['c'] != 0) 
         {
             header ("Location: $page?userexists=$localpart");
@@ -179,11 +180,11 @@
         {
             $output = uniqid();
         }
-        else
+        else //actually, this results in 23 characters at most, but that's enough for our use
         {
             $output = uniqid('', true);
         }
-        $output = substr($output, -1*$count);
+        $output = substr($output, 0 - $count);
 
         return $output;
     }

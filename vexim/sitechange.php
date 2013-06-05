@@ -23,19 +23,19 @@
 	  <tr><td><?php echo _("Admin"); ?>:</td><td><select name="localpart" class="textfield">
 	    <?php
 	      $query = "SELECT localpart,domain FROM users,domains
-		WHERE domains.domain_id='" . $_GET['domain_id'] . "'
+		WHERE domains.domain_id=:domain_id
 		AND admin=1 AND users.domain_id=domains.domain_id";
-	      $result = $db->query($query);
-	      if ($result->numRows()) {
-		while ($row = $result->fetchRow()) {
-		  print '<option value="' . $row['localpart'] . '">' . $row['localpart'] . '</option>' . "\n\t";
-		}
-	      }
+          $sth = $dbh->prepare($query);
+          $sth->execute(array(':domain_id'=>$_GET['domain_id']));
+          while ($row = $sth->fetch()) {
+		    print '<option value="' . $row['localpart'] . '">' . $row['localpart'] . '</option>' . "\n\t";
+          }
 	    ?>
 	    </select>@<?php 
-          $query = "SELECT * FROM domains WHERE domain_id='{$_GET['domain_id']}'";
-	    $result = $db->query($query);
-	    if ($result->numRows()) { $row = $result->fetchRow(); }
+          $query = "SELECT * FROM domains WHERE domain_id=:domain_id";
+          $sth = $dbh->prepare($query);
+          $sth->execute(array(':domain_id'=>$_GET['domain_id']));
+	    if ($sth->rowCount()) { $row = $sth->fetch(); }
 	    print $row['domain']; ?></td>
 	  <td><input name="domain_id" type="hidden" value="<?php print $_GET['domain_id']; ?>">
 	      <input name="domain" type="hidden" value="<?php print $_GET['domain']; ?>"></td></tr>

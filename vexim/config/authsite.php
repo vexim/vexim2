@@ -23,19 +23,16 @@
 	
 	# Match the session details to the siteadmin account
 	$query = "SELECT crypt,domain FROM users,domains 
-		WHERE users.user_id='{$_SESSION['user_id']}' AND users.domain_id='{$_SESSION['domain_id']}' 
+		WHERE users.user_id=:user_id AND users.domain_id=:domain_id
 		AND localpart='siteadmin' AND domain='admin' AND users.domain_id=domains.domain_id;";
-			 
-	$result = $db->query($query);
-	if (DB::isError($result) || $result->numRows()!=1 ) {
+    $sth = $dbh->prepare($query);
+    $success = $sth->execute(array(':user_id'=>$_SESSION['user_id'], ':domain_id'=>$_SESSION['domain_id']));
+    if(!$success || ($sth->rowCount()!=1)) {
 		header ("Location: index.php?login=failed"); 
 		die(); 
-	}
-	$row = $result->fetchRow();
-	if (DB::isError($result)) {
-		header ("Location: index.php?login=failed"); 
-		die(); 
-	}
+    }
+
+    $row = $sth->fetch();
 	
 	# confirm the crypted password in the session matches the crypted password in the database for the siteadmin
 	if ($row['crypt'] != $_SESSION['crypt']) {

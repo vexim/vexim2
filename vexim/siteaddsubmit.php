@@ -30,7 +30,7 @@
   if ($_POST['type'] == "alias") {
     $_POST['clear'] = $_POST['vclear'] = "BLANK";
   }
-  if ($_POST['max_accounts'] == '') {
+  if (!isset($_POST['max_accounts']) || $_POST['max_accounts'] == '') {
     $_POST['max_accounts'] = '0';
   }
   
@@ -61,11 +61,12 @@
     header ("Location: site.php?failuidguid={$_POST['domain']}");
     die;
   }
-        
-  $smtphomepath = realpath($_POST['maildir'] . "/") .
-    "/" . $_POST['domain'] . "/" . $_POST['localpart'] . "/Maildir";
-  $pophomepath = realpath($_POST['maildir'] . "/") .
-    "/" . $_POST['domain'] . "/" . $_POST['localpart'];
+  if(isset($_POST['maildir']) && isset($_POST['localpart'])) {
+    $smtphomepath = realpath($_POST['maildir'] . "/") .
+      "/" . $_POST['domain'] . "/" . $_POST['localpart'] . "/Maildir";
+    $pophomepath = realpath($_POST['maildir'] . "/") .
+      "/" . $_POST['domain'] . "/" . $_POST['localpart'];
+  }
 //Gah. Transactions!! -- GCBirzan
   if ((validate_password($_POST['clear'], $_POST['vclear'])) &&
     ($_POST['type'] != "alias")) {
@@ -73,38 +74,40 @@
               (domain, spamassassin, sa_tag, sa_refuse, avscan,
               max_accounts, quotas, maildir, pipe, enabled, uid, gid,
               type, maxmsgsize)
-              VALUES ('" . $_POST['domain'] . "'," .
-            "'{$_POST['spamassassin']}','".
-            ((isset($_POST['sa_tag'])) ? $_POST['sa_tag']  : 0) . "','" .
-            ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse']  : 0) . "','" .
-            "{$_POST['avscan']}','".
-            "{$_POST['max_accounts']}','".
-            ((isset($_POST['quotas'])) ? $_POST['quotas'] : 0) . "','" .
-            realpath ($_POST['maildir'] . "/") . "/" . $_POST['domain'] ."','" .
-            "{$_POST['pipe']}','" .
-            "{$_POST['enabled']}'," .
-            "'$uid'," .
-            "'$gid'," .
-            "'{$_POST['type']}','".
-            ((isset($_POST['maxmsgsize'])) ? $_POST['maxmsgsize'] : 0) . "')";
-    $domresult = $db->query($query);
-    if (!DB::isError($domresult)) {
+              VALUES (:domain, :spamassassin, :sa_tag, :sa_refuse,
+              :avscan, :max_accounts, :quotas, :maildir, :pipe, :enabled,
+              :uid, :gid, :type, :maxmsgsize)";
+    $sth = $dbh->prepare($query);
+    $success = $sth->execute(array(':domain'=>$_POST['domain'],
+        ':spamassassin'=>$_POST['spamassassin'],
+        ':sa_tag'=>((isset($_POST['sa_tag'])) ? $_POST['sa_tag']  : 0),
+        ':sa_refuse'=>((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse']  : 0),
+        ':avscan'=>$_POST['avscan'], ':max_accounts'=>$_POST['max_accounts'],
+        ':quotas'=>((isset($_POST['quotas'])) ? $_POST['quotas'] : 0),
+        ':maildir'=>realpath ($_POST['maildir'] . "/") . "/" . $_POST['domain'],
+        ':pipe'=>$_POST['pipe'], ':enabled'=>$_POST['enabled'],
+        ':uid'=>$uid, ':gid'=>$gid, ':type'=>$_POST['type'],
+        ':maxmsgsize'=>((isset($_POST['maxmsgsize'])) ? $_POST['maxmsgsize'] : 0)
+        ));
+    if ($success) {
       if ($_POST['type'] == "local") {
-  $query = "INSERT INTO users
+        $query = "INSERT INTO users
             (domain_id, localpart, username, clear, crypt, uid, gid,
             smtp, pop, realname, type, admin)
-            SELECT domain_id, '" . $_POST['localpart'] . "'," .
-            "'{$_POST['localpart']}@{$_POST['domain']}'," .
-            "'{$_POST['clear']}'," .
-            "'". crypt_password($_POST['clear'],$salt) . "','" .
-            $uid . "','" .
-            $gid . "', " .
-            "'{$smtphomepath}', '{$pophomepath}'," .
-            "'Domain Admin', 'local', 1 FROM domains
+            SELECT domain_id, :localpart, :username, :clear, :crypt,
+            :uid, :gid, :smtp, :pop, 'Domain Admin', 'local', 1
+            FROM domains
             WHERE domains.domain = '{$_POST['domain']}'";
+        $sth = $dbh->prepare($query);
+        $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
+            ':username'=>$_POST['localpart'].'@'.$_POST['domain'],
+            ':clear'=>$_POST['clear'],
+            ':crypt'=>crypt_password($_POST['clear'],$salt),
+            ':uid'=>$uid, ':gid'=>$gid, ':smtp'=>$smtphomepath,
+            ':pop'=>$pophomepath,
+            ));
 // Is using indexes worth setting the domain_id by hand? -- GCBirzan
-        $usrresult = $db->query($query);
-        if (DB::isError($usrresult)) {
+        if (!$success) {
           header ("Location: site.php?failaddedusrerr={$_POST['domain']}");
           die;
         } else {
@@ -130,24 +133,26 @@
       die;
     }
   } else if ($_POST['type'] == "alias") {
-    $idquery = "SELECT domain_id FROM domains
-                WHERE domain = '{$_POST['aliasdest']}'
+    $query = "SELECT domain_id FROM domains
+              WHERE domain=:aliasdest
                 AND domain_id > 1";
-    $idresult = $db->query($idquery);
-    if (DB::isError($idresult)) {
+    $sth = $dbh->prepare($query);
+    $success = $sth->execute(array(':aliasdest'=>$_POST['aliasdest']));
+    if (!$success) {
       header ("Location: site.php?baddestdom={$_POST['domain']}");
       die;
     } else {
-      $idrow = $idresult->fetchRow();
-      if (!isset($idrow['domain_id'])) {
+      $row = $sth->fetch();
+      if (!isset($row['domain_id'])) {
         header ("Location: site.php?baddestdom={$_POST['domain']}");
         die;
       }
     }
     $query = "INSERT INTO domainalias (domain_id, alias)
-              VALUES ('{$idrow['domain_id']}', '{$_POST['domain']}')";
-    $result = $db->query($query);
-    if (DB::isError($result)) {
+              VALUES (:domain_id, :alias)";
+    $sth = $dbh->prepare($query);
+    $success = $sth->execute(array(':domain_id'=>$row['domain_id'], ':alias'=>$_POST['domain']));
+    if (!$success) {
       header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
       die;
     } else {
