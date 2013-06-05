@@ -24,12 +24,13 @@
       </tr>
       <?php
         $query = "SELECT user_id,localpart FROM users
-          WHERE domain_id='{$_SESSION['domain_id']}'
+          WHERE domain_id=:domain_id
           AND users.type='fail'
           ORDER BY localpart;";
-        $result = $db->query($query);
-        if ($result->numRows()) {
-          while ($row = $result->fetchRow()) {
+        $sth = $dbh->prepare($query);
+        $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
+        if ($sth->rowCount()) {
+          while ($row = $sth->fetch()) {
             print '<tr>'
               . '<td align="center">'
               . '<a href="adminfaildelete.php?user_id='

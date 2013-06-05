@@ -5,7 +5,7 @@
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
   check_user_exists(
-    $db,$_POST['localpart'],$_SESSION['domain_id'],'adminfail.php'
+    $dbh,$_POST['localpart'],$_SESSION['domain_id'],'adminfail.php'
   );
 
   if (preg_match("/['@%!\/\| ']/",$_POST['localpart'])) {
@@ -14,17 +14,14 @@
   }
 
   $query = "INSERT INTO users (localpart, username, domain_id, smtp, pop,
-    uid, gid, type, realname) SELECT '{$_POST['localpart']}',
-      '{$_POST['localpart']}@{$_SESSION['domain']}',
-      '{$_SESSION['domain_id']}',
-      ':fail:',
-      ':fail:',
-       uid,
-       gid,
-      'fail',
-      'Fail' FROM domains WHERE domain_id='{$_SESSION['domain_id']}'";
-  $result = $db->query($query);
-  if (!DB::isError($result)) {
+    uid, gid, type, realname) SELECT :localpart,
+    :username, :domain_id, ':fail:', ':fail:', uid, gid, 'fail',
+    'Fail' FROM domains WHERE domain_id=:domain_id";
+  $sth = $dbh->prepare($query);
+  $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
+      ':username'=>$_POST['localpart'].'@'.$_SESSION['domain'],
+      ':domain_id'=>$_SESSION['domain_id']));
+  if ($success) {
     header ("Location: adminfail.php?added={$_POST['localpart']}");
   } else {
     header ("Location: adminfail.php?failadded={$_POST['localpart']}");

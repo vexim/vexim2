@@ -1,19 +1,23 @@
 <?php
   /* SQL Database login information */
-  require_once "DB.php";
+  //require_once "DB.php";
   include_once dirname(__FILE__) . "/i18n.php";
 
-  $sqlserver = "unix+localhost";
+  $sqlserver = "localhost";
   $sqltype = "mysql";
   $sqldb = "vexim";
   $sqluser = "vexim";
   $sqlpass = "CHANGE";
-  $dsn = "$sqltype://$sqluser:$sqlpass@$sqlserver/$sqldb";
-  $db = DB::connect($dsn);
-  if (DB::isError($db)) { die ($db->getMessage()); }
-  $db->setFetchMode(DB_FETCHMODE_ASSOC); 
-  $db->Query("SET CHARACTER SET UTF8");
-  $db->Query("SET NAMES UTF8");
+
+  $dsn = "$sqltype:host=$sqlserver;dbname=$sqldb";
+  $dboptions = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8');
+
+  try {
+    $dbh = new PDO($dsn, $sqluser, $sqlpass, $dboptions);
+    $dbh->setAttribute($dbh::ATTR_DEFAULT_FETCH_MODE, $dbh::FETCH_ASSOC);
+  } catch (PDOException $e) {
+    die($e->getMessage());
+  }
 
   /* We use this IMAP server to check user quotas */
   $imapquotaserver = "{mail.CHANGE.com:143/imap/notls}";
@@ -42,8 +46,8 @@
   /* The UID's and GID's control the default UID and GID for new domains
      and if postmasters can define their own.
      THE UID AND GID MUST BE NUMERIC! */
-  $uid = "90";
-  $gid = "90";
+  $uid = "65534";
+  $gid = "65534";
   $postmasteruidgid = "yes";
 
   /* The location of your mailstore for new domains.
