@@ -21,28 +21,29 @@
       AND users.domain_id = domains.domain_id";
   } else if ($AllowUserLogin) {
 		$query = "SELECT crypt,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
-      WHERE localpart='{$_POST['localpart']}'
+      WHERE localpart=:localpart
       AND users.domain_id = domains.domain_id
-      AND domains.domain='{$_POST['domain']}';";
+      AND domains.domain=:domain;";
   } else {
 		$query = "SELECT crypt,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
-      WHERE localpart='{$_POST['localpart']}'
+      WHERE localpart=:localpart
       AND users.domain_id = domains.domain_id
-      AND domains.domain='{$_POST['domain']}'
+      AND domains.domain=:domain
       AND admin=1;";
   }
-  $result = $db->query($query);
-  if (DB::isError($result)) {
-    die ($result->getMessage());
+  $sth = $dbh->prepare($query);
+  $success = $sth->execute(array(':localpart'=>$_POST['localpart'], ':domain'=>$_POST['domain']));
+  if(!$success) {
+    print_r($sth->errorInfo());
+    die();
   }
-	if ($result->numRows()!=1 ) {
-		header ('Location: index.php?login=failed'); 
-		die(); 
-	}
-  $row = $result->fetchRow();
-	if (DB::isError($result)) {
-		die ($result->getMessage());
-	}
+
+  if ($sth->rowCount()!=1) {
+    header ('Location: index.php?login=failed');
+    die();
+  }
+
+  $row = $sth->fetch();
 	
   $cryptedpass = crypt_password($_POST['crypt'], $row['crypt']);
 

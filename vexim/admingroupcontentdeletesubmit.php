@@ -4,9 +4,10 @@
   include_once dirname(__FILE__) . '/config/functions.php';
 
   # confirm that the user is updating a group they are permitted to change before going further  
-  $query = "SELECT * FROM groups WHERE id='{$_REQUEST['group_id']}' AND domain_id='{$_SESSION['domain_id']}'";
-  $result = $db->query($query);
-  if ($result->numRows()<1) {
+  $query = "SELECT * FROM groups WHERE id=:group_id AND domain_id=:domain_id";
+  $sth = $dbh->prepare($query);
+  $sth->execute(array(':group_id'=>$_REQUEST['group_id'], ':domain_id'=>$_SESSION['domain_id']));
+  if (!$sth->rowCount()) {
 	  header ("Location: admingroupchange.php?group_id={$_REQUEST['group_id']}&group_failupdated={$_REQUEST['localpart']}"); 
 	  die();  
   }
@@ -17,10 +18,11 @@
     die;
   }
   $query = "DELETE FROM group_contents 
-    WHERE group_id='{$_REQUEST['group_id']}'
-    AND member_id='{$_REQUEST['member_id']}'";
-  $result = $db->query($query);
-  if (!DB::isError($result)) { 
+    WHERE group_id=:group_id
+    AND member_id=:member_id";
+  $sth = $dbh->prepare($query);
+  $success = $sth->execute(array(':group_id'=>$_REQUEST['group_id'], ':member_id'=>$_REQUEST['member_id']));
+  if ($success) { 
     header ("Location: admingroupchange.php?group_id={$_REQUEST['group_id']}&group_updated={$_REQUEST['localpart']}"); 
   } else { 
     header ("Location: admingroupchange.php?group_failupdated={$_REQUEST['localpart']}"); 
