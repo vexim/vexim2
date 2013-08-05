@@ -347,11 +347,11 @@ Source:
  # unzip /PATH/TO/master.zip
 
    Edit vexim2-master/setup/mysql.sql, and replace the word 'CHANGE' on 
-   lines 6 and 7 with the default UID and GID under which delivers
+   lines 15 and 16 with the default UID and GID under which delivers
    should happen. This UID and GID should be an actual user on your
    system. I use the "vexim" users we created above. It's UID and GID
    should both be 90 be default.
-   Now, on like 69 which start "GRANT SELECT,...", change the word
+   Now, on line 134 which start "GRANT SELECT,...", change the word
    "CHANGE" to a password of your choosing. This with the password the
    web interface and Exim will both use to access the database. Make
    sure it is secure.
@@ -367,7 +367,7 @@ Source:
 
    Now edit vexim2/vexim/config/variables.php. You need to change the
    following settings:
-     Change the '$sqlpass' on like 17 to the vexim database user's
+     Change the '$sqlpass' on line 9 to the vexim database user's
      password which you chose which editing 'mysql.sql' in the last
      step.
      If your system uses DES passwords, change '$cryptscheme' to "des".
