@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `vexim`.`group_contents`
 );
 
 --
--- Priviledges:
+-- Privileges:
 --
 GRANT SELECT,INSERT,DELETE,UPDATE ON `vexim`.* to "vexim"@"localhost" 
     IDENTIFIED BY 'CHANGE';
