@@ -89,16 +89,6 @@ Prerequisites:
     # apt-get install clamav-daemon clamav-freshclam sa-exim spamassassin
 
 
-Files and Apache:
-  In this distribution is a directory called 'vexim'.
-  You have two options:
-    1) Copy this directory into your current DocumentRoot for your
-       domain, and optionally rename the directory.
-    2) Set up a new VirtualHost and point the DocumentRoot to the vexim
-       directory.
-  Both should work equally well.
-
-
 System user:
   You should create a new user account to whom the virtual mailboxes will
   belong. Since you do not want anyone to be able to login using that account,
@@ -137,7 +127,7 @@ Databases and authentication:
     This ditribution contains a file "vexim2/setup/mysql.sql". This file
     provides the database schema used by vexim. You will have to import it into
     MySQL, but before that, some changes must be made to this file in order
-    for it to work. 
+    for it to work.
 
     Open this file in a text editor and look for the word "CHANGE". You will
     find the following two lines not far from the top (lines 15-16):
@@ -181,7 +171,27 @@ Databases and authentication:
     script. Executing it as:
     # create_db.pl --act=migratemysql --dbtype=mysql --uid=90 --gid=90 --mailstore=/usr/local/mail
     should work fine. Replace 'uid', 'gid' and 'mailstore' values with the ones
-    you got from the 'System User' step.
+    you have from the "System user" step.
+
+
+Files and Apache:
+  In this distribution is a directory called 'vexim'.
+  You have two options:
+    1) Copy this directory into your current DocumentRoot for your
+       domain, and optionally rename the directory.
+    2) Set up a new VirtualHost and point the DocumentRoot to the vexim
+       directory.
+  Both should work equally well.
+
+  After copying the 'vexim' directory, you should edit file 'variables.php',
+  which you'll find in is subdirectory called 'config'. Change the following
+  values defined in that file:
+  * $sqlpass – to the vexim database user's password which you chose while
+    editing 'mysql.sql' in the "Databases and authentication" step.
+  * $uid, $gid and $mailroot to the values you have from the "System user" step.
+  * If your system uses DES passwords, change '$cryptscheme' to "des".
+  Other, less interesting options are documented in the comments of that file.
+  Feel free to explore them as well.
 
 
 Exim configuration:
