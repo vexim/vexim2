@@ -1,21 +1,18 @@
                          Virtual Exim 2
-		             README
-		           ==========
+                    README AND INSTALL GUIDE
+                    ========================
 
-Thanks for picking the Virtual Exim package, for your virtual mail
-hosting needs :-)
+Thanks for picking the Virtual Exim package, for your virtual mail hosting
+needs! :-)
 
-This README provides a basic guide on how to get Virtual Exim working on
-your system. In this guide, I assume that you have *a little* knowledge
-of both MySQL and Exim. It is also assumed that you already have installed
-and configured all of the required packages listed below. If you don't,
-please refer to the documentation provided with your system on how to
-install each package.
+This document provides a basic guide on how to get Virtual Exim working on your
+system. In this guide, I assume that you have *a little* knowledge of both MySQL
+and Exim.
 
-Before we go into any details, I'd like to thanks Philip Hazel and the
-Exim developers for a fine product.
-I would also like to thanks the postmasters at various domains for
-letting me play havoc with their mail while I set this up :-)
+Before we go into any details, I'd like to thanks Philip Hazel and the Exim
+developers for a fine product.
+I would also like to thanks the postmasters at various domains for letting me
+play havoc with their mail while I set this up :-)
 Finally, a special note of thanks to Dan Bernstein for his Qmail MTA.
 Dan, thank you for educating me how mail delivery really shouldn't be
 done, on the Internet.
@@ -26,9 +23,35 @@ And its mailing list/Google group is available at:
   https://groups.google.com/group/vexim
 
 
-Requirements:
-The following packages must be installed on your system, for VExim to
-work:
+Installation steps for each component:
+
+NOTE FOR UPGRADING:
+  If you are upgrading from a previous version of Virtual Exim, you'll find
+  additional notes marked 'UPGRADING' in some sections. If and when you do,
+  follow these notes.
+
+DISTRIBUTION-SPECIFIC NOTES:
+  Some sections may contain distribution or OS-specific notes. You'll find them
+  after an appropriate prefix, such as 'DEBIAN' or 'FREEBSD' where appropriate.
+
+PARTS:
+  Prerequisites
+  Files and Apache
+  System user
+  Databases and authentication
+  Exim configuration
+  Site Admin
+  Virtual Domains
+  Mailman
+  Mail storage and Delivery
+  POP3 and IMAP daemons (separate to this software)
+
+
+Prerequisites:
+  The following packages must be installed on your system, for Virtual Exim to
+  work. If you don't have any of these packages already installed, please refer
+  to the documentation provided with your operating system on how to install
+  each package:
     * Exim v4 with MySQL or PostgreSQL support (tested on v4.1x/4.2x/4.7x)
     * MySQL (tested on v5.1.x) or PostgreSQL
     * Apache or other HTTP server (Tested on Apache v2.2.x)
@@ -39,39 +62,31 @@ work:
       - gettext
       - iconv
 
-The following packages provide optional functionality:
+  The following packages provide optional functionality:
     * Mailman – to have mailing lists
     * ClamAV – for scanning e-mail for viruses
     * SpamAssassin – for scanning e-mail from spam
 
-If you are upgrading from VExim 1.x, the following packages will help
-you to perform automatic database upgrade. They will only be needed
-during the upgrade, and can be removed later:
+  VExim might work with older (or newer) versions of these packages, but you may
+  have to perform some adaptation work to achieve that. In any case, you are
+  welcome to file bugs and/or provide patches on GitHub.
+
+  UPGRADING: If you are upgrading from VExim 1.x, the following packages will
+    help you to perform automatic database schema migration. They will only be
+    needed during the upgrade and can be removed later:
     * Perl + DBI module + DBD-mysql (you would need DBD-Pg to migrate
-      a PostgreSQL database, but that functionality is not implemented
+      a PostgreSQL database, but PostreSQL migration is not implemented
       in the migration script)
 
-    VExim might work with older (or newer) versions of these packages,
-    but you may have to perform some adaptation work to achieve that.
-    In any case, you are welcome to file bugs and/or provide patches
-    on GitHub.
+  DEBIAN: The following command line installs all the required packages
+  (this is assuming you're going with MySQL setup):
 
+    # apt-get install apache2 exim4-daemon-heavy mysql-server libapache2-mod-php5 php5-mysql php5-imap
 
-Installation steps for each component:
+    If you want your mail server to scan messages for viruses and spam, you will
+    have to install a few more packages:
 
-NOTE FOR UPGRADING:
-  If you are upgrading from a previous version of Virtual Exim, please
-  follow the notes for 'UPGRADING' in each section!
-
-PARTS:
-  Files and Apache
-  Exim configuration
-  MySQL
-  Site Admin
-  Virtual Domains
-  Mailman
-  Mail storage and Delivery
-  POP3 and IMAP daemons (separate to this software)
+    # apt-get install clamav-daemon clamav-freshclam sa-exim spamassassin
 
 
 Files and Apache:
@@ -83,8 +98,90 @@ Files and Apache:
        directory.
   Both should work equally well.
 
-  UPGRADING: The above directions should work for users who are
-  upgrading their installation
+
+System user:
+  You should create a new user account to whom the virtual mailboxes will
+  belong. Since you do not want anyone to be able to login using that account,
+  you should also disable logging in for that user. Here are the command lines
+  to do that. This manual assumes you want to have your virtual mailboxes in
+  /var/spool/vexim. If you want them elsewhere, adjust the commands. After
+  the user and group are created, find their uid and gid using the last command
+  and memorize these values:
+
+  # useradd -r -m -U -s /bin/false -d /var/spool/vexim vexim
+  # id vexim
+
+  FREEBSD: Instead of the commands above, you should probably use the following:
+  # pw useradd vexim -u 1,100 -g "" -d /var/spool/vexim -m -s /nonexistant
+  # id vexim
+
+  DEBIAN: Use the following command instead:
+  # adduser --system --home /var/spool/vexim --disabled-password --disabled-login --group vexim
+
+
+Databases and authentication:
+  When creating the databases you have two options. You can either use
+  the SQL command files, or the perl script.
+  If you are creating new databases, I *HIGHLY* recommend you use the
+  SQL command files. They are much simpler.
+  However, if you are migrating from Virtual Exim 1.x to 2.x, you will
+  need to use the perl script to migrate the data.
+
+  IMPORTANT NOTE: if you have a database called "vexim" in MySQL or PostgreSQL,
+  you should back it up first. The SQL command files assume that the database
+  with that name does not exist and has to be created. You can edit the files
+  to use a different database name, but you are still strongly advised to make
+  a backup of the "vexim" database – just in case.
+
+  MySQL:
+    This ditribution contains a file "vexim2/setup/mysql.sql". This file
+    provides the database schema used by vexim. You will have to import it into
+    MySQL, but before that, some changes must be made to this file in order
+    for it to work. 
+
+    Open this file in a text editor and look for the word "CHANGE". You will
+    find the following two lines not far from the top (lines 15-16):
+
+    	uid              smallint(5)   unsigned  NOT NULL  default 'CHANGE',
+    	gid              smallint(5)   unsigned  NOT NULL  default 'CHANGE',
+
+    Replace "CHANGE" with the uid and gid of your freshly created "vexim" user
+    (see the System user step). This will be the default user to own mailbox
+    files for new domains.
+
+    Further below you will find the following section:
+
+    --
+    -- Privileges:
+    --
+    GRANT SELECT,INSERT,DELETE,UPDATE ON `vexim`.* to "vexim"@"localhost" 
+        IDENTIFIED BY 'CHANGE';
+    FLUSH PRIVILEGES;
+
+    Replace the word "CHANGE" with a secure password - It will be used both by
+    the Exim MTA and the web interface to access the database.
+
+    If the crypt() function on your system produces DES hashes, you will also
+    have to uncomment the appropriate lines, as noted by the comments, at the
+    end of mysql.sql.
+
+    With the necessary changes made, you should run the following command line
+    to initialize the database:
+
+    # mysql -u root -p < vexim2/setup/mysql.sql
+  PGSQL:
+    The code has been tested by several users to work with Virtual Exim,
+    and we try our best to make sure it always will. Unfortunately I
+    don't have much PostgreSQL knowledge to support it fully. A database
+    schema for it is included however, as setup/pgsql.sql to help you
+    set up the database. Make sure to adjust it similarly as per MySQL
+    instructions above.
+  UPGRADING:
+    If you are upgrading your installation you will need to use the perl
+    script. Executing it as:
+    # create_db.pl --act=migratemysql --dbtype=mysql --uid=90 --gid=90 --mailstore=/usr/local/mail
+    should work fine. Replace 'uid', 'gid' and 'mailstore' values with the ones
+    you got from the 'System User' step.
 
 
 Exim configuration:
@@ -93,20 +190,23 @@ Exim configuration:
   expects its configuration file to be on your installation.
   You will also need to copy docs/vexim* to /usr/local/etc/exim/
   The following lines are important and will need to be edited if you
-  are using this configure, or copied to your own configure:
+  are using this configure, or copied to your own configure file:
 
     MAILMAN_HOME=/usr/local/mailman
     MAILMAN_WRAP=MAILMAN_HOME/mail/mailman
     *** Edit these if your mailman is in a different location.
-----------
+  ----------
     MAILMAN_USER=mailnull
     MAILMAN_GROUP=mail
     *** These need to match the username and group under which exim runs
-----------
-    primary_hostname=mail.silverwraith.com
-    *** This is my mail server. There are many like it, but this one is
-    mine. Make this like yours.
-----------
+  ----------
+    # Your IP address
+    MY_IP = CHANGE
+    *** Change this to the IP address of your server.
+  ----------
+    primary_hostname=mail.example.org
+    *** Change this to the name of your server.
+  ----------
     # If you are using MySQL, uncomment the following two lines:
     #VIRTUAL_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains type = 'local'
     #RELAY_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains type = 'relay'
@@ -116,24 +216,28 @@ Exim configuration:
     #RELAY_DOMAINS = SELECT DISTINCT domain || ' : ' FROM domains WHERE type = 'relay'
     *** Depending on the database type you are using, you will need to
     uncomment the appropriate lines in the config, to enable lookups.
-----------
-    hostlist   relay_from_hosts = 127.0.0.1 : 66.214.182.79 
-    *** These control which domains you accept mail for and deliver
-    locally (local_domains), which domains you accept mail for and
-    deliver remotely (relay_to_domains), and which IP addresses are
-    allowed to send mail to any domain.
-----------
+  ----------
+    domainlist local_domains = @ : example.org : ${lookup mysql{VIRTUAL_DOMAINS}} : ${lookup mysql{ALIAS_DOMAINS}}
+    domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
+    hostlist   relay_from_hosts = localhost : 192.168.0.0/24 : MY_IP
+    trusted_users = avleen:www
+    *** These control which domains you accept mail for and deliver locally
+    (local_domains), which domains you accept mail for and deliver remotely
+    (relay_to_domains), which IP addresses are allowed to send mail to any
+    domain (relay_from_hosts) and which system users are considered trusted
+    (trusted_users). More on these options – in Exim documentation.
+  ----------
     exim_user = mailnull
     exim_group = mail
     *** Specify here, the username and group under which Exim runs. This
     combination is also that under which mailman must run in order to
     work.
-----------
+  ----------
     # av_scanner = clamd:/tmp/clamd
     # spamd_address = 127.0.0.1 783
     *** If you want to use either Anti-Virus scanning, or SpamAssassin, you
     will need to uncomment the appropriate line here.
-----------
+  ----------
     #hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
     *** This line configures database connectivity. You need to
     uncomment it and change the word 'CHANGE', to the password you will
@@ -143,7 +247,7 @@ Exim configuration:
     which is where the FreeBSD port puts it. Other installations put it
     in /var/tmp, /usr/lib, or any number of other places. If yours isn't
     /tmp/mysql.sock, you will need to set this.
-----------
+  ----------
     ACL's
     *** We have split all of the ACL's into separate files, to make
     managing them easier. Please review the ACL section of the configure
@@ -151,56 +255,14 @@ Exim configuration:
     comment out the '.include' line that references them, or edit the
     ACL file directly and comment them out.
 
-  UPGRADING: The above directions should work for users who are
-  upgrading their installation
+  DEBIAN:
+    Typically, Debian setups use split Exim configuration with some Debconf
+    magic. Stefan Tomanek has a nice writeup explaining how to retain it. You
+    will find it at http://stefans.datenbruch.de/rootserver/vexim.shtml (in case
+    this link dies, use Wayback Machine at http://archive.org/), but you should
+    probably scroll right down to the section titled "Hooking into Exim" because
+    other parts of that manual are already covered in this document.
 
-
-Databases and Authentication:
-  When creating the databases you have two options. You can either use
-  the SQL command files, or the perl script.
-  If you are creating new databases, I *HIGHLY* recommend you use the
-  SQL command files. They are much simpler.
-  However, if you are migrating from Virtual Exim 1.x to 2.x, you will
-  need to use the perl script to migrate the data.
-
-  MySQL:
-    If you want to create new MySQL databases, edit the setup/mysql.sql
-    file and change the first two instances of the word 'CHANGE', to the
-    default system UID and GID you want new domains to have if one is
-    not specified. Change the third instance of the word 'CHANGE' to the
-    password you want the 'vexim' database user to have. This is the
-    same password you chose when editing Exim's configure file above.
-    You also need to know if your system uses MD5 or DES passwords.
-    BSD and Linux normally use MD5, whereas Solaris systems commonly use
-    the older style DES.
-    If your system uses DES passwords, uncomment the appropriate line,
-    as noted by the comments, at the end of mysql.sql.
-    Save the file, and run:
-      mysql -u root -p < mysql.sql
-    This should create the database and add the right users.
-    The password you are prompted for when doing this should be your
-    MySQL database's root user password.
-    Finally, you will need to edit:
-      vexim/config/variables.php
-    Change the password for the vexim user as noted by the word
-    'CHANGE'. Set this to the same password that you chose in mysql.sql,
-    and change the '$cryptscheme' line to either "md5", or "des"
-    depending on what your operating system uses. The last change to make
-    in that file is the '$uid' and '$gid'. Make these the same default
-    UID and GID you chose in mysql.sql.
-  PGSQL:
-    The code has been tested by several users to work with Virtual Exim,
-    and we try our best to make sure it always will. Unfortunately I
-    don't have much PostgreSQL knowledge to support it fully. A database
-    schema for it is included however, as setup/pgsql.sql to help you
-    set up the database.
-  UPGRADING:
-    If you are upgrading your installation you will need to use the perl
-    script. Executing it as:
-      create_db.pl --act=migratemysql --dbtype=mysql --uid=90 --gid=90 --mailstore=/usr/local/mail
-    should work fine. Change the 'uid' 'gid' and 'mailstore' to the
-    default values you want to assign in the database. These should
-    match the values in 'variables.php'.
 
 Site Admin:
   In order to add and delete domains from the database, you need to have
@@ -208,12 +270,10 @@ Site Admin:
   the individual domains.
   The default username and password for the siteadmin, are:
   Username: siteadmin
+  Domain value: (blank)
   Password: CHANGE
-  The password is case sensitive.
-  I recommend you log in and change this when you get a chance :-)
-
-  UPGRADING: The above directions should work for users who are
-  upgrading their installation
+  The password is case sensitive. You are strongly advised to log in and change
+  it as soon as you get a chance. :-)
 
 
 Virtual Domains:
@@ -223,9 +283,6 @@ Virtual Domains:
   siteadmin pages. Local domains can also be enabled/disabled on the
   fly, but relay domains are always enabled.
 
-  UPGRADING: The above directions should work for users who are
-  upgrading their installation
-
 
 Mailman:
   Mailman needs to be installed if you want to use mailing lists. The
@@ -233,9 +290,6 @@ Mailman:
   the location of your installation, edit Exim's configure file, and
   change the paths where ever 'mailman' is mentioned, and do the same in
   vexim/config/variables.php
-
-  UPGRADING: The above directions should work for users who are
-  upgrading their installation
 
 
 Mail storage and Delivery:
@@ -245,9 +299,6 @@ Mail storage and Delivery:
     vexim/config/variables.php
   and change 'mailroot' to the correct path. Don't forget the / at the
   end.
-
-  UPGRADING: The above directions should work for users who are
-  upgrading their installation
 
 
 POP3 and IMAP daemons:
