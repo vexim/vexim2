@@ -70,7 +70,7 @@ ALIAS_DOMAINS = SELECT DISTINCT alias FROM domainalias WHERE alias = '${quote_my
 #VIRTUAL_DOMAINS = SELECT DISTINCT domain || ' : ' FROM domains WHERE type = 'local'
 #RELAY_DOMAINS = SELECT DISTINCT domain || ' : ' FROM domains WHERE type = 'relay'
 
-domainlist local_domains = @ : pear.silverwraith.com : ${lookup mysql{VIRTUAL_DOMAINS}} : ${lookup mysql{ALIAS_DOMAINS}}
+domainlist local_domains = @ : example.org : ${lookup mysql{VIRTUAL_DOMAINS}} : ${lookup mysql{ALIAS_DOMAINS}}
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost : 192.168.0.0/24 : MY_IP
 trusted_users = avleen:www
