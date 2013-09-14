@@ -275,6 +275,12 @@ Exim configuration:
     the files provided by Debian in conf.d. By the way, some of these ACL's are
     already implemented by Debian, so you might just need to enable them by
     defining certain macros as described in Debian manual.
+    This manual does not cover enabling ClamAV and SpamAssassin in Exin in
+    Debian. Please look this up elsewhere. By the way, the author of this part
+    never bothered to set up Vexim in such a way that Debian would take into
+    account the status of the various user flag (on_av, on_spamassassin etc)
+    for each user. In his setup, these flags have no effect, and all messages
+    are checked for spam and viruses.
 
     Stefan Tomanek has a nice writeup about using Vexim in Debian, but that
     article does not cover all aspects and is a bit outdated. You can find it
