@@ -1,0 +1,20 @@
+
+### main/01_vexim_listmacrosdefs
+#################################
+
+hide mysql_servers = localhost::(/var/run/mysqld/mysqld.sock)/vexim/vexim/CHANGE
+
+VEXIM_VIRTUAL_DOMAINS = SELECT DISTINCT domain FROM domains WHERE type = 'local' AND enabled = '1' AND domain = '${quote_mysql:$domain}'
+VEXIM_RELAY_DOMAINS = SELECT DISTINCT domain FROM domains WHERE type = 'relay'  AND domain = '${quote_mysql:$domain}'
+VEXIM_ALIAS_DOMAINS = SELECT DISTINCT alias FROM domainalias WHERE alias = '${quote_mysql:$domain}'
+
+MAIN_LOCAL_DOMAINS = MAIN_LOCAL_DOMAINS : ${lookup mysql{VEXIM_VIRTUAL_DOMAINS}} : ${lookup mysql{VEXIM_ALIAS_DOMAINS}}
+MAIN_RELAY_TO_DOMAINS = MAIN_RELAY_TO_DOMAINS : ${lookup mysql{VEXIM_RELAY_DOMAINS}}
+
+## If you don't want mail for localuser@virtualdomain delivered to the local
+## user, uncomment the domainlist line and adjust the appropriate routers in
+## /etc/exim4/conf.d/router/ (at least some of the ones with a prefix higher
+## than 250) to use this domainlist instead of local_domains.
+## NOTE: this only applies to the cases when the user does not exist in virtual
+## exim database. If the user exists, these routers 
+# domainlist local_user_domains = @ : localhost

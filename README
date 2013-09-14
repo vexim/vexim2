@@ -195,12 +195,16 @@ Files and Apache:
 
 
 Exim configuration:
-  An example exim 'configure' file, has been included with this
-  distribution as 'docs/configure'. Copy this to the location Exim
-  expects its configuration file to be on your installation.
-  You will also need to copy docs/vexim* to /usr/local/etc/exim/
-  The following lines are important and will need to be edited if you
-  are using this configure, or copied to your own configure file:
+  NOTE: the configuration files supplied here are really old and should be
+        revised. You probably should NOT really use them as-is, instead just
+        look at them for inspiration. For example, native SPF support has been
+        added to Exim in v4.52, so vexim-acl-check-spf is pretty much obsolete.
+        Actually, that file, as it is, likely will not even work!
+  An example Exim 'configure' file, has been included with this distribution as
+  'docs/configure'. Copy this to the location Exim expects its configuration
+  file to be on your installation. You will also need to copy docs/vexim* to
+  /usr/local/etc/exim/. The following lines are important and will have to be
+  edited if you are using this configure, or copied to your own configure file:
 
     MAILMAN_HOME=/usr/local/mailman
     MAILMAN_WRAP=MAILMAN_HOME/mail/mailman
@@ -209,10 +213,6 @@ Exim configuration:
     MAILMAN_USER=mailnull
     MAILMAN_GROUP=mail
     *** These need to match the username and group under which exim runs
-  ----------
-    # Your IP address
-    MY_IP = CHANGE
-    *** Change this to the IP address of your server.
   ----------
     primary_hostname=mail.example.org
     *** Change this to the name of your server.
@@ -229,7 +229,7 @@ Exim configuration:
   ----------
     domainlist local_domains = @ : example.org : ${lookup mysql{VIRTUAL_DOMAINS}} : ${lookup mysql{ALIAS_DOMAINS}}
     domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
-    hostlist   relay_from_hosts = localhost : 192.168.0.0/24 : MY_IP
+    hostlist   relay_from_hosts = localhost : @ : 192.168.0.0/24
     trusted_users = avleen:www
     *** These control which domains you accept mail for and deliver locally
     (local_domains), which domains you accept mail for and deliver remotely
@@ -267,11 +267,21 @@ Exim configuration:
 
   DEBIAN:
     Typically, Debian setups use split Exim configuration with some Debconf
-    magic. Stefan Tomanek has a nice writeup explaining how to retain it. You
-    will find it at http://stefans.datenbruch.de/rootserver/vexim.shtml (in case
-    this link dies, use Wayback Machine at http://archive.org/), but you should
-    probably scroll right down to the section titled "Hooking into Exim" because
-    other parts of that manual are already covered in this document.
+    magic. This manual will assume that you are familiar with it. If not, you
+    should refer to the Debian documentation on Exim.
+    To get the virtual mailboxes to work, copy the contents of
+    docs/debian-conf.d/ to /etc/exim4/conf.d/ and change the MySQL password
+    in .../main/00_vexim_listmacrosdefs. You may also want to review the ACL's
+    in docs/vexim-acl-*.conf and selectively copy and paste their contents to
+    the files provided by Debian in conf.d. By the way, some of these ACL's are
+    already implemented by Debian, so you might just need to enable them by
+    defining certain macros.
+
+    Stefan Tomanek has a nice writeup about using Vexim in Debian, but that
+    article does not cover all aspects and is a bit outdated. You can find it
+    at http://stefans.datenbruch.de/rootserver/vexim.shtml (in case this link
+    dies, you can use Wayback Machine at http://archive.org/), but most of it
+    is probably already incorporated (and improved!) into this document anyway.
 
 
 Site Admin:

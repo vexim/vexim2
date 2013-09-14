@@ -1,0 +1,137 @@
+
+### router/250_vexim_virtual_domains
+#################################
+
+virtual_vacation:
+  driver = accept
+  domains = +local_domains
+  condition = ${if and { {!match {$h_precedence:}{(?i)junk|bulk|list}} \
+                         {eq {${lookup mysql{select users.on_vacation from users,domains \
+                                where localpart = '${quote_mysql:$local_part}' \
+                                and domain = '${quote_mysql:$domain}' \
+                                and users.on_vacation = '1' \
+                                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
+  no_verify
+  no_expn
+  unseen
+  transport = virtual_vacation_delivery
+
+virtual_forward:
+  driver = redirect
+  domains = +local_domains
+  check_ancestor
+  unseen = ${if eq {${lookup mysql{select unseen from users,domains \
+                where localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
+                and users.on_forward = '1' \
+                and users.domain_id=domains.domain_id}}}{1} {yes}{no}}
+  data = ${lookup mysql{select forward from users,domains \
+        where localpart='${quote_mysql:$local_part}' \
+        and domain='${quote_mysql:$domain}' \
+        and users.domain_id=domains.domain_id \
+        and on_forward = '1'}}
+  # We explicitly make this condition NOT forward mailing list mail!
+  condition = ${if and { {!match {$h_precedence:}{(?i)junk}} \
+                         {eq {${lookup mysql{select users.on_forward from users,domains \
+                                where localpart = '${quote_mysql:$local_part}' \
+                                and domain = '${quote_mysql:$domain}' \
+                                and users.on_forward = '1' \
+                                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
+
+virtual_domains:
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  data = ${lookup mysql{select smtp from users,domains \
+                where localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
+                and domains.enabled = '1' \
+                and users.enabled = '1' \
+                and users.domain_id = domains.domain_id}}
+  headers_add = ${if >{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
+                where localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
+                and users.on_spamassassin = '1' \
+                and users.domain_id=domains.domain_id }{$value}fail}} {X-Spam-Flag: YES\n}{} }
+  headers_remove = ${if or { { <{$spam_score_int}{1} } \
+                             { <{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
+                               where localpart = '${quote_mysql:$local_part}' \
+                               and domain = '${quote_mysql:$domain}' \
+                               and users.on_spamassassin = 1 \
+                               and users.domain_id=domains.domain_id}{$value}fail}} } \
+                             { eq {0}{${lookup mysql{select users.sa_tag * 10 from users,domains \
+                               where localpart = '${quote_mysql:$local_part}' \
+                               and domain = '${quote_mysql:$domain}' \
+                               and users.on_spamassassin = 0 \
+                               and users.domain_id=domains.domain_id}{$value}fail}}} \
+                           } {X-Spam-Score:X-Spam-Report} }
+  local_part_suffix = -*
+  local_part_suffix_optional
+  retry_use_local_part
+  file_transport = virtual_delivery
+  reply_transport = address_reply
+  pipe_transport = address_pipe
+
+# A group is a list of users
+#
+# if a group is flaged public
+# then anyone on the internet can write to it
+# else only members can write to it
+# 
+# If not public non member sender will receive a "550 Unknown user" message
+virtual_dom_groups:
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  senders = ${if eq{Y}{${lookup mysql{select g.is_public \
+                                      from groups g, domains d \
+                                      where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
+                                            d.domain_id = g.domain_id and g.enabled = '1' and \
+                                            g.name = '${quote_mysql:$local_part}'}}} \
+                 {$sender_address} \
+                 {${lookup mysql{select u.username \
+                                 from domains d, groups g, group_contents c, users u \
+                                 where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
+                                       d.domain_id = g.domain_id and g.name = '${quote_mysql:$local_part}' and \
+                                       g.enabled = '1' and \
+                                       g.is_public = 'N' and c.member_id = u.user_id and \
+                                       d.domain_id = u.domain_id and u.enabled = '1' \
+                                       and u.username = '${quote_mysql:$sender_address}' }}}}
+  data = ${lookup mysql{ \
+            select u.username \
+            from domains d, groups g, group_contents c, users u \
+            where d.enabled     = '1'           and \
+                  d.domain      = '${quote_mysql:$domain}'   and \
+                  d.domain_id   = g.domain_id   and \
+                  g.enabled     = '1'           and \
+                  g.id          = c.group_id    and \
+                  c.member_id   = u.user_id     and \
+                  d.domain_id   = u.domain_id   and \
+                  u.enabled     = '1'           and \
+                  g.name        = '${quote_mysql:$local_part}'} }
+  local_part_suffix = -*
+  local_part_suffix_optional
+  retry_use_local_part
+  reply_transport = address_reply
+  pipe_transport = address_pipe
+
+virtual_domains_catchall:
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  data = ${lookup mysql{select smtp from users,domains where localpart = '*' \
+                and domain = '${quote_mysql:$domain}' \
+                and users.domain_id = domains.domain_id}}
+  retry_use_local_part
+  file_transport = virtual_delivery
+  reply_transport = address_reply
+  pipe_transport = address_pipe_catchall
+
+virtual_domain_alias:
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  data = ${lookup mysql{select concat('${quote_mysql:$local_part}@', domain) \
+                from domains,domainalias where domainalias.alias = '${quote_mysql:$domain}' \
+                and domainalias.domain_id = domains.domain_id}}
+  retry_use_local_part

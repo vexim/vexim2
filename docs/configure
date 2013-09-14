@@ -53,9 +53,6 @@ MAILMAN_GROUP=mail
 
 # primary_hostname =
 
-# Your IP address
-MY_IP = CHANGE
-
 # The next three settings create two lists of domains and one list of hosts.
 # These lists are referred to later in this configuration using the syntax
 # +local_domains, +relay_to_domains, and +relay_from_hosts, respectively. They
@@ -72,7 +69,7 @@ ALIAS_DOMAINS = SELECT DISTINCT alias FROM domainalias WHERE alias = '${quote_my
 
 domainlist local_domains = @ : example.org : ${lookup mysql{VIRTUAL_DOMAINS}} : ${lookup mysql{ALIAS_DOMAINS}}
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
-hostlist   relay_from_hosts = localhost : 192.168.0.0/24 : MY_IP
+hostlist   relay_from_hosts = localhost : @ : 192.168.0.0/24
 trusted_users = avleen:www
 
 #hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
@@ -271,8 +268,6 @@ log_selector = +subject
 ######################################################################
 
 begin acl
-  .include /usr/local/etc/exim/vexim-acl-check-spf.conf
-
 acl_check_helo:
 
 # Include Vexim specific helo ACLs
