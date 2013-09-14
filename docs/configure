@@ -621,7 +621,47 @@ virtual_domains:
   reply_transport = address_reply
   pipe_transport = address_pipe
   
-.include /usr/local/etc/exim/vexim-group-router.conf
+# A group is a list of users
+#
+# if a group is flaged public
+# then anyone on the internet can write to it
+# else only members can write to it
+#
+# If not public non member sender will receive a "550 Unknown user" message
+virtual_dom_groups:
+  driver = redirect
+  allow_fail
+  senders = ${if eq{Y}{${lookup mysql{select g.is_public \
+                                      from groups g, domains d \
+                                      where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
+                                            d.domain_id = g.domain_id and g.enabled = '1' and \
+                                            g.name = '${quote_mysql:$local_part}'}}} \
+                 {$sender_address} \
+                 {${lookup mysql{select u.username \
+                                 from domains d, groups g, group_contents c, users u \
+                                 where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
+                                       d.domain_id = g.domain_id and g.name = '${quote_mysql:$local_part}' and \
+                                       g.enabled = '1' and \
+                                       g.is_public = 'N' and c.member_id = u.user_id and \
+                                       d.domain_id = u.domain_id and u.enabled = '1' \
+				       and u.username = '${quote_mysql:$sender_address}' }}}}
+  data = ${lookup mysql{ \
+            select u.username \
+            from domains d, groups g, group_contents c, users u \
+            where d.enabled     = '1'           and \
+                  d.domain      = '${quote_mysql:$domain}'   and \
+                  d.domain_id   = g.domain_id   and \
+                  g.enabled     = '1'           and \
+                  g.id          = c.group_id    and \
+                  c.member_id   = u.user_id     and \
+                  d.domain_id   = u.domain_id   and \
+                  u.enabled     = '1'           and \
+                  g.name        = '${quote_mysql:$local_part}'} }
+  local_part_suffix = -*
+  local_part_suffix_optional
+  retry_use_local_part
+  reply_transport = address_reply
+  pipe_transport = address_pipe
 
 virtual_domains_catchall:
   driver = redirect
