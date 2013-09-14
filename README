@@ -283,9 +283,9 @@ Exim configuration:
     are checked for spam and viruses.
 
     Stefan Tomanek has a nice writeup about using Vexim in Debian, but that
-    article does not cover all aspects and is a bit outdated. You can find it
-    at http://stefans.datenbruch.de/rootserver/vexim.shtml, but most of it is
-    probably already incorporated (and improved!) into this document anyway.
+    article does not cover all aspects, is a bit outdated, and most of if has
+    been incorporated (and improved!) into this document anyway. You can find
+    it at http://stefans.datenbruch.de/rootserver/vexim.shtml.
 
 
 Site Admin:
