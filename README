@@ -197,9 +197,8 @@ Files and Apache:
 Exim configuration:
   NOTE: the configuration files supplied here are really old and should be
         revised. You probably should NOT really use them as-is, instead just
-        look at them for inspiration. For example, native SPF support has been
-        added to Exim in v4.52, so vexim-acl-check-spf is pretty much obsolete.
-        Actually, that file, as it is, likely will not even work!
+        look at them for inspiration. Actually, that file, as it is now, likely
+        will not even work!
   An example Exim 'configure' file, has been included with this distribution as
   'docs/configure'. Copy this to the location Exim expects its configuration
   file to be on your installation. You will also need to copy docs/vexim* to
@@ -275,13 +274,12 @@ Exim configuration:
     in docs/vexim-acl-*.conf and selectively copy and paste their contents to
     the files provided by Debian in conf.d. By the way, some of these ACL's are
     already implemented by Debian, so you might just need to enable them by
-    defining certain macros.
+    defining certain macros as described in Debian manual.
 
     Stefan Tomanek has a nice writeup about using Vexim in Debian, but that
     article does not cover all aspects and is a bit outdated. You can find it
-    at http://stefans.datenbruch.de/rootserver/vexim.shtml (in case this link
-    dies, you can use Wayback Machine at http://archive.org/), but most of it
-    is probably already incorporated (and improved!) into this document anyway.
+    at http://stefans.datenbruch.de/rootserver/vexim.shtml, but most of it is
+    probably already incorporated (and improved!) into this document anyway.
 
 
 Site Admin:
