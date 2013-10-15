@@ -40,6 +40,14 @@
     die;
   }
 
+  if (isset($_POST['vacation']) && is_string($_POST['vacation'])) {
+    $vacation = trim($_POST['vacation']);
+    if (function_exists('imap_8bit')) {
+      $vacation = imap_8bit($vacation);
+    }
+  } else {
+    $vacation = '';
+  }
 
     # Finally 'the rest' which is handled by the profile form
     $query = "UPDATE users SET on_avscan=:on_avscan,
@@ -54,7 +62,7 @@
       ':on_spamassassin'=>$_POST['on_spamassassin'],
       ':sa_tag'=>$_POST['sa_tag'], ':sa_refuse'=>$_POST['sa_refuse'],
       ':on_vacation'=>$_POST['on_vacation'],
-      ':vacation'=>imap_8bit(trim($_POST['vacation'])),
+      ':vacation'=>$vacation,
       ':on_forward'=>$_POST['on_forward'], ':forward'=>$_POST['forward'],
       ':maxmsgsize'=>$_POST['maxmsgsize'], ':unseen'=>$_POST['unseen'],
       ':user_id'=>$_SESSION['user_id']

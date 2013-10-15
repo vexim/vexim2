@@ -240,10 +240,18 @@
           </td>
         </tr>
         <tr>
+        <?php if (function_exists('imap_qprint')) { ?>
           <td><?php echo _('Vacation message'); ?>:</td>
           <td>
             <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print imap_qprint($row['vacation']); ?></textarea>
           </td>
+        <?php } else { ?>
+          <td><?php echo _('Vacation message (ASCII only!)'); ?>:</td>
+          <td>
+            <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print $row['vacation']; ?></textarea>
+          </td>
+        <?php } ?>
+        </tr>
         <tr>
           <td><?php echo _('Forwarding on'); ?>:</td>
           <td><input name="on_forward" type="checkbox" <?php
