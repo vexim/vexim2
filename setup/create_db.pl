@@ -547,6 +547,8 @@ sub migratepostgresql() {
 if ($dbtype eq "mysql") {
   
   $mydbh = DBI->connect("DBI:mysql:database=mysql;host=localhost", "$superuser", "$superpass", {'RaiseError' => 1});
+  $mydbh->do("set character set utf8");
+  $mydbh->do("set names utf8");
   create_mysqldb();
   create_mysqltables();
   sleep 1; 
