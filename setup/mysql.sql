@@ -28,9 +28,7 @@ CREATE TABLE IF NOT EXISTS `vexim`.`domains`
 	sa_tag           smallint(5)   unsigned  NOT NULL  default '0',
 	sa_refuse        smallint(5)   unsigned  NOT NULL  default '0',
 	PRIMARY KEY (domain_id),
-	UNIQUE KEY domain (domain),
-	KEY domain_id (domain_id),
-	KEY domains (domain)
+	UNIQUE KEY domain (domain)
 );
 
 --
