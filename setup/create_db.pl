@@ -198,9 +198,7 @@ sub create_mysqltables {
 	sa_tag smallint(5) unsigned NOT NULL default '0',
 	sa_refuse smallint(5) unsigned NOT NULL default '0',
 	PRIMARY KEY (domain_id),
-	UNIQUE KEY domain (domain),
-	KEY domain_id (domain_id),
-	KEY domains (domain))") or die "Could not create table domains in the vexim database!";
+	UNIQUE KEY domain (domain))") or die "Could not create table domains in the vexim database!";
   print "\nCreated domains table\n";
    
    
@@ -226,6 +224,7 @@ sub create_mysqltables {
 	enabled bool NOT NULL default '1',
 	flags varchar(16) default NULL,
 	forward varchar(255) default NULL,
+	unseen bool default '0',
 	maxmsgsize mediumint(8) unsigned NOT NULL default '0',
 	quota int(10) unsigned NOT NULL default '0',
 	realname varchar(255) default NULL,
@@ -233,8 +232,6 @@ sub create_mysqltables {
 	sa_refuse smallint(5) unsigned NOT NULL default '0',
 	tagline varchar(255) default NULL,
 	vacation varchar(1024) default NULL,
-	comment varchar(255) default NULL,
-	unseen bool NOT NULL default '0',
 	PRIMARY KEY (user_id),
 	UNIQUE KEY username (localpart,domain_id),
 	KEY local (localpart))") or die "Could not create table users in the vexim database!";
@@ -258,13 +255,13 @@ sub create_mysqltables {
 	PRIMARY KEY (group_id, member_id))") or die "Could not create table group_contents in the vexim database!";
   print "Created group_contents table\n";
   
-  $mydbh->do("CREATE TABLE IF NOT EXISTS $databasename.groups (group_id int(10) NOT NULL,
-  	id int(10) auto_increment,
+  $mydbh->do("CREATE TABLE IF NOT EXISTS $databasename.groups (id int(10) auto_increment,
 	domain_id mediumint(8) unsigned NOT NULL,
 	name varchar(64) NOT NULL,
 	is_public char(1) NOT NULL default 'Y',
 	enabled bool NOT NULL default '1',
-	PRIMARY KEY (id))") or die "Could not create table groups in the vexim database!";
+	PRIMARY KEY (id),
+	UNIQUE KEY group_name(domain_id, name))") or die "Could not create table groups in the vexim database!";
   print "Created groups table\n";
   
 }
