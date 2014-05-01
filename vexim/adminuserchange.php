@@ -194,7 +194,7 @@
             <tr>
               <td><?php echo _('Spamassassin'); ?>:</td>
               <td><input name="on_spamassassin" type="checkbox"
-                <? if ($row['on_spamassassin'] == "1") {
+                <?php if ($row['on_spamassassin'] == "1") {
                   print " checked";
                 }?>>
               </td>
@@ -265,8 +265,8 @@
           <td>
             <input type="text" size="25" name="forward"
             value="<?php print $row['forward']; ?>" class="textfield"><br>
-            <? echo _('Must be a full e-mail address'); ?>!<br>
-            <? echo _('OR') .":<br>\n"; ?>
+            <?php echo _('Must be a full e-mail address'); ?>!<br>
+            <?php echo _('OR') .":<br>\n"; ?>
             <select name="forwardmenu">
               <option selected value=""></option>
               <?php

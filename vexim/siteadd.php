@@ -97,7 +97,7 @@
             </td>
             <td>
               <input name="quotas" size="5" type="text" class="textfield"
-                value="0"><? echo _('Mb'); ?>
+                value="0"><?php echo _('Mb'); ?>
             </td>
           </tr>
           <tr>
