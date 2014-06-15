@@ -92,13 +92,16 @@
     if ($success) {
       if ($_POST['type'] == "local") {
         $query = "INSERT INTO users
-            (domain_id, localpart, username, clear, crypt, uid, gid,
-            smtp, pop, realname, type, admin)
-            SELECT domain_id, :localpart, :username, :clear, :crypt,
-            :uid, :gid, :smtp, :pop, 'Domain Admin', 'local', 1
+          (domain_id, localpart, username, crypt, ";
+           if($saveclearpw==1) $query .= "clear, ";
+           $query .= " uid, gid, smtp, pop, realname, type, admin)
+           SELECT domain_id, :localpart, :username, :crypt, ";
+           if($saveclearpw==1) $query .= ":clear, ";
+           $query .= ":uid, :gid, :smtp, :pop, 'Domain Admin', 'local', 1
             FROM domains
             WHERE domains.domain=:domain";
         $sth = $dbh->prepare($query);
+           if($saveclearpw==1) {
         $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
             ':username'=>$_POST['localpart'].'@'.$_POST['domain'],
             ':clear'=>$_POST['clear'],
@@ -107,6 +110,17 @@
             ':pop'=>$pophomepath,
             ':domain'=>$_POST['domain'],
             ));
+           }
+           else {
+           $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
+                                          ':username'=>$_POST['localpart'].'@'.$_POST['domain'],
+                                          ':crypt'=>crypt_password($_POST['clear'],$salt),
+                                          ':uid'=>$uid, ':gid'=>$gid, ':smtp'=>$smtphomepath,
+                                          ':pop'=>$pophomepath,
+                                          ':domain'=>$_POST['domain'],
+                                          ));
+           
+           }
 // Is using indexes worth setting the domain_id by hand? -- GCBirzan
         if (!$success) {
           header ("Location: site.php?failaddedusrerr={$_POST['domain']}");
