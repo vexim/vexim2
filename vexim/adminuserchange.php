@@ -17,7 +17,7 @@
   $domsth = $dbh->prepare($domquery);
   $domsth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($domsth->rowCount()) {
-    $domrow = $sth->fetch();
+    $domrow = $domsth->fetch();
   }
   $blockquery = "SELECT blockhdr,blockval,block_id FROM blocklists
     WHERE blocklists.user_id=:user_id";
