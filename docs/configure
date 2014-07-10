@@ -939,8 +939,7 @@ plain_virtual_exim:
 	# without using SSL or TLS
     server_advertise_condition = ${if or{\
        {!eq{$tls_cipher}{}}\
-        {eq {$sender_host_address}{127.0.0.1}}\
-        {eq {$sender_host_address}{::1}}\
+       {match_ip {$sender_host_address}{@[]}}\
         }\
         {*}{}}
 
@@ -958,8 +957,7 @@ login_virtual_exim:
 	# without using SSL or TLS
 	server_advertise_condition = ${if or{\
        {!eq{$tls_cipher}{}}\
-        {eq {$sender_host_address}{127.0.0.1}}\
-        {eq {$sender_host_address}{::1}}\
+       {match_ip {$sender_host_address}{@[]}}\
         }\
         {*}{}}
 
