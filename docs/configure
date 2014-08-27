@@ -940,7 +940,11 @@ plain_virtual_exim:
         server_set_id = $auth2
 	# comment the next line out if you want to be able to authenticate
 	# without using SSL or TLS
-	server_advertise_condition = ${if eq{$tls_cipher}{}{}{*}}
+    server_advertise_condition = ${if or{\
+       {!eq{$tls_cipher}{}}\
+       {match_ip {$sender_host_address}{@[]}}\
+        }\
+        {*}{}}
 
 login_virtual_exim:
         driver = plaintext
@@ -954,7 +958,11 @@ login_virtual_exim:
         server_set_id = $auth1
 	# comment the next line out if you want to be able to authenticate
 	# without using SSL or TLS
-	server_advertise_condition = ${if eq{$tls_cipher}{}{}{*}}
+	server_advertise_condition = ${if or{\
+       {!eq{$tls_cipher}{}}\
+       {match_ip {$sender_host_address}{@[]}}\
+        }\
+        {*}{}}
 
 # The following authenticators use the clear password field
 # plain_login:
