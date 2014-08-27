@@ -48,7 +48,7 @@
           <tr>
             <td><?php echo _('Password'); ?>:</td>
             <td>
-              <input name="clear" type="password" size="30" class="textfield">
+              <input name="clear" type="password" class="textfield">
             </td>
           </tr>
           <tr>
@@ -60,7 +60,7 @@
           <tr>
             <td><?php echo _('Verify Password'); ?>:</td>
             <td>
-              <input name="vclear" type="password" size="30" class="textfield">
+              <input name="vclear" type="password" class="textfield">
             </td>
           </tr>
           <tr>

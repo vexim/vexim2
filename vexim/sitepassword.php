@@ -20,8 +20,8 @@
       <form name="sitepassword" method="post" action="sitepasswordsubmit.php">
 	<table align="center">
 		<tr><td colspan="2" style="padding-bottom:1em"><?php echo _("Change SiteAdmin Password"); ?>:</td></tr>
-		<tr><td><?php echo _("Password"); ?>:</td><td><input type="password" size="25" name="clear"></td></tr>
-		<tr><td><?php echo _("Verify Password"); ?>:</td><td><input type="password" size="25" name="vclear"></td></tr>
+		<tr><td><?php echo _("Password"); ?>:</td><td><input type="password" name="clear"></td></tr>
+		<tr><td><?php echo _("Verify Password"); ?>:</td><td><input type="password" name="vclear"></td></tr>
 		<tr><td id="button" colspan="2"><input name="submit" type="submit" value="<?php echo _("Submit"); ?>"></td></tr>
 	</table>
       </form>
