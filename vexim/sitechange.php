@@ -39,8 +39,8 @@
 	    print $row['domain']; ?></td>
 	  <td><input name="domain_id" type="hidden" value="<?php print $_GET['domain_id']; ?>">
 	      <input name="domain" type="hidden" value="<?php print $_GET['domain']; ?>"></td></tr>
-	  <tr><td><?php echo _("Password"); ?>:</td><td><input name="clear" size="25" type="password" class="textfield"></td></tr>
-	  <tr><td><?php echo _("Verify Password"); ?>:</td><td><input name="vclear" size="25" type="password" class="textfield"></td></tr>
+	  <tr><td><?php echo _("Password"); ?>:</td><td><input name="clear" type="password" class="textfield"></td></tr>
+	  <tr><td><?php echo _("Verify Password"); ?>:</td><td><input name="vclear" type="password" class="textfield"></td></tr>
 	  <tr><td></td><td><input name="submit" size="25" type="submit" value="<?php echo _("Submit Password"); ?>"></td></tr>
 	</form>
 	<tr></tr><tr></tr>
