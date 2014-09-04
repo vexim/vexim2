@@ -57,28 +57,26 @@
   $aliasto = preg_replace("/[', ']+/", ",", $_POST['smtp']);
   if (alias_validate_password($_POST['clear'], $_POST['vclear'])) {
     $query = "INSERT INTO users
-      (localpart, username, domain_id, crypt, clear, smtp, pop, uid,
-      gid, realname, type, admin, on_avscan, on_spamassassin, enabled)
-      SELECT :localpart, :username, :domain_id, :crypt, :clear, :smtp,
-      :pop, uid, gid, :realname, 'alias', :admin, :on_avscan,
-      :on_spamassassin, :enabled
+      (localpart, username, domain_id, crypt, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_spamassassin, enabled)
+      SELECT :localpart, :username, :domain_id, :crypt, :smtp, :pop, uid, gid, :realname, 'alias', :admin,
+      :on_avscan, :on_spamassassin, :enabled
       FROM domains
       WHERE domains.domain_id=:domain_id";
     $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(
-        ':localpart' => $_POST['localpart'],
-        ':username' => $_POST['localpart'] . '@' . $_SESSION['domain'],
-        ':domain_id' => $_SESSION['domain_id'],
-        ':crypt' => crypt_password($_POST['clear'],$salt),
-        ':clear' => $_POST['clear'],
-        ':smtp' => $aliasto,
-        ':pop' => $aliasto,
-        ':realname' => $_POST['realname'],
-        ':admin' => $_POST['admin'],
-        ':on_avscan' => $_POST['on_avscan'],
-        ':on_spamassassin' => $_POST['on_spamassassin'],
-        ':enabled' => $_POST['enabled']
-      ));
+       $success = $sth->execute(array(
+       ':localpart' => $_POST['localpart'],
+       ':username' => $_POST['localpart'] . '@' . $_SESSION['domain'],
+       ':domain_id' => $_SESSION['domain_id'],
+       ':crypt' => crypt_password($_POST['clear'],$salt),
+       ':smtp' => $aliasto,
+       ':pop' => $aliasto,
+       ':realname' => $_POST['realname'],
+       ':admin' => $_POST['admin'],
+       ':on_avscan' => $_POST['on_avscan'],
+       ':on_spamassassin' => $_POST['on_spamassassin'],
+       ':enabled' => $_POST['enabled']
+       ));
+       
 
     if ($success) {
       header ("Location: adminalias.php?added={$_POST['localpart']}");

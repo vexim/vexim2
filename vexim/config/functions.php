@@ -106,6 +106,11 @@
             $cryptedpass = '{SHA}' . base64_encode(pack('H*', $hash));
         }
         else
+            if ($cryptscheme == 'clear')
+            {
+                $cryptedpass=$clear;
+            }
+        else
         {
             if ($cryptscheme == 'des')
             {

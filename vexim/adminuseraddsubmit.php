@@ -114,35 +114,34 @@
   }
 
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
-    $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear,
-      smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped,
+      $query = "INSERT INTO users (localpart, username, domain_id, crypt, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped,
       on_spamassassin, sa_tag, sa_refuse, maxmsgsize, enabled, quota)
-      VALUES (:localpart, :username, :domain_id, :crypt, :clear, :smtp, :pop,
-      :uid, :gid, :realname, :type, :admin, :on_avscan, :on_piped, :on_spamassassin,
-      :sa_tag, :sa_refuse, :maxmsgsize, :enabled, :quota)";
+      VALUES (:localpart, :username, :domain_id, :crypt, :smtp, :pop, :uid, :gid, :realname, :type,
+                        :admin, :on_avscan, :on_piped, :on_spamassassin,
+                        :sa_tag, :sa_refuse, :maxmsgsize, :enabled, :quota)";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
-        ':localpart'=>$_POST['localpart'],
-        ':username'=>$_POST['localpart'].'@'.$_SESSION['domain'],
-        ':domain_id'=>$_SESSION['domain_id'],
-        ':crypt'=>crypt_password($_POST['clear'],$salt),
-        ':clear'=>$_POST['clear'],
-        ':smtp'=>$smtphomepath,
-        ':pop'=>$pophomepath,
-        ':uid'=>$_POST['uid'],
-        ':gid'=>$_POST['gid'],
-        ':realname'=>$_POST['realname'],
-        ':type'=>$_POST['type'],
-        ':admin'=>$_POST['admin'],
-        ':on_avscan'=>$_POST['on_avscan'],
-        ':on_piped'=>$_POST['on_piped'],
-        ':on_spamassassin'=>$_POST['on_spamassassin'],
-        ':sa_tag'=>((isset($_POST['sa_tag'] )) ? $_POST['sa_tag']  : 0),
-        ':sa_refuse'=>((isset($_POST['sa_refuse'] )) ? $_POST['sa_refuse']  : 0),
-        ':maxmsgsize'=>$_POST['maxmsgsize'],
-        ':enabled'=>$_POST['enabled'],
-        ':quota'=>$_POST['quota'],
-        ));
+                                         ':localpart'=>$_POST['localpart'],
+                                         ':username'=>$_POST['localpart'].'@'.$_SESSION['domain'],
+                                         ':domain_id'=>$_SESSION['domain_id'],
+                                         ':crypt'=>crypt_password($_POST['clear'],$salt),
+                                         ':smtp'=>$smtphomepath,
+                                         ':pop'=>$pophomepath,
+                                         ':uid'=>$_POST['uid'],
+                                         ':gid'=>$_POST['gid'],
+                                         ':realname'=>$_POST['realname'],
+                                         ':type'=>$_POST['type'],
+                                         ':admin'=>$_POST['admin'],
+                                         ':on_avscan'=>$_POST['on_avscan'],
+                                         ':on_piped'=>$_POST['on_piped'],
+                                         ':on_spamassassin'=>$_POST['on_spamassassin'],
+                                         ':sa_tag'=>((isset($_POST['sa_tag'] )) ? $_POST['sa_tag']  : 0),
+                                         ':sa_refuse'=>((isset($_POST['sa_refuse'] )) ? $_POST['sa_refuse']  : 0),
+                                         ':maxmsgsize'=>$_POST['maxmsgsize'],
+                                         ':enabled'=>$_POST['enabled'],
+                                         ':quota'=>$_POST['quota'],
+                                         ));
+
     if ($success) {
       header ("Location: adminuser.php?added={$_POST['localpart']}");
       mail("{$_POST['localpart']}@{$_SESSION['domain']}",

@@ -6,11 +6,10 @@
 
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $cryptedpassword = crypt_password($_POST['clear']);
-    $query = "UPDATE users SET crypt=:crypt, clear=:clear
-        WHERE localpart='siteadmin' AND domain_id='1'";
+      $query = "UPDATE users SET crypt=:crypt WHERE localpart='siteadmin' AND domain_id='1'";
     $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':clear'=>$_POST['clear']));
-    if ($success) {
+          $success = $sth->execute(array(':crypt'=>$cryptedpassword));
+        if ($success) {
       $_SESSION['crypt'] = $cryptedpassword;
       header ("Location: site.php?sitepass=success");
       die;

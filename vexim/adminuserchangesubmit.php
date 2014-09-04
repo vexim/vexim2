@@ -71,8 +71,7 @@
       header ("Location: adminuser.php?quotahigh={$row['quotas']}");
       die;
     }
-  }
-  # Do some checking, to make sure the user is ALLOWED to make these changes
+  }  # Do some checking, to make sure the user is ALLOWED to make these changes
   if ((isset($_POST['on_piped'])) && ($row['pipe'] = 1)) {
     $_POST['on_piped'] = 1;
   } else {
@@ -128,12 +127,12 @@
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $cryptedpassword = crypt_password($_POST['clear']);
     $query = "UPDATE users
-      SET crypt=:crypt, clear=:clear
-      WHERE localpart=:localpart
+      SET crypt=:crypt WHERE localpart=:localpart
       AND domain_id=:domain_id";
     $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':clear'=>$_POST['clear'],
-        ':localpart'=>$_POST['localpart'], ':domain_id'=>$_SESSION['domain_id']));
+    $success = $sth->execute(array(':crypt'=>$cryptedpassword,
+                                         ':localpart'=>$_POST['localpart'], ':domain_id'=>$_SESSION['domain_id']));
+      
     if ($success) {
       if ($_POST['localpart'] == $_SESSION['localpart']) { 
         $_SESSION['crypt'] = $cryptedpassword;
