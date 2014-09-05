@@ -46,9 +46,7 @@
   if(isset($_POST['password']) && $_POST['password']!='' ){
 	if (validate_password($_POST['password'], $_POST['vpassword'])) {
 		$cryptedpassword = crypt_password($_POST['password']);
-		$query = "UPDATE users SET crypt=:crypt, clear=:clear";
-        $query .= " WHERE user_id=:user_id
-		  AND domain_id=:domain_id AND type='alias'";
+		$query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
           $sth = $dbh->prepare($query);
           $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
         

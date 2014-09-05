@@ -100,48 +100,37 @@
     {
         global $cryptscheme;
         
-        if ($cryptscheme == 'sha')
-        {
-            $hash = sha1($clear);
-            $cryptedpass = '{SHA}' . base64_encode(pack('H*', $hash));
+        switch($cryptscheme){
+                case 'sha':
+                    $hash = sha1($clear);
+                    $cryptedpass = '{SHA}' . base64_encode(pack('H*', $hash));
+                break;
+                case 'clear':
+                    $cryptedpass=$clear;
+                break;
+                case 'des':
+                    if (!empty($salt))
+                    {
+                        $salt = substr($salt, 0, 2);
+                    }
+                    else
+                    {
+                        $salt = get_random_bytes(2);
+                    }
+                    $cryptedpass = crypt($clear, $salt);
+                break;
+                case 'md5':
+                    if (!empty($salt))
+                    {
+                        $salt = substr($salt, 0, 12);
+                    }
+                    else
+                    {
+                        $salt = '$1$'.get_random_bytes(8).'$';
+                    }
+                    $cryptedpass = crypt($clear, $salt);
+                break;
         }
-        else
-            if ($cryptscheme == 'clear')
-            {
-                $cryptedpass=$clear;
-            }
-        else
-        {
-            if ($cryptscheme == 'des')
-            {
-                if (!empty($salt))
-                {
-                    $salt = substr($salt, 0, 2);
-                }
-                else
-                {
-                    $salt = get_random_bytes(2);
-                }
-            }
-            else
-            if ($cryptscheme == 'md5')
-            {
-                if (!empty($salt))
-                {
-                    $salt = substr($salt, 0, 12);
-                }
-                else
-                {
-                    $salt = '$1$'.get_random_bytes(8).'$';
-                }
-            }
-            else
-            {
-                $salt = '';
-            }
-            $cryptedpass = crypt($clear, $salt);
-        }
-        
         return $cryptedpass;
     }
 

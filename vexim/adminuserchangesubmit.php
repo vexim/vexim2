@@ -71,7 +71,8 @@
       header ("Location: adminuser.php?quotahigh={$row['quotas']}");
       die;
     }
-  }  # Do some checking, to make sure the user is ALLOWED to make these changes
+  }
+  # Do some checking, to make sure the user is ALLOWED to make these changes
   if ((isset($_POST['on_piped'])) && ($row['pipe'] = 1)) {
     $_POST['on_piped'] = 1;
   } else {
