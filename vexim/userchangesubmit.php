@@ -25,9 +25,8 @@
 # Update the password, if the password was given
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $cryptedpassword = crypt_password($_POST['clear']);
-      $query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id";
-          $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':user_id'=>$_SESSION['user_id']));
-          
+    $query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id";
+    $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':user_id'=>$_SESSION['user_id']));
     if ($success) {
       $_SESSION['crypt'] = $cryptedpassword;
       header ("Location: userchange.php?userupdated");

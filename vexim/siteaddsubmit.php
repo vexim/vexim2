@@ -97,13 +97,13 @@
             FROM domains
             WHERE domains.domain=:domain";
         $sth = $dbh->prepare($query);
-           $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
-                                          ':username'=>$_POST['localpart'].'@'.$_POST['domain'],
-                                          ':crypt'=>crypt_password($_POST['clear'],$salt),
-                                          ':uid'=>$uid, ':gid'=>$gid, ':smtp'=>$smtphomepath,
-                                          ':pop'=>$pophomepath,
-                                          ':domain'=>$_POST['domain'],
-                                          ));
+        $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
+                ':username'=>$_POST['localpart'].'@'.$_POST['domain'],
+                ':crypt'=>crypt_password($_POST['clear'],$salt),
+                ':uid'=>$uid, ':gid'=>$gid, ':smtp'=>$smtphomepath,
+                ':pop'=>$pophomepath,
+                ':domain'=>$_POST['domain'],
+                ));
            
 // Is using indexes worth setting the domain_id by hand? -- GCBirzan
         if (!$success) {
