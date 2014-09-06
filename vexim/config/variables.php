@@ -31,6 +31,9 @@
 
   /* Set to either "des" or "md5" depending on your crypt() libraries */
   $cryptscheme = "md5";
+    
+  /* To save also cleartext passwort, set $saveclearpw=1 */
+  $saveclearpw = 0;
 
   /* Choose the type of domain name input for the index page. It should
      either be 'static', 'dropdown' or 'textbox'. Static causes the
