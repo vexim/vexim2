@@ -105,10 +105,7 @@
                     $hash = sha1($clear);
                     $cryptedpass = '{SHA}' . base64_encode(pack('H*', $hash));
                 break;
-                case 'clear':
-                    $cryptedpass=$clear;
-                break;
-                case 'des':
+ 		case 'des':
                     if (!empty($salt))
                     {
                         $salt = substr($salt, 0, 2);
@@ -130,6 +127,11 @@
                     }
                     $cryptedpass = crypt($clear, $salt);
                 break;
+		case 'clear':
+                    $cryptedpass=$clear;
+                break;
+		default:
+		   $cryptedpass = crypt($clear, $salt);
         }
         return $cryptedpass;
     }

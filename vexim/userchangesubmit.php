@@ -26,6 +26,7 @@
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $cryptedpassword = crypt_password($_POST['clear']);
     $query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id";
+    $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':user_id'=>$_SESSION['user_id']));
     if ($success) {
       $_SESSION['crypt'] = $cryptedpassword;
