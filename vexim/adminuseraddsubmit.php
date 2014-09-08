@@ -114,11 +114,11 @@
   }
 
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
-    $query = "INSERT INTO users (localpart, username, domain_id, crypt, clear,
+    $query = "INSERT INTO users (localpart, username, domain_id, crypt,
       smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped,
       on_spamassassin, sa_tag, sa_refuse, maxmsgsize, enabled, quota)
-      VALUES (:localpart, :username, :domain_id, :crypt, :clear, :smtp, :pop,
-      :uid, :gid, :realname, :type, :admin, :on_avscan, :on_piped, :on_spamassassin,
+      VALUES (:localpart, :username, :domain_id, :crypt, :smtp, :pop, :uid, :gid,
+      :realname, :type, :admin, :on_avscan, :on_piped, :on_spamassassin,
       :sa_tag, :sa_refuse, :maxmsgsize, :enabled, :quota)";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
@@ -126,7 +126,6 @@
         ':username'=>$_POST['localpart'].'@'.$_SESSION['domain'],
         ':domain_id'=>$_SESSION['domain_id'],
         ':crypt'=>crypt_password($_POST['clear'],$salt),
-        ':clear'=>$_POST['clear'],
         ':smtp'=>$smtphomepath,
         ':pop'=>$pophomepath,
         ':uid'=>$_POST['uid'],
@@ -143,6 +142,7 @@
         ':enabled'=>$_POST['enabled'],
         ':quota'=>$_POST['quota'],
         ));
+
     if ($success) {
       header ("Location: adminuser.php?added={$_POST['localpart']}");
       mail("{$_POST['localpart']}@{$_SESSION['domain']}",

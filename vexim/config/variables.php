@@ -29,7 +29,9 @@
   $alphadomains = 1;
   $alphausers = 1;
 
-  /* Set to either "des" or "md5" depending on your crypt() libraries */
+  /* Set to either "des" or "md5" depending on your crypt() libraries
+     or "clear" for clear-text passwords.
+     It is not recommended to use the "clear" option */
   $cryptscheme = "md5";
 
   /* Choose the type of domain name input for the index page. It should
