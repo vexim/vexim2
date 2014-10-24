@@ -586,12 +586,12 @@ virtual_forward:
 virtual_domains:
   driver = redirect
   allow_fail
-  data = ${lookup mysql{select smtp from users,domains \
+  data = ${expand:${lookup mysql{select smtp from users,domains \
   		where localpart = '${quote_mysql:$local_part}' \
 		and domain = '${quote_mysql:$domain}' \
 		and domains.enabled = '1' \
 		and users.enabled = '1' \
-		and users.domain_id = domains.domain_id}}
+		and users.domain_id = domains.domain_id}}}
   headers_add = ${if >{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
   		where localpart = '${quote_mysql:$local_part}' \
 		and domain = '${quote_mysql:$domain}' \
