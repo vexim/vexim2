@@ -770,6 +770,7 @@ begin transports
 
 remote_smtp:
   driver = smtp
+  headers_remove = X-Spam-Report:X-Spam-Score
 
 # This transport is used for local delivery to user mailboxes in traditional
 # BSD mailbox format. By default it will be run under the uid and gid of the
