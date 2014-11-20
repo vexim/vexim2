@@ -398,6 +398,7 @@ begin routers
 #   driver = ipliteral
 #   domains = ! +local_domains
 #   transport = remote_smtp
+#   headers_remove = X-Spam-Report:X-Spam-Score
 
 
 # This router routes addresses that are not in local domains by doing a DNS
@@ -413,6 +414,7 @@ dnslookup:
   domains = ! +local_domains
   transport = remote_smtp
   ignore_target_hosts = 0.0.0.0 : 127.0.0.0/8
+  headers_remove = X-Spam-Report:X-Spam-Score
   no_more
 
 mailman_router:
