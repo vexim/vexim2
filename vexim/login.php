@@ -12,6 +12,21 @@
     die;
   }
 
+    $_SESSION['user_ip'] = $_SERVER['REMOTE_ADDR'];
+    # when using a PROXY instance you'll need the following
+    #$apache_headers = apache_request_headers();
+    #if (array_key_exists( 'X-Forwarded-For', $apache_headers ) && filter_var( $apache_headers['X-Forwarded-For'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+    #    $_SESSION['user_ip'] = $apache_headers['X-Forwarded-For']; 
+    #} else {
+    #    $_SESSION['user_ip'] = $_SERVER['REMOTE_ADDR'];
+    #}
+    
+    $allowed = check_ip_logins($dbh, $_SESSION['user_ip']);
+    if ($allowed == FALSE) {
+        header ('Location: index.php?login=failed');
+    die;
+    }
+    
 	# construct the correct sql statement based on who the user is
   if ($_POST['localpart'] == 'siteadmin') {
 		$query = "SELECT crypt,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
@@ -39,6 +54,7 @@
   }
 
   if ($sth->rowCount()!=1) {
+    insert_failed_login($dbh, $_SESSION['user_ip']);
     header ('Location: index.php?login=failed');
     die();
   }
@@ -61,9 +77,12 @@
 
 	# if they have the wrong password bail out
 	if ($cryptedpass != $row['crypt']) {
+        insert_failed_login($dbh, $_SESSION['user_ip']);
 		header ('Location: index.php?login=failed');
 		die();
 	}
+
+    cleanup_logins($dbh, $_SESSION['user_ip']);
 
 	# populate session variables from what was retrieved from the database (NOT what they posted)
     $_SESSION['localpart'] = $row['localpart'];

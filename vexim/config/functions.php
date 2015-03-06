@@ -180,4 +180,57 @@
         // be the case too often. :)
         return $text;
     }
+
+    /**
+     * Check if a IP is allowed to login.
+     *
+     * @param   mixed   $dbh         database to query
+     * @param   string  $ip   the ip to check
+     * @return  bool          allowed or not
+     */
+    function check_ip_logins($dbh, $ip)
+    {
+        $query = "SELECT COUNT(*) AS c
+                  FROM   logins 
+                  WHERE  ip=:ip
+                  AND    timestamp >= DATE_SUB(NOW(), INTERVAL 30 MINUTE)";
+        $sth = $dbh->prepare($query);
+        $sth->execute(array(':ip'=>$ip));
+        $row = $sth->fetch();
+        if ($row['c'] > 10)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Insert IP into login list.
+     *
+     * @param   mixed   $dbh         database to query
+     * @param   string  $ip   the ip to check
+     */
+    function insert_failed_login($dbh, $ip)
+    {
+        $query = "INSERT INTO logins (ip) VALUES (:ip)";
+        $sth = $dbh->prepare($query);
+        $sth->execute(array(':ip'=>$ip));
+    }
+
+
+    /**
+     * Delete all logged logins for ip from login-table.
+     *
+     * @param   mixed   $dbh         database to query
+     * @param   string  $ip   the ip to remove
+     */
+    function cleanup_logins($dbh, $ip)
+    {
+        $query = "DELETE FROM logins 
+                  WHERE  ip=:ip OR timestamp < DATE_SUB(NOW(), INTERVAL 30 MINUTE)";
+        $sth = $dbh->prepare($query);
+        $sth->execute(array(':ip'=>$ip));
+
+    }
+
 ?>
