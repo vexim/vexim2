@@ -191,9 +191,9 @@
     function check_ip_logins($dbh, $ip)
     {
         $query = "SELECT COUNT(*) AS c
-                  FROM   logins 
+                  FROM   failed_logins 
                   WHERE  ip=:ip
-                  AND    timestamp >= DATE_SUB(NOW(), INTERVAL 30 MINUTE)";
+                  AND    timestamp >= DATE_SUB(NOW(), INTERVAL 1 HOUR)";
         $sth = $dbh->prepare($query);
         $sth->execute(array(':ip'=>$ip));
         $row = $sth->fetch();
@@ -212,7 +212,7 @@
      */
     function insert_failed_login($dbh, $ip)
     {
-        $query = "INSERT INTO logins (ip) VALUES (:ip)";
+        $query = "INSERT INTO failed_logins (ip) VALUES (:ip)";
         $sth = $dbh->prepare($query);
         $sth->execute(array(':ip'=>$ip));
     }
@@ -226,8 +226,8 @@
      */
     function cleanup_logins($dbh, $ip)
     {
-        $query = "DELETE FROM logins 
-                  WHERE  ip=:ip OR timestamp < DATE_SUB(NOW(), INTERVAL 30 MINUTE)";
+        $query = "DELETE FROM failed_logins 
+                  WHERE  ip=:ip OR timestamp < DATE_SUB(NOW(), INTERVAL 1 HOUR)";
         $sth = $dbh->prepare($query);
         $sth->execute(array(':ip'=>$ip));
 
