@@ -311,8 +311,7 @@
           <?php
             # Print the aliases associated with this account
             $query = "SELECT user_id,localpart,domain,realname FROM users,domains
-              WHERE smtp=:smtp'{$row['localpart']}@{$_SESSION['domain']}'
-              AND users.domain_id=domains.domain_id ORDER BY realname";
+              WHERE smtp=:smtp AND users.domain_id=domains.domain_id ORDER BY realname";
             $sth = $dbh->prepare($query);
             $sth->execute(array(':smtp'=>$row['localpart'].'@'.$_SESSION['domain']));
             if ($sth->rowCount()) {
