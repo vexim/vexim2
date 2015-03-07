@@ -127,6 +127,16 @@ CREATE TABLE IF NOT EXISTS `vexim`.`group_contents`
 );
 
 --
+-- Table: `failed_logins`
+--
+DROP TABLE IF EXISTS `failed_logins`.`group_contents`;
+CREATE TABLE IF NOT EXISTS `failed_logins`.`group_contents` 
+(
+    ip               varchar(20)             NOT NULL,
+    timestamp        timestamp               NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+--
 -- Privileges:
 --
 GRANT SELECT,INSERT,DELETE,UPDATE ON `vexim`.* to "vexim"@"localhost" 
