@@ -1,0 +1,128 @@
+
+### router/249_vexim_ditch_routers
+#################################
+
+
+# This router caused me so much s*** it's untrue.
+# If your db lookup returns 'no data', then $spam_in_score is
+# greater than no data, and mail gets deleted.
+# Eventually got this working with Philip Hazel and Codiac's help.
+ditch_maxmsgsize:
+    driver = redirect
+    allow_fail
+    condition = ${if >{$message_size}{${lookup mysql{select users.maxmsgsize from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
+        and domain = '${quote_mysql:$domain}' \
+        and users.maxmsgsize > 0 \
+        and users.domain_id=domains.domain_id }{${value}K}fail}} {yes}{no}}
+    data = :fail:\n\Your message is too big.\n \
+        Your message was rejected because the user $local_part@$domain\n \
+        does not accept messages larger than \
+        ${lookup mysql{select users.maxmsgsize from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
+        and domain = '${quote_mysql:$domain}' \
+        and users.maxmsgsize > 0 \
+        and users.domain_id=domains.domain_id}{${value}K}fail} Kb.
+    retry_use_local_part
+
+# malware drop router
+ditch_malware:
+    driver = redirect
+    allow_fail
+    data = :blackhole:
+    condition = ${if and { {match {$h_X-ACL-Warn:}{.*malware.*}} \
+        {eq {${lookup mysql{select users.on_avscan from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
+        and domain = '${quote_mysql:$domain}' \ 
+        and users.on_avscan = '1' \
+        and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
+
+# spam drop router
+ditch_spam_drop:
+    driver = redirect
+    allow_fail
+    data = :blackhole:
+    condition = ${if >{$spam_score_int}{${lookup mysql{select users.sa_refuse * 10 from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
+        and domain = '${quote_mysql:$domain}' \
+        and users.on_spamassassin = '1' \
+        and users.spam_drop = '1' \
+        and users.domain_id=domains.domain_id \
+        and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
+    retry_use_local_part
+
+ditch_spam:
+    driver = redirect
+    allow_fail
+    file_transport = ditch_spam_transport
+    data = ${lookup mysql{select concat(smtp,'/.Spam') \ 
+        from users,domains \ 
+        where localpart = '${quote_mysql:$local_part}' \ 
+        and domain = '${quote_mysql:$domain}' \ 
+        and domains.enabled = '1' \ 
+        and users.enabled = '1' \ 
+        and users.domain_id = domains.domain_id}}
+    condition = ${if >{$spam_score_int}{${lookup mysql{select \ 
+        users.sa_refuse * 10 from users,domains \ 
+        where localpart = '${quote_mysql:$local_part}' \ 
+        and domain = '${quote_mysql:$domain}' \ 
+        and users.on_spamassassin = '1' \ 
+        and users.spam_drop = '0' \
+        and users.on_forward = '0' \
+        and users.type = 'local' \
+        and users.domain_id=domains.domain_id \ 
+        and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
+    retry_use_local_part
+
+ditch_hdrmailer:
+    driver = redirect
+    allow_fail
+    data = :blackhole:
+    condition = ${if eq {${lookup mysql{select count(*) from blocklists,users,domains \
+        where blocklists.blockhdr = 'x-mailer' \
+        and blocklists.blockval = '${quote_mysql:$h_x-mailer:}' \
+        and users.localpart = '${quote_mysql:$local_part}' \
+        and domains.domain = '${quote_mysql:$domain}' \
+        and domains.domain_id=blocklists.domain_id \
+        and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
+    retry_use_local_part
+
+ditch_hdrto:
+    driver = redirect
+    allow_fail
+    data = :blackhole:
+    condition = ${if eq {${lookup mysql{select count(*) from blocklists,users,domains \
+        where blocklists.blockhdr = 'to' \
+        and blocklists.blockval = '${quote_mysql:$h_to:}' \
+        and users.localpart = '${quote_mysql:$local_part}' \
+        and domains.domain = '${quote_mysql:$domain}' \
+        and domains.domain_id=blocklists.domain_id \
+        and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
+    retry_use_local_part
+
+ditch_hdrfrom:
+    driver = redirect
+    allow_fail
+    data = :blackhole:
+    condition = ${if eq {${lookup mysql{select count(*) from blocklists,users,domains \
+        where blocklists.blockhdr = 'from' \
+        and blocklists.blockval = '${quote_mysql:$h_from:}' \
+        and users.localpart = '${quote_mysql:$local_part}' \
+        and domains.domain = '${quote_mysql:$domain}' \
+        and domains.domain_id=blocklists.domain_id \
+        and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
+    retry_use_local_part
+
+ditch_hdrsubject:
+    driver = redirect
+    allow_fail
+    data = :blackhole:
+    condition = ${if eq {${lookup mysql{select count(*) from blocklists,users,domains \
+        where blocklists.blockhdr = 'subject' \
+        and blocklists.blockval = '${quote_mysql:$h_subject:}' \
+        and users.localpart = '${quote_mysql:$local_part}' \
+        and domains.domain = '${quote_mysql:$domain}' \
+        and domains.domain_id=blocklists.domain_id \
+        and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
+    retry_use_local_part
+
