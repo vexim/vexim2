@@ -65,9 +65,8 @@ virtual_domains:
                                and users.on_spamassassin = 0 \
                                and users.domain_id=domains.domain_id}{$value}fail}}} \
                            } {X-Spam-Score:X-Spam-Report} }
-  # optional!
-  #local_part_suffix = -*
-  #local_part_suffix_optional
+  local_part_suffix = -*
+  local_part_suffix_optional
   retry_use_local_part
   file_transport = virtual_delivery
   reply_transport = address_reply

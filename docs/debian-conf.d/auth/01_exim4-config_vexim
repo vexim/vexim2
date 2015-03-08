@@ -2,7 +2,7 @@
 ### 01_exim4-config_vexim
 #########################
 
-plain_login:
+plain_virtual_exim:
         driver = plaintext
         public_name = PLAIN
         server_condition = "${if crypteq{$3}{${lookup mysql{ \
@@ -10,9 +10,15 @@ plain_login:
                           WHERE username = '${quote_mysql:$2}' \
                           }}}{yes}{no}}"
         server_set_id = $2
-        server_advertise_condition = ${if eq{$tls_cipher}{}{}{*}}
+	    # comment the next line out if you want to be able to authenticate
+	    # without using SSL or TLS
+        server_advertise_condition = ${if or{\
+           {!eq{$tls_cipher}{}}\
+           {match_ip {$sender_host_address}{@[]}}\
+            }\
+            {*}{}}
 
-fixed_login:
+login_virtual_exim:
         driver = plaintext
         public_name = LOGIN
         server_prompts = "Username:: : Password::"
@@ -21,4 +27,10 @@ fixed_login:
                           WHERE username = '${quote_mysql:$1}' \
                           }}}{yes}{no}}"
         server_set_id = $1
-        server_advertise_condition = ${if eq{$tls_cipher}{}{}{*}}
+	    # comment the next line out if you want to be able to authenticate
+	    # without using SSL or TLS
+        server_advertise_condition = ${if or{\
+           {!eq{$tls_cipher}{}}\
+           {match_ip {$sender_host_address}{@[]}}\
+            }\
+            {*}{}}
