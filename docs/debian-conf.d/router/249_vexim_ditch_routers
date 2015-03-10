@@ -54,7 +54,7 @@ ditch_spam_drop:
 ditch_spam:
     driver = redirect
     allow_fail
-    file_transport = ditch_spam_transport
+    file_transport = virtual_ditch_spam_transport
     data = ${lookup mysql{select concat(smtp,'/.Spam') \ 
         from users,domains \ 
         where localpart = '${quote_mysql:$local_part}' \ 

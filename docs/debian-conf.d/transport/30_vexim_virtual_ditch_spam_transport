@@ -1,8 +1,8 @@
 
-### transport/30_vexim_ditch_spam_transport
+### transport/30_vexim_virtual_ditch_spam_transport
 #######################################
 
-ditch_spam_transport:
+virtual_ditch_spam_transport:
   driver = appendfile
   envelope_to_add
   return_path_add

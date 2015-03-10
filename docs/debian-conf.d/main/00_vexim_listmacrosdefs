@@ -28,7 +28,7 @@ MAIN_RELAY_TO_DOMAINS = MAIN_RELAY_TO_DOMAINS : ${lookup mysql{VEXIM_RELAY_DOMAI
 # use spamassassing
 #spamd_address = 127.0.0.1 783
 
-# validation of mails sent
+# validation of sending mailserver
 #CHECK_RCPT_REVERSE_DNS = true
 #CHECK_RCPT_SPF = true
 
