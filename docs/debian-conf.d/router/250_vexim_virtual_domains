@@ -65,6 +65,8 @@ virtual_domains:
                                and users.on_spamassassin = 0 \
                                and users.domain_id=domains.domain_id}{$value}fail}}} \
                            } {X-Spam-Score:X-Spam-Report} }
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
   local_part_suffix = -*
   local_part_suffix_optional
   retry_use_local_part
@@ -109,6 +111,8 @@ virtual_dom_groups:
                   d.domain_id   = u.domain_id   and \
                   u.enabled     = '1'           and \
                   g.name        = '${quote_mysql:$local_part}'} }
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
   local_part_suffix = -*
   local_part_suffix_optional
   retry_use_local_part
