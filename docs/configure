@@ -55,9 +55,10 @@ MAILMAN_GROUP=mail
 
 # SMTP port 25 is activated by default. This port is blocked in some networks
 # and it is recommended to use the submission port 587 for an authenticated
-# SMTP-connection or use SSL.
-daemon_smtp_ports = 25 : 465 : 587
-tls_on_connect_ports = 465
+# SMTP-connection. SSL port 465 is deprecated, in order to use it, add port 465
+# to the daemon_smtp_ports and uncomment the line below (tls_on_connect ports)
+daemon_smtp_ports = 25 : 587
+#tls_on_connect_ports = 465
 
 # The next three settings create two lists of domains and one list of hosts.
 # These lists are referred to later in this configuration using the syntax
