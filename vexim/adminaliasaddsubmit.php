@@ -57,8 +57,8 @@
   $aliasto = preg_replace("/[', ']+/", ",", $_POST['smtp']);
   if (alias_validate_password($_POST['clear'], $_POST['vclear'])) {
     $query = "INSERT INTO users
-      (localpart, username, domain_id, crypt, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_spamassassin, enabled)
-      SELECT :localpart, :username, :domain_id, :crypt, :smtp, :pop, uid, gid, :realname, 'alias', :admin,
+      (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_spamassassin, enabled)
+      SELECT :localpart, :username, :domain_id, :crypt, :clear :smtp, :pop, uid, gid, :realname, 'alias', :admin,
       :on_avscan, :on_spamassassin, :enabled
       FROM domains
       WHERE domains.domain_id=:domain_id";

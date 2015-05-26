@@ -11,9 +11,9 @@
   if ($_POST['max_accounts'] == '') {$_POST['max_accounts'] = '0';}
   if (isset($_POST['clear'])) {
     if (validate_password($_POST['clear'], $_POST['vclear'])) {
-      $query = "UPDATE users SET crypt=:crypt WHERE localpart=:localpart AND domain_id=:domain_id";
+      $query = "UPDATE users SET crypt=:crypt, clear=:clear WHERE localpart=:localpart AND domain_id=:domain_id";
       $sth = $dbh->prepare($query);
-      $success = $sth->execute(array(':crypt'=>crypt_password($_POST['clear']),
+      $success = $sth->execute(array(':crypt'=>crypt_password($_POST['clear']), ':clear'=>$_POST['clear'],
             ':localpart'=>$_POST['localpart'], ':domain_id'=>$_POST['domain_id']));
       if ($success) {
 	header ("Location: site.php?updated={$_POST['domain']}");

@@ -92,14 +92,15 @@
     if ($success) {
       if ($_POST['type'] == "local") {
         $query = "INSERT INTO users
-          (domain_id, localpart, username, crypt, uid, gid, smtp, pop, realname, type, admin)
-           SELECT domain_id, :localpart, :username, :crypt, :uid, :gid, :smtp, :pop, 'Domain Admin', 'local', 1
+          (domain_id, localpart, username, crypt, clear, uid, gid, smtp, pop, realname, type, admin)
+           SELECT domain_id, :localpart, :username, :crypt, :clear :uid, :gid, :smtp, :pop, 'Domain Admin', 'local', 1
             FROM domains
             WHERE domains.domain=:domain";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
                 ':username'=>$_POST['localpart'].'@'.$_POST['domain'],
                 ':crypt'=>crypt_password($_POST['clear'],$salt),
+                ':clear'=>$_POST['clear'],
                 ':uid'=>$uid, ':gid'=>$gid, ':smtp'=>$smtphomepath,
                 ':pop'=>$pophomepath,
                 ':domain'=>$_POST['domain'],
