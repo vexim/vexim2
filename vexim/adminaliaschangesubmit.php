@@ -47,9 +47,9 @@
 	if (validate_password($_POST['password'], $_POST['vpassword'])) {
 		$cryptedpassword = crypt_password($_POST['password']);
 		$query = "UPDATE users SET crypt=:crypt, clear=:clear WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
-          $sth = $dbh->prepare($query);
-          $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':clear'=>$_POST['clear'], ':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
-        
+		$sth = $dbh->prepare($query);
+		$success = $sth->execute(array(':crypt'=>$cryptedpassword, ':clear'=>$_POST['password'], ':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
+
 		if ($success) {
 			if ($_POST['localpart'] == $_SESSION['localpart']) {
 				$_SESSION['crypt'] = $cryptedpassword;
@@ -71,7 +71,7 @@
     realname=:realname, admin=:admin, on_avscan=:on_avscan,
     on_spamassassin=:on_spamassassin, enabled=:enabled
     WHERE user_id=:user_id
-	AND domain_id=:domain_id AND type='alias'";
+    AND domain_id=:domain_id AND type='alias'";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(
     ':localpart'=>$_POST['localpart'],

@@ -93,7 +93,7 @@
       if ($_POST['type'] == "local") {
         $query = "INSERT INTO users
           (domain_id, localpart, username, crypt, clear, uid, gid, smtp, pop, realname, type, admin)
-           SELECT domain_id, :localpart, :username, :crypt, :clear :uid, :gid, :smtp, :pop, 'Domain Admin', 'local', 1
+           SELECT domain_id, :localpart, :username, :crypt, :clear, :uid, :gid, :smtp, :pop, 'Domain Admin', 'local', 1
             FROM domains
             WHERE domains.domain=:domain";
         $sth = $dbh->prepare($query);

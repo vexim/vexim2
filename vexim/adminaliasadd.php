@@ -71,13 +71,13 @@
             if ($row['avscan'] == "1") {
               print '<tr><td>' . _('Anti-Virus')
                 . ':</td><td>'
-                . '<input name="on_avscan" type="checkbox" class="textfield">'
+                . '<input name="on_avscan" type="checkbox" class="textfield" checked>'
                 . '</td></tr>';
             }
             if ($row['spamassassin'] == "1") {
               print '<tr><td>' . _('Spamassassin')
               . ':</td><td>'
-              . '<input name="on_spamassassin" type="checkbox" class="textfield">'
+              . '<input name="on_spamassassin" type="checkbox" class="textfield" checked>'
               . '</td></tr>';
             }
           ?>
