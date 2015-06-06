@@ -33,7 +33,7 @@ msgstr "Добавление, удаление и управление POP/IMAP 
 
 #: admin.php:29
 msgid "Add, delete and manage aliases, forwards and a Catchall"
-msgstr "Добавление, удаление и управление псвдонимами, переадресациями и сборщиками"
+msgstr "Добавление, удаление и управление псевдонимами, переадресациями и сборщиками"
 
 #: admin.php:37
 msgid "Add, delete and manage groups"
