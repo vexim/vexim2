@@ -60,7 +60,7 @@ msgstr "Выйти"
 
 #: admin.php:68
 msgid "Domain data:"
-msgstr "Информация домена"
+msgstr "Информация домена:"
 
 #: admin.php:72
 msgid "is an alias of"
