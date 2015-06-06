@@ -11,7 +11,7 @@
     ':username'=>$_POST['localpart'].'@'.$_SESSION['domain'],
     ':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
   if ($success) {
-    header ("Location: adminfail.php?updated={$_POST['localpart']}");	
+    header ("Location: adminfail.php?updated={$_POST['localpart']}");
   } else {
     header ("Location: adminfail.php?failupdated={$_POST['localpart']}");
 	die;

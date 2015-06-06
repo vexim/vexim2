@@ -86,6 +86,6 @@
     }
   } else {
     header ("Location: adminalias.php?badaliaspass={$_POST['localpart']}");
-  } 
+  }
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->

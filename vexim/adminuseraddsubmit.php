@@ -23,17 +23,17 @@
 
   # Strip off leading and trailing spaces
   $_POST['localpart'] = preg_replace("/^\s+/","",$_POST['localpart']);
-  $_POST['localpart'] = preg_replace("/\s+$/","",$_POST['localpart']); 
+  $_POST['localpart'] = preg_replace("/\s+$/","",$_POST['localpart']);
 
-  # get the settings for the domain 
-  $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas FROM domains 
+  # get the settings for the domain
+  $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas FROM domains
     WHERE domain_id=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($sth->rowCount()) {
     $row = $sth->fetch();
   }
-  
+
   # Fix the boolean values
   if (isset($_POST['admin'])) {
     $_POST['admin'] = 1;
@@ -55,18 +55,18 @@
   }else{
 	# customisation of the uid and gid is not permitted for postmasters, use the domain defaults
 	$_POST['uid'] = $row['uid'];
-	$_POST['gid'] = $row['gid'];  
+	$_POST['gid'] = $row['gid'];
   }
   if(!isset($_POST['quota'])) {
     $_POST['quota'] = $row['quotas'];
   }
   if($row['quotas'] != "0") {
-    if (($_POST['quota'] > $row['quotas']) || ($_POST['quota'] == "0")) { 
+    if (($_POST['quota'] > $row['quotas']) || ($_POST['quota'] == "0")) {
       header ("Location: adminuser.php?quotahigh={$row['quotas']}");
-      die; 
+      die;
     }
   }
-  
+
   # Do some checking, to make sure the user is ALLOWED to make these changes
   if ((isset($_POST['on_piped'])) && ($row['pipe'] == 1)) {
     $_POST['on_piped'] = 1;

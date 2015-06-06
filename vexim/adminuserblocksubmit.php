@@ -25,7 +25,7 @@
     die;
   }
   $query = "INSERT INTO blocklists
-    (domain_id, user_id, blockhdr, blockval, color) 
+    (domain_id, user_id, blockhdr, blockval, color)
     VALUES (:domain_id, :user_id, :blockhdr, :blockval, :color)";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':domain_id'=>$_SESSION['domain_id'],

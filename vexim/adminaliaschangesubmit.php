@@ -4,17 +4,17 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  # confirm that the postmaster is updating an alias they are permitted to change before going further  
+  # confirm that the postmaster is updating an alias they are permitted to change before going further
   $query = "SELECT localpart,realname,smtp,on_spamassassin,
-    admin,enabled FROM users 
+    admin,enabled FROM users
 	WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
   if (!$sth->rowCount()) {
 	  header ("Location: adminalias.php?failupdated={$_POST['localpart']}");
-	  die();  
+	  die();
   }
-  
+
   # Fix the boolean values
   if (isset($_POST['admin'])) {
     $_POST['admin'] = 1;
