@@ -334,7 +334,8 @@
                 print $row['localpart'] . '@' . $row['domain'];
               }
               if ($row['realname'] == "Catchall") {
-                print $row[realname];
+                print $row['realname'];
+
               }
               print '<br>';
             }

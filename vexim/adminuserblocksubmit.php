@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  if ($_GET[action] == 'delete') {
+  if ($_GET['action'] == 'delete') {
     $query = "DELETE FROM blocklists WHERE block_id=:block_id
 			AND domain_id=:domain_id AND user_id=:user_id";
     $sth = $dbh->prepare($query);
