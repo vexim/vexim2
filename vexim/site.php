@@ -48,7 +48,7 @@
       </tr>
       <?php
         $query = "SELECT MIN(localpart) AS localpart, domain,
-          domains.domain_id, count(*) AS count    
+          domains.domain_id, count(*) AS count
           FROM   users, domains
           WHERE  users.domain_id = domains.domain_id
           AND    domain !='admin' AND admin=1";
@@ -156,9 +156,9 @@
           </tr>
       <?php
         }
-		
+
 		# display status of $AllowUserLogin
-		echo '<tr><td colspan="3">&nbsp;</td></tr>';       
+		echo '<tr><td colspan="3">&nbsp;</td></tr>';
 		if($AllowUserLogin){
 		    echo '<tr><td colspan="3">Standard user accounts are currently able to login and change their own personal details.</td></tr>';
 		}else{

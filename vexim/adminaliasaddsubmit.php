@@ -57,8 +57,8 @@
   $aliasto = preg_replace("/[', ']+/", ",", $_POST['smtp']);
   if (alias_validate_password($_POST['clear'], $_POST['vclear'])) {
     $query = "INSERT INTO users
-      (localpart, username, domain_id, crypt, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_spamassassin, enabled)
-      SELECT :localpart, :username, :domain_id, :crypt, :smtp, :pop, uid, gid, :realname, 'alias', :admin,
+      (localpart, username, domain_id, crypt, clear, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_spamassassin, enabled)
+      SELECT :localpart, :username, :domain_id, :crypt, :clear, :smtp, :pop, uid, gid, :realname, 'alias', :admin,
       :on_avscan, :on_spamassassin, :enabled
       FROM domains
       WHERE domains.domain_id=:domain_id";
@@ -68,6 +68,7 @@
        ':username' => $_POST['localpart'] . '@' . $_SESSION['domain'],
        ':domain_id' => $_SESSION['domain_id'],
        ':crypt' => crypt_password($_POST['clear'],$salt),
+       ':clear' => $_POST['clear'],
        ':smtp' => $aliasto,
        ':pop' => $aliasto,
        ':realname' => $_POST['realname'],
@@ -76,7 +77,7 @@
        ':on_spamassassin' => $_POST['on_spamassassin'],
        ':enabled' => $_POST['enabled']
        ));
-       
+
 
     if ($success) {
       header ("Location: adminalias.php?added={$_POST['localpart']}");
@@ -85,6 +86,6 @@
     }
   } else {
     header ("Location: adminalias.php?badaliaspass={$_POST['localpart']}");
-  } 
+  }
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->

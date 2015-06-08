@@ -44,7 +44,7 @@
   }
 
   $row = $sth->fetch();
-	
+
   $cryptedpass = crypt_password($_POST['crypt'], $row['crypt']);
 
 //  Some debugging prints. They help when you don't know why auth is failing.
@@ -76,7 +76,7 @@
 	if (($row['admin'] == '1') && ($row['type'] == 'site')) {
 		header ('Location: site.php');
 		die();
-	} 
+	}
 	if ($row['admin'] == '1') {
 		header ('Location: admin.php');
 		die();
@@ -85,9 +85,9 @@
 		header ('Location: index.php?domaindisabled');
 		die();
 }
-	
+
 	# must be a user, send them to edit their own details
 	header ('Location: userchange.php');
-	
+
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->
