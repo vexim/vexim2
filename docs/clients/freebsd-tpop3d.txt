@@ -42,7 +42,7 @@ requirements.
 	auth-mysql-database: vexim_db_name
 	auth-mysql-username: vexim_db_username
 	auth-mysql-password: vexim_db_password
-	auth-mysql-pass-query: SELECT CONCAT(pop,'/Maildir'),CONCAT('{crypt}', users.crypt),\
+	auth-mysql-pass-query: SELECT CONCAT(pop,'/Maildir'),CONCAT('{password}', users.password),\
                        users.uid,'maildir' FROM users WHERE username='$(local_part)@$(domain)'     
       Finally, perform these steps to move the startup scripts into
       place, and start the daemons:

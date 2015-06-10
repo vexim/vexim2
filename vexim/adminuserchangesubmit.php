@@ -4,16 +4,16 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  # confirm that the postmaster is updating a user they are permitted to change before going further  
+  # confirm that the postmaster is updating a user they are permitted to change before going further
   $query = "SELECT * FROM users WHERE user_id=:user_id
 		AND domain_id=:domain_id AND (type='local' OR type='piped')";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
   if (!$sth->rowCount()) {
 	  header ("Location: adminuser.php?failupdated={$_POST['localpart']}");
-	  die();  
+	  die();
   }
- 
+
   # Fix the boolean values
   $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas
     FROM domains
@@ -58,8 +58,8 @@
   }else{
 	# customisation of the uid and gid is not permitted for postmasters, use the domain defaults
 	$_POST['uid'] = $row['uid'];
-	$_POST['gid'] = $row['gid'];  
-  }  
+	$_POST['gid'] = $row['gid'];
+  }
   if (!isset($_POST['quota'])) {
     $_POST['quota'] = $row['quotas'];
   }
@@ -128,16 +128,16 @@
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $cryptedpassword = crypt_password($_POST['clear']);
     $query = "UPDATE users
-      SET crypt=:crypt WHERE localpart=:localpart
+      SET password=:crypt WHERE localpart=:localpart
       AND domain_id=:domain_id";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':crypt'=>$cryptedpassword,
         ':localpart'=>$_POST['localpart'], ':domain_id'=>$_SESSION['domain_id']));
     if ($success) {
-      if ($_POST['localpart'] == $_SESSION['localpart']) { 
+      if ($_POST['localpart'] == $_SESSION['localpart']) {
         $_SESSION['crypt'] = $cryptedpassword;
       }
-    } else { 
+    } else {
       header ("Location: adminuser.php?failupdated={$_POST['localpart']}");
       die;
     }

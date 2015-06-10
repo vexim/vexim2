@@ -49,8 +49,8 @@
             . $row['localpart']
             . '"></a></td>';
           print '<td>'
-            . '<a href="admincatchall.php?user_id=' 
-            . $row['user_id'] 
+            . '<a href="admincatchall.php?user_id='
+            . $row['user_id']
             . '">'
             . $row['realname']
             . '</a></td>';

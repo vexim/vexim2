@@ -18,9 +18,9 @@
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':localpart'=>$_POST['localpart'], ':enabled'=>$_POST['enabled'],
       ':is_public'=>$_POST['is_public'], ':group_id'=>$_POST['group_id'], ':domain_id'=>$_SESSION['domain_id']));
-  if ($success) { 
-    header ("Location: admingroupchange.php?group_id={$_POST['group_id']}&group_updated={$_POST['localpart']}"); 
-  } else { 
-    header ("Location: admingroupchange.php?group_id={$_POST['group_id']}&group_failupdated={$_POST['localpart']}"); 
+  if ($success) {
+    header ("Location: admingroupchange.php?group_id={$_POST['group_id']}&group_updated={$_POST['localpart']}");
+  } else {
+    header ("Location: admingroupchange.php?group_id={$_POST['group_id']}&group_failupdated={$_POST['localpart']}");
   }
 ?>

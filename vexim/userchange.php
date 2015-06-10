@@ -47,19 +47,19 @@
 	    } else {
 	      print _("Your mailbox quota is currently: Unlimited");
 	    }
-	  ?></td></tr><?php 
+	  ?></td></tr><?php
 	  if ($domrow['avscan'] == "1") {
 	    print "<tr><td>" . _("Anti-Virus") . ":</td><td><input name=\"on_avscan\" type=\"checkbox\"";
-	    if ($row['on_avscan'] == "1") { 
-	      print " checked "; 
-	    } 
+	    if ($row['on_avscan'] == "1") {
+	      print " checked ";
+	    }
 	  print "></td></tr>\n";
 	}
       if ($domrow['spamassassin'] == "1") {
 	print "<tr><td>" . _("Spamassassin") . ":</td><td><input name=\"on_spamassassin\" type=\"checkbox\"";
-	if ($row['on_spamassassin'] == "1") { 
-	  print " checked "; 
-	} 
+	if ($row['on_spamassassin'] == "1") {
+	  print " checked ";
+	}
 	print "></td></tr>\n";
 	print "<tr><td>" . _("SpamAssassin tag score") . ":</td>";
 	print "<td><input type=\"text\" size=\"5\" name=\"sa_tag\" value=\"{$row['sa_tag']}\" class=\"textfield\"></td></tr>\n";
@@ -69,12 +69,12 @@
       print "<tr><td>" . _("Maximum message size") . ":</td>";
       print "<td><input type=\"text\" size=\"5\" name=\"maxmsgsize\" value=\"{$row['maxmsgsize']}\" class=\"textfield\"> " . _("Kb") . "</td></tr>\n";
       print "<tr><td>" . _("Vacation enabled") . ":</td><td><input name=\"on_vacation\" type=\"checkbox\"";
-      if ($row['on_vacation'] == "1") { print " checked "; } 
+      if ($row['on_vacation'] == "1") { print " checked "; }
       print "></td></tr>\n";
       print "<tr><td>" . _("Vacation message") . ":</td>";
       print "<td><textarea name=\"vacation\" cols=\"40\" rows=\"5\" class=\"textfield\">".(function_exists('imap_qprint') ? imap_qprint($row['vacation']) : $row['vacation'])."</textarea>";
       print "<tr><td>" . _("Forwarding enabled") . ":</td><td><input name=\"on_forward\" type=\"checkbox\"";
-      if ($row['on_forward'] == "1") { print " checked "; } 
+      if ($row['on_forward'] == "1") { print " checked "; }
       print "></td></tr>\n";
       print "<tr><td>" . _("Forward mail to") . ":</td>";
       print "<td><input type=\"text\" name=\"forward\" value=\"{$row['forward']}\" class=\"textfield\"><br>\n";
@@ -96,7 +96,7 @@
 	  </select></td>
 	  <td><input name="blockval" type="text" size="25" class="textfield">
 	  <input name="color" type="hidden" value="black"></td></tr>
-      <tr><td><input name="submit" type="submit" value="Submit"></td></tr>
+      <tr><td><input name="submit" type="submit" value="<?php echo _("Submit"); ?>"></td></tr>
     </table>
     </form>
     <table align="center">

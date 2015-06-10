@@ -1,0 +1,7 @@
+For MySQL database you need to run query
+
+if you are using cleartext passwords
+ALTER TABLE users CHANGE COLUMN clear password VARCHAR(255) DEFAULT NULL, DROP crypt;
+
+if you are using crypted passwords
+ALTER TABLE users CHANGE COLUMN crypt password VARCHAR(255) DEFAULT NULL, DROP clear;

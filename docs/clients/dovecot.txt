@@ -38,7 +38,7 @@ Configuring Dovecot to work with Virtual Exim
       connect = host=/var/run/mysqld/mysqld.sock dbname=vexim user=vexim password=CHANGE
       default_pass_scheme = CRYPT
       password_query = \
-        SELECT `username` AS `user`, `crypt` AS `password`, \
+        SELECT `username` AS `user`, `password`, \
           `pop` AS `userdb_home`, `uid` AS `userdb_uid`, `gid` AS `userdb_gid` \
         FROM `users` WHERE `username` = '%u'
 
