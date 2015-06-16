@@ -21,8 +21,7 @@ CREATE TABLE users (user_id SERIAL PRIMARY KEY,
 	domain_id int NOT NULL,
 	localpart varchar(192) NOT NULL,
 	username varchar(255) NOT NULL,
-	clear varchar(255) default NULL,
-	crypt varchar(48) default NULL,
+	crypt varchar(255) default NULL,
 	uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
 	gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
 	smtp varchar(255) default NULL,
@@ -74,11 +73,10 @@ CREATE USER vexim WITH PASSWORD 'mypass' NOCREATEDB NOCREATEUSER;
 GRANT SELECT,INSERT,DELETE,UPDATE ON domains,users,blocklists,blocklists_block_id_seq,domains_domain_id_seq,users_user_id_seq,domainalias to vexim;
 
 INSERT INTO domains (domain_id, domain) VALUES ('1', 'admin');
-INSERT INTO users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
+INSERT INTO users (domain_id, localpart, username, crypt, uid, gid, smtp, pop, realname, type, admin)
   		VALUES ('1',
 		'siteadmin',
 		'siteadmin',
-		'CHANGE',
 		'\$1\$12345678\$2lQK5REWxaFyGz.p/dos3/',
 		'65535',
 		'65535',

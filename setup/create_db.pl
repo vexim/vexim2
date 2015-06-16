@@ -206,8 +206,7 @@ sub create_mysqltables {
 	domain_id mediumint(8) unsigned NOT NULL,
 	localpart varchar(192) NOT NULL default '',
 	username varchar(255) NOT NULL default '',
-	clear varchar(255) default NULL,
-	crypt varchar(48) default NULL,
+    crypt varchar(255) default NULL,
 	uid smallint(5) unsigned NOT NULL default '65534',
 	gid smallint(5) unsigned NOT NULL default '65534',
 	smtp varchar(255) default NULL,
@@ -311,8 +310,7 @@ sub create_postgrestables {
 #	  domain_id int NOT NULL,
 #	  localpart varchar(192) NOT NULL,
 #	  username varchar(255) NOT NULL,
-#	  clear varchar(255) default NULL,
-#	  crypt varchar(48) default NULL,
+#	  crypt varchar(255) default NULL,
 #	  uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
 #	  gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
 #	  smtp varchar(255) default NULL,
@@ -414,11 +412,10 @@ sub add_siteadminuser {
 
 	  my $crypted = crypt("$siteadminpassconfirm", "\$1\$xx") ;
 	  $dbh->do("INSERT INTO $databasename.domains (domain_id, domain) VALUES ('1', 'admin')");
-	  $dbh->do("INSERT INTO $databasename.users (domain_id, localpart, username, clear, crypt, uid, gid, smtp, pop, realname, type, admin)
+	  $dbh->do("INSERT INTO $databasename.users (domain_id, localpart, username, crypt, uid, gid, smtp, pop, realname, type, admin)
 	  		VALUES ('1',
 			'siteadmin',
 			'siteadmin',
-			'$siteadminpassconfirm',
 			'$crypted',
 			'65535',
 			'65535',
@@ -471,7 +468,7 @@ sub migratemysql {
 		$unseencheck = "nope";
 	}
 
-$DBuserfields = "user_id,domain_id,localpart,username,clear,crypt,uid,gid,smtp,pop,type,admin,on_avscan,on_blocklist,on_complexpass,on_forward,on_piped,on_spamassassin,on_vacation,enabled,flags,forward,maxmsgsize,quota,realname,sa_tag,sa_refuse,tagline,vacation";
+$DBuserfields = "user_id,domain_id,localpart,username,crypt,uid,gid,smtp,pop,type,admin,on_avscan,on_blocklist,on_complexpass,on_forward,on_piped,on_spamassassin,on_vacation,enabled,flags,forward,maxmsgsize,quota,realname,sa_tag,sa_refuse,tagline,vacation";
 
 	if(($commentcheck  && $commentcheck eq "yes"))
 	{

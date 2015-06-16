@@ -970,31 +970,6 @@ login_virtual_exim:
         }\
         {*}{}}
 
-# The following authenticators use the clear password field
-# plain_login:
-#         driver = plaintext
-#         public_name = PLAIN
-#         server_condition = ${lookup mysql{SELECT '1' FROM users \
-# 				WHERE username = '${quote_mysql:$2}' \
-# 				AND clear = '${quote_mysql:$3}'} {yes}{no}}
-#         server_set_id = $2
-#
-# fixed_login:
-#         driver = plaintext
-#         public_name = LOGIN
-#         server_prompts = "Username:: : Password::"
-#         server_condition = ${lookup mysql{SELECT '1' FROM users \
-# 				WHERE username = '${quote_mysql:$1}' \
-# 				AND clear = '${quote_mysql:$2}'} {yes}{no}}                    
-#         server_set_id = $1
-#
-# fixed_cram:
-#         driver = cram_md5
-#         public_name = CRAM-MD5
-#         server_secret = ${lookup mysql{SELECT clear FROM users \
-# 				WHERE username = '${quote_mysql:$1}'}{$value}fail}
-#         server_set_id = $1
-
 
 ######################################################################
 #                   CONFIGURATION FOR local_scan()                   #
