@@ -140,20 +140,12 @@
      * Generate pseudo random bytes
      *
      * @param   int     $count  number of bytes to generate
-     * @return  string          A string with the hexadecimal number
+     * @return  string          A random string
      */
     function get_random_bytes($count)
     {
-        if($count <= 13)
-        {
-            $output = uniqid();
-        }
-        else //actually, this results in 23 characters at most, but that's enough for our use
-        {
-            $output = uniqid('', true);
-        }
-        $output = substr($output, 0 - $count);
-
+        $output = base64_encode(openssl_random_pseudo_bytes($count));
+        $output = strtr(substr($output, 0, $count), '+', '.'); //base64 is longer, so must truncate the result
         return $output;
     }
 
