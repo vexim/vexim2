@@ -623,7 +623,7 @@ virtual_forward:
 		                and domain = '${quote_mysql:$domain}' \ 
 		                and users.on_forward = '1' \
 		                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
-  
+
 virtual_domains:
   driver = redirect
   allow_fail
@@ -638,18 +638,23 @@ virtual_domains:
 		and domain = '${quote_mysql:$domain}' \
 		and users.on_spamassassin = '1' \
 		and users.domain_id=domains.domain_id }{$value}fail}} {X-Spam-Flag: YES\n}{} }
+  # You may have to use single colons in headers_remove rule, or comment it out altogether
+  # if using Exim v. 4.85 or older. See https://github.com/avleen/vexim2/issues/21 and
+  # check out the links pasted in that issue for more info.
   headers_remove = ${if or { { <{$spam_score_int}{1} } \
   			     { <{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
-			       where localpart = '${quote_mysql:$local_part}' \
-			       and domain = '${quote_mysql:$domain}' \
+			       where localpart = '${quote_mysql::$local_part}' \
+			       and domain = '${quote_mysql::$domain}' \
 			       and users.on_spamassassin = 1 \
 			       and users.domain_id=domains.domain_id}{$value}fail}} } \
 			     { eq {0}{${lookup mysql{select users.sa_tag * 10 from users,domains \
-			       where localpart = '${quote_mysql:$local_part}' \
-			       and domain = '${quote_mysql:$domain}' \
+			       where localpart = '${quote_mysql::$local_part}' \
+			       and domain = '${quote_mysql::$domain}' \
 			       and users.on_spamassassin = 0 \
 			       and users.domain_id=domains.domain_id}{$value}fail}}} \
 			   } {X-Spam-Score:X-Spam-Report} }
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
   local_part_suffix = -*
   local_part_suffix_optional
   retry_use_local_part
@@ -1018,31 +1023,6 @@ login_virtual_exim:
        {match_ip {$sender_host_address}{@[]}}\
         }\
         {*}{}}
-
-# The following authenticators use the clear password field
-# plain_login:
-#         driver = plaintext
-#         public_name = PLAIN
-#         server_condition = ${lookup mysql{SELECT '1' FROM users \
-# 				WHERE username = '${quote_mysql:$2}' \
-# 				AND clear = '${quote_mysql:$3}'} {yes}{no}}
-#         server_set_id = $2
-#
-# fixed_login:
-#         driver = plaintext
-#         public_name = LOGIN
-#         server_prompts = "Username:: : Password::"
-#         server_condition = ${lookup mysql{SELECT '1' FROM users \
-# 				WHERE username = '${quote_mysql:$1}' \
-# 				AND clear = '${quote_mysql:$2}'} {yes}{no}}                    
-#         server_set_id = $1
-#
-# fixed_cram:
-#         driver = cram_md5
-#         public_name = CRAM-MD5
-#         server_secret = ${lookup mysql{SELECT clear FROM users \
-# 				WHERE username = '${quote_mysql:$1}'}{$value}fail}
-#         server_set_id = $1
 
 
 ######################################################################

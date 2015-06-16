@@ -53,15 +53,18 @@ virtual_domains:
                 and domain = '${quote_mysql:$domain}' \
                 and users.on_spamassassin = '1' \
                 and users.domain_id=domains.domain_id }{$value}fail}} {X-Spam-Flag: YES\n}{} }
+  # You may have to use single colons in headers_remove rule, or comment it out altogether
+  # if using Exim v. 4.85 or older. See https://github.com/avleen/vexim2/issues/21 and
+  # check out the links pasted in that issue for more info.
   headers_remove = ${if or { { <{$spam_score_int}{1} } \
                              { <{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
-                               where localpart = '${quote_mysql:$local_part}' \
-                               and domain = '${quote_mysql:$domain}' \
+                               where localpart = '${quote_mysql::$local_part}' \
+                               and domain = '${quote_mysql::$domain}' \
                                and users.on_spamassassin = 1 \
                                and users.domain_id=domains.domain_id}{$value}fail}} } \
                              { eq {0}{${lookup mysql{select users.sa_tag * 10 from users,domains \
-                               where localpart = '${quote_mysql:$local_part}' \
-                               and domain = '${quote_mysql:$domain}' \
+                               where localpart = '${quote_mysql::$local_part}' \
+                               and domain = '${quote_mysql::$domain}' \
                                and users.on_spamassassin = 0 \
                                and users.domain_id=domains.domain_id}{$value}fail}}} \
                            } {X-Spam-Score:X-Spam-Report} }
