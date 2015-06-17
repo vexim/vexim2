@@ -257,6 +257,18 @@ Exim configuration:
     in /var/tmp, /usr/lib, or any number of other places. If yours isn't
     /tmp/mysql.sock, you will need to set this.
   ----------
+    tls_certificate = /etc/exim4/exim.crt
+    tls_privatekey = /etc/exim4/exim.key
+    *** TLS is activated by default. We suppose that you already created a SSL key and
+    certificate. The creation of SSL-keys is the same like for webservers, e.g.
+    https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-with-a-free-signed-ssl-certificate-on-a-vps
+    You can use the same certificate your the webserver of this host (if you use webmail)
+  ----------
+    tls_dhparam = /etc/exim4/dhparam.pem
+    *** The Diffie-Hellman group should have at least 1024 bit and
+    can be created with this command (it can take some time):
+    openssl dhparam -out /etc/exim4/dhparam.pem 2048
+  ----------
     ACL's
     *** We have split all of the ACL's into separate files, to make
     managing them easier. Please review the ACL section of the configure
