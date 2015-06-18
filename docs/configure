@@ -493,19 +493,42 @@ ditch_malware:
 		                and users.on_avscan = '1' \
 		                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
 
+# spam drop router
+ditch_spam_drop:
+    driver = redirect
+    allow_fail
+    data = :blackhole:
+    condition = ${if >{$spam_score_int}{${lookup mysql{select users.sa_refuse * 10 from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
+        and domain = '${quote_mysql:$domain}' \
+        and users.on_spamassassin = '1' \
+        and users.spam_drop = '1' \
+        and users.domain_id=domains.domain_id \
+        and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
+    retry_use_local_part
+
 ditch_spam:
-  driver = redirect
-  allow_fail
-  data = :blackhole:
-  condition = ${if >{$spam_score_int}{${lookup mysql{select users.sa_refuse * 10 from users,domains \
-                where localpart = '${quote_mysql:$local_part}' \
-                and domain = '${quote_mysql:$domain}' \
-        	and users.on_spamassassin = '1' \
-                and users.domain_id=domains.domain_id \
-		and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
-  local_part_suffix = -*
-  local_part_suffix_optional
-  retry_use_local_part
+    driver = redirect
+    allow_fail
+    file_transport = virtual_ditch_spam_transport
+    data = ${lookup mysql{select concat(smtp,'/.Spam') \ 
+        from users,domains \ 
+        where localpart = '${quote_mysql:$local_part}' \ 
+        and domain = '${quote_mysql:$domain}' \ 
+        and domains.enabled = '1' \ 
+        and users.enabled = '1' \ 
+        and users.domain_id = domains.domain_id}}
+    condition = ${if >{$spam_score_int}{${lookup mysql{select \ 
+        users.sa_refuse * 10 from users,domains \ 
+        where localpart = '${quote_mysql:$local_part}' \ 
+        and domain = '${quote_mysql:$domain}' \ 
+        and users.on_spamassassin = '1' \ 
+        and users.spam_drop = '0' \
+        and users.on_forward = '0' \
+        and users.type = 'local' \
+        and users.domain_id=domains.domain_id \ 
+        and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
+    retry_use_local_part
 
 ditch_hdrmailer:
   driver = redirect
@@ -852,6 +875,23 @@ virtual_vacation_delivery:
 		where domain='${quote_mysql:$domain}' \
 		and localpart='${quote_mysql:$local_part}' \
 		and users.domain_id=domains.domain_id}}
+
+virtual_ditch_spam_transport:
+  driver = appendfile
+  envelope_to_add
+  return_path_add
+  mode = 0600
+  maildir_format = true
+  create_directory = true
+  user = ${lookup mysql{select users.uid  from users,domains \ 
+                where localpart = '${quote_mysql:$local_part}' \ 
+                and domain = '${quote_mysql:$domain}' \ 
+                and users.domain_id = domains.domain_id}}
+  group = ${lookup mysql{select users.gid from users,domains \ 
+                where localpart = '${quote_mysql:$local_part}' \ 
+                and domain = '${quote_mysql:$domain}' \ 
+                and users.domain_id = domains.domain_id}}
+  maildir_use_size_file = false
 
 mailman_transport:
   driver = pipe
