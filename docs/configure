@@ -266,7 +266,16 @@ timeout_frozen_after = 7d
 
 # We also want a little more detail in our logs, helps with debugging
 
-log_selector = +subject
+log_selector = +subject +tls_cipher +tls_peerdn
+
+# TLS
+tls_advertise_hosts = *
+tls_certificate = /etc/exim4/exim.crt
+tls_privatekey = /etc/exim4/exim.key
+tls_dhparam = /etc/exim4/dhparam.pem
+tls_require_ciphers = ${if =={$received_port}{25}\
+{NORMAL:%COMPAT:!VERS-SSL3.0}\
+{SECURE128}}
 
 
 ######################################################################
