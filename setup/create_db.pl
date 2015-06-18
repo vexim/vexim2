@@ -327,6 +327,7 @@ sub create_postgrestables {
 #	  on_piped smallint NOT NULL default '0',
 #	  on_spamassassin smallint NOT NULL default '0',
 #	  on_vacation smallint NOT NULL default '0',
+#	  spam_drop smallint NOT NULL default '0',
 #	  enabled smallint NOT NULL default '1',
 #	  flags varchar(16) default NULL,
 #	  forward varchar(255) default NULL,
