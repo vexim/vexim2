@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
   $query = "SELECT localpart,realname,smtp,on_avscan,on_spamassassin,
-    admin,enabled FROM users 	
+    admin,enabled FROM users
 	WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
@@ -26,13 +26,13 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div id="Forms">
-	<?php 
+	<?php
 		# ensure this page can only be used to view/edit aliases that already exist for the domain of the admin account
 		if (!$sth->rowCount()) {
 			echo '<table align="center"><tr><td>';
-			echo "Invalid alias userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
+			echo "Invalid alias userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";
 			echo '</td></tr></table>';
-		}else{	
+		}else{
 	?>
 	<form name="aliaschange" method="post" action="adminaliaschangesubmit.php">
         <table align="center">
@@ -134,10 +134,10 @@
           </tr>
         </table>
       </form>
-		<?php 		
+		<?php
 			# end of the block editing an alias within the domain
-		}  
-		?>	
+		}
+		?>
     </div>
   </body>
 </html>

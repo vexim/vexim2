@@ -15,7 +15,7 @@
         '1' FROM domains WHERE domains.domain_id=:domain_id";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':domain'=>'*@'.$_SESSION['domain'], ':domain_id'=>$_SESSION['domain_id'], ':smtp'=>$_POST['smtp']));
-    
+
     if ($success) {
       header ("Location: adminalias.php?updated=Catchall");
     } else {

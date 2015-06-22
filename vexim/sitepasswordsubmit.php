@@ -6,7 +6,7 @@
 
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $cryptedpassword = crypt_password($_POST['clear']);
-    $query = "UPDATE users SET crypt=:crypt WHERE localpart='siteadmin' AND domain_id='1'";
+    $query = "UPDATE users SET password=:crypt WHERE localpart='siteadmin' AND domain_id='1'";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':crypt'=>$cryptedpassword));
     if ($success) {

@@ -6,7 +6,7 @@ plain_virtual_exim:
         driver = plaintext
         public_name = PLAIN
         server_condition = "${if crypteq{$3}{${lookup mysql{ \
-                          SELECT crypt FROM users \
+                          SELECT password FROM users \
                           WHERE username = '${quote_mysql:$2}' \
                           }}}{yes}{no}}"
         server_set_id = $2
@@ -23,7 +23,7 @@ login_virtual_exim:
         public_name = LOGIN
         server_prompts = "Username:: : Password::"
         server_condition = "${if crypteq{$2}{${lookup mysql{ \
-                          SELECT crypt FROM users \
+                          SELECT password FROM users \
                           WHERE username = '${quote_mysql:$1}' \
                           }}}{yes}{no}}"
         server_set_id = $1

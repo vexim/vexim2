@@ -10,7 +10,7 @@
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
   if ($sth->rowCount()) { $row = $sth->fetch(); }
-  
+
   $username = $row['username'];
   $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains
     WHERE domain_id=:domain_id";
@@ -38,15 +38,15 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div id="forms">
-	<?php 
+	<?php
 		# ensure this page can only be used to view/edit user accounts that already exist for the domain of the admin account
-		if (!$sth->rowCount()) {			
+		if (!$sth->rowCount()) {
 			echo '<table align="center"><tr><td>';
-			echo "Invalid userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
+			echo "Invalid userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";
 			echo '</td></tr></table>';
 		}else{
 	?>
-	
+
     <table align="center">
       <form name="userchange" method="post" action="adminuserchangesubmit.php">
         <tr>
@@ -97,7 +97,7 @@
               <input type="text" size="25" name="gid" class="textfield"
                 value="<?php echo $row['gid']; ?>">
             </td>
-          </tr> 
+          </tr>
           <tr>
             <td colspan="2" style="padding-bottom:1em">
               <?php echo _('When you update the UID or GID, please make sure
@@ -124,7 +124,7 @@
             if ((function_exists('imap_get_quotaroot'))
               && ($imap_to_check_quota == "yes")) {
               $mbox = imap_open(
-                $imapquotaserver, $row['username'], $row['clear'], OP_HALFOPEN
+                $imapquotaserver, $row['username'], $row['password'], OP_HALFOPEN
               );
               $quota = imap_get_quotaroot($mbox, "INBOX");
               if (is_array($quota) && !empty($quota)) {
@@ -171,7 +171,7 @@
           <td>
             <?php echo _('Admin'); ?>:</td>
             <td>
-              <input name="admin" type="checkbox"<?php if ($row['admin'] == 1) { 
+              <input name="admin" type="checkbox"<?php if ($row['admin'] == 1) {
                 print " checked";
               } ?> class="textfield">
             </td>
@@ -282,7 +282,7 @@
                   <?php echo $rowuserlist['realname']; ?>
                   (<?php echo $rowuserlist['username']; ?>)
                 </option>
-              <?php 
+              <?php
                 }
               ?>
             </select>
@@ -302,7 +302,7 @@
           value="<?php print $row['localpart']; ?>" class="textfield">
         <tr>
           <td colspan="2" class="button">
-            <input name="submit" type="submit" value="Submit">
+            <input name="submit" type="submit" value="<?php echo _('Submit'); ?>">
           </td>
         </tr>
         <tr>
@@ -334,7 +334,7 @@
                 print $row['localpart'] . '@' . $row['domain'];
               }
               if ($row['realname'] == "Catchall") {
-                print $row['realname'];
+                print $row[realname];
               }
               print '<br>';
             }
@@ -391,7 +391,7 @@
       ?>
             <tr>
               <td>
-                <a href="adminuserblocksubmit.php?action=delete&user_id=<?php 
+                <a href="adminuserblocksubmit.php?action=delete&user_id=<?php
 					print $_GET['user_id']
 					. '&block_id='
 					. $blockrow['block_id']
@@ -409,10 +409,10 @@
         }
       ?>
     </table>
-	<?php 		
+	<?php
 		# end of the block editing an alias within the domain
-	}  
-	?>	
+	}
+	?>
     </div>
   </body>
 </html>

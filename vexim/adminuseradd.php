@@ -118,14 +118,14 @@
           ?>
           <tr>
             <td><?php echo _('Anti-Virus'); ?>:</td>
-            <td colspan="2"><input name="on_avscan" type="checkbox"></td>
+            <td colspan="2"><input name="on_avscan" type="checkbox" checked></td>
           </tr>
-          <?php } 
+          <?php }
             if ($row['spamassassin'] == "1") {
           ?>
           <tr>
             <td><?php echo _('Spamassassin'); ?>:</td>
-            <td colspan="2"><input name="on_spamassassin" type="checkbox"></td>
+            <td colspan="2"><input name="on_spamassassin" type="checkbox" checked></td>
           </tr>
           <tr>
             <td><?php echo _('Spamassassin tag score'); ?>:</td>

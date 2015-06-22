@@ -10,7 +10,7 @@
      * @param   string   $vclear  cleartext password (for validation)
      * @return  boolean  true if they match and contain no illegal characters
      */
-    function validate_password($clear,$vclear) 
+    function validate_password($clear,$vclear)
     {
         return ($clear == $vclear) && ($clear != "");
     }
@@ -26,7 +26,7 @@
      * @param   string   $vclear  cleartext password (for validation)
      * @return  boolean  true if they match and contain no illegal characters
      */
-    function alias_validate_password($clear,$vclear) 
+    function alias_validate_password($clear,$vclear)
     {
         return ($clear == $vclear);
     }
@@ -39,20 +39,20 @@
      * exists.
      *
      * @param  mixed   $dbh         database to query
-     * @param  string  $localpart  
+     * @param  string  $localpart
      * @param  string  $domain_id
      * @param  string  $page       page to return to
      */
     function check_user_exists($dbh,$localpart,$domain_id,$page)
     {
-        $query = "SELECT COUNT(*) AS c 
-                  FROM   users 
+        $query = "SELECT COUNT(*) AS c
+                  FROM   users
                   WHERE  localpart=:localpart
                   AND    domain_id=:domain_id";
         $sth = $dbh->prepare($query);
         $sth->execute(array(':localpart'=>$localpart, ':domain_id'=>$domain_id));
         $row = $sth->fetch();
-        if ($row['c'] != 0) 
+        if ($row['c'] != 0)
         {
             header ("Location: $page?userexists=$localpart");
             die;
@@ -65,23 +65,23 @@
      *
      * @param  unknown  $flag  unknown
      */
-    function alpha_menu($flag) 
+    function alpha_menu($flag)
     {
         global $letter;	// needs to be available to the parent
-        if ($letter == 'all') 
+        if ($letter == 'all')
         {
             $letter = '';
         }
-        if ($flag) 
+        if ($flag)
         {
-            print "\n<p class='alpha'><a href='" . $_SERVER['PHP_SELF'] . 
+            print "\n<p class='alpha'><a href='" . $_SERVER['PHP_SELF'] .
                   "?LETTER=ALL' class='alpha'>ALL</a>&nbsp;&nbsp; ";
-            // loops through the alphabet. 
+            // loops through the alphabet.
             // For international alphabets, replace the string in the proper order
-            foreach (preg_split('//', _("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), -1, 
-                                PREG_SPLIT_NO_EMPTY) as $i) 
+            foreach (preg_split('//', _("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), -1,
+                                PREG_SPLIT_NO_EMPTY) as $i)
             {
-      	        print "<a href='" . $_SERVER['PHP_SELF'] . 
+      	        print "<a href='" . $_SERVER['PHP_SELF'] .
                       "?LETTER=$i' class='alpha'>$i</a>&nbsp; ";
             }
             print "</p>\n";
@@ -99,7 +99,7 @@
     function crypt_password($clear, $salt = '')
     {
         global $cryptscheme;
-        
+
         switch($cryptscheme){
                 case 'sha':
                     $hash = sha1($clear);

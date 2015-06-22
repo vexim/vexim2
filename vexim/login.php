@@ -14,18 +14,18 @@
 
 	# construct the correct sql statement based on who the user is
   if ($_POST['localpart'] == 'siteadmin') {
-		$query = "SELECT crypt,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
+		$query = "SELECT password,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
       WHERE localpart='siteadmin'
       AND domain='admin'
       AND username='siteadmin'
       AND users.domain_id = domains.domain_id";
   } else if ($AllowUserLogin) {
-		$query = "SELECT crypt,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
+		$query = "SELECT password,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
       WHERE localpart=:localpart
       AND users.domain_id = domains.domain_id
       AND domains.domain=:domain;";
   } else {
-		$query = "SELECT crypt,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
+		$query = "SELECT password,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
       WHERE localpart=:localpart
       AND users.domain_id = domains.domain_id
       AND domains.domain=:domain
@@ -44,8 +44,8 @@
   }
 
   $row = $sth->fetch();
-	
-  $cryptedpass = crypt_password($_POST['crypt'], $row['crypt']);
+
+  $cryptedpass = crypt_password($_POST['crypt'], $row['password']);
 
 //  Some debugging prints. They help when you don't know why auth is failing.
   /*
@@ -54,13 +54,13 @@
   print $_POST['localpart'] . "<br>\n";
   print $_POST['domain'] . "<br>\n";
   print "Posted crypt: " .$_POST['crypt'] . "<br>\n";
-  print $row['crypt'] . "<br>\n";
+  print $row['password'] . "<br>\n";
   print $cryptscheme . "<br>\n";
   print $cryptedpass . "<br>\n";
   */
 
 	# if they have the wrong password bail out
-	if ($cryptedpass != $row['crypt']) {
+	if ($cryptedpass != $row['password']) {
 		header ('Location: index.php?login=failed');
 		die();
 	}
@@ -69,14 +69,14 @@
     $_SESSION['localpart'] = $row['localpart'];
     $_SESSION['domain'] = $row['domain'];
     $_SESSION['domain_id'] = $row['domain_id'];
-	$_SESSION['crypt'] = $row['crypt'];
+	$_SESSION['crypt'] = $row['password'];
     $_SESSION['user_id'] = $row['user_id'];
 
 	# redirect the user to the correct starting page
 	if (($row['admin'] == '1') && ($row['type'] == 'site')) {
 		header ('Location: site.php');
 		die();
-	} 
+	}
 	if ($row['admin'] == '1') {
 		header ('Location: admin.php');
 		die();
@@ -85,9 +85,9 @@
 		header ('Location: index.php?domaindisabled');
 		die();
 }
-	
+
 	# must be a user, send them to edit their own details
 	header ('Location: userchange.php');
-	
+
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->

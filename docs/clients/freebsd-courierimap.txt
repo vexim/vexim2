@@ -28,7 +28,7 @@ Installing Courier-IMAP 2.x on FreeBSD:
       MYSQL_OPT 0
       MYSQL_DATABASE vexim
       MYSQL_USER_TABLE users
-      MYSQL_CRYPT_PWFIELD crypt
+      MYSQL_CRYPT_PWFIELD password
       MYSQL_UID_FIELD uid
       MYSQL_GID_FIELD gid
       MYSQL_LOGIN_FIELD username

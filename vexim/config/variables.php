@@ -47,8 +47,8 @@
   /* The UID's and GID's control the default UID and GID for new domains
      and if postmasters can define their own.
      THE UID AND GID MUST BE NUMERIC! */
-  $uid = "90";
-  $gid = "90";
+  $uid = "100";
+  $gid = "100";
   $postmasteruidgid = "yes";
 
   /* The location of your mailstore for new domains.

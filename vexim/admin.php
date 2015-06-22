@@ -19,6 +19,7 @@
               <?php
                 echo _('Add, delete and manage POP/IMAP accounts');
               ?>
+
             </a>
           </td>
         </tr>
@@ -28,6 +29,7 @@
               <?php
                 echo _('Add, delete and manage aliases, forwards and a Catchall');
               ?>
+
             </a>
           </td>
         </tr>
@@ -35,6 +37,7 @@
           <td>
             <a href="admingroup.php">
               <?php echo _('Add, delete and manage groups'); ?>
+
             </a>
           </td>
         </tr>
@@ -42,6 +45,7 @@
           <td>
             <a href="adminfail.php">
               <?php echo _('Add, delete and manage :fail:\'s'); ?>
+
             </a>
           </td>
         </tr>
@@ -58,17 +62,17 @@
         <tr><td></td></tr>
         <tr><td></td></tr>
         <?php
-          $query = "SELECT alias,domain FROM domainalias,domains 
+          $query = "SELECT alias,domain FROM domainalias,domains
             WHERE domainalias.domain_id=:domain_id
             AND domains.domain_id = domainalias.domain_id";
           $sth = $dbh->prepare($query);
           $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
 
           if($sth->rowCount()) {
-            print '<tr><td>Domain data:</td></tr>';
+            print '<tr><td>' . _('Domain data:') . '</td></tr>';
             while ($row = $sth->fetch()) {
               print '<tr><td>';
-              print "{$row['alias']} is an alias of {$_SESSION['domain']}";
+              print "{$row['alias']} " . _('is an alias of') . " {$_SESSION['domain']}";
               print '</td></tr>';
             }
           }

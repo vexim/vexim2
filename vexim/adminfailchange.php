@@ -25,13 +25,13 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div="Forms">
-	<?php 
+	<?php
 		# ensure this page can only be used to view/edit fail's that already exist for the domain of the admin account
-		if (!$sth->rowCount()) {			
+		if (!$sth->rowCount()) {
 			echo '<table align="center"><tr><td>';
-			echo "Invalid fail userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
+			echo "Invalid fail userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";
 			echo '</td></tr></table>';
-		}else{	
+		}else{
 	?>
       <form name="failchange" method="post" action="adminfailchangesubmit.php">
 	<table align="center">
@@ -56,10 +56,10 @@
           </tr>
 	</table>
       </form>
-		<?php 		
+		<?php
 			# end of the block editing a fail within the domain
-		}  
-		?>	  
+		}
+		?>
     </div>
   </body>
 </html>
