@@ -142,9 +142,17 @@
               <input name="sa_refuse" size="5" type="text" class="textfield"
                 value="<?php echo $row['sa_refuse']; ?>">
             </td>
+            <td><?php echo _('The score at which to move potential spam mail
+                to folder or to delete'); ?>
+            </td>
+          </tr>
+          <tr>
+            <td><?php echo _('How to handle mail above the SA refuse score'); ?>:</td>
             <td>
-              <?php echo _('The score at which to refuse potential spam mail
-                and not deliver'); ?>
+             <input type="radio" id="off" name="spam_drop" value="0" checked>
+             <label for="off"> <?PHP echo _('move to Spam-folder'); ?></label><br>
+             <input type="radio" id="on" name="spam_drop" value="1">
+             <label for="on"><?PHP echo _('delete - you cannot restore these mails'); ?></label><br>
             </td>
           </tr>
           <?php } ?>
