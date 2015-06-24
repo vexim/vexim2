@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `vexim`.`users`
 	on_piped         bool                    NOT NULL  default '0',
 	on_spamassassin  bool                    NOT NULL  default '0',
 	on_vacation      bool                    NOT NULL  default '0',
-	spam_drop	 bool                    NOT NULL  default '0',
+	spam_drop        bool                    NOT NULL  default '0',
 	enabled          bool                    NOT NULL  default '1',
 	flags            varchar(16)                       default NULL,
 	forward          varchar(255)                      default NULL,
