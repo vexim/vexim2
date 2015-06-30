@@ -213,6 +213,17 @@
                   value="<?php echo $row['sa_refuse']; ?>" class="textfield">
               </td>
             </tr>
+            <tr>
+              <td><?php echo _('How to handle mail above the SA refuse score'); ?>:</td>
+              <td>
+               <input type="radio" id="off" name="spam_drop" value="0"<?php if ($row['spam_drop'] == "0") {
+                  print " checked"; }?>>
+               <label for="off"> <?PHP echo _('move to Spam-folder'); ?></label><br>
+               <input type="radio" id="on" name="spam_drop" value="1"<?php if ($row['spam_drop'] == "1") {
+                  print " checked"; }?>>
+               <label for="on"><?PHP echo _('delete - you cannot restore these mails'); ?></label><br>
+            </td>
+            </tr>
           <?php
             }
           ?>

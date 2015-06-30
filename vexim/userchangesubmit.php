@@ -55,7 +55,7 @@
       sa_refuse=:sa_refuse, on_vacation=:on_vacation,
       vacation=:vacation, on_forward=:on_forward,
       forward=:forward, maxmsgsize=:maxmsgsize,
-      unseen=:unseen
+      unseen=:unseen, spam_drop=:spam_drop
       WHERE user_id=:user_id";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':on_avscan'=>$_POST['on_avscan'],
@@ -65,7 +65,7 @@
       ':vacation'=>$vacation,
       ':on_forward'=>$_POST['on_forward'], ':forward'=>$_POST['forward'],
       ':maxmsgsize'=>$_POST['maxmsgsize'], ':unseen'=>$_POST['unseen'],
-      ':user_id'=>$_SESSION['user_id']
+      ':spam_drop'=>$_POST['spam_drop'],':user_id'=>$_SESSION['user_id']
       ));
     if ($success) {
       if (strlen($_POST['vacation']) > $max_vacation_length)

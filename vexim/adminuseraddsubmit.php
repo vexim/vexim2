@@ -116,16 +116,16 @@
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $query = "INSERT INTO users (localpart, username, domain_id, password,
       smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped,
-      on_spamassassin, sa_tag, sa_refuse, maxmsgsize, enabled, quota)
+      on_spamassassin, sa_tag, sa_refuse, spam_drop, maxmsgsize, enabled, quota)
       VALUES (:localpart, :username, :domain_id, :crypt, :smtp, :pop, :uid, :gid,
       :realname, :type, :admin, :on_avscan, :on_piped, :on_spamassassin,
-      :sa_tag, :sa_refuse, :maxmsgsize, :enabled, :quota)";
+      :sa_tag, :sa_refuse, :spam_drop, :maxmsgsize, :enabled, :quota)";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
         ':localpart'=>$_POST['localpart'],
         ':username'=>$_POST['localpart'].'@'.$_SESSION['domain'],
         ':domain_id'=>$_SESSION['domain_id'],
-        ':crypt'=>crypt_password($_POST['clear'],$salt),
+        ':crypt'=>crypt_password($_POST['clear']),
         ':smtp'=>$smtphomepath,
         ':pop'=>$pophomepath,
         ':uid'=>$_POST['uid'],
@@ -138,6 +138,7 @@
         ':on_spamassassin'=>$_POST['on_spamassassin'],
         ':sa_tag'=>((isset($_POST['sa_tag'] )) ? $_POST['sa_tag']  : 0),
         ':sa_refuse'=>((isset($_POST['sa_refuse'] )) ? $_POST['sa_refuse']  : 0),
+	':spam_drop'=>$_POST['spam_drop'],
         ':maxmsgsize'=>$_POST['maxmsgsize'],
         ':enabled'=>$_POST['enabled'],
         ':quota'=>$_POST['quota'],

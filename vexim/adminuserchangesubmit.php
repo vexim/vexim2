@@ -170,6 +170,7 @@
     quota=:quota,
     sa_tag=:sa_tag,
     sa_refuse=:sa_refuse,
+    spam_drop=:spam_drop,
     type=:type,
     vacation=:vacation,
     unseen=:unseen
@@ -185,6 +186,7 @@
     ':quota'=>$_POST['quota'],
     ':sa_tag'=>((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0),
     ':sa_refuse'=>((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0),
+    ':spam_drop'=>$_POST['spam_drop'],
     ':type'=>$_POST['type'],
     ':vacation'=>$vacation,
     ':unseen'=>$_POST['unseen'], ':user_id'=>$_POST['user_id'],
