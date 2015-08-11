@@ -275,7 +275,7 @@ tls_privatekey = /etc/exim4/exim.key
 tls_dhparam = /etc/exim4/dhparam.pem
 tls_require_ciphers = ${if =={$received_port}{25}\
 {NORMAL:%COMPAT:!VERS-SSL3.0}\
-{SECURE128}}
+{MAX}}
 
 
 ######################################################################
