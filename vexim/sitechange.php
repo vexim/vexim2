@@ -27,8 +27,8 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 <td><select name="localpart" class="textfield">
                         <?php
                         $query = "SELECT localpart,domain FROM users,domains
-		                    WHERE domains.domain_id=:domain_id
-		                    AND admin=1 AND users.domain_id=domains.domain_id";
+                            WHERE domains.domain_id=:domain_id
+                            AND admin=1 AND users.domain_id=domains.domain_id";
                         $sth = $dbh->prepare($query);
                         $sth->execute(array(':domain_id' => $_GET['domain_id']));
                         while ($row = $sth->fetch()) {

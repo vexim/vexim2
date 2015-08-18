@@ -6,7 +6,7 @@ include_once dirname(__FILE__) . '/config/httpheaders.php';
 
 if ($_GET['action'] == 'delete') {
     $query = "DELETE FROM blocklists WHERE block_id=:block_id
-		AND domain_id=:domain_id AND user_id=:user_id";
+        AND domain_id=:domain_id AND user_id=:user_id";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':block_id' => $_GET['block_id'],
         ':domain_id' => $_SESSION['domain_id'], ':user_id' => $_GET['user_id']));

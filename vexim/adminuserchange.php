@@ -5,8 +5,8 @@ include_once dirname(__FILE__) . '/config/functions.php';
 include_once dirname(__FILE__) . '/config/httpheaders.php';
 
 $query = "SELECT * FROM users WHERE user_id=:user_id
-	AND domain_id=:domain_id
-	AND (type='local' OR type='piped')";
+    AND domain_id=:domain_id
+    AND (type='local' OR type='piped')";
 $sth = $dbh->prepare($query);
 $sth->execute(array(':user_id' => $_GET['user_id'], ':domain_id' => $_SESSION['domain_id']));
 if ($sth->rowCount()) {

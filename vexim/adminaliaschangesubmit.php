@@ -72,7 +72,7 @@ $query = "UPDATE users SET localpart=:localpart,
     realname=:realname, admin=:admin, on_avscan=:on_avscan,
     on_spamassassin=:on_spamassassin, enabled=:enabled
     WHERE user_id=:user_id
-	AND domain_id=:domain_id AND type='alias'";
+    AND domain_id=:domain_id AND type='alias'";
 $sth = $dbh->prepare($query);
 $success = $sth->execute(array(
     ':localpart' => $_POST['localpart'],

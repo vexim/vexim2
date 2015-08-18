@@ -4,7 +4,7 @@ include_once dirname(__FILE__) . '/config/authpostmaster.php';
 include_once dirname(__FILE__) . '/config/functions.php';
 include_once dirname(__FILE__) . '/config/httpheaders.php';
 $query = "SELECT smtp FROM users WHERE user_id=:user_id
-	AND domain_id=:domain_id AND type='catch'";
+    AND domain_id=:domain_id AND type='catch'";
 $sth = $dbh->prepare($query);
 $sth->execute(array(':user_id' => $_GET['user_id'], ':domain_id' => $_SESSION['domain_id']));
 if ($sth->rowCount()) {

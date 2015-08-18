@@ -39,7 +39,7 @@ if ((isset($_POST['maxmsgsize'])) && ($_POST['maxmsgsize'] > $row['maxmsgsize'])
 
 if ($_POST['realname'] != "") {
     $query = "UPDATE users SET realname=:realname
-		WHERE user_id=:user_id";
+        WHERE user_id=:user_id";
     $sth = $dbh->prepare($query);
     $sth->execute(array(':realname' => $_POST['realname'], ':user_id' => $_SESSION['user_id']));
 }

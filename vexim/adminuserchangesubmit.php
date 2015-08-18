@@ -6,7 +6,7 @@ include_once dirname(__FILE__) . '/config/httpheaders.php';
 
 # confirm that the postmaster is updating a user they are permitted to change before going further
 $query = "SELECT * FROM users WHERE user_id=:user_id
-	AND domain_id=:domain_id AND (type='local' OR type='piped')";
+    AND domain_id=:domain_id AND (type='local' OR type='piped')";
 $sth = $dbh->prepare($query);
 $sth->execute(array(':user_id' => $_POST['user_id'], ':domain_id' => $_SESSION['domain_id']));
 if (!$sth->rowCount()) {
@@ -99,7 +99,7 @@ if (preg_match("/@/", $_POST['forwardmenu'])) {
 # Prevent de-admining the last admin
 $query = "SELECT COUNT(user_id) AS count FROM users
     WHERE admin=1 AND domain_id=:domain_id
-	AND (type='local' OR type='piped')
+    AND (type='local' OR type='piped')
     AND user_id!=:user_id";
 $sth = $dbh->prepare($query);
 $sth->execute(array(':domain_id' => $_SESSION['domain_id'], ':user_id' => $_POST['user_id']));

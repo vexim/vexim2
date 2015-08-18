@@ -52,7 +52,7 @@ if ($_GET['confirm'] == '1') {
 } else {
     $query = "SELECT COUNT(user_id) AS count FROM users
         WHERE admin=1 AND domain_id=:domain_id
-	    AND (type='local' OR type='piped')
+        AND (type='local' OR type='piped')
         AND user_id!=:user_id";
     $sth = $dbh->prepare($query);
     $sth->execute(array(':domain_id' => $_SESSION['domain_id'], ':user_id' => $_GET['user_id']));

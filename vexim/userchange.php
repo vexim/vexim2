@@ -18,7 +18,7 @@ if ($success) {
 }
 $blockquery = "SELECT block_id,blockhdr,blockval FROM blocklists,users
     WHERE blocklists.user_id=:user_id
-	AND users.user_id=blocklists.user_id";
+    AND users.user_id=blocklists.user_id";
 $blocksth = $dbh->prepare($blockquery);
 $blocksuccess = $blocksth->execute(array(':user_id' => $_SESSION['user_id']));
 ?>

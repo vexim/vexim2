@@ -62,7 +62,7 @@ include_once dirname(__FILE__) . '/config/httpheaders.php';
         $query = "SELECT user_id,localpart,smtp,realname,type,admin
             FROM users
             WHERE domain_id=:domain_id AND type='alias'
-		    ORDER BY localpart;";
+            ORDER BY localpart;";
         $sth = $dbh->prepare($query);
         $sth->execute(array(':domain_id' => $_SESSION['domain_id']));
         if ($sth->rowCount()) {

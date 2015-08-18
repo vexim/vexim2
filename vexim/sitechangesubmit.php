@@ -75,9 +75,9 @@ if ($groupinfo = @posix_getgrgid($gid)) {
 }
 
 $query = "UPDATE domains SET uid=:uid, gid=:gid, avscan=:avscan,
-	maxmsgsize=:maxmsgsize, pipe=:pipe, max_accounts=:max_accounts,
-	quotas=:quotas, sa_tag=:sa_tag, sa_refuse=:sa_refuse,
-	spamassassin=:spamassassin, enabled=:enabled
+    maxmsgsize=:maxmsgsize, pipe=:pipe, max_accounts=:max_accounts,
+    quotas=:quotas, sa_tag=:sa_tag, sa_refuse=:sa_refuse,
+    spamassassin=:spamassassin, enabled=:enabled
     WHERE domain_id=:domain_id";
 $sth = $dbh->prepare($query);
 $success = $sth->execute(array(':uid' => $uid, ':gid' => $gid,

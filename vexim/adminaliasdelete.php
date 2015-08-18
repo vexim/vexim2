@@ -9,7 +9,7 @@ if (array_key_exists('confirm', $_GET)) {
         $query = "DELETE FROM users
             WHERE user_id=:user_id
             AND domain_id=:domain_id
-	        AND (type='alias' OR type='catch')";
+            AND (type='alias' OR type='catch')";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array(':user_id' => $_GET['user_id'], ':domain_id' => $_SESSION['domain_id']));
         if ($success) {

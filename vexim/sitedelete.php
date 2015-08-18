@@ -58,8 +58,8 @@ if (($_POST['confirm'] == "1") && ($_POST['type'] != "alias")) {
 if ($_GET['type'] != "alias") {
     $query = "SELECT COUNT(*) AS count, domain, domains.type FROM users,domains
         WHERE (domains.domain_id=:domain_id
-		AND users.domain_id=domains.domain_id)
-		GROUP BY domain,domains.type";
+        AND users.domain_id=domains.domain_id)
+        GROUP BY domain,domains.type";
     $sth = $dbh->prepare($query);
     $sth->execute(array(':domain_id' => $_GET['domain_id']));
     $row = $sth->fetch();
