@@ -84,8 +84,7 @@ if ($sth->rowCount()) {
               able to log in, or if the Alias is the admin account'); ?>)
                     </td>
                 </tr>
-                <tr
-                    >
+                <tr>
                     <td><?php echo _('Verify Password'); ?>:</td>
                     <td>
                         <input name="vpassword" type="password" size="30" class="textfield">

@@ -24,8 +24,7 @@ if ($sth->rowCount()) {
     <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>
     <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
 </div>
-<div
-="Forms">
+<div="Forms">
 <?php
 # ensure this page can only be used to view/edit fail's that already exist for the domain of the admin account
 if (!$sth->rowCount()) {
