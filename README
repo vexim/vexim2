@@ -94,19 +94,19 @@ System user:
   belong. Since you do not want anyone to be able to login using that account,
   you should also disable logging in for that user. Here are the command lines
   to do that. This manual assumes you want to have your virtual mailboxes in
-  /var/spool/vexim. If you want them elsewhere, adjust the commands. After
+  /var/vmail. If you want them elsewhere, adjust the commands. After
   the user and group are created, find their uid and gid using the last command
   and memorize these values:
 
-  # useradd -r -m -U -s /bin/false -d /var/spool/vexim vexim
+  # useradd -r -m -U -s /bin/false -d /var/vmail vexim
   # id vexim
 
   FREEBSD: Instead of the commands above, you should probably use the following:
-  # pw useradd vexim -u 1,100 -g "" -d /var/spool/vexim -m -s /nonexistant
+  # pw useradd vexim -u 1,100 -g "" -d /var/vmail -m -s /nonexistant
   # id vexim
 
   DEBIAN: Use the following command instead:
-  # adduser --system --home /var/spool/vexim --disabled-password --disabled-login --group vexim
+  # adduser --system --home /var/vmail --disabled-password --disabled-login --group vexim
 
 
 Databases and authentication:
@@ -144,7 +144,7 @@ Databases and authentication:
     --
     -- Privileges:
     --
-    GRANT SELECT,INSERT,DELETE,UPDATE ON `vexim`.* to "vexim"@"localhost" 
+    GRANT SELECT,INSERT,DELETE,UPDATE ON `vexim`.* to "vexim"@"localhost"
         IDENTIFIED BY 'CHANGE';
     FLUSH PRIVILEGES;
 
@@ -169,7 +169,7 @@ Databases and authentication:
   UPGRADING:
     If you are upgrading your installation you will need to use the perl
     script. Executing it as:
-    # create_db.pl --act=migratemysql --dbtype=mysql --uid=90 --gid=90 --mailstore=/usr/local/mail
+    # create_db.pl --act=migratemysql --dbtype=mysql --uid=90 --gid=90 --mailstore=/var/vmail
     should work fine. Replace 'uid', 'gid' and 'mailstore' values with the ones
     you have from the "System user" step.
 
@@ -330,8 +330,8 @@ Mailman:
 
 Mail storage and Delivery:
   The mysql configuration assumes that mail will be stored in
-  /usr/local/mail/domain.com/username/Maildir. If you want to change the
-  path from '/usr/local/mail/', you need to edit the file:
+  /var/vmail/domain.com/username/Maildir. If you want to change the
+  path from '/var/vmail/', you need to edit the file:
     vexim/config/variables.php
   and change 'mailroot' to the correct path. Don't forget the / at the
   end.
