@@ -41,8 +41,7 @@ CREATE TABLE IF NOT EXISTS `vexim`.`users`
 	domain_id        mediumint(8)  unsigned  NOT NULL,
 	localpart        varchar(192)            NOT NULL  default '',
 	username         varchar(255)            NOT NULL  default '',
-	clear            varchar(255)                      default NULL,
-	crypt            varchar(48)                       default NULL,
+	crypt            varchar(255)                       default NULL,
 	uid              smallint(5)   unsigned  NOT NULL  default '65534',
 	gid              smallint(5)   unsigned  NOT NULL  default '65534',
 	smtp             varchar(255)                      default NULL,
@@ -148,9 +147,7 @@ INSERT INTO `vexim`.`users`
     smtp, pop, realname, type, admin
 )
 VALUES 
-(   '1', 'siteadmin', 'siteadmin', 'CHANGE', 
-    '$1$12345678$2lQK5REWxaFyGz.p/dos3/', '65535', '65535', '', '', 
-    'SiteAdmin', 'site', '1'
+(   '1', 'siteadmin', 'siteadmin', '$1$12345678$2lQK5REWxaFyGz.p/dos3/', '65535', '65535', '', '',  'SiteAdmin', 'site', '1'
 );
 
 -- fix password when using DES encrypted password:
