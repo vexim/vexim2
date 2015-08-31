@@ -26,7 +26,7 @@
       header ("Location: site.php?badpass={$_POST['domain']}");
       die;
     }
-  } 
+  }
 
 // User can specify either UID, or username, the former being preferred.
 // Using posix_getpwuid/posix_getgrgid even when we have an UID is so we
@@ -37,7 +37,7 @@
   if (isset ($_POST['gid'])) {
     $gid = $_POST['gid'];
   }
-  
+
   if ($userinfo = @posix_getpwuid ($uid)) {
     $uid = $userinfo['uid'];
   } elseif ($userinfo = @posix_getpwnam ($uid)) {
@@ -46,7 +46,7 @@
     header ("Location: site.php?failuidguid={$_POST['domain']}");
     die;
   }
-  
+
   if ($groupinfo = @posix_getgrgid ($gid)) {
     $gid = $groupinfo['gid'];
   } elseif ($groupinfo = @posix_getgrnam ($gid)) {
@@ -71,33 +71,22 @@
       ':spamassassin'=>$_POST['spamassassin'], ':enabled'=>$_POST['enabled'],
       ':domain_id'=>$_POST['domain_id'],
       ));
-  if ($success) {
-    header ("Location: site.php?updated={$_POST['domain']}");
-    die; 
-  } else {
-    header ("Location: site.php?failupdated={$_POST['domain']}");
-    die;
-  }
-  
 
-  if (isset($_POST['sadisable'])) {
+  if (isset($_POST['sadisable']) && $success) {
     $query = "UPDATE users SET on_spamassassin='0' WHERE domain_id=:domain_id";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':domain_id'=>$_POST['domain_id']));
-    if ($success) {
-      header ("Location: site.php?updated={$_POST['domain']}");
-      die;
-    }
   }
 
-  if (isset($_POST['avdisable'])) {
+  if (isset($_POST['avdisable']) && $success) {
     $query = "UPDATE users SET on_avscan='0' WHERE domain_id=:domain_id";
     $sth = $dbh->prepare($query);
     $success = $sth->excecute(array(':domain_id'=>$_POST['domain_id']));
-    if ($success) {
-      header ("Location: site.php?updated={$_POST['domain']}");
-      die;
-    }
+  }
+
+  if ($success) {
+    header ("Location: site.php?updated={$_POST['domain']}");
+    die;
   }
 
 # Just-in-case catchall
