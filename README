@@ -183,9 +183,9 @@ Files and Apache:
        directory.
   Both should work equally well.
 
-  After copying the 'vexim' directory, you should edit file 'variables.php',
-  which you'll find in is subdirectory called 'config'. Change the following
-  values defined in that file:
+  After copying the 'vexim' directory, you should find the 'variables.php.example',
+  file in its subdirectory called 'config', copy that file to 'variables.php' and
+  change the following values defined in it:
   * $sqlpass – to the vexim database user's password which you chose while
     editing 'mysql.sql' in the "Databases and authentication" step.
   * $uid, $gid and $mailroot to the values you have from the "System user" step.
