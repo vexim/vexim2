@@ -83,7 +83,3 @@
       header ("Location: userchange.php?userfailed");
       die;
     }
-
-  header ("Location: userchange.php?userupdated");
-?>
-<!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->
