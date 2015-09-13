@@ -206,7 +206,23 @@ sub create_mysqltables {
 	domain_id mediumint(8) unsigned NOT NULL,
 	localpart varchar(192) NOT NULL default '',
 	username varchar(255) NOT NULL default '',
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 	crypt varchar(255) default NULL,
+=======
+    crypt varchar(255) default NULL,
+>>>>>>> cbc2f19... Clean clear-field from configuration and setup files
+=======
+	crypt varchar(255) default NULL,
+>>>>>>> 0915874... fixing missing tab
+=======
+	crypt varchar(255) default NULL,
+>>>>>>> 0915874... fixing missing tab
+=======
+	crypt varchar(255) default NULL,
+>>>>>>> avleen/master
 	uid smallint(5) unsigned NOT NULL default '65534',
 	gid smallint(5) unsigned NOT NULL default '65534',
 	smtp varchar(255) default NULL,
