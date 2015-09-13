@@ -209,6 +209,7 @@ sub create_mysqltables {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	crypt varchar(255) default NULL,
 =======
     crypt varchar(255) default NULL,
@@ -219,6 +220,9 @@ sub create_mysqltables {
 =======
 	crypt varchar(255) default NULL,
 >>>>>>> 0915874... fixing missing tab
+=======
+	crypt varchar(255) default NULL,
+>>>>>>> avleen/master
 	uid smallint(5) unsigned NOT NULL default '65534',
 	gid smallint(5) unsigned NOT NULL default '65534',
 	smtp varchar(255) default NULL,
