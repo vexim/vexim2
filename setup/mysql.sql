@@ -141,7 +141,7 @@ INSERT INTO `vexim`.`domains` (domain_id, domain) VALUES ('1', 'admin');
 --
 INSERT INTO `vexim`.`users`
 (
-    domain_id, localpart, username, clear, crypt, uid, gid, 
+    domain_id, localpart, username, crypt, uid, gid, 
     smtp, pop, realname, type, admin
 )
 VALUES 
