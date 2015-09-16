@@ -189,7 +189,6 @@ sub create_mysqltables {
 	type varchar(5) default NULL,
 	avscan bool NOT NULL default '0',
 	blocklists bool NOT NULL default '0',
-	complexpass bool NOT NULL default '0',
 	enabled bool NOT NULL default '1',
 	mailinglists bool NOT NULL default '0',
 	maxmsgsize mediumint(8) unsigned NOT NULL default '0',
@@ -215,7 +214,6 @@ sub create_mysqltables {
 	admin bool NOT NULL default '0',
 	on_avscan bool NOT NULL default '0',
 	on_blocklist bool NOT NULL default '0',
-	on_complexpass bool NOT NULL default '0',
 	on_forward bool NOT NULL default '0',
 	on_piped bool NOT NULL default '0',
 	on_spamassassin bool NOT NULL default '0',
@@ -297,7 +295,6 @@ sub create_postgrestables {
 #	  type varchar(5) NOT NULL,
 #	  avscan smallint NOT NULL default '0',
 #	  blocklists smallint NOT NULL default '0',
-#	  complexpass smallint NOT NULL default '0',
 #	  enabled smallint NOT NULL default '1',
 #	  mailinglists smallint NOT NULL default '0',
 #	  pipe smallint NOT NULL default '0',
@@ -320,7 +317,6 @@ sub create_postgrestables {
 #	  admin smallint NOT NULL default '0',
 #	  on_avscan smallint NOT NULL default '0',
 #	  on_blocklist smallint NOT NULL default '0',
-#	  on_complexpass smallint NOT NULL default '0',
 #	  on_forward smallint NOT NULL default '0',
 #	  on_piped smallint NOT NULL default '0',
 #	  on_spamassassin smallint NOT NULL default '0',
@@ -470,7 +466,7 @@ sub migratemysql {
 		$unseencheck = "nope";
 	}
 
-$DBuserfields = "user_id,domain_id,localpart,username,crypt,uid,gid,smtp,pop,type,admin,on_avscan,on_blocklist,on_complexpass,on_forward,on_piped,on_spamassassin,on_vacation,enabled,flags,forward,maxmsgsize,quota,realname,sa_tag,sa_refuse,tagline,vacation";
+$DBuserfields = "user_id,domain_id,localpart,username,crypt,uid,gid,smtp,pop,type,admin,on_avscan,on_blocklist,on_forward,on_piped,on_spamassassin,on_vacation,enabled,flags,forward,maxmsgsize,quota,realname,sa_tag,sa_refuse,tagline,vacation";
 
 	if(($commentcheck  && $commentcheck eq "yes"))
 	{
