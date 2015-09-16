@@ -1,0 +1,1051 @@
+# Translation to Russian.
+# Copyright (C) 2015
+# This file is distributed under the same license as the Virtual Exim package.
+# Konstantin Smirnov <skv@ivsor.net>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Virtual Exim\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-06 21:30+0300\n"
+"PO-Revision-Date: 2015-06-06 21:30+0300\n"
+"Last-Translator: Konstantin Smirnov <skv@ivsor.net>\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin.php:9 adminalias.php:9 adminaliasadd.php:13 adminaliaschange.php:16
+#: adminaliasdelete.php:27 admincatchall.php:13 admincatchalladd.php:9
+#: adminfail.php:9 adminfailadd.php:9 adminfailchange.php:13 admingroup.php:8
+#: admingroupadd.php:8 admingroupchange.php:14 admingroupdelete.php:42
+#: adminlists.php:12 adminuser.php:21 adminuseradd.php:28
+#: adminuserchange.php:26 adminuserdelete.php:63 config/header.php:11
+#: index.php:8 site.php:18 siteadd.php:9 sitechange.php:9 sitedelete.php:55
+#: sitepassword.php:9 userchange.php:20
+msgid "Virtual Exim"
+msgstr "Виртуальный Exim"
+
+#: admin.php:20
+msgid "Add, delete and manage POP/IMAP accounts"
+msgstr "Добавление, удаление и управление POP/IMAP учётными записями"
+
+#: admin.php:29
+msgid "Add, delete and manage aliases, forwards and a Catchall"
+msgstr "Добавление, удаление и управление псевдонимами, переадресациями и сборщиками"
+
+#: admin.php:37
+msgid "Add, delete and manage groups"
+msgstr "Добавление, удаление и управление группами"
+
+#: admin.php:44
+msgid "Add, delete and manage :fail:'s"
+msgstr "Добавление, удаление и управление сбоями"
+
+#: admin.php:50
+msgid "Manage mailing lists"
+msgstr "Управление списками рассылок"
+
+#: admin.php:55 adminalias.php:26 adminaliasadd.php:21 adminaliaschange.php:25
+#: adminaliasdelete.php:35 admincatchall.php:21 admincatchalladd.php:18
+#: adminfail.php:17 adminfailadd.php:17 adminfailchange.php:22
+#: admingroup.php:17 admingroupadd.php:16 admingroupchange.php:23
+#: admingroupdelete.php:50 adminlists.php:20 adminuser.php:44
+#: adminuseradd.php:37 adminuserchange.php:35 adminuserdelete.php:71
+#: site.php:27 siteadd.php:17 sitechange.php:17 sitedelete.php:63
+#: sitepassword.php:17 userchange.php:26
+msgid "Logout"
+msgstr "Выйти"
+
+#: admin.php:68
+msgid "Domain data:"
+msgstr "Информация домена:"
+
+#: admin.php:72
+msgid "is an alias of"
+msgstr "является псевдонимом"
+
+#: adminalias.php:9 adminaliasadd.php:13 adminaliaschange.php:16
+#: admincatchall.php:13 admincatchalladd.php:9 adminfail.php:9
+#: adminfailadd.php:9 adminfailchange.php:13 adminuser.php:21
+#: adminuseradd.php:28 adminuserchange.php:26 userchange.php:20
+msgid "Manage Users"
+msgstr "Управление пользователями"
+
+#: adminalias.php:15 adminaliaschange.php:23 adminaliasdelete.php:33
+#: admincatchalladd.php:16
+msgid "Add Alias"
+msgstr "Добавить псевдоним"
+
+#: adminalias.php:21
+msgid "Add Catchall"
+msgstr "Добавить сборщик"
+
+#: adminalias.php:25 adminaliasadd.php:20 adminaliaschange.php:24
+#: adminaliasdelete.php:34 admincatchall.php:20 admincatchalladd.php:17
+#: adminfail.php:16 adminfailadd.php:16 adminfailchange.php:21
+#: admingroup.php:16 admingroupadd.php:15 admingroupchange.php:22
+#: admingroupdelete.php:49 adminlists.php:19 adminuser.php:43
+#: adminuseradd.php:36 adminuserchange.php:34 adminuserdelete.php:70
+msgid "Main Menu"
+msgstr "Главное меню"
+
+#: adminalias.php:32
+msgid "Alias"
+msgstr "Псевдоним"
+
+#: adminalias.php:33
+msgid "Target address"
+msgstr "Конечный адрес"
+
+#: adminalias.php:34
+msgid "Forwards to.."
+msgstr "Переадресовать на.."
+
+#: adminalias.php:35 adminaliasadd.php:66 adminaliaschange.php:93
+#: adminuser.php:70 adminuserchange.php:168 sitechange.php:23
+msgid "Admin"
+msgstr "Админ"
+
+#: adminalias.php:47 adminalias.php:74
+msgid "Delete alias "
+msgstr "Удалить псевдоним"
+
+#: adminalias.php:88 adminuser.php:118
+msgid " is an administrator"
+msgstr " яавляется администратором"
+
+#: adminalias.php:97
+msgid "Note"
+msgstr "Примечание"
+
+#: adminalias.php:99
+msgid "You can only have one catchall per domain."
+msgstr "Вы можете настроить только один сборщик на домен"
+
+#: adminalias.php:101
+msgid ""
+"It will catch and forward all email that does not get delivered to a "
+"specific mailbox."
+msgstr ""
+"Сюда будут попадать все письма, которые не были доставлены в "
+"конкретные почтовые ящики."
+
+#: adminaliasadd.php:19 adminaliaschange.php:22 admincatchall.php:19
+#: admincatchalladd.php:15
+msgid "Manage Aliases"
+msgstr "Управление псевдонимами"
+
+#: adminaliasadd.php:27 adminaliaschange.php:39 admincatchall.php:35
+#: admincatchalladd.php:24
+msgid "Alias Name"
+msgstr "Имя псевдонима"
+
+#: adminaliasadd.php:31 adminaliaschange.php:46 adminuseradd.php:49
+msgid "Address"
+msgstr "Адрес"
+
+#: adminaliasadd.php:39 adminaliaschange.php:62
+msgid ""
+"Multiple addresses should be comma separated,\n"
+"                with no spaces"
+msgstr ""
+"Несколько адресов должны быть разделены запятыми\n"
+"                 без пробелов"
+
+#: adminaliasadd.php:44 adminaliaschange.php:68
+msgid "Forward To"
+msgstr "Пересылать на"
+
+#: adminaliasadd.php:48 adminaliaschange.php:75 adminuseradd.php:56
+#: adminuserchange.php:63 index.php:47 siteadd.php:45 sitechange.php:42
+#: sitepassword.php:23 userchange.php:33
+msgid "Password"
+msgstr "Пароль"
+
+#: adminaliasadd.php:55
+msgid ""
+"Password only needed if you want the user to be able\n"
+"              to log in, or if the Alias is the admin account"
+msgstr ""
+"Пароль необходим только в случае, если вы хотите, чтобы\n"
+"пользователь мог заходить или псевдоним - учётная запись администратора"
+
+#: adminaliasadd.php:60 adminaliaschange.php:87 adminuseradd.php:62
+#: adminuserchange.php:69 siteadd.php:51 sitechange.php:43 sitepassword.php:24
+#: userchange.php:34
+msgid "Verify Password"
+msgstr "Проверка пароля"
+
+#: adminaliasadd.php:71 adminaliaschange.php:102 adminuseradd.php:117
+#: adminuserchange.php:179 userchange.php:49
+msgid "Anti-Virus"
+msgstr "Антивирус"
+
+#: adminaliasadd.php:77 adminaliaschange.php:111 adminuseradd.php:124
+#: adminuserchange.php:191 sitechange.php:60 userchange.php:56
+msgid "Spamassassin"
+msgstr "Антиспам"
+
+#: adminaliasadd.php:84 adminaliaschange.php:120 admingroup.php:25
+#: admingroupchange.php:56 admingroupchange.php:87 adminuseradd.php:156
+#: adminuserchange.php:223 sitechange.php:65
+msgid "Enabled"
+msgstr "Включено"
+
+#: adminaliasadd.php:91 adminaliaschange.php:131 admincatchall.php:57
+#: admincatchalladd.php:40 adminfailadd.php:32 adminfailchange.php:51
+#: admingroupadd.php:31 admingroupchange.php:160 adminlists.php:38
+#: adminuseradd.php:161 adminuserchange.php:364 index.php:53 siteadd.php:180
+#: sitepassword.php:25
+msgid "Submit"
+msgstr "Применить"
+
+#: adminaliaschange.php:82
+msgid ""
+"Password only needed if you want the user to be\n"
+"              able to log in, or if the Alias is the admin account"
+msgstr ""
+"Пароль необходим только в случае, если вы хотите, чтобы\n"
+"пользователь мог заходить или псевдоним - учётная запись администратора"
+
+#: adminaliasdelete.php:27 admingroupdelete.php:42 adminuserdelete.php:63
+#: sitedelete.php:55
+msgid "Confirm Delete"
+msgstr "Подтвердить удаление"
+
+#: adminaliasdelete.php:42
+#, php-format
+msgid "Please confirm deleting alias %s@%s"
+msgstr "Пожалуйста, подтвердите удаление псевдонима %s@%s"
+
+#: adminaliasdelete.php:51 admingroupdelete.php:66 adminuserdelete.php:87
+#, php-format
+msgid "Do Not Delete %s@%s"
+msgstr "Не удалять %s@%s"
+
+#: adminaliasdelete.php:60 admingroupdelete.php:75 adminuserdelete.php:96
+#, php-format
+msgid "Delete %s@%s"
+msgstr "Удалить %s@%s"
+
+#: adminaliasdelete.php:75 admingroupdelete.php:90 adminuserdelete.php:111
+#: sitedelete.php:80
+msgid "Continue"
+msgstr "Продолжить"
+
+#: admincatchall.php:36 admincatchalladd.php:25
+msgid "Catchall"
+msgstr "Сборщик"
+
+#: admincatchall.php:39 admincatchalladd.php:28
+msgid "Forward email addressed to"
+msgstr "Пересылать почту адресованную"
+
+#: admincatchall.php:43 admincatchalladd.php:32
+msgid "Forward the email to"
+msgstr "Пересылать почту на"
+
+#: admincatchall.php:47 admincatchalladd.php:34 adminuserchange.php:256
+#: userchange.php:78
+msgid "Must be a full e-mail address"
+msgstr "Должен быть указан полный почтовый адрес"
+
+#: adminfail.php:15 adminfailchange.php:20
+msgid "Add Fail"
+msgstr "Добавить сбой"
+
+#: adminfail.php:23
+msgid "Failed Address"
+msgstr "Сбойный адрес"
+
+#: adminfail.php:38
+msgid "Delete fail "
+msgstr "Удалить сбой"
+
+#: adminfailadd.php:15 adminfailchange.php:19
+msgid "Manage Fails"
+msgstr "Управление сбоями"
+
+#: adminfailadd.php:23
+msgid "Address to fail"
+msgstr "Адрес на сбой"
+
+#: adminfailchange.php:36
+msgid "Fail address"
+msgstr "Сбой адрес"
+
+#: admingroup.php:8
+msgid "List groups"
+msgstr "Список групп"
+
+#: admingroup.php:14 admingroupadd.php:8 admingroupchange.php:21
+#: admingroupdelete.php:48
+msgid "Add Group"
+msgstr "Добавить группу"
+
+#: admingroup.php:23 adminuser.php:61 adminuser.php:69
+msgid "Email address"
+msgstr "Почтовый адрес"
+
+#: admingroup.php:24 admingroupchange.php:48
+msgid "Is public"
+msgstr "Публичная"
+
+#: admingroup.php:37
+msgid "Delete group"
+msgstr "Удалить группу"
+
+#: admingroup.php:43
+msgid "Click to modify "
+msgstr "Изменить "
+
+#: admingroup.php:49
+msgid "Anyone can write to"
+msgstr "Любой сможет писать на"
+
+#: admingroup.php:55
+msgid " is enabled"
+msgstr " включено"
+
+#: admingroupadd.php:14 admingroupchange.php:20
+msgid "Manage Groups"
+msgstr "Управлять группами"
+
+#: admingroupadd.php:22 admingroupchange.php:38
+msgid "Group Address"
+msgstr "Адрес группы"
+
+#: admingroupchange.php:14
+msgid "Edit group"
+msgstr "Редактировать группу"
+
+#: admingroupchange.php:85
+msgid "Real name"
+msgstr "Настоящее имя"
+
+#: admingroupchange.php:86 adminuserchange.php:57 userchange.php:32
+msgid "Email Address"
+msgstr "Почтвый адрес"
+
+#: admingroupchange.php:122
+msgid "There are no members in this group"
+msgstr "В этой группе нет членов"
+
+#: admingroupchange.php:133
+msgid "Add Member"
+msgstr "Добавить члена"
+
+#: admingroupdelete.php:57
+#, php-format
+msgid "Please confirm deleting group %s@%s"
+msgstr "Пожалуйста, подтвердите удаление группы %s@%s"
+
+#: adminlists.php:12
+msgid "Mailing List Administration"
+msgstr "Управление списками рассылок"
+
+#: adminlists.php:18
+msgid "Add a list"
+msgstr "Добавить список рассылки"
+
+#: adminlists.php:27
+msgid "Please enter the name of the list to admin"
+msgstr "Пожалуйста, введите имя администрируемого списка"
+
+#: adminuser.php:27 adminuserdelete.php:69
+msgid "Add User"
+msgstr "Добавить пользователя"
+
+#: adminuser.php:51 site.php:35
+msgid "Search"
+msgstr "Искать"
+
+#: adminuser.php:54
+msgid "in"
+msgstr "в"
+
+#: adminuser.php:58 adminuser.php:68
+msgid "User"
+msgstr "Пользователь"
+
+#: adminuser.php:63 site.php:40
+msgid "search"
+msgstr "искать"
+
+#: adminuser.php:100 adminuser.php:108
+msgid "Click to modify"
+msgstr "Изменить"
+
+#: adminuseradd.php:35 adminuserchange.php:33
+msgid "Manage Accounts"
+msgstr "Управление учётными записями"
+
+#: adminuseradd.php:43 adminuserchange.php:50 userchange.php:31
+msgid "Name"
+msgstr "Имя"
+
+#: adminuseradd.php:70 adminuserchange.php:77
+msgid "Generate password"
+msgstr "Сгенерировать пароль"
+
+#: adminuseradd.php:72 adminuserchange.php:79
+msgid "Copy"
+msgstr "Копировать"
+
+#: adminuseradd.php:78 adminuserchange.php:85
+msgid "UID"
+msgstr ""
+
+#: adminuseradd.php:82 adminuserchange.php:92
+msgid "GID"
+msgstr ""
+
+#: adminuseradd.php:88 adminuserchange.php:111
+#, php-format
+msgid "Mailbox quota (%s Mb max)"
+msgstr "Ковта почтового ящика (максимум %s Мб)"
+
+#: adminuseradd.php:89 adminuserchange.php:116 siteadd.php:100
+msgid "Mb"
+msgstr "Мб"
+
+#: adminuseradd.php:93
+msgid "Has domain admin privileges?"
+msgstr "Имеет права администратора домена?"
+
+#: adminuseradd.php:98
+msgid "Pipe to command"
+msgstr "Команда получения потока"
+
+#: adminuseradd.php:103 adminuserchange.php:147
+msgid "Optional"
+msgstr "Не обязательно"
+
+#: adminuseradd.php:104
+msgid "Pipe all mail to a command (e.g. procmail)"
+msgstr "Пересылать всю почту потоком на команду (например, procmail)"
+
+#: adminuseradd.php:106 adminuserchange.php:150
+msgid "Check box below to enable"
+msgstr "Установите флажёк ничже для включения"
+
+#: adminuseradd.php:110
+msgid "Enable piped command?"
+msgstr "Разрешить потоковую команду?"
+
+#: adminuseradd.php:128 adminuserchange.php:199 siteadd.php:115
+#: sitechange.php:56
+msgid "Spamassassin tag score"
+msgstr "Уровень тэга антиспама"
+
+#: adminuseradd.php:132
+msgid ""
+"The score at which to tag potential spam\n"
+"              mail but still deliver"
+msgstr ""
+"Уровень при котором считать почту спамом,\n"
+"              но всё равно доставлять"
+
+#: adminuseradd.php:137 adminuserchange.php:206 siteadd.php:126
+#: sitechange.php:58
+msgid "Spamassassin refuse score"
+msgstr "Уровень отброса антиспамом"
+
+#: adminuseradd.php:143
+msgid ""
+"The score at which to refuse potential spam mail\n"
+"                and not deliver"
+msgstr ""
+"Уровень при котором считать почту спамом\n"
+"                и не доставлять"
+
+#: adminuseradd.php:149 adminuserchange.php:216 siteadd.php:104
+#: sitechange.php:54 userchange.php:66
+msgid "Maximum message size"
+msgstr "Максимальный размер письма"
+
+#: adminuseraddsubmit.php:141
+#, php-format
+msgid "Welcome %s!"
+msgstr "Добро пожаловать %s!"
+
+#: adminuserchange.php:100
+msgid ""
+"When you update the UID or GID, please make sure\n"
+"                your MTA still has permission to create the required user\n"
+"                directories!"
+msgstr ""
+"Когда вы меняете UID и GID, убедитесь,"
+"                что ваш почтовый агент имеет право создавать требуемые папки"
+"                пользователей"
+
+#: adminuserchange.php:129
+#, php-format
+msgid "Space used:"
+msgstr "Занято пространства:"
+
+#: adminuserchange.php:139
+msgid "Pipe to command or alternative Maildir"
+msgstr "Поток на команду или альтернативная почтовая папка"
+
+#: adminuserchange.php:148
+msgid "Pipe all mail to a command (e.g. procmail)."
+msgstr "Пересылать всю почту потоком на команду (например, procmail)"
+
+#: adminuserchange.php:154
+msgid "Enable piped command or alternative Maildir?"
+msgstr "Включить потоковую команду или альтернативную почтовую папку"
+
+#: adminuserchange.php:231
+msgid "Vacation on"
+msgstr "Отсутствую"
+
+#: adminuserchange.php:239 userchange.php:71
+msgid "Vacation message"
+msgstr "Сообщение об отсутствии"
+
+#: adminuserchange.php:244
+msgid "Forwarding on"
+msgstr "Пересылка на"
+
+#: adminuserchange.php:252 userchange.php:76
+msgid "Forward mail to"
+msgstr "Пересылать почту на"
+
+#: adminuserchange.php:257
+msgid "OR"
+msgstr "ИЛИ"
+
+#: adminuserchange.php:279 userchange.php:79
+msgid "Store Forwarded Mail Locally"
+msgstr "Сохранять локальную копию переадресованной почты"
+
+#: adminuserchange.php:297
+msgid "Aliases to this account"
+msgstr "Псевдоимы для этой учётной записи"
+
+#: adminuserchange.php:338
+msgid "Add a new header blocking filter for this user"
+msgstr "Добавить новый фильтр блокировки заголовка"
+
+#: adminuserchange.php:343
+msgid "Header"
+msgstr "Заголовок"
+
+#: adminuserchange.php:346 userchange.php:89
+msgid "From"
+msgstr "Отправитель"
+
+#: adminuserchange.php:347 userchange.php:90
+msgid "To"
+msgstr "Получатель"
+
+#: adminuserchange.php:348 userchange.php:91
+msgid "Subject"
+msgstr "Тема"
+
+#: adminuserchange.php:349 userchange.php:92
+msgid "X-Mailer"
+msgstr "Почтовая программа"
+
+#: adminuserchange.php:371 site.php:123 site.php:149 userchange.php:100
+msgid "Delete"
+msgstr "Удалить"
+
+#: adminuserchange.php:372 userchange.php:100
+msgid "Blocked Header"
+msgstr "Заблокированный заголовок"
+
+#: adminuserchange.php:373 userchange.php:100
+msgid "Content"
+msgstr "Содержимое"
+
+#: adminuserdelete.php:78
+#, php-format
+msgid "Please confirm deleting user %s@%s"
+msgstr "Пожалуйста, подтвердите удаление пользователя %s@%s"
+
+#: config/functions.php:108
+msgid "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+msgstr ""
+
+#: config/header.php:16
+msgid "-- domain disabled (please see your administrator)."
+msgstr "-- домен отключен (обратитесь к администратору)."
+
+#: config/header.php:18
+msgid "-- account disabled (please see your administrator)."
+msgstr "-- учетная запись отключена (обратитесь к администратору)."
+
+#: config/header.php:22
+#, php-format
+msgid "-- %s has been successfully added."
+msgstr "-- %s был успешно добавлен."
+
+#: config/header.php:24
+#, php-format
+msgid "-- %s has been successfully deleted."
+msgstr "-- %s был успешно удалён."
+
+#: config/header.php:26
+#, php-format
+msgid ""
+"-- %s is the last admin account. Create another admin account before "
+"deleting or demoting this one."
+msgstr ""
+"-- %s последняя учётная запись администратора. Создайте новую учётную запись администртора "
+"перед удалением этой."
+
+#: config/header.php:28
+msgid "-- Site Admin password has been successfully updated."
+msgstr "-- Пароль администратора сайта был успешно обновлен."
+
+#: config/header.php:30
+#, php-format
+msgid "-- %s has been successfully updated."
+msgstr "-- %s был успешно обновлен."
+
+#: config/header.php:32
+#, php-format
+msgid "-- The account could not be added as the name %s is already in use."
+msgstr "-- Учетная запись не может быть добавлена, т.к имя %s уже используется"
+
+#: config/header.php:34
+msgid "-- Your update was sucessful."
+msgstr "-- Ваши зменения успешно внесены"
+
+#: config/header.php:36
+msgid "-- Your account could not be updated. Was your password blank?"
+msgstr "-- Ваша учетная запись не может быть обновлена. Пароль вероятно не задан"
+
+#: config/header.php:38
+msgid "-- Your account has been succesfully updated."
+msgstr "-- Ваша учетная запись была успешно обновлена"
+
+#: config/header.php:40
+#, php-format
+msgid ""
+"-- Your vacation message was too long: %1$d characters. It has been "
+"truncated at %2$d."
+msgstr "-- Ваше сообщение об отсутствии слишком длинное: %1$d символов."
+"Оно было обрезано до %2$d символов."
+
+#: config/header.php:43
+#, php-format
+msgid ""
+"-- Account %s could not be added. Your passwords do not match, or contain "
+"illegal characters: ' \" ` or ;"
+msgstr ""
+"-- Учётная запись %s не может быть добавлен. Пароли не совпадают или "
+"содержат запрещённые смиволы: ' \" ` or ;"
+
+#: config/header.php:45
+#, php-format
+msgid "-- %s contains invalid characters."
+msgstr "-- %s содержит запрещённые символы"
+
+#: config/header.php:47
+#, php-format
+msgid ""
+"-- Account %s could not be added. Your passwords were blank, do not match, "
+"or contain illegal characters: ' \" ` or ;"
+msgstr ""
+"-- Учётная запись %s не может быть добавлен. Пароли пустые, не совпадают или "
+"содержат запрещённые смиволы: ' \" ` or ;"
+
+#: config/header.php:49
+msgid "-- The destination domain you specified does not exist."
+msgstr "-- Указанный вами конечный домен не существует."
+
+#: config/header.php:51
+msgid "-- You can not specify a blank realname."
+msgstr "-- Вы не можете указать пустое имя"
+
+#: config/header.php:53
+#, php-format
+msgid "-- %s could not be added."
+msgstr "-- %s не может быть добавлен."
+
+#: config/header.php:55
+#, php-format
+msgid ""
+"-- Domain %s could not be added. The passwords were blank, or did not match."
+msgstr ""
+"-- Домен %s не может быть добавлен. Пароли пустые или не совпадают."
+
+
+#: config/header.php:57
+#, php-format
+msgid ""
+"-- Domain %s could not be added. There was a problem adding the admin "
+"account."
+msgstr ""
+"-- Домен %s не может быть добавлен. Проблема при добавлении учётной записи "
+"администратора."
+
+#: config/header.php:59
+#, php-format
+msgid "-- %s was not deleted."
+msgstr "-- %s не удалён."
+
+#: config/header.php:61
+#, php-format
+msgid "-- %s could not be updated."
+msgstr "-- %s  не может быть обновлён."
+
+#: config/header.php:64
+#, php-format
+msgid "-- Deletion of %s was canceled."
+msgstr "-- Удаление %s отменено."
+
+#: config/header.php:66
+msgid "-- This domain is currently disabled. Please see your administrator."
+msgstr "-- Этот домен в настоящий момент отключен. Пожалуйста, обратитесь к администратору."
+
+#: config/header.php:68
+msgid ""
+"-- Your Domain Account Limit Has Been Reached. Please contact your "
+"administrator."
+msgstr ""
+"-- Был достигнут лимит пользователей в вашем домене. Пожалуйста, обратитесь "
+"к администратору."
+
+#: config/header.php:70
+#, php-format
+msgid ""
+"-- The quota you specified was too high. The maximum quota you can specify "
+"is: %s MB."
+msgstr ""
+"-- Вы задали слишком большую квоту. Максимальная ковта, которую вы можете "
+"задать, составляет %s Мб."
+
+#: config/header.php:72
+#, php-format
+msgid "-- Group %s has been successfully deleted."
+msgstr "-- Группа %s была успешно удалена."
+
+#: config/header.php:74
+#, php-format
+msgid "-- Group %s has been successfully added."
+msgstr "-- Группа %s была успешно добавлена."
+
+#: config/header.php:76
+#, php-format
+msgid "-- Group %s was not deleted."
+msgstr "-- Группа %s не удалена."
+
+#: config/header.php:78
+#, php-format
+msgid "-- Group %s failed to be added."
+msgstr "-- Группу %s не возможно добавить."
+
+#: config/header.php:80
+#, php-format
+msgid "-- Group %s has been updated."
+msgstr "-- Группа %s была обновлена."
+
+#: config/header.php:82
+#, php-format
+msgid "-- Group %s could not be updated."
+msgstr "-- Группа %s не может быть обновлена."
+
+#: config/header.php:84
+#, php-format
+msgid "-- Error getting UID/GID for %s"
+msgstr "-- Ошибка удаления UID/GID для %s"
+
+#: config/header.php:86 index.php:61
+msgid "Login failed"
+msgstr "Вход не удался"
+
+#: index.php:17
+msgid "Username"
+msgstr "Пользователь"
+
+#: site.php:18 sitepassword.php:9
+msgid "Manage Sites"
+msgstr "Управление сайтами"
+
+#: site.php:23
+msgid "Add alias domain"
+msgstr "Добавить псевдоним домена"
+
+#: site.php:24
+msgid "Add local domain"
+msgstr "Добавить локальный домен"
+
+#: site.php:25
+msgid "Add relay domain"
+msgstr "Добавить домен ретрансляции"
+
+#: site.php:26 siteadd.php:16 sitechange.php:16 sitedelete.php:62
+#: sitepassword.php:16
+msgid "Site Password"
+msgstr "Пароль сайта"
+
+#: site.php:45
+msgid "Local domains"
+msgstr "Локальные домены"
+
+#: site.php:46
+msgid "Admin account"
+msgstr "Учётные записи администраторов"
+
+#: site.php:47
+msgid "Total admins"
+msgstr "Всего администраторов"
+
+#: site.php:85
+msgid "Multiple admins"
+msgstr "Несколько администраторов"
+
+#: site.php:98
+msgid "WARNING"
+msgstr "ПРЕДУПРЕЖДЕНИЕ"
+
+#: site.php:100
+msgid ""
+"Deleting a domain will delete all user accounts in that\n"
+"              domain permanently!"
+msgstr ""
+"Удаление домена приведёт к необратимому удалению всех учётных записей\n"
+"              этого домена!"
+
+#: site.php:108
+msgid "Relay domains"
+msgstr "Домены ретрансляции"
+
+#: site.php:135
+msgid "Aliased domains"
+msgstr "Домены псевдонимы"
+
+#: siteadd.php:9 siteadd.php:15 sitechange.php:9 sitechange.php:15
+#: sitedelete.php:61 sitepassword.php:15
+msgid "Manage Domains"
+msgstr "Управление доменами"
+
+#: siteadd.php:23
+msgid "New Domain"
+msgstr "Новый домен"
+
+#: siteadd.php:26
+msgid "The name of the new domain you are adding"
+msgstr "Имя добавляемого домена"
+
+#: siteadd.php:33
+msgid "Domain Admin"
+msgstr "Администратор домена"
+
+#: siteadd.php:40
+msgid "The username of the domain's administrator account"
+msgstr "Имя учётной записи администратора домена"
+
+#: siteadd.php:57 sitechange.php:49
+msgid "System UID"
+msgstr "Системный UID"
+
+#: siteadd.php:64 sitechange.php:50
+msgid "System GID"
+msgstr "Системный GID"
+
+#: siteadd.php:71
+msgid "Domain Mail directory"
+msgstr "Папка почты домена"
+
+#: siteadd.php:78
+msgid ""
+"Create the domain directory below this top-level\n"
+"                  mailstore"
+msgstr ""
+"Создать папку домена ниже этого уровня\n"
+"                  хранилища почты"
+
+#: siteadd.php:85 sitechange.php:51
+msgid "Maximum accounts"
+msgstr "Максимальное количество учётных записей"
+
+#: siteadd.php:86 sitechange.php:51
+msgid "0 for unlimited"
+msgstr "0 - без ограничений"
+
+#: siteadd.php:95
+msgid "Max mailbox quota"
+msgstr "Максимальный размер квоты почтового ящика"
+
+#: siteadd.php:96 sitechange.php:52
+msgid "0 for disabled"
+msgstr "0 - для отключения"
+
+#: siteadd.php:107 userchange.php:67
+msgid "Kb"
+msgstr "Кб"
+
+#: siteadd.php:110
+msgid ""
+"The maximum size for incoming mail (user\n"
+"                tunable)"
+msgstr ""
+"Максимальный размер входящей почты (настраивается\n"
+"                пользователем)"
+
+#: siteadd.php:121
+msgid ""
+"The score at the \"X-Spam-Flag: YES\" header will\n"
+"                be added"
+msgstr ""
+"Уровень при котором будет добавлен зоголовок\n"
+"\"X-Spam-Flag: YES\""
+
+#: siteadd.php:131
+msgid ""
+"The score at which to refuse potentially spam\n"
+"              mail and not deliver"
+msgstr ""
+"Уровень отсечки потенциального спама\n"
+"              без доставки почты"
+
+#: siteadd.php:136
+msgid "Spamassassin enabled?"
+msgstr "Антиспам включён?"
+
+#: siteadd.php:142
+msgid "Anti Virus enabled?"
+msgstr "Антивирус включён?"
+
+#: siteadd.php:148
+msgid "Enable piping mail to command?"
+msgstr "Включить перенаправление потока почты команде?"
+
+#: siteadd.php:154
+msgid "Domain enabled?"
+msgstr "Домен включен?"
+
+#: siteadd.php:164
+msgid "Redirect messages to domain"
+msgstr "Перенаправлять сообщения на домен"
+
+#: siteaddsubmit.php:114 siteaddsubmit.php:123
+msgid "Welcome Domain Admin!"
+msgstr "Добро пожаловать, Администратор домена!"
+
+#: sitechange.php:21
+msgid "Modify Domain Admin"
+msgstr "Изменить администратора домена"
+
+#: sitechange.php:44 userchange.php:36
+msgid "Submit Password"
+msgstr "Применить пароль"
+
+#: sitechange.php:47
+msgid "Modify Domain Properties"
+msgstr "Изменить параметры домена"
+
+#: sitechange.php:52
+msgid "Max mailbox quota in Mb"
+msgstr "Квота почтового ящика в Мб"
+
+#: sitechange.php:62
+msgid "Anti-virus"
+msgstr "Антивирус"
+
+#: sitechange.php:63
+msgid "Piping to command"
+msgstr "Перенаправление потока команде"
+
+#: sitechange.php:68
+msgid "Submit Changes"
+msgstr "Применить изменения"
+
+#: sitechange.php:71
+msgid "Disable SpamAssassin for all domain users"
+msgstr "Отключить антиспам для всех пользователей домена"
+
+#: sitechange.php:71 sitechange.php:77
+msgid "Warning: cannot be reversed!"
+msgstr "Предупреждение: не обратимо!"
+
+#: sitechange.php:74 sitechange.php:80
+msgid "Disable"
+msgstr "Отключить"
+
+#: sitechange.php:77
+msgid "Disable Anti-Virus for all domain users"
+msgstr "Отключить антивирус для всех пользователей домена"
+
+#: sitedelete.php:68
+#, php-format
+msgid "Please confirm deleting domain %s."
+msgstr "Подтвердите удаление домена %s."
+
+#: sitedelete.php:71
+#, php-format
+msgid "There is currently <b>%1$d</b> account in domain %2$s"
+msgid_plural "There are currently <b>%1$d</b> accounts in domain %2$s"
+msgstr[0] "Домен %2$s содержит <b>%1$d</b> учетную запись"
+msgstr[1] "Домен %2$s содержит <b>%1$d</b> учетных записей"
+
+#: sitedelete.php:75
+#, php-format
+msgid "Do Not Delete %s"
+msgstr "Не удалять %s"
+
+#: sitedelete.php:76
+#, php-format
+msgid "Delete %s"
+msgstr "Удалить %s"
+
+#: sitepassword.php:22
+msgid "Change SiteAdmin Password"
+msgstr "Изменить пароль администратора сайта"
+
+#: userchange.php:35
+msgid "Attempting to set blank passwords does not work!"
+msgstr "Попытка установить пустой пароль не сработает!"
+
+#: userchange.php:35
+msgid "Note:"
+msgstr "Примечание:"
+
+#: userchange.php:43
+#, php-format
+msgid "Your mailbox quota is currently: %s Mb"
+msgstr "Квота вашего почтового ящика составляет: %s Мб"
+
+#: userchange.php:45
+msgid "Your mailbox quota is currently: Unlimited"
+msgstr "Размер вашего почтового ящика не ограничен"
+
+#: userchange.php:61
+msgid "SpamAssassin tag score"
+msgstr "Уровень тэга антиспама"
+
+#: userchange.php:63
+msgid "SpamAssassin refuse score"
+msgstr "Уровень отброса антиспамом"
+
+#: userchange.php:68
+msgid "Vacation enabled"
+msgstr "Отсутствие включено"
+
+#: userchange.php:73
+msgid "Forwarding enabled"
+msgstr "Пересылка включена"
+
+#: userchange.php:82
+msgid "Submit Profile"
+msgstr "Применить профиль"
+
+#: userchange.php:87
+msgid "Add a new header blocking filter"
+msgstr "Добавить новый фильтр блокировки заголовков"
+
+msgid "How to handle mail above the SA refuse score"
+msgstr "Письма, превышающие уровень отброса антиспамом"
+
+msgid "move to Spam-folder"
+msgstr "перемещать в папку Spam"
+
+msgid "delete - you cannot restore these mails"
+msgstr "удалять без возможности восстановления"
