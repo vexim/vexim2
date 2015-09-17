@@ -67,7 +67,7 @@
        ':localpart' => $_POST['localpart'],
        ':username' => $_POST['localpart'] . '@' . $_SESSION['domain'],
        ':domain_id' => $_SESSION['domain_id'],
-       ':crypt' => crypt_password($_POST['clear'],$salt),
+       ':crypt' => crypt_password($_POST['clear']),
        ':smtp' => $aliasto,
        ':pop' => $aliasto,
        ':realname' => $_POST['realname'],
