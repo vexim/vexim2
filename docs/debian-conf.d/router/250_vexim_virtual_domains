@@ -116,7 +116,7 @@ virtual_dom_groups:
                   g.name        = '${quote_mysql:$local_part}'} }
   # using local_part_suffixes enables possibility to use user-"something" localparts
   # which could cause you trouble if you're creating email-adresses with dashes in between.
-  local_part_suffix = -*
+  local_part_suffix = +*
   local_part_suffix_optional
   retry_use_local_part
   reply_transport = address_reply

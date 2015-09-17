@@ -77,7 +77,7 @@ ALIAS_DOMAINS = SELECT DISTINCT alias FROM domainalias WHERE alias = '${quote_my
 domainlist local_domains = @ : example.org : ${lookup mysql{VIRTUAL_DOMAINS}} : ${lookup mysql{ALIAS_DOMAINS}}
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost : @ : 192.168.0.0/24
-trusted_users = vexim:www-data
+#trusted_users = www-data
 
 #Debian: hide mysql_servers = localhost::(/var/run/mysqld/mysqld.sock)/vexim/vexim/CHANGE
 #hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
@@ -480,8 +480,8 @@ ditch_maxmsgsize:
 		and domain = '${quote_mysql:$domain}' \
 		and users.maxmsgsize > 0 \
 		and users.domain_id=domains.domain_id}{${value}K}fail} Kb.
-#  local_part_suffix = -*
-#  local_part_suffix_optional
+  local_part_suffix = +*
+  local_part_suffix_optional
   retry_use_local_part
 
 # malware drop router
@@ -544,8 +544,8 @@ ditch_hdrmailer:
   			and domains.domain = '${quote_mysql:$domain}' \
 			and domains.domain_id=blocklists.domain_id \
 			and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
-#  local_part_suffix = -*
-#  local_part_suffix_optional
+  local_part_suffix = +*
+  local_part_suffix_optional
   retry_use_local_part
 
 ditch_hdrto:
@@ -559,8 +559,8 @@ ditch_hdrto:
   			and domains.domain = '${quote_mysql:$domain}' \
 			and domains.domain_id=blocklists.domain_id \
 			and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
-#  local_part_suffix = -*
-#  local_part_suffix_optional
+  local_part_suffix = +*
+  local_part_suffix_optional
   retry_use_local_part
 
 ditch_hdrfrom:
@@ -574,9 +574,9 @@ ditch_hdrfrom:
   			and domains.domain = '${quote_mysql:$domain}' \
 			and domains.domain_id=blocklists.domain_id \
 			and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
-  local_part_suffix = -*
-#  local_part_suffix_optional
-#  retry_use_local_part
+  local_part_suffix = +*
+  local_part_suffix_optional
+  retry_use_local_part
 
 ditch_hdrsubject:
   driver = redirect
@@ -589,8 +589,8 @@ ditch_hdrsubject:
   			and domains.domain = '${quote_mysql:$domain}' \
 			and domains.domain_id=blocklists.domain_id \
 			and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
-#  local_part_suffix = -*
-#  local_part_suffix_optional
+  local_part_suffix = +*
+  local_part_suffix_optional
   retry_use_local_part
 
 virtual_vacation:
@@ -701,7 +701,7 @@ virtual_dom_groups:
                   d.domain_id   = u.domain_id   and \
                   u.enabled     = '1'           and \
                   g.name        = '${quote_mysql:$local_part}'} }
-  local_part_suffix = -*
+  local_part_suffix = +*
   local_part_suffix_optional
   retry_use_local_part
   reply_transport = address_reply

@@ -23,6 +23,8 @@ ditch_maxmsgsize:
         and domain = '${quote_mysql:$domain}' \
         and users.maxmsgsize > 0 \
         and users.domain_id=domains.domain_id}{${value}K}fail} Kb.
+    local_part_suffix = +*
+    local_part_suffix_optional
     retry_use_local_part
 
 # malware drop router
@@ -85,6 +87,8 @@ ditch_hdrmailer:
         and domains.domain = '${quote_mysql:$domain}' \
         and domains.domain_id=blocklists.domain_id \
         and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
+    local_part_suffix = +*
+    local_part_suffix_optional
     retry_use_local_part
 
 ditch_hdrto:
@@ -98,6 +102,8 @@ ditch_hdrto:
         and domains.domain = '${quote_mysql:$domain}' \
         and domains.domain_id=blocklists.domain_id \
         and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
+    local_part_suffix = +*
+    local_part_suffix_optional
     retry_use_local_part
 
 ditch_hdrfrom:
@@ -111,6 +117,8 @@ ditch_hdrfrom:
         and domains.domain = '${quote_mysql:$domain}' \
         and domains.domain_id=blocklists.domain_id \
         and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
+    local_part_suffix = +*
+    local_part_suffix_optional
     retry_use_local_part
 
 ditch_hdrsubject:
@@ -124,5 +132,6 @@ ditch_hdrsubject:
         and domains.domain = '${quote_mysql:$domain}' \
         and domains.domain_id=blocklists.domain_id \
         and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
+    local_part_suffix = +*
+    local_part_suffix_optional
     retry_use_local_part
-

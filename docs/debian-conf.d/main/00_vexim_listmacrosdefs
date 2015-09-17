@@ -17,7 +17,7 @@ MAIN_RELAY_TO_DOMAINS = MAIN_RELAY_TO_DOMAINS : ${lookup mysql{VEXIM_RELAY_DOMAI
 #MAIN_HARDCODE_PRIMARY_HOSTNAME=myhostname
 
 # add vexim system user
-#MAIN_TRUSTED_USERS = vexim
+#MAIN_TRUSTED_USERS = www-data
 
 # enable TLS
 #MAIN_TLS_ENABLE = true
