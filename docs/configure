@@ -77,8 +77,9 @@ ALIAS_DOMAINS = SELECT DISTINCT alias FROM domainalias WHERE alias = '${quote_my
 domainlist local_domains = @ : example.org : ${lookup mysql{VIRTUAL_DOMAINS}} : ${lookup mysql{ALIAS_DOMAINS}}
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost : @ : 192.168.0.0/24
-trusted_users = avleen:www
+trusted_users = vexim:www-data
 
+#Debian: hide mysql_servers = localhost::(/var/run/mysqld/mysqld.sock)/vexim/vexim/CHANGE
 #hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
 
@@ -195,6 +196,7 @@ spamd_address = 127.0.0.1 783
 # default setting means you cannot deliver mail addressed to root as if it
 # were a normal user. This isn't usually a problem, as most sites have an alias
 # for root that redirects such mail to a human administrator.
+# In Debian exim_user and exim_group are Debian-exim
 
 exim_user = mailnull
 exim_group = mail
@@ -749,8 +751,8 @@ system_aliases:
   allow_fail
   allow_defer
   data = ${lookup{$local_part}lsearch{/etc/aliases}}
-  user = mailnull
-  group = mail
+  user = vexim
+  group = vexim
   file_transport = address_file
   pipe_transport = address_pipe
 
