@@ -99,7 +99,7 @@
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
                 ':username'=>$_POST['localpart'].'@'.$_POST['domain'],
-                ':crypt'=>crypt_password($_POST['clear'],$salt),
+                ':crypt'=>crypt_password($_POST['clear']),
                 ':uid'=>$uid, ':gid'=>$gid, ':smtp'=>$smtphomepath,
                 ':pop'=>$pophomepath,
                 ':domain'=>$_POST['domain'],
