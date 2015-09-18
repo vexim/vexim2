@@ -70,8 +70,10 @@ virtual_domains:
                            } {X-Spam-Score:X-Spam-Report} }
   # using local_part_suffixes enables possibility to use user-"something" localparts
   # which could cause you trouble if you're creating email-adresses with dashes in between.
-  local_part_suffix = -*
-  local_part_suffix_optional
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
   retry_use_local_part
   file_transport = virtual_delivery
   reply_transport = address_reply
@@ -116,8 +118,10 @@ virtual_dom_groups:
                   g.name        = '${quote_mysql:$local_part}'} }
   # using local_part_suffixes enables possibility to use user-"something" localparts
   # which could cause you trouble if you're creating email-adresses with dashes in between.
-  local_part_suffix = +*
-  local_part_suffix_optional
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
   retry_use_local_part
   reply_transport = address_reply
   pipe_transport = address_pipe

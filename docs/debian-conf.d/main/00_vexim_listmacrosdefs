@@ -32,5 +32,9 @@ MAIN_RELAY_TO_DOMAINS = MAIN_RELAY_TO_DOMAINS : ${lookup mysql{VEXIM_RELAY_DOMAI
 #CHECK_RCPT_REVERSE_DNS = true
 #CHECK_RCPT_SPF = true
 
+# If the local-part suffix is used, mails to user+whatevertext@example.org will be delivered to user@example.org
+# Comment this line if you want to disable it, instead of + you can use a different separator.
+VEXIM_LOCALPART_SUFFIX = +*
+
 CHECK_RCPT_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-rcpt.conf
 CHECK_DATA_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-content.conf

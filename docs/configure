@@ -79,6 +79,10 @@ domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost : @ : 192.168.0.0/24
 #trusted_users = www-data
 
+# If the local-part suffix is used, mails to user+whatevertext@example.org will be delivered to user@example.org
+# Comment this line if you want to disable it, instead of + you can use a different separator.
+VEXIM_LOCALPART_SUFFIX = +*
+
 #Debian: hide mysql_servers = localhost::(/var/run/mysqld/mysqld.sock)/vexim/vexim/CHANGE
 #hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
@@ -480,8 +484,10 @@ ditch_maxmsgsize:
 		and domain = '${quote_mysql:$domain}' \
 		and users.maxmsgsize > 0 \
 		and users.domain_id=domains.domain_id}{${value}K}fail} Kb.
-  local_part_suffix = +*
-  local_part_suffix_optional
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
   retry_use_local_part
 
 # malware drop router
@@ -544,8 +550,10 @@ ditch_hdrmailer:
   			and domains.domain = '${quote_mysql:$domain}' \
 			and domains.domain_id=blocklists.domain_id \
 			and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
-  local_part_suffix = +*
-  local_part_suffix_optional
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
   retry_use_local_part
 
 ditch_hdrto:
@@ -559,8 +567,10 @@ ditch_hdrto:
   			and domains.domain = '${quote_mysql:$domain}' \
 			and domains.domain_id=blocklists.domain_id \
 			and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
-  local_part_suffix = +*
-  local_part_suffix_optional
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
   retry_use_local_part
 
 ditch_hdrfrom:
@@ -574,8 +584,10 @@ ditch_hdrfrom:
   			and domains.domain = '${quote_mysql:$domain}' \
 			and domains.domain_id=blocklists.domain_id \
 			and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
-  local_part_suffix = +*
-  local_part_suffix_optional
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
   retry_use_local_part
 
 ditch_hdrsubject:
@@ -589,8 +601,10 @@ ditch_hdrsubject:
   			and domains.domain = '${quote_mysql:$domain}' \
 			and domains.domain_id=blocklists.domain_id \
 			and users.user_id=blocklists.user_id}}}{1} {yes}{no}}
-  local_part_suffix = +*
-  local_part_suffix_optional
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
   retry_use_local_part
 
 virtual_vacation:
@@ -658,8 +672,10 @@ virtual_domains:
 			   } {X-Spam-Score:X-Spam-Report} }
   # using local_part_suffixes enables possibility to use user-"something" localparts
   # which could cause you trouble if you're creating email-adresses with dashes in between.
-  local_part_suffix = -*
-  local_part_suffix_optional
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
   retry_use_local_part
   file_transport = virtual_delivery
   reply_transport = address_reply
@@ -701,8 +717,10 @@ virtual_dom_groups:
                   d.domain_id   = u.domain_id   and \
                   u.enabled     = '1'           and \
                   g.name        = '${quote_mysql:$local_part}'} }
-  local_part_suffix = +*
-  local_part_suffix_optional
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
   retry_use_local_part
   reply_transport = address_reply
   pipe_transport = address_pipe
@@ -752,8 +770,8 @@ system_aliases:
   allow_fail
   allow_defer
   data = ${lookup{$local_part}lsearch{/etc/aliases}}
-  user = vexim
-  group = vexim
+  user = mailnull
+  group = mail
   file_transport = address_file
   pipe_transport = address_pipe
 
