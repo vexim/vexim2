@@ -3,7 +3,7 @@
   include_once dirname(__FILE__) . '/config/authpostmaster.php';
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
-  $query = "SELECT localpart,realname,smtp,on_avscan,on_spamassassin,
+  $query = "SELECT localpart,realname,smtp,on_avscan,on_spamassassin,sa_tag,sa_refuse,spam_drop,
     admin,enabled FROM users 	
 	WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
   $sth = $dbh->prepare($query);
@@ -115,6 +115,31 @@
               <?php if ($row['on_spamassassin'] == 1) {
                 print "checked";
               } ?> class="textfield">
+            </td>
+          </tr>
+          <tr>
+            <td><?php echo _('Spamassassin tag score'); ?>:</td>
+            <td>
+                <input type="text" size="5" name="sa_tag"
+                  value="<?php echo $row['sa_tag']; ?>" class="textfield">
+            </td>
+          </tr>
+          <tr>
+            <td><?php echo _('Spamassassin refuse score'); ?>:</td>
+            <td>
+                <input type="text" size="5" name="sa_refuse"
+                  value="<?php echo $row['sa_refuse']; ?>" class="textfield">
+            </td>
+          </tr>
+          <tr>
+            <td><?php echo _('How to handle mail above the SA refuse score'); ?>:</td>
+            <td>
+               <input type="radio" id="off" name="spam_drop" value="0"<?php if ($row['spam_drop'] == "0") {
+                  print " checked"; }?>>
+               <label for="off"> <?PHP echo _('forward spam mails'); ?></label><br>
+               <input type="radio" id="on" name="spam_drop" value="1"<?php if ($row['spam_drop'] == "1") {
+                  print " checked"; }?>>
+               <label for="on"><?PHP echo _('delete spam mails'); ?></label><br>
             </td>
           </tr>
           <tr>
