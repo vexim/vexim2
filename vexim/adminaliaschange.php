@@ -11,7 +11,16 @@
   if ($sth->rowCount()) {
     $row = $sth->fetch();
   }
+  $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains
+    WHERE domain_id=:domain_id";
+  $domsth = $dbh->prepare($domquery);
+  $domsth->execute(array(':domain_id'=>$_SESSION['domain_id']));
+  if ($domsth->rowCount()) {
+    $domrow = $domsth->fetch();
+  }
 ?>
+
+
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
@@ -99,6 +108,9 @@
               } ?> class="textfield">
             </td>
           </tr>
+          <?php
+           if ($domrow['avscan'] == "1") {
+        ?>
           <tr>
             <td><?php echo _('Anti-Virus'); ?>:</td>
             <td>
@@ -108,6 +120,10 @@
               } ?> class="textfield">
             </td>
           </tr>
+          <?php
+           }
+           if ($domrow['spamassassin'] == "1") {
+        ?>
           <tr>
             <td><?php echo _('Spamassassin'); ?>:</td>
             <td>
@@ -142,6 +158,9 @@
                <label for="on"><?PHP echo _('delete spam mails'); ?></label><br>
             </td>
           </tr>
+          <?php
+	   }
+          ?>
           <tr>
             <td><?php echo _('Enabled'); ?>:</td>
             <td>

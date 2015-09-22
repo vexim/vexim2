@@ -41,6 +41,7 @@
       <form name="userchange" method="post" action="userchangesubmit.php">
 	</table>
 	<table align="center">
+         <?php if($row['type']!="alias") { ?>
 	  <tr><td colspan="2"><?php
 	    if ($row['quota'] != "0") {
 	      printf (_("Your mailbox quota is currently: %s Mb"), $row['quota']);
@@ -51,6 +52,7 @@
            </td>
 	  </tr>
         <?php
+          }
           if ($domrow['avscan'] == "1") {
         ?>
 	  <tr>
@@ -92,7 +94,7 @@
   	    <td>
                <input type="radio" id="off" name="spam_drop" value="0"<?php if ($row['spam_drop'] == "0") {
                   print " checked"; }?>>
-               <label for="off"> <?PHP echo _('move to Spam-folder'); ?></label><br>
+               <label for="off"> <?PHP if($row['type']=="alias") { echo _('forward spam mails'); } else { echo _('move to Spam-folder'); } ?></label><br>
                <input type="radio" id="on" name="spam_drop" value="1"<?php if ($row['spam_drop'] == "1") {
                   print " checked"; }?>>
                <label for="on"><?PHP echo _('delete - you cannot restore these mails'); ?></label><br>
@@ -100,6 +102,7 @@
   	  </tr>
           <?php
             }
+          if($row['type']!="alias") {
           ?>
   	  <tr>
   	    <td><?php echo _('Maximum message size'); ?>:</td>
@@ -139,11 +142,14 @@
         </td></tr>
   	  <tr><td><?php echo  _("Store Forwarded Mail Locally");?>:</td>
   	    <td><input name="unseen" type="checkbox"
-          <?php if($row['unseen'] == "1") { print " checked "; } ?>
+          <?php if($row['unseen'] == "1") { print " checked "; } ?>>
         </td></tr>
+      <?php }
+      ?>
   	  <tr><td></td><td class="button"><input name="submit" type="submit" value="<?php echo _("Submit Profile"); ?>"></td></tr>
   </table>
   </form>
+<?php if ($row['type']!="alias") { ?>
   <form name="blocklist" method="post" action="userblocksubmit.php">
     <table align="center">
   	  <tr><td><?php echo _("Add a new header blocking filter"); ?>:</td></tr>
@@ -168,6 +174,8 @@
       }
 	?>
       </table>
+<?php }
+?>
     </div>
   </body>
 </html>
