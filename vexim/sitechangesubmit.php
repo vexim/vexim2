@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
-  $success = FALSE;
+  $success = false;
   if (isset($_POST['sadisable'])) {$action = 'sadisable';}
   if (isset($_POST['avdisable'])) {$action = 'avdisable';}
   if (isset($_POST['avscan'])) {$_POST['avscan'] = 1;} else {$_POST['avscan'] = 0;}
