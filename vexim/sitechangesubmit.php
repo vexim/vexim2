@@ -4,6 +4,9 @@
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
+  $success = FALSE;
+  if (isset($_POST['sadisable'])) {$action = 'sadisable';}
+  if (isset($_POST['avdisable'])) {$action = 'avdisable';}
   if (isset($_POST['avscan'])) {$_POST['avscan'] = 1;} else {$_POST['avscan'] = 0;}
   if (isset($_POST['spamassassin'])) {$_POST['spamassassin'] = 1;} else {$_POST['spamassassin'] = 0;}
   if (isset($_POST['enabled'])) {$_POST['enabled'] = 1;} else {$_POST['enabled'] = 0;}
@@ -56,32 +59,33 @@
     die;
   }
 
-  $query = "UPDATE domains SET uid=:uid, gid=:gid, avscan=:avscan,
-		maxmsgsize=:maxmsgsize, pipe=:pipe, max_accounts=:max_accounts,
-		quotas=:quotas, sa_tag=:sa_tag, sa_refuse=:sa_refuse,
-		spamassassin=:spamassassin, enabled=:enabled
+  switch ($action) {
+    case 'sadisable':
+      $query = "UPDATE users SET on_spamassassin='0' WHERE domain_id=:domain_id";
+      $sth = $dbh->prepare($query);
+      $success = $sth->execute(array(':domain_id'=>$_POST['domain_id']));
+      break;
+    case 'avdisable':
+      $query = "UPDATE users SET on_avscan='0' WHERE domain_id=:domain_id";
+      $sth = $dbh->prepare($query);
+      $success = $sth->excecute(array(':domain_id'=>$_POST['domain_id']));
+      break;
+    default:
+      $query = "UPDATE domains SET uid=:uid, gid=:gid, avscan=:avscan,
+        maxmsgsize=:maxmsgsize, pipe=:pipe, max_accounts=:max_accounts,
+        quotas=:quotas, sa_tag=:sa_tag, sa_refuse=:sa_refuse,
+        spamassassin=:spamassassin, enabled=:enabled
         WHERE domain_id=:domain_id";
-  $sth = $dbh->prepare($query);
-  $success = $sth->execute(array(':uid'=>$uid, ':gid'=>$gid,
-      ':avscan'=>$_POST['avscan'], ':maxmsgsize'=>$_POST['maxmsgsize'],
-      ':pipe'=>$_POST['pipe'], ':max_accounts'=>$_POST['max_accounts'],
-      ':quotas'=>$_POST['quotas'],
-      ':sa_tag'=>((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0),
-      ':sa_refuse'=>((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0),
-      ':spamassassin'=>$_POST['spamassassin'], ':enabled'=>$_POST['enabled'],
-      ':domain_id'=>$_POST['domain_id'],
-      ));
-
-  if (isset($_POST['sadisable']) && $success) {
-    $query = "UPDATE users SET on_spamassassin='0' WHERE domain_id=:domain_id";
-    $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':domain_id'=>$_POST['domain_id']));
-  }
-
-  if (isset($_POST['avdisable']) && $success) {
-    $query = "UPDATE users SET on_avscan='0' WHERE domain_id=:domain_id";
-    $sth = $dbh->prepare($query);
-    $success = $sth->excecute(array(':domain_id'=>$_POST['domain_id']));
+      $sth = $dbh->prepare($query);
+      $success = $sth->execute(array(':uid'=>$uid, ':gid'=>$gid,
+        ':avscan'=>$_POST['avscan'], ':maxmsgsize'=>$_POST['maxmsgsize'],
+        ':pipe'=>$_POST['pipe'], ':max_accounts'=>$_POST['max_accounts'],
+        ':quotas'=>$_POST['quotas'],
+        ':sa_tag'=>((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0),
+        ':sa_refuse'=>((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0),
+        ':spamassassin'=>$_POST['spamassassin'], ':enabled'=>$_POST['enabled'],
+        ':domain_id'=>$_POST['domain_id'],
+        ));
   }
 
   if ($success) {
