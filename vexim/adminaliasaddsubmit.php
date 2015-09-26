@@ -57,9 +57,10 @@
   $aliasto = preg_replace("/[', ']+/", ",", $_POST['smtp']);
   if (alias_validate_password($_POST['clear'], $_POST['vclear'])) {
     $query = "INSERT INTO users
-      (localpart, username, domain_id, crypt, smtp, pop, uid, gid, realname, type, admin, on_avscan, on_spamassassin, enabled)
+      (localpart, username, domain_id, crypt, smtp, pop, uid, gid, realname, type, admin, on_avscan, 
+       on_spamassassin, sa_tag, sa_refuse, spam_drop, enabled)
       SELECT :localpart, :username, :domain_id, :crypt, :smtp, :pop, uid, gid, :realname, 'alias', :admin,
-      :on_avscan, :on_spamassassin, :enabled
+      :on_avscan, :on_spamassassin, :sa_tag, :sa_refuse, :spam_drop, :enabled
       FROM domains
       WHERE domains.domain_id=:domain_id";
     $sth = $dbh->prepare($query);
@@ -74,6 +75,9 @@
        ':admin' => $_POST['admin'],
        ':on_avscan' => $_POST['on_avscan'],
        ':on_spamassassin' => $_POST['on_spamassassin'],
+       ':sa_tag' => $_POST['sa_tag'],
+       ':sa_refuse' => $_POST['sa_refuse'],
+       ':spam_drop' => $_POST['spam_drop'],
        ':enabled' => $_POST['enabled']
        ));
        

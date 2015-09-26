@@ -3,7 +3,7 @@
   include_once dirname(__FILE__) . '/config/authpostmaster.php';
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
-  $query = "SELECT avscan,spamassassin FROM domains
+  $query = "SELECT * FROM domains
     WHERE domain_id=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
@@ -69,18 +69,41 @@
           </tr>
           <?php
             if ($row['avscan'] == "1") {
-              print '<tr><td>' . _('Anti-Virus')
-                . ':</td><td>'
-                . '<input name="on_avscan" type="checkbox" class="textfield">'
-                . '</td></tr>';
-            }
-            if ($row['spamassassin'] == "1") {
-              print '<tr><td>' . _('Spamassassin')
-              . ':</td><td>'
-              . '<input name="on_spamassassin" type="checkbox" class="textfield">'
-              . '</td></tr>';
-            }
           ?>
+          <tr>
+            <td><?php echo _('Anti-Virus'); ?>:</td>
+            <td colspan="2"><input name="on_avscan" type="checkbox"></td>
+          </tr>
+          <?php } 
+            if ($row['spamassassin'] == "1") {
+          ?>
+          <tr>
+            <td><?php echo _('Spamassassin'); ?>:</td>
+            <td colspan="2"><input name="on_spamassassin" type="checkbox"></td>
+          </tr>
+          <tr>
+            <td><?php echo _('Spamassassin tag score'); ?>:</td>
+            <td colspan="2">
+              <input name="sa_tag" size="5" type="text" class="textfield"
+                value="<?php echo $row['sa_tag']; ?>"></td>
+          </tr>
+          <tr>
+            <td><?php echo _('Spamassassin refuse score'); ?>:</td>
+            <td colspan="2">
+              <input name="sa_refuse" size="5" type="text" class="textfield"
+                value="<?php echo $row['sa_refuse']; ?>">
+            </td>
+          </tr>
+          <tr>
+            <td><?php echo _('How to handle mail above the SA refuse score'); ?>:</td>
+            <td>
+             <input type="radio" id="off" name="spam_drop" value="0" checked>
+             <label for="off"> <?PHP echo _('forward Spam mails'); ?></label><br>
+             <input type="radio" id="on" name="spam_drop" value="1">
+             <label for="on"><?PHP echo _('delete Spam mails'); ?></label><br>
+            </td>
+          </tr>
+          <?php } ?>
           <tr>
             <td><?php echo _('Enabled'); ?>:</td>
             <td>

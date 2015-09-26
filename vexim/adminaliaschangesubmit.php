@@ -5,7 +5,7 @@
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
   # confirm that the postmaster is updating an alias they are permitted to change before going further  
-  $query = "SELECT localpart,realname,smtp,on_spamassassin,
+  $query = "SELECT localpart,realname,smtp,on_spamassassin,sa_tag,sa_refuse,spam_drop,
     admin,enabled FROM users 
 	WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
   $sth = $dbh->prepare($query);
@@ -69,7 +69,8 @@
   $query = "UPDATE users SET localpart=:localpart,
     username=:username, smtp=:smtp, pop=:pop,
     realname=:realname, admin=:admin, on_avscan=:on_avscan,
-    on_spamassassin=:on_spamassassin, enabled=:enabled
+    on_spamassassin=:on_spamassassin, sa_tag=:sa_tag, sa_refuse=:sa_refuse,
+    spam_drop=:spam_drop,enabled=:enabled
     WHERE user_id=:user_id
 	AND domain_id=:domain_id AND type='alias'";
   $sth = $dbh->prepare($query);
@@ -82,6 +83,9 @@
     ':admin'=>$_POST['admin'],
     ':on_avscan'=>$_POST['on_avscan'],
     ':on_spamassassin'=>$_POST['on_spamassassin'],
+    ':sa_tag'=>$_POST['sa_tag'],
+    ':sa_refuse'=>$_POST['sa_refuse'],
+    ':spam_drop'=>$_POST['spam_drop'],
     ':enabled'=>$_POST['enabled'],
     ':user_id'=>$_POST['user_id'],
     ':domain_id'=>$_SESSION['domain_id']
