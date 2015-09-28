@@ -173,7 +173,7 @@ These control which domains you accept mail for and deliver locally (local_domai
 domainlist local_domains = @ : example.org : ${lookup mysql{VIRTUAL_DOMAINS}} : ${lookup mysql{ALIAS_DOMAINS}}
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost : @ : 192.168.0.0/24
-trusted_users = avleen:www
+#trusted_users = www-data
 ```
 Specify here, the username and group under which Exim runs. This combination is also that under which mailman must run in order to work:
 ```
@@ -233,6 +233,8 @@ Mailman needs to be installed if you want to use mailing lists. The default loca
 
 #### Mail storage and Delivery:
 The mysql configuration assumes that mail will be stored in /var/vmail/domain.com/username/Maildir. If you want to change the path from '/var/vmail/', you need to edit the file:
+>vexim/config/variables.php.example
+and save it as
 >vexim/config/variables.php
 
 and change 'mailroot' to the correct path. Don't forget the / at the end.
