@@ -131,13 +131,13 @@ Both should work equally well.
 After copying the 'vexim' directory, you should find the 'variables.php.example', file in its subdirectory called 'config', copy that file to 'variables.php' and change the following values defined in it:
 * $sqlpass – to the vexim database user's password which you chose while editing 'mysql.sql' in the "Databases and authentication" step.
 * $uid, $gid and $mailroot to the values you have from the "System user" step.
-* If your system uses DES passwords, change '$cryptscheme' to "des".
+* $cryptscheme is set to "sha512", a more specific configuration and other crypt-schemes can be used.
 
 Other, less interesting options are documented in the comments of that file. Feel free to explore them as well.
 
 
 ##### Exim configuration:
-**NOTE:** the configuration files supplied here are really old and should be revised. You probably should NOT really use them as-is, instead just look at them for inspiration. Actually, that file, as it is now, likely will not even work!
+**NOTE:** the configuration files supplied here have been revised. You should use them carfully and report problems!
 
 An example Exim 'configure' file, has been included with this distribution as 'docs/configure'. Copy this to the location Exim expects its configuration file to be on your installation. You will also need to copy docs/vexim* to /usr/local/etc/exim/. The following lines are important and will have to be edited if you are using this configure, or copied to your own configure file:
 
@@ -233,8 +233,6 @@ Mailman needs to be installed if you want to use mailing lists. The default loca
 
 #### Mail storage and Delivery:
 The mysql configuration assumes that mail will be stored in /var/vmail/domain.com/username/Maildir. If you want to change the path from '/var/vmail/', you need to edit the file:
->vexim/config/variables.php.example
-and save it as
 >vexim/config/variables.php
 
 and change 'mailroot' to the correct path. Don't forget the / at the end.
@@ -246,7 +244,7 @@ There are many POP3 and IMAP daemons available today. Few of them are good, and 
 
 Instructions for installing these have been included in this tarball in the following files:
 * **Qpopper:** docs/clients/qpop-mysql.txt
-* **Courier-IMAP:** docs/clients/freebsd-courierimap.txt (FreeBSD HOWTO)
+* **Courier-IMAP:** docs/clients/courierimap.txt
 * **Dovecot:** docs/clients/dovecot.txt
 
 These documents are pretty clear and you should be able to use them as a template when compiling from source on most Unixes. Just remember the switches on 'configure' scripts for enabling mysql support :-)
