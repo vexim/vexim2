@@ -131,13 +131,13 @@ Both should work equally well.
 After copying the 'vexim' directory, you should find the 'variables.php.example', file in its subdirectory called 'config', copy that file to 'variables.php' and change the following values defined in it:
 * $sqlpass – to the vexim database user's password which you chose while editing 'mysql.sql' in the "Databases and authentication" step.
 * $uid, $gid and $mailroot to the values you have from the "System user" step.
-* $cryptscheme is set to "sha512", a more specific configuration and other crypt-schemes can be used.
+* $cryptscheme is set to "sha512", a more specific configuration or other crypt-schemes can be used.
 
 Other, less interesting options are documented in the comments of that file. Feel free to explore them as well.
 
 
 ##### Exim configuration:
-**NOTE:** the configuration files supplied here have been revised. You should use them carfully and report problems!
+**NOTE:** the configuration files supplied here have been revised. You should use them carefully and report problems!
 
 An example Exim 'configure' file, has been included with this distribution as 'docs/configure'. Copy this to the location Exim expects its configuration file to be on your installation. You will also need to copy docs/vexim* to /usr/local/etc/exim/. The following lines are important and will have to be edited if you are using this configure, or copied to your own configure file:
 
