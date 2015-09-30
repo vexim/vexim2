@@ -36,7 +36,7 @@ Configuring Dovecot to work with Virtual Exim
 
       driver = mysql
       connect = host=/var/run/mysqld/mysqld.sock dbname=vexim user=vexim password=CHANGE
-      default_pass_scheme = CRYPT
+      default_pass_scheme = CRYPT #PLAIN
       password_query = \
         SELECT `username` AS `user`, `crypt` AS `password`, \
           `pop` AS `userdb_home`, `uid` AS `userdb_uid`, `gid` AS `userdb_gid` \
@@ -45,6 +45,4 @@ Configuring Dovecot to work with Virtual Exim
    Dovecot expects the select to return a set of columns with particular
    names, hence usage of the 'AS' keyword above.
 
-3. There's no step 3! Just restart Dovecot, and it should work.
-
-                               Written in 2013 by Rimas Kudelis <rq@akl.lt>
+3. Just restart Dovecot, and it should work.

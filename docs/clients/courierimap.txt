@@ -9,6 +9,11 @@ Installing Courier-IMAP 2.x on FreeBSD:
       cp imapd.dist imapd
       vi imapd
 
+Installing Courier-IMAP on Debian: 
+      apt-get install courier-imap courier-imap-ssl courier-pop courier-pop-ssl courier-authlib-mysql courier-authdaemon
+
+
+General Instructions:
       Now, replace the following lines:
       > Replace: AUTHMODULES="authdaemon"
       > with: AUTHMODULES="authmysql"
@@ -22,8 +27,9 @@ Installing Courier-IMAP 2.x on FreeBSD:
       following contents:
       MYSQL_SERVER localhost
       MYSQL_USERNAME vexim
-      MYSQL_PASSWORD change
+      MYSQL_PASSWORD CHANGE
       MYSQL_SOCKET /tmp/mysql.sock
+      ** Debian: /var/run/mysqld/mysqld.sock
       MYSQL_PORT 3306
       MYSQL_OPT 0
       MYSQL_DATABASE vexim
@@ -35,6 +41,7 @@ Installing Courier-IMAP 2.x on FreeBSD:
       MYSQL_HOME_FIELD pop
       MYSQL_NAME_FIELD realname
 
+FreeBSD:
       Finally, perform these steps to move the startup scripts into
       place, and start the daemons:
       cd /usr/local/etc/rc.d
@@ -42,3 +49,7 @@ Installing Courier-IMAP 2.x on FreeBSD:
       mv pop3d.sh.dist pop3d.sh
       /usr/local/etc/rc.d/imapd.sh start
       /usr/local/etc/rc.d/pop3d.sh start
+
+Debian:
+      Restart the daemons
+      for i in /etc/init.d/courier*; do $i restart; done

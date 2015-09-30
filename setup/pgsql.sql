@@ -76,7 +76,7 @@ INSERT INTO users (domain_id, localpart, username, crypt, uid, gid, smtp, pop, r
   		VALUES ('1',
 		'siteadmin',
 		'siteadmin',
-		'\$1\$12345678\$2lQK5REWxaFyGz.p/dos3/',
+		'$6$uR.EiB1dj5rrvwMF$Qh5LgdjOZavKXwhi9IF0Yuzu7qxsG.dLTTB8e./55ZRNfBuZVLnfUSOEXa0oWT6174myO.WYkOy83HYWAKPbK/',
 		'65535',
 		'65535',
 		'',

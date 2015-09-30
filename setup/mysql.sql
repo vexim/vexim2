@@ -1,3 +1,5 @@
+-- Password for siteadmin is CHANGE. SHA512 is used by default, other
+-- crypting schemes can be found at the end of this file
 --
 -- Database: `vexim`
 --
@@ -145,10 +147,13 @@ INSERT INTO `vexim`.`users`
     smtp, pop, realname, type, admin
 )
 VALUES 
-(   '1', 'siteadmin', 'siteadmin', '$1$12345678$2lQK5REWxaFyGz.p/dos3/', '65535', '65535', '', '',  'SiteAdmin', 'site', '1'
+(   '1', 'siteadmin', 'siteadmin', '$6$uR.EiB1dj5rrvwMF$Qh5LgdjOZavKXwhi9IF0Yuzu7qxsG.dLTTB8e./55ZRNfBuZVLnfUSOEXa0oWT6174myO.WYkOy83HYWAKPbK/', '65535', '65535', '', '',  'SiteAdmin', 'site', '1'
 );
 
--- fix password when using DES encrypted password:
--- UPDATE `vexim`.`users` SET `crypt` = '0Apup3ZbF9RPg'
+-- fix password when using bcrypt (on *BSD only) encrypted password:
+-- UPDATE `vexim`.`users` SET `crypt` = '$2a$10$KKtb78YkexNl4Ik3RymPEObqTsk/ivneEHl/Q5TsDpRBGyYjOl33G'
 --   WHERE `user_id` = '1' LIMIT 1 ;
 
+-- fix password when using clear password:
+-- UPDATE `vexim`.`users` SET `crypt` = 'CHANGE'
+--   WHERE `user_id` = '1' LIMIT 1 ;

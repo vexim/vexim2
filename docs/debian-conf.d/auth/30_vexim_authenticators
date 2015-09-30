@@ -1,0 +1,103 @@
+### 30_vexim_authenticators
+#########################
+
+plain_virtual_exim:
+        driver = plaintext
+        public_name = PLAIN
+        server_condition = "${if crypteq{$3}{${lookup mysql{ \
+                          SELECT crypt FROM users \
+                          WHERE username = '${quote_mysql:$2}' \
+                          }}}{yes}{no}}"
+        server_set_id = $2
+	    # comment the next lines out if you want to be able to authenticate
+	    # without using SSL or TLS
+        server_advertise_condition = ${if or{\
+           {!eq{$tls_cipher}{}}\
+           {match_ip {$sender_host_address}{@[]}}\
+            }\
+            {*}{}}
+
+login_virtual_exim:
+        driver = plaintext
+        public_name = LOGIN
+        server_prompts = "Username:: : Password::"
+        server_condition = "${if crypteq{$2}{${lookup mysql{ \
+                          SELECT crypt FROM users \
+                          WHERE username = '${quote_mysql:$1}' \
+                          }}}{yes}{no}}"
+        server_set_id = $1
+	    # comment the next lines out if you want to be able to authenticate
+	    # without using SSL or TLS
+        server_advertise_condition = ${if or{\
+           {!eq{$tls_cipher}{}}\
+           {match_ip {$sender_host_address}{@[]}}\
+            }\
+            {*}{}}
+
+
+# You can use the authenticator of your IMAP server (Courier/Dovecot) to authenticate
+# users in exim. Therefore, please comment the lines above after begin authenticators, 
+# and uncomment either the section of the courier-IMAP or Dovecot-IMAP:
+
+
+# Authenticate against courier authdaemon
+
+# This is now the (working!) example from
+# http://www.exim.org/eximwiki/FAQ/Policy_controls/Q0730
+# Possible pitfall: access rights on /var/run/courier/authdaemon/socket.
+
+# plain_courier_authdaemon:
+#   driver = plaintext
+#   public_name = PLAIN
+#   server_condition = \
+#     ${extract {ADDRESS} \
+#               {${readsocket{/var/run/courier/authdaemon/socket} \
+#               {AUTH ${strlen:exim\nlogin\n$auth2\n$auth3\n}\nexim\nlogin\n$auth2\n$auth3\n} }} \
+#               {yes} \
+#               fail}
+#   server_set_id = $auth2
+#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
+#   server_advertise_condition = ${if eq{$tls_cipher}{}{}{*}}
+#   .endif
+
+# login_courier_authdaemon:
+#   driver = plaintext
+#   public_name = LOGIN
+#   server_prompts = Username:: : Password::
+#   server_condition = \
+#     ${extract {ADDRESS} \
+#               {${readsocket{/var/run/courier/authdaemon/socket} \
+#               {AUTH ${strlen:exim\nlogin\n$auth1\n$auth2\n}\nexim\nlogin\n$auth1\n$auth2\n} }} \
+#               {yes} \
+#               fail}
+#   server_set_id = $auth1
+#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
+#   server_advertise_condition = ${if eq{$tls_cipher}{}{}{*}}
+#   .endif
+
+
+# Authenticate against Dovecot daemon
+# http://wiki2.dovecot.org/HowTo/EximAndDovecotSASL
+#
+#dovecot_login:
+#  driver = dovecot
+#  public_name = LOGIN
+#  server_socket = /var/run/dovecot/auth-client
+## setting server_set_id might break several headers in mails sent by authenticated smtp. #So be careful.
+#  server_set_id = $auth1
+#  server_advertise_condition = ${if or{\
+#        {!eq{$tls_cipher}{}}\
+#        {match_ip {$sender_host_address}{@[]}}\
+#        }\
+#        {*}{}}
+#
+#dovecot_plain:
+#  driver = dovecot
+#  public_name = PLAIN
+#  server_socket = /var/run/dovecot/auth-client
+#  server_set_id = $auth1
+#  server_advertise_condition = ${if or{\
+#        {!eq{$tls_cipher}{}}\
+#        {match_ip {$sender_host_address}{@[]}}\
+#        }\
+#        {*}{}}

@@ -21,6 +21,9 @@
 use strict;
 use DBI();
 use Getopt::Long;
+use Crypt::Eksblowfish::Bcrypt qw(bcrypt);
+use Crypt::OpenSSL::Random;
+use MIME::Base64 ();
 
 my ($dbh, $mydbh, $pgdbh);
 my ($act, $dbtype, $uid, $gid, $mailstore);
@@ -44,7 +47,7 @@ my $DBdomainfields;
 my $veximdatabaseuser;
 my $siteadminpassconfirm;
 my $siteadminpass;
-
+my $hashmethod;
 
 &GetOptions(	"act=s" =>\$act,
 		"dbtype=s" =>\$dbtype,
@@ -55,7 +58,7 @@ usage() unless defined $act;
 usage() unless defined $dbtype;
 $uid  = "90" unless defined $uid;
 $gid = "90" unless defined $gid;
-$mailstore = "/usr/local/mail" unless defined $mailstore;
+$mailstore = "/var/vmail" unless defined $mailstore;
 
 
 
@@ -79,7 +82,7 @@ sub usage {
 	print "Usage: create_db.pl --act=<action> --dbtype=<dbtype> --uid=<uid> --gid=<gid> --mailstore=<dir>\n";
 	print "\n";
 	print "--act \t\tnewdb, migratemysql, (migratepostgresql|FIXME!)\n";
-	print "--dbtypes\tmysql, (pgsql|FIXME!)\n";
+	print "--dbtype\tmysql, (pgsql|FIXME!)\n";
 	print "--uid\t\tdefault UID's for domains (default uid is 90)\n";
 	print "--gid\t\tdefault GID's for domains (default gid is 90)\n";
 	print "--mailstore\tmailstore is the directory under which the\n\t\tmaildirs for domains are created\n\t\t(defaults to /usr/local/mail)\n\n";
@@ -387,12 +390,17 @@ sub add_postgresveximuser {
 #####################################
 
 sub add_siteadminuser {
- 
+ my $crypted;
  	if($act eq  "newdb")
  	{
 	  if ($dbtype eq "mysql") { $dbh = $mydbh; } 
 	#elsif ($dbtype == "pgsql") { $dbh = $pgdbh; }
-	
+        print "Select an hashing scheme for the user passwords:\n";
+        print "sha512:\tcompatible with Dovecot/Courier\n";
+        print "bcrypt:\tcompatible only in *BSD with Dovecot/Courier (do not use for Linux)\n";
+        print "clear:\tcompatible with Dovecot/Courier, not recommended\n";
+        print "\nPlease select a hashing scheme (default: sha512): ";
+        chomp($hashmethod = <STDIN>);
 	print "\nPlease enter a password for the 'siteadmin' user: ";
 	`stty -echo`;
 	chomp($siteadminpass = <STDIN>);
@@ -407,8 +415,16 @@ sub add_siteadminuser {
 	}
 	`stty echo`;
 
+	  if ($hashmethod eq "bcrypt") {
+	    $crypted = encrypt_password_bcrypt($siteadminpassconfirm);
+	  }
+          elsif ($hashmethod eq "clear") {
+            $crypted = $siteadminpassconfirm;
+          }
+	  else {
+            $crypted = encrypt_password_sha512($siteadminpassconfirm);
+          }
 
-	  my $crypted = crypt("$siteadminpassconfirm", "\$1\$xx") ;
 	  $dbh->do("INSERT INTO $databasename.domains (domain_id, domain) VALUES ('1', 'admin')");
 	  $dbh->do("INSERT INTO $databasename.users (domain_id, localpart, username, crypt, uid, gid, smtp, pop, realname, type, admin)
 	  		VALUES ('1',
@@ -527,6 +543,46 @@ sub migratepostgresql() {
 
 #  print "Migration complete!\n";
 #  print "Please delete /tmp/vexim-mysql-migrate-users and /tmp/vexim-mysql-migrate-domains\n\n";
+}
+
+
+
+#####################################
+# User passwords are hashed with    #
+# bcrypt or sha512                  #
+# and a random salt.                #
+#####################################
+sub encrypt_password_bcrypt {
+    my $password = shift;
+
+    # Generate a salt if one is not passed
+    my $salt = shift || salt();
+
+    # Set the cost to 10 and append a NUL
+    my $settings = '$2a$10$'.$salt;
+
+    # Encrypt it
+    return Crypt::Eksblowfish::Bcrypt::bcrypt($password, $settings);
+}
+
+
+sub encrypt_password_sha512 {
+    my $password = shift;
+
+    # Generate a salt if one is not passed
+    my $salt = shift || salt();
+
+    # Set the cost to 10 and append a NUL
+    my $settings = '$6$'.$salt.'$';
+
+    # Encrypt it
+    return crypt($password, $settings);
+}
+
+
+# Return a random salt
+sub salt {
+    return MIME::Base64::encode_base64(Crypt::OpenSSL::Random::random_bytes(16));
 }
 
 

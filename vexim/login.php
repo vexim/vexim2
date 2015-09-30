@@ -74,6 +74,10 @@
 
 	# redirect the user to the correct starting page
 	if (($row['admin'] == '1') && ($row['type'] == 'site')) {
+                if($_POST['crypt']=="CHANGE") {
+                  header ('Location: sitepassword.php');
+                  die();
+                }
 		header ('Location: site.php');
 		die();
 	} 
