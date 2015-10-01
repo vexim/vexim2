@@ -8,6 +8,7 @@
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Domains'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="scripts.js" type="text/javascript"></script>
   </head>
   <body onLoad="document.siteadd.domain.focus()">
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
@@ -43,26 +44,34 @@
           </tr>
           <tr>
             <td><?php echo _('Password'); ?>:</td>
-            <td>
-              <input name="clear" type="password" class="textfield">
+            <td colspan="2">
+              <input name="clear" id="clear" type="password" class="textfield">
             </td>
           </tr>
           <tr>
             <td><?php echo _('Verify Password'); ?>:</td>
-            <td>
-              <input name="vclear" type="password" class="textfield">
+            <td colspan="2">
+              <input name="vclear" id="vclear" type="password" class="textfield">
+            </td>
+          </tr>
+        <tr>
+            <td></td>
+            <td colspan="2">
+              <input type="button" value="Generate password" onclick="suggestPassword('suggest')">
+              <input type="text" size="15" name="suggest" id="suggest" class="textfield">
+              <input type="button" value="Copy" onclick="copyPassword('suggest', 'clear', 'vclear')">
             </td>
           </tr>
           <tr>
             <td><?php echo _('System UID'); ?>:</td>
-            <td>
+            <td colspan="2">
               <input name="uid" type="text" class="textfield"
                 value="<?php echo $uid; ?>">
             </td>
           </tr>
           <tr>
             <td><?php echo _('System GID'); ?>:</td>
-            <td>
+            <td colspan="2">
               <input name="gid" type="text" class="textfield"
                 value="<?php echo $gid; ?>">
             </td>
@@ -85,7 +94,7 @@
               <?php echo _('Maximum accounts'); ?><br>
               (<?php echo _("0 for unlimited"); ?>):
             </td>
-            <td>
+            <td colspan="2">
               <input type="text" size="5" name="max_accounts" value="0"
                 class="textfield">
             </td>
@@ -95,7 +104,7 @@
               <?php echo _('Max mailbox quota'); ?>
               (<?php echo _('0 for disabled'); ?>):
             </td>
-            <td>
+            <td colspan="2">
               <input name="quotas" size="5" type="text" class="textfield"
                 value="0"><?php echo _('Mb'); ?>
             </td>
@@ -134,35 +143,35 @@
           </tr>
           <tr>
             <td><?php echo _('Spamassassin enabled?'); ?></td>
-            <td>
+            <td colspan="2">
               <input name="spamassassin" type="checkbox" class="textfield">
             </td>
           </tr>
           <tr>
             <td><?php echo _('Anti Virus enabled?'); ?></td>
-            <td>
+            <td colspan="2">
               <input name="avscan" type="checkbox" class="textfield">
             </td>
           </tr>
           <tr>
             <td><?php echo _('Enable piping mail to command?'); ?></td>
-            <td>
+            <td colspan="2">
               <input name="pipe" type="checkbox" class="textfield">
             </td>
           </tr>
           <tr>
             <td><?php echo _('Domain enabled?'); ?></td>
-            <td>
+            <td colspan="2">
               <input name="enabled" type="checkbox" class="textfield" checked>
             </td>
           </tr>
-          <tr><td></td></tr>
+          <tr><td colspan="3"></td></tr>
         <?php
            } else if ($_GET['type'] == "alias") {
         ?>
           <tr>
             <td><?php echo _('Redirect messages to domain'); ?>:</td>
-            <td>
+            <td colspan="2">
               <input name="aliasdest" type="text" class="textfield">
             </td>
           </tr>
@@ -172,7 +181,7 @@
           <tr>
             <td>
             </td>
-            <td>
+            <td colspan="2">
               <input name="type" type="hidden"
                 value="<?php print $_GET['type']; ?>">
               <input name="admin" type="hidden" value="1">
