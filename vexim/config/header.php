@@ -84,6 +84,10 @@
     printf (_("-- Group %s could not be updated."), $_GET['group_failupdated']);
   } else if (isset($_GET['failuidguid'])) {
     printf (_("-- Error getting UID/GID for %s"), $_GET['failuidguid']);
+  } else if (isset($_GET['failmaildirnonabsolute'])) {
+    printf (_("-- Domain Mail directory must be an absolute path, but “%s” was provided"), $_GET['failmaildirnonabsolute']);
+  } else if (isset($_GET['failmaildirmissing'])) {
+    printf (_("-- Domain Mail directory “%s” does not exist, is not a directory or is not accessible."), $_GET['failmaildirmissing']);
   }
   if (isset($_GET['login']) && ($_GET['login'] == "failed")) { print _("Login failed"); }
 

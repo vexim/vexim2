@@ -59,6 +59,12 @@
      Make sure the directory belongs to the configured $uid/$gid! */
   $mailroot = "/var/vmail/";
 
+  /* Check if mail store specified above exists when creating a new domain.
+     Generally, this shouldn't be disabled, but there may be special cases
+     when our check doesn't work and should be disabled (e.g. the parent
+     directory of mail store is inaccessible to your web server). */
+  $testmailroot = true;
+
   /* path to Mailman */
   $mailmanroot = "http://www.EXAMPLE.com/mailman";
 
