@@ -62,10 +62,21 @@
     die;
   }
   if(isset($_POST['maildir']) && isset($_POST['localpart'])) {
-    $smtphomepath = realpath($_POST['maildir'] . "/") .
-      "/" . $_POST['domain'] . "/" . $_POST['localpart'] . "/Maildir";
-    $pophomepath = realpath($_POST['maildir'] . "/") .
-      "/" . $_POST['domain'] . "/" . $_POST['localpart'];
+    if (substr($_POST['maildir'], 0, 1) !== '/') {
+      header ("Location: site.php?failmaildirnonabsolute={$_POST['maildir']}");
+	  die();
+    }
+    if ($testmailroot && is_dir(realpath($_POST['maildir'])) === false) {
+      header ("Location: site.php?failmaildirmissing={$_POST['maildir']}");
+      die();
+	}
+    $domainpath = $_POST['maildir'];
+    if (substr($domainpath, -1) !== '/') {
+      $domainpath .= '/';
+    }
+    $domainpath .= $_POST['domain'];
+    $smtphomepath = $domainpath . "/" . $_POST['localpart'] . "/Maildir";
+    $pophomepath = $domainpath . "/" . $_POST['localpart'];
   }
 //Gah. Transactions!! -- GCBirzan
   if ((validate_password($_POST['clear'], $_POST['vclear'])) &&
@@ -84,7 +95,7 @@
         ':sa_refuse'=>((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse']  : 0),
         ':avscan'=>$_POST['avscan'], ':max_accounts'=>$_POST['max_accounts'],
         ':quotas'=>((isset($_POST['quotas'])) ? $_POST['quotas'] : 0),
-        ':maildir'=>realpath ($_POST['maildir'] . "/") . "/" . $_POST['domain'],
+        ':maildir'=>$domainpath,
         ':pipe'=>$_POST['pipe'], ':enabled'=>$_POST['enabled'],
         ':uid'=>$uid, ':gid'=>$gid, ':type'=>$_POST['type'],
         ':maxmsgsize'=>((isset($_POST['maxmsgsize'])) ? $_POST['maxmsgsize'] : 0)
