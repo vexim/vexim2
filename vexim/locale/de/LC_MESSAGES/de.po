@@ -32,11 +32,11 @@ msgstr "Virtual Exim"
 
 #: config/header.php:16
 msgid "-- domain disabled (please see your administrator)."
-msgstr "-- Domain deaktiviert (Bitte kontaktieren Sie Ihren Administrator.)"
+msgstr "-- Domain deaktiviert, bitte wenden Sie sich an Ihren Administrator."
 
 #: config/header.php:18
 msgid "-- account disabled (please see your administrator)."
-msgstr "-- Konto deaktiviert (Bitte kontaktieren Sie Ihren Administrator.)"
+msgstr "-- Konto deaktiviert, bitte wenden Sie sich an Ihren Administrator."
 
 #: config/header.php:22
 #, php-format
@@ -55,17 +55,17 @@ msgid ""
 "deleting or demoting this one."
 msgstr ""
 "-- %s ist das letzte Administratoren-Konto. Erstellen Sie ein anderes "
-"Administratoren-Konto bevor Sie dieses l&ouml;schen oder zur&uuml;ckstufen."
+"Administratoren-Konto, bevor Sie dieses l&ouml;schen oder zur&uuml;ckstufen."
 
 #: config/header.php:28
 msgid "-- Site Admin password has been successfully updated."
 msgstr ""
-"-- Das Update f&uuml;r das Passwort des Site-Administrators war erfolgreich."
+"-- Das Passwort des Site-Administrators wurde ge&auml;ndert."
 
 #: config/header.php:30
 #, php-format
 msgid "-- %s has been successfully updated."
-msgstr "-- Das Update f&uuml;r %s wurde erfolgreich abgeschlossen."
+msgstr "-- %s wurde erfolgreich aktualisiert."
 
 #: config/header.php:32
 #, php-format
@@ -76,12 +76,12 @@ msgstr ""
 
 #: config/header.php:34
 msgid "-- Your update was sucessful."
-msgstr "-- Ihr Update wurde erfolgreich abgeschlossen."
+msgstr "-- Ihre Aktualisierung war erfolgreich."
 
 #: config/header.php:36
 msgid "-- Your account could not be updated. Was your password blank?"
 msgstr ""
-"-- Das Update Ihres Kontos konnte nicht erfolgreich installiert werden. "
+"-- Ihr Konto konnte nicht aktualisiert werden."
 "Haben Sie ein leeres Passwort verwendet?"
 
 #: config/header.php:38
@@ -122,7 +122,7 @@ msgstr ""
 
 #: config/header.php:49
 msgid "-- The destination domain you specified does not exist."
-msgstr "-- Die Zieldomain, die Sie spezifiziert haben, existiert nicht."
+msgstr "-- Die angegebene Zieldomain existiert nicht."
 
 #: config/header.php:51
 msgid "-- You can not specify a blank realname."
@@ -158,7 +158,7 @@ msgstr "-- %s wurde nicht gel&ouml;scht."
 #: config/header.php:61
 #, php-format
 msgid "-- %s could not be updated."
-msgstr "-- F&uuml;r %s konnte das Update nicht erfolgreich installiert werden."
+msgstr "-- %s konnte nicht aktualisiert werden."
 
 #: config/header.php:64
 #, php-format
@@ -224,25 +224,25 @@ msgstr "Anmeldung fehlgeschlagen"
 
 #: admin.php:16
 msgid "Add, delete and manage POP/IMAP accounts"
-msgstr "Hinzuf&uuml;gen, L&ouml;schen und Verwalten von POP/IMAP-Konten"
+msgstr "POP/IMAP-Konten bearbeiten"
 
 #: admin.php:17
 msgid "Add, delete and manage aliases, forwards and a Catchall"
 msgstr ""
-"Hinzuf&uuml;gen, L&ouml;schen und Verwalten von Aliassen, Weiterleitungen "
-"und Sammelpostf&auml;chern"
+"Aliase, Weiterleitungen "
+"und Sammelpostf&auml;cher bearbeiten"
 
 #: admin.php:18
 msgid "Add, delete and manage groups"
-msgstr "Hinzuf&uuml;gen, L&ouml;schen und Verwalten von Gruppen"
+msgstr "Gruppen bearbeiten"
 
 #: admin.php:19
 msgid "Add, delete and manage :fail:'s"
-msgstr "Hinzuf&uuml;gen, L&ouml;schen und Verwalten von :fail:-Adressen"
+msgstr ":fail:-Adressen bearbeiten"
 
 #: admin.php:22
 msgid "Manage mailing lists"
-msgstr "Verwaltung der Mailing-Listen"
+msgstr "Mailing-Listen bearbeiten"
 
 #: admin.php:25 adminalias.php:24 adminaliasadd.php:21 adminaliaschange.php:21
 #: adminaliasdelete.php:32 admincatchall.php:20 admincatchalladd.php:18
@@ -320,13 +320,13 @@ msgid ""
 "It will catch and forward all email that does not get delivered to a "
 "specific mailbox."
 msgstr ""
-"Hier wird s&auml;mtliche Email abgelegt, welche nicht anderweitig zugeordnet "
+"Hier wird s&auml;mtliche Mail abgelegt, die nicht anderweitig zugeordnet "
 "werden kann."
 
 #: adminaliasadd.php:19 adminaliaschange.php:18 admincatchall.php:18
 #: admincatchalladd.php:15
 msgid "Manage Aliases"
-msgstr "Aliasse verwalten"
+msgstr "Aliase verwalten"
 
 #: adminaliasadd.php:26 adminaliaschange.php:26 admincatchall.php:26
 #: admincatchalladd.php:24
@@ -380,7 +380,7 @@ msgstr "Spam-Filter"
 #: admingroupchange.php:41 admingroupchange.php:66 adminuseradd.php:73
 #: adminuserchange.php:85 sitechange.php:65
 msgid "Enabled"
-msgstr "aktiviert"
+msgstr "Konto aktiviert"
 
 #: adminaliasadd.php:42 adminaliaschange.php:43 admincatchall.php:36
 #: admincatchalladd.php:33 adminfailadd.php:26 adminfailchange.php:30
@@ -426,11 +426,11 @@ msgstr "Sammelpostfach"
 
 #: admincatchall.php:29 admincatchalladd.php:27
 msgid "Forward email addressed to"
-msgstr "weiterleiten der Email adressiert an"
+msgstr "weiterleiten der Mail adressiert an"
 
 #: admincatchall.php:32 admincatchalladd.php:30
 msgid "Forward the email to"
-msgstr "weiterleiten der Email an"
+msgstr "weiterleiten der Mail an"
 
 #: adminfail.php:14 adminfailchange.php:20
 msgid "Add Fail"
@@ -468,7 +468,7 @@ msgstr "Gruppe hinzuf&uuml;gen"
 
 #: admingroup.php:21 adminuser.php:62 adminuser.php:67
 msgid "Email address"
-msgstr "Email-Adresse"
+msgstr "Mail-Adresse"
 
 #: admingroup.php:21 admingroupchange.php:35
 msgid "Is public"
@@ -538,7 +538,7 @@ msgstr "Liste hinzuf&uuml;gen"
 #: adminlists.php:24
 msgid "Please enter the name of the list to admin"
 msgstr ""
-"Bitte geben Sie den Namen der Liste ein, welche Sie administrieren wollen"
+"Bitte geben Sie den Namen der Liste ein, die Sie administrieren wollen"
 
 #: adminuser.php:32 adminuserdelete.php:38
 msgid "Add User"
@@ -583,11 +583,11 @@ msgstr "Gruppen ID"
 #: adminuseradd.php:47 adminuserchange.php:46
 #, php-format
 msgid "Mailbox quota (%s Mb max)"
-msgstr "Speicherplatz der Mailbox (%s Mb max)"
+msgstr "Speicherplatz der Mailbox (%s MB max)"
 
 #: adminuseradd.php:49 siteadd.php:37
 msgid "Mb"
-msgstr "Mb"
+msgstr "MB"
 
 #: adminuseradd.php:51
 msgid "Has domain admin privileges?"
@@ -603,38 +603,38 @@ msgstr "optional"
 
 #: adminuseradd.php:54
 msgid "Pipe all mail to a command (e.g. procmail)"
-msgstr "Pipe alle Email an ein Shell-Kommando (z.B. procmail)"
+msgstr "Mails an ein Shell Kommando (z.B. procmail) &uuml;bergeben"
 
 #: adminuseradd.php:55 adminuserchange.php:63
 msgid "Check box below to enable"
-msgstr "zum Aktivieren Feld anw&auml;hlen "
+msgstr "Aktivieren"
 
 #: adminuseradd.php:56
 msgid "Enable piped command?"
-msgstr "Pipe Shell-Kommandos aktivieren"
+msgstr "aktiviert"
 
 #: adminuseradd.php:63 adminuserchange.php:77 siteadd.php:41 sitechange.php:56
 msgid "Spamassassin tag score"
-msgstr "Header-Markierungs-Punktzahl des Spamfilters"
+msgstr "SPAM markieren ab Bewertung von"
 
 #: adminuseradd.php:65
 msgid "The score at which to tag potential spam mail but still deliver"
 msgstr ""
-"die Punktzahl, ab welcher eine Bewertung aufgenommen, die Email aber noch "
+"die Punktzahl, ab der eine Bewertung aufgenommen, die Mail aber noch "
 "zugestellt wird"
 
 #: adminuseradd.php:66 adminuserchange.php:79 siteadd.php:44 sitechange.php:58
 msgid "Spamassassin refuse score"
-msgstr "Abweisungs-Punktzahl des Spamfilters"
+msgstr "SPAM verschieben / l&ouml;schen ab Bewertung von"
 
 #: adminuseradd.php:68
 msgid "The score at which to refuse potential spam mail and not deliver"
-msgstr "die Punktzahl, ab welcher eine Email zur&uuml;ckgewiesen wird"
+msgstr "die Punktzahl, ab der eine Mail zur&uuml;ckgewiesen wird"
 
 #: adminuseradd.php:70 adminuserchange.php:82 siteadd.php:38 sitechange.php:54
 #: userchange.php:66
 msgid "Maximum message size"
-msgstr "maximale Gr&ouml;&szlig;e einer Email"
+msgstr "maximale Gr&ouml;&szlig;e einer Mail"
 
 #: adminuserchange.php:42
 msgid ""
@@ -652,15 +652,15 @@ msgstr "Belegter Speicherplatz:"
 
 #: adminuserchange.php:60
 msgid "Pipe to command or alternative Maildir"
-msgstr "Pipe an Shell-Kommando oder alternatives Maildir"
+msgstr "Shell-Kommando oder Verzeichnis"
 
 #: adminuserchange.php:62
 msgid " Pipe all mail to a command (e.g. procmail)."
-msgstr " Pipe alle Email an ein Shell-Kommando (z.B. procmail)."
+msgstr "Mails an ein Shell Kommando (z.B. procmail) &uuml;bergeben."
 
 #: adminuserchange.php:64
 msgid "Enable piped command or alternative Maildir?"
-msgstr "Pipe an Shell-Kommando oder alternatives Maildir aktivieren"
+msgstr "aktiviert:"
 
 #: adminuserchange.php:87
 msgid "Vacation on"
@@ -672,7 +672,7 @@ msgstr "Nachricht durch Auto-Reply"
 
 #: adminuserchange.php:91
 msgid "Forwarding on"
-msgstr "weiterleiten an"
+msgstr "Weiterleitung aktiviert"
 
 #: adminuserchange.php:93 userchange.php:76
 msgid "Forward mail to"
@@ -684,11 +684,11 @@ msgstr "Weitergeleitete Nachricht lokal speichern"
 
 #: adminuserchange.php:100
 msgid "Aliases to this account"
-msgstr "Aliasse f&uuml;r dieses Konto"
+msgstr "Aliase f&uuml;r dieses Konto"
 
 #: adminuserchange.php:128
 msgid "Add a new header blocking filter for this user"
-msgstr "eine neue Header-Filterregel f&uuml;r diesen Benutzer anlegen"
+msgstr "Header-Filterregel bearbeiten"
 
 #: adminuserchange.php:129
 msgid "Header"
@@ -799,7 +799,7 @@ msgstr "neue Domain"
 
 #: siteadd.php:23
 msgid "The name of the new domain you are adding"
-msgstr "der Name der Domain, welche Sie hinzuf&uuml;gen m&ouml;chten"
+msgstr "der Name der Domain, die Sie hinzuf&uuml;gen m&ouml;chten"
 
 #: siteadd.php:26
 msgid "Domain Admin"
@@ -819,7 +819,7 @@ msgstr "System-Gruppen ID"
 
 #: siteadd.php:32
 msgid "Domain Mail directory"
-msgstr "Nachrichten-Verzeichnis der Domain"
+msgstr "Mail-Verzeichnis"
 
 #: siteadd.php:34
 msgid "Create the domain directory below this top-level mailstore"
@@ -843,23 +843,23 @@ msgstr "0 f&uuml;r deaktiviert"
 
 #: siteadd.php:39 userchange.php:67
 msgid "Kb"
-msgstr "Kb"
+msgstr "KB"
 
 #: siteadd.php:40
 msgid "The maximum size for incoming mail (user tunable)"
 msgstr ""
-"die maximal zul&auml;ssige Gr&ouml;&szlig;e eingehender Emails (vom Benutzer "
+"die maximal zul&auml;ssige Gr&ouml;&szlig;e eingehender Mails (vom Benutzer "
 "einstellbar)"
 
 #: siteadd.php:43
 msgid "The score at the 'X-Spam-Flag: YES' header will be added"
 msgstr ""
-"die Punktzahl, ab welcher der 'X-Spam-Flag: YES' Header hinzugef&uuml;gt wird"
+"die Punktzahl, ab der der 'X-Spam-Flag: YES' Header hinzugef&uuml;gt wird"
 
 #: siteadd.php:46
 msgid "The score at which to refuse potentially spam mail and not deliver"
 msgstr ""
-"die Punktzahl, ab welcher m&ouml;gliche Spam-Email zur&uuml;ckgewiesen wird"
+"die Punktzahl, ab der m&ouml;gliche Spam-Mail verschoben oder gel&ouml;scht wird"
 
 #: siteadd.php:47
 msgid "Spamassassin enabled?"
@@ -871,7 +871,7 @@ msgstr "Anti-Virus aktiviert?"
 
 #: siteadd.php:49
 msgid "Enable piping mail to command?"
-msgstr "Pipe Shell-Kommandos aktivieren?"
+msgstr "Pipe Shell-Kommandos aktiviert?"
 
 #: siteadd.php:50
 msgid "Domain enabled?"
@@ -879,7 +879,7 @@ msgstr "Domain aktiviert?"
 
 #: siteadd.php:53
 msgid "Redirect messages to domain"
-msgstr "Nachrichten an Domain umleiten"
+msgstr "Mail an Domain umleiten"
 
 #: sitechange.php:21
 msgid "Modify Domain Admin"
@@ -895,7 +895,7 @@ msgstr "Einstellungen der Domain ver&auml;ndern"
 
 #: sitechange.php:52
 msgid "Max mailbox quota in Mb"
-msgstr "Speicherlimit der Mailbox in Mb"
+msgstr "Speicherlimit der Mailbox in MB"
 
 #: sitechange.php:62
 msgid "Anti-virus"
@@ -957,7 +957,7 @@ msgstr "Es ist nicht m&ouml;glich ein leeres Passwort zu setzen!"
 #: userchange.php:43
 #, php-format
 msgid "Your mailbox quota is currently: %s Mb"
-msgstr "Der Speicherplatz Ihrer Mailbox betr&auml;gt zu Zeit: %s Mb"
+msgstr "Der Speicherplatz Ihrer Mailbox betr&auml;gt zu Zeit: %s MB"
 
 #: userchange.php:45
 msgid "Your mailbox quota is currently: Unlimited"
@@ -965,11 +965,11 @@ msgstr "Der Speicherplatz Ihrer Mailbox zur Zeit: unbegrenzt"
 
 #: userchange.php:61
 msgid "SpamAssassin tag score"
-msgstr "Header-Markierungs-Punktzahl des Spam-Filters"
+msgstr "SPAM markieren ab Bewertung von"
 
 #: userchange.php:63
 msgid "SpamAssassin refuse score"
-msgstr "Abweisungs-Punktzahl des Spam-Filters"
+msgstr "SPAM verschieben / l&ouml;schen ab Bewertung von"
 
 #: userchange.php:68
 msgid "Vacation enabled"
@@ -985,4 +985,4 @@ msgstr "Einstellungen speichern"
 
 #: userchange.php:86
 msgid "Add a new header blocking filter"
-msgstr "Eine neue Header-Filterregel f&uuml;r diesen Benutzer anlegen"
+msgstr "Header-Filterregel bearbeiten"
