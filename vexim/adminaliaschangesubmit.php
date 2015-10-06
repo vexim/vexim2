@@ -65,7 +65,15 @@
   }
 
   # update the actual alias in the users table
-  $aliasto = preg_replace("/[', ']+/", ",", $_POST['target']);
+  $forwardto=explode(",",$_POST['target']);
+  for($i=0; $i<count($forwardto); $i++){
+    $forwardto[$i]=trim($forwardto[$i]);
+    if(!filter_var($forwardto[$i], FILTER_VALIDATE_EMAIL)) {
+      header ("Location: adminalias.php?invalidforward=".htmlentities($forwardto[$i]));
+      die;
+    }
+  }
+  $aliasto = implode(",",$forwardto);
   $query = "UPDATE users SET localpart=:localpart,
     username=:username, smtp=:smtp, pop=:pop,
     realname=:realname, admin=:admin, on_avscan=:on_avscan,

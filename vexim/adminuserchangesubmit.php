@@ -30,8 +30,13 @@
   }
   if (isset($_POST['on_forward'])) {
     $_POST['on_forward'] = 1;
+    if(!filter_var($_POST['forward'], FILTER_VALIDATE_EMAIL)) {
+      header ("Location: adminuser.php?invalidforward=".htmlentities($_POST['forward']));
+      die;
+    }
   } else {
     $_POST['on_forward'] = 0;
+    $_POST['forward']='';
   }
   if (isset($_POST['unseen'])) {
     $_POST['unseen'] = 1;
