@@ -53,11 +53,15 @@
     header("Location: adminalias.php?badname={$_POST['localpart']}");
     die;
   }
-  if(!filter_var($_POST['smtp'], FILTER_VALIDATE_EMAIL)) {
-    header ("Location: adminalias.php?invalidforward=".htmlentities($_POST['smtp']));
-    die;
+  $forwardto=explode(",",$_POST['smtp']);
+  for($i=0; $i<count($forwardto); $i++){
+    $forwardto[$i]=trim($forwardto[$i]);
+    if(!filter_var($forwardto[$i], FILTER_VALIDATE_EMAIL)) {
+      header ("Location: adminalias.php?invalidforward=".htmlentities($forwardto[$i]));
+      die;
+    }
   }
-  $aliasto = preg_replace("/[', ']+/", ",", $_POST['smtp']);
+  $aliasto = implode(",",$forwardto);
   if (alias_validate_password($_POST['clear'], $_POST['vclear'])) {
     $query = "INSERT INTO users
       (localpart, username, domain_id, crypt, smtp, pop, uid, gid, realname, type, admin, on_avscan, 
