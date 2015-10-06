@@ -88,6 +88,8 @@
     printf (_("-- Domain Mail directory must be an absolute path, but “%s” was provided"), $_GET['failmaildirnonabsolute']);
   } else if (isset($_GET['failmaildirmissing'])) {
     printf (_("-- Domain Mail directory “%s” does not exist, is not a directory or is not accessible."), $_GET['failmaildirmissing']);
+  } else if (isset($_GET['invalidforward'])) {
+    printf (_("-- %s is not a valid e-mail address."), $_GET['invalidforward']);
   }
   if (isset($_GET['login']) && ($_GET['login'] == "failed")) { print _("Login failed"); }
 

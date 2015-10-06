@@ -3,6 +3,10 @@
   include_once dirname(__FILE__) . '/config/authpostmaster.php';
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
+  if(!filter_var($_POST['smtp'], FILTER_VALIDATE_EMAIL)) {
+    header ("Location: adminalias.php?invalidforward=".htmlentities($_POST['smtp']));
+    die;
+  }
   $query = "DELETE FROM users WHERE user_id=:user_id AND domain_id=:domain_id AND type='catch'";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));

@@ -65,6 +65,10 @@
   }
 
   # update the actual alias in the users table
+  if(!filter_var($_POST['target'], FILTER_VALIDATE_EMAIL)) {
+    header ("Location: adminalias.php?invalidforward=".htmlentities($_POST['target']));
+    die;
+  }
   $aliasto = preg_replace("/[', ']+/", ",", $_POST['target']);
   $query = "UPDATE users SET localpart=:localpart,
     username=:username, smtp=:smtp, pop=:pop,
