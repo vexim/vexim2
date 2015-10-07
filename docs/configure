@@ -54,11 +54,15 @@ MAILMAN_GROUP=mail
 # primary_hostname =
 
 # SMTP port 25 is activated by default. This port is blocked in some networks
-# and it is recommended to use the submission port 587 for an authenticated
-# SMTP-connection. SSL port 465 is deprecated, in order to use it, add port 465
-# to the daemon_smtp_ports and uncomment the line below (tls_on_connect ports)
+# and it is recommended to use the submission port 587 for authenticated
+# SMTP connections. SSL port 465 is deprecated, in order to use it, add it
+# to daemon_smtp_ports and uncomment the line below (tls_on_connect ports)
 daemon_smtp_ports = 25 : 587
 #tls_on_connect_ports = 465
+
+# Uncomment the next line if you want to be able to authenticate over unsecure
+# connections (without using SSL or TLS). Note that this is highly discouraged!
+#AUTH_SERVER_ALLOW_NOTLS_PASSWORDS = true
 
 # The next three settings create two lists of domains and one list of hosts.
 # These lists are referred to later in this configuration using the syntax
@@ -1016,102 +1020,112 @@ plain_virtual_exim:
         public_name = PLAIN
         server_condition = ${if crypteq{$auth3}{${lookup mysql{ \
                            SELECT crypt FROM users \
-                           WHERE username='${quote_mysql:$auth2}' \
+                           WHERE username = '${quote_mysql:$auth2}' \
                            }}}{1}{0}}
         server_set_id = $auth2
-	# comment the next line out if you want to be able to authenticate
-	# without using SSL or TLS
-    server_advertise_condition = ${if or{\
-       {!eq{$tls_cipher}{}}\
-       {match_ip {$sender_host_address}{@[]}}\
+    .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
+      server_advertise_condition = ${if or{\
+        {!eq{$tls_cipher}{}}\
+        {match_ip {$sender_host_address}{@[]}}\
         }\
         {*}{}}
+    .endif
 
 login_virtual_exim:
         driver = plaintext
         public_name = LOGIN
         server_prompts = "Username:: : Password::"
-
         server_condition = ${if crypteq{$auth2}{${lookup mysql{ \
                            SELECT crypt FROM users \
-                           WHERE username='${quote_mysql:$auth1}' \
+                           WHERE username = '${quote_mysql:$auth1}' \
                            }}}{1}{0}}
         server_set_id = $auth1
-	# comment the next line out if you want to be able to authenticate
-	# without using SSL or TLS
-	server_advertise_condition = ${if or{\
-       {!eq{$tls_cipher}{}}\
-       {match_ip {$sender_host_address}{@[]}}\
+    .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
+      server_advertise_condition = ${if or{\
+        {!eq{$tls_cipher}{}}\
+        {match_ip {$sender_host_address}{@[]}}\
         }\
         {*}{}}
+    .endif
 
 
-# You can use the authenticator of your IMAP server (Courier/Dovecot) to authenticate
-# users in exim. Therefore, please comment the lines above after begin authenticators, 
-# and uncomment either the section of the courier-IMAP or Dovecot-IMAP:
+# You can use the authenticator of your IMAP server (Courier or Dovecot) to authenticate
+# users in Exim. To do that, comment out the lines above after begin authenticators,
+# and uncomment either the Courier or Dovecot section below.
 
-
-# Authenticate against courier authdaemon
-
-# This is now the (working!) example from
-# http://www.exim.org/eximwiki/FAQ/Policy_controls/Q0730
+# Authenticate against Courier authdaemon
+# Based on: https://github.com/Exim/exim/wiki/Q0730
 # Possible pitfall: access rights on /var/run/courier/authdaemon/socket.
-
+#
+# .ifndef AUTH_AUTHDAEMON_SOCKET
+# AUTH_AUTHDAEMON_SOCKET = /var/run/courier/authdaemon/socket
+# .endif
+#
 # plain_courier_authdaemon:
 #   driver = plaintext
 #   public_name = PLAIN
 #   server_condition = \
 #     ${extract {ADDRESS} \
-#               {${readsocket{/var/run/courier/authdaemon/socket} \
+#               {${readsocket{AUTH_AUTHDAEMON_SOCKET} \
 #               {AUTH ${strlen:exim\nlogin\n$auth2\n$auth3\n}\nexim\nlogin\n$auth2\n$auth3\n} }} \
 #               {yes} \
 #               fail}
 #   server_set_id = $auth2
 #   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-#   server_advertise_condition = ${if eq{$tls_cipher}{}{}{*}}
+#     server_advertise_condition = ${if or{\
+#       {!eq{$tls_cipher}{}}\
+#       {match_ip {$sender_host_address}{@[]}}\
+#       }\
+#       {*}{}}
 #   .endif
-
+#
 # login_courier_authdaemon:
 #   driver = plaintext
 #   public_name = LOGIN
 #   server_prompts = Username:: : Password::
 #   server_condition = \
 #     ${extract {ADDRESS} \
-#               {${readsocket{/var/run/courier/authdaemon/socket} \
+#               {${readsocket{AUTH_AUTHDAEMON_SOCKET} \
 #               {AUTH ${strlen:exim\nlogin\n$auth1\n$auth2\n}\nexim\nlogin\n$auth1\n$auth2\n} }} \
 #               {yes} \
 #               fail}
 #   server_set_id = $auth1
 #   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-#   server_advertise_condition = ${if eq{$tls_cipher}{}{}{*}}
+#     server_advertise_condition = ${if or{\
+#       {!eq{$tls_cipher}{}}\
+#       {match_ip {$sender_host_address}{@[]}}\
+#       }\
+#       {*}{}}
 #   .endif
 
-
-# Authenticate against Dovecot daemon
-# http://wiki2.dovecot.org/HowTo/EximAndDovecotSASL
+# Authenticate against Dovecot SASL
+# Based on: http://wiki2.dovecot.org/HowTo/EximAndDovecotSASL
 #
-#dovecot_login:
-#  driver = dovecot
-#  public_name = LOGIN
-#  server_socket = /var/run/dovecot/auth-client
-## setting server_set_id might break several headers in mails sent by authenticated smtp. #So be careful.
-#  server_set_id = $auth1
-#  server_advertise_condition = ${if or{\
-#        {!eq{$tls_cipher}{}}\
-#        {match_ip {$sender_host_address}{@[]}}\
-#        }\
-#        {*}{}}
+# login_dovecot_sasl:
+#   driver = dovecot
+#   public_name = LOGIN
+#   server_socket = /var/run/dovecot/auth-client
+#   server_set_id = $auth1
+#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
+#     server_advertise_condition = ${if or{\
+#       {!eq{$tls_cipher}{}}\
+#       {match_ip {$sender_host_address}{@[]}}\
+#       }\
+#       {*}{}}
+#   .endif
 #
-#dovecot_plain:
-#  driver = dovecot
-#  public_name = PLAIN
-#  server_socket = /var/run/dovecot/auth-client
-#  server_set_id = $auth1
-#  server_advertise_condition = ${if or{\
-#        {!eq{$tls_cipher}{}}\
-#        {match_ip {$sender_host_address}{@[]}}\
-#        }\
-#        {*}{}}
+# plain_dovecot_sasl:
+#   driver = dovecot
+#   public_name = PLAIN
+#   server_socket = /var/run/dovecot/auth-client
+#   server_set_id = $auth1
+#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
+#     server_advertise_condition = ${if or{\
+#       {!eq{$tls_cipher}{}}\
+#       {match_ip {$sender_host_address}{@[]}}\
+#       }\
+#       {*}{}}
+#   .endif
 
 
 ######################################################################
