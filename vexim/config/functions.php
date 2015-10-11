@@ -12,23 +12,7 @@
      */
     function validate_password($clear,$vclear) 
     {
-        return ($clear == $vclear) && ($clear != "");
-    }
-
-
-    /**
-     * validate alias password
-     *
-     * like validate_password, but the password can be empty
-     *
-     * @see     validate_password
-     * @param   string   $clear   cleartext password
-     * @param   string   $vclear  cleartext password (for validation)
-     * @return  boolean  true if they match and contain no illegal characters
-     */
-    function alias_validate_password($clear,$vclear) 
-    {
-        return ($clear == $vclear);
+        return ($clear === $vclear) && ($clear !== "");
     }
 
 

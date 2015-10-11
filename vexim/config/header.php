@@ -42,7 +42,7 @@
     printf (_('-- Your vacation message was too long: %1$d characters. It has been truncated at %2$d.'), $_GET['uservacationtolong'], $max_vacation_length);
   } // Now some more general errors on account updates
   else if (isset($_GET['badaliaspass'])) {
-    printf (_("-- Account %s could not be added. Your passwords do not match, or contain illegal characters: ' \" ` or ;"), $_GET['badaliaspass']);
+    printf (_("-- Account %s could not be added. Your passwords do not match."), $_GET['badaliaspass']);
   } else if (isset($_GET['badname'])) {
     printf (_("-- %s contains invalid characters."), $_GET['badname']);
   } else if (isset($_GET['badpass'])) {

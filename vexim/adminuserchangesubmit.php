@@ -130,25 +130,27 @@
   }
 
   # Update the password, if the password was given
-  if (validate_password($_POST['clear'], $_POST['vclear'])) {
-    $cryptedpassword = crypt_password($_POST['clear']);
-    $query = "UPDATE users
-      SET crypt=:crypt WHERE localpart=:localpart
-      AND domain_id=:domain_id";
-    $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':crypt'=>$cryptedpassword,
-        ':localpart'=>$_POST['localpart'], ':domain_id'=>$_SESSION['domain_id']));
-    if ($success) {
-      if ($_POST['localpart'] == $_SESSION['localpart']) { 
-        $_SESSION['crypt'] = $cryptedpassword;
+  if (isset($_POST['clear']) && $_POST['clear']!=='') {
+    if (validate_password($_POST['clear'], $_POST['vclear'])) {
+      $cryptedpassword = crypt_password($_POST['clear']);
+      $query = "UPDATE users
+        SET crypt=:crypt WHERE localpart=:localpart
+        AND domain_id=:domain_id";
+      $sth = $dbh->prepare($query);
+      $success = $sth->execute(array(':crypt'=>$cryptedpassword,
+          ':localpart'=>$_POST['localpart'], ':domain_id'=>$_SESSION['domain_id']));
+      if ($success) {
+        if ($_POST['localpart'] == $_SESSION['localpart']) { 
+          $_SESSION['crypt'] = $cryptedpassword;
+        }
+      } else { 
+        header ("Location: adminuser.php?failupdated={$_POST['localpart']}");
+        die;
       }
-    } else { 
-      header ("Location: adminuser.php?failupdated={$_POST['localpart']}");
-      die;
+    } else {
+        header ("Location: adminuser.php?badpass={$_POST['localpart']}");
+        die;
     }
-  } else if ($_POST['clear'] != $_POST['vclear']) {
-      header ("Location: adminuser.php?badpass={$_POST['localpart']}");
-      die;
   }
 
   if (isset($_POST['vacation']) && is_string($_POST['vacation'])) {
