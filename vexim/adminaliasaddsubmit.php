@@ -31,7 +31,7 @@
     $_POST['on_spamassassin'] = 0;
   }
   # If a password wasn't specified, create a randomised 128bit password
-  if (($_POST['clear'] == "") && ($_POST['vclear'] == "")) {
+  if (($_POST['clear'] === "") && ($_POST['vclear'] === "")) {
     $junk = md5(rand().time().rand());
     $_POST['clear'] = $junk;
     $_POST['vclear'] = $junk;
@@ -62,7 +62,7 @@
     }
   }
   $aliasto = implode(",",$forwardto);
-  if (alias_validate_password($_POST['clear'], $_POST['vclear'])) {
+  if (validate_password($_POST['clear'], $_POST['vclear'])) {
     $query = "INSERT INTO users
       (localpart, username, domain_id, crypt, smtp, pop, uid, gid, realname, type, admin, on_avscan, 
        on_spamassassin, sa_tag, sa_refuse, spam_drop, enabled)

@@ -4,8 +4,8 @@
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
 	# first check if we have sufficient post variables to achieve a successful login... if not the login fails immediately
-	if (!isset($_POST['crypt']) || $_POST['crypt']==''
-		|| !isset($_POST['localpart']) || $_POST['localpart']==''
+	if (!isset($_POST['crypt']) || $_POST['crypt']===''
+		|| !isset($_POST['localpart']) || $_POST['localpart']===''
 		|| !isset($_POST['domain'])
 	){
     header ('Location: index.php?login=failed');
@@ -13,7 +13,7 @@
   }
 
 	# construct the correct sql statement based on who the user is
-  if ($_POST['localpart'] == 'siteadmin') {
+  if ($_POST['localpart'] === 'siteadmin') {
 		$query = "SELECT crypt,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
       WHERE localpart='siteadmin'
       AND domain='admin'
@@ -60,7 +60,7 @@
   */
 
 	# if they have the wrong password bail out
-	if ($cryptedpass != $row['crypt']) {
+	if ($cryptedpass !== $row['crypt']) {
 		header ('Location: index.php?login=failed');
 		die();
 	}
