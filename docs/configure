@@ -648,8 +648,8 @@ virtual_forward:
 virtual_domains:
   driver = redirect
   address_data = ${lookup mysql{\
-        select smtp, users.sa_tag*10 AS sa_tag, users.on_spamassassin AS on_spamassassin \
-        from users,domains \
+        select smtp, users.sa_tag*10 AS sa_tag, users.on_spamassassin AS on_spamassassin, \
+        users.uid AS uid, users.gid AS gid, quota from users,domains \
         where localpart = '${quote_mysql:$local_part}' \
                 and domain = '${quote_mysql:$domain}' \
                 and domains.enabled = '1' \
@@ -866,22 +866,10 @@ virtual_delivery:
   mode = 0600
   maildir_format = true
   create_directory = true
-  directory = ${lookup mysql{select smtp from users,domains \
-		where localpart = '${quote_mysql:$local_part}' \
-		and domain = '${quote_mysql:$domain}' \
-		and users.domain_id = domains.domain_id}}
-  user = ${lookup mysql{select users.uid  from users,domains \
-		where localpart = '${quote_mysql:$local_part}' \
-		and domain = '${quote_mysql:$domain}' \
-		and users.domain_id = domains.domain_id}}
-  group = ${lookup mysql{select users.gid from users,domains \
-		where localpart = '${quote_mysql:$local_part}' \
-		and domain = '${quote_mysql:$domain}' \
-		and users.domain_id = domains.domain_id}}
-  quota = ${lookup mysql{select users.quota from users,domains \
-  		where localpart = '${quote_mysql:$local_part}' \
-		and domain = '${quote_mysql:$domain}' \
-		and users.domain_id = domains.domain_id}{${value}M}}
+  directory = ${extract{smtp}{$address_data}}
+  user = ${extract{uid}{$address_data}}
+  group = ${extract{gid}{$address_data}}
+  quota = ${extract{quota}{$address_data}}
   quota_is_inclusive = false
   #quota_size_regex = ,S=(\d+):
   quota_warn_threshold = 75%
