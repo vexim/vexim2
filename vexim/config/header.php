@@ -15,9 +15,9 @@
     print     "-- " . $_SESSION['domain'] . " ";
   }
   if (isset($_SESSION['domain_id'])) {
-    if (($domheaderrow['enabled'] === "0") || ($domheaderrow['enabled'] === "f")) {
+    if ($domheaderrow['enabled'] === "0") {
       print   _("-- domain disabled (please see your administrator).");
-    } else if (($usrheaderrow['enabled'] === "0") || ($usrheaderrow['enabled'] === "f")) {
+    } else if ($usrheaderrow['enabled'] === "0") {
       print   _("-- account disabled (please see your administrator).");
     }
   }
