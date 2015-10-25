@@ -20,11 +20,11 @@
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   $row = $sth->fetch();
-  if ((isset($_POST['on_avscan'])) && ($row['avscan'] = 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
-  if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] = 1)) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
+  if ((isset($_POST['on_avscan'])) && ($row['avscan'] === '1')) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
+  if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] === '1')) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
   if ((isset($_POST['maxmsgsize'])) && ($_POST['maxmsgsize'] > $row['maxmsgsize'])) {$_POST['maxmsgsize'] = $row['maxmsgsize'];}
 
-  if ($_POST['realname'] != "") {
+  if ($_POST['realname'] !== "") {
     $query = "UPDATE users SET realname=:realname
 		WHERE user_id=:user_id";
     $sth = $dbh->prepare($query);
@@ -32,21 +32,23 @@
   }
 
 # Update the password, if the password was given
-  if (validate_password($_POST['clear'], $_POST['vclear'])) {
-    $cryptedpassword = crypt_password($_POST['clear']);
-    $query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id";
-    $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':user_id'=>$_SESSION['user_id']));
-    if ($success) {
-      $_SESSION['crypt'] = $cryptedpassword;
-      header ("Location: userchange.php?userupdated");
-      die;
-    } else {
+  if (isset($_POST['clear']) && $_POST['clear']!=='') {
+    if (validate_password($_POST['clear'], $_POST['vclear'])) {
+      $cryptedpassword = crypt_password($_POST['clear']);
+      $query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id";
+      $sth = $dbh->prepare($query);
+      $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':user_id'=>$_SESSION['user_id']));
+      if ($success) {
+        $_SESSION['crypt'] = $cryptedpassword;
+        header ("Location: userchange.php?userupdated");
+        die;
+      } else {
+        header ("Location: userchange.php?badpass");
+        die;
+      }
       header ("Location: userchange.php?badpass");
       die;
     }
-    header ("Location: userchange.php?badpass");
-    die;
   }
 
   if (isset($_POST['vacation']) && is_string($_POST['vacation'])) {

@@ -37,7 +37,7 @@
         $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
         $row = $sth->fetch();
         if (($sth->rowCount()) && $row['max_accounts']) {
-          printf(_("(%d of %d)", $row['used'], $row['max_accounts']));
+          printf(_("(%d of %d)"), $row['used'], $row['max_accounts']);
         }
       ?>
       <br>

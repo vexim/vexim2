@@ -26,7 +26,7 @@
   $_POST['localpart'] = preg_replace("/\s+$/","",$_POST['localpart']); 
 
   # get the settings for the domain 
-  $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas FROM domains 
+  $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas,maxmsgsize FROM domains 
     WHERE domain_id=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
@@ -61,12 +61,17 @@
     $_POST['quota'] = $row['quotas'];
   }
   if($row['quotas'] != "0") {
-    if (($_POST['quota'] > $row['quotas']) || ($_POST['quota'] == "0")) { 
+    if (($_POST['quota'] > $row['quotas']) || ($_POST['quota'] === "0")) {
       header ("Location: adminuser.php?quotahigh={$row['quotas']}");
-      die; 
+      die;
     }
   }
-  
+  if($row['maxmsgsize'] !== "0") {
+    if (($_POST['maxmsgsize'] > $row['maxmsgsize']) || ($_POST['maxmsgsize'] === "0")) {
+      $_POST['maxmsgsize']=$row['maxmsgsize'];
+    }
+  }
+
   # Do some checking, to make sure the user is ALLOWED to make these changes
   if ((isset($_POST['on_piped'])) && ($row['pipe'] == 1)) {
     $_POST['on_piped'] = 1;
