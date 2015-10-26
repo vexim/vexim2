@@ -35,7 +35,7 @@
     $row = $sth->fetch();
 	
 	# confirm the crypted password in the session matches the crypted password in the database for the siteadmin
-	if ($row['crypt'] != $_SESSION['crypt']) {
+	if ($row['crypt'] !== $_SESSION['crypt']) {
 		header ("Location: index.php?login=failed"); 
 		die(); 
 	}
