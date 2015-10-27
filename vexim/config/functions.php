@@ -6,15 +6,14 @@
      * validate if password and confirmation password match.
      * They can not be empty.
      *
-     * @param   string   $clear   cleartext password
-     * @param   string   $vclear  cleartext password (for validation)
-     * @return  boolean  true if they match and contain no illegal characters
+     * @param   string   $password   cleartext password
+     * @param   string   $confirmationPassword  cleartext password (for validation)
+     * @return  boolean  true if they match
      */
-    function validate_password($clear,$vclear) 
+    function validate_password($password, $confirmationPassword)
     {
-        return ($clear === $vclear) && ($clear !== "");
+        return (is_string($password)) && ($password === $confirmationPassword) && ($password !== "");
     }
-
 
     /**
      * Check if a user already exists.
