@@ -1,10 +1,10 @@
 <?php
 	
-	class FunctionValidatePasswordTest extends PHPUnit_Framework_TestCase {
+class FunctionValidatePasswordTest extends PHPUnit_Framework_TestCase {
 		
-		public function setUp() {
-			require_once(__DIR__ . '/../functions.php');
-		}
+	public function setUp() {
+		require_once(__DIR__ . '/../functions.php');
+	}
 
         public function testSendEmptyPasswords()
         {
@@ -41,6 +41,6 @@
         {
             $this->assertFalse(validate_password(0, 0));
         }
-	}
+}
 
 ### EOF
