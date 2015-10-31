@@ -95,7 +95,7 @@
         ':sa_refuse'=>((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse']  : 0),
         ':avscan'=>$_POST['avscan'], ':max_accounts'=>$_POST['max_accounts'],
         ':quotas'=>((isset($_POST['quotas'])) ? $_POST['quotas'] : 0),
-        ':maildir'=>$domainpath,
+        ':maildir'=>((isset($_POST['maildir'])) ? $domainpath : ''),
         ':pipe'=>$_POST['pipe'], ':enabled'=>$_POST['enabled'],
         ':uid'=>$uid, ':gid'=>$gid, ':type'=>$_POST['type'],
         ':maxmsgsize'=>((isset($_POST['maxmsgsize'])) ? $_POST['maxmsgsize'] : 0)
