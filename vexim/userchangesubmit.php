@@ -42,9 +42,6 @@
         $_SESSION['crypt'] = $cryptedpassword;
         header ("Location: userchange.php?userupdated");
         die;
-      } else {
-        header ("Location: userchange.php?badpass");
-        die;
       }
       header ("Location: userchange.php?badpass");
       die;
