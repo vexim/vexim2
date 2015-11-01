@@ -647,6 +647,7 @@ virtual_forward:
 
 virtual_domains:
   driver = redirect
+  domains = +local_domains
   address_data = ${lookup mysql{\
         select smtp, users.sa_tag*10 AS sa_tag, users.on_spamassassin AS on_spamassassin, \
         users.uid AS uid, users.gid AS gid, quota from users,domains \
