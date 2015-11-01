@@ -9,22 +9,10 @@ virtual_delivery:
   mode = 0600
   maildir_format = true
   create_directory = true
-  directory = ${lookup mysql{select smtp from users,domains \
-                where localpart = '${quote_mysql:$local_part}' \
-                and domain = '${quote_mysql:$domain}' \
-                and users.domain_id = domains.domain_id}}
-  user = ${lookup mysql{select users.uid  from users,domains \
-                where localpart = '${quote_mysql:$local_part}' \
-                and domain = '${quote_mysql:$domain}' \
-                and users.domain_id = domains.domain_id}}
-  group = ${lookup mysql{select users.gid from users,domains \
-                where localpart = '${quote_mysql:$local_part}' \
-                and domain = '${quote_mysql:$domain}' \
-                and users.domain_id = domains.domain_id}}
-  quota = ${lookup mysql{select users.quota from users,domains \
-                where localpart = '${quote_mysql:$local_part}' \
-                and domain = '${quote_mysql:$domain}' \
-                and users.domain_id = domains.domain_id}{${value}M}}
+  directory = ${extract{smtp}{$address_data}}
+  user = ${extract{uid}{$address_data}}
+  group = ${extract{gid}{$address_data}}
+  quota = ${extract{quota}{$address_data}}
   quota_is_inclusive = false
   #quota_size_regex = ,S=(\d+):
   quota_warn_threshold = 75%

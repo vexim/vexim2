@@ -41,33 +41,32 @@ virtual_forward:
 virtual_domains:
   driver = redirect
   domains = +local_domains
-  allow_fail
-  data = ${lookup mysql{select smtp from users,domains \
-                where localpart = '${quote_mysql:$local_part}' \
+  address_data = ${lookup mysql{\
+        select smtp, users.sa_tag*10 AS sa_tag, users.on_spamassassin AS on_spamassassin, \
+        users.uid AS uid, users.gid AS gid, quota from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
                 and domain = '${quote_mysql:$domain}' \
                 and domains.enabled = '1' \
                 and users.enabled = '1' \
-                and users.domain_id = domains.domain_id}}
-  headers_add = ${if >{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
-                where localpart = '${quote_mysql:$local_part}' \
-                and domain = '${quote_mysql:$domain}' \
-                and users.on_spamassassin = '1' \
-                and users.domain_id=domains.domain_id }{$value}fail}} {X-Spam-Flag: YES\n}{} }
-  # You may have to use single colons in headers_remove rule, or comment it out altogether
-  # if using Exim v. 4.85 or older. See https://github.com/avleen/vexim2/issues/21 and
-  # check out the links pasted in that issue for more info.
+                and users.domain_id = domains.domain_id}{$value}fail}
+  allow_fail
+  data = ${extract{smtp}{$address_data}}
+  headers_add = ${if and { \
+                    {>{$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
+                    {eq{1}{${extract{on_spamassassin}{$address_data}}}} \
+                    } {X-Spam-Flag: YES\n}{} }
   headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                             { <{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
-                               where localpart = '${quote_mysql::$local_part}' \
-                               and domain = '${quote_mysql::$domain}' \
-                               and users.on_spamassassin = 1 \
-                               and users.domain_id=domains.domain_id}{$value}fail}} } \
-                             { eq {0}{${lookup mysql{select users.sa_tag * 10 from users,domains \
-                               where localpart = '${quote_mysql::$local_part}' \
-                               and domain = '${quote_mysql::$domain}' \
-                               and users.on_spamassassin = 0 \
-                               and users.domain_id=domains.domain_id}{$value}fail}}} \
-                           } {X-Spam-Score:X-Spam-Report} }
+                            { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
+                                   {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
+                                  } \
+                            } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
+                          }  {X-Spam-Score}}
+  headers_remove = ${if or { { <{$spam_score_int}{1} } \
+                            { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
+                                   {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
+                                  } \
+                            } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
+                          }  {X-Spam-Report}}
   # using local_part_suffixes enables possibility to use user-"something" localparts
   # which could cause you trouble if you're creating email-adresses with dashes in between.
   .ifdef VEXIM_LOCALPART_SUFFIX
@@ -84,7 +83,7 @@ virtual_domains:
 # if a group is flaged public
 # then anyone on the internet can write to it
 # else only members can write to it
-# 
+#
 # If not public non member sender will receive a "550 Unknown user" message
 virtual_dom_groups:
   driver = redirect
