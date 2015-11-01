@@ -654,6 +654,14 @@ virtual_domains:
 		and domains.enabled = '1' \
 		and users.enabled = '1' \
 		and users.domain_id = domains.domain_id}}
+  headers_remove = Subject
+  headers_add = ${if >{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
+                where localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
+                and users.on_spamassassin = '1' \
+                and users.on_rewrite = '1' \
+                and users.domain_id=domains.domain_id }{$value}fail}}\
+                {Subject: *****SPAM***** $h_Subject:}{Subject: $h_Subject:} }
   headers_add = ${if >{$spam_score_int}{${lookup mysql{select users.sa_tag * 10 from users,domains \
   		where localpart = '${quote_mysql:$local_part}' \
 		and domain = '${quote_mysql:$domain}' \
