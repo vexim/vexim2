@@ -63,6 +63,10 @@ td.trash {
 	padding-right: 3px;
 }
 
+tr.disabled a {
+       color:#666;
+}
+
 div.row {
   clear: both;
   padding-top: 10px;

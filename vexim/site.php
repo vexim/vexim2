@@ -48,7 +48,7 @@
       </tr>
       <?php
         $query = "SELECT MIN(localpart) AS localpart, domain,
-          domains.domain_id, count(*) AS count    
+          domains.domain_id, count(*) AS count, domains.enabled AS enabled
           FROM   users, domains
           WHERE  users.domain_id = domains.domain_id
           AND    domain !='admin' AND admin=1";
@@ -64,8 +64,8 @@
         $sth = $dbh->prepare($query);
         $sth->execute($queryParams);
         while ($row = $sth->fetch()) {
+          if($row['enabled']==="0") print '<tr class="disabled">'; else print '<tr>';
       ?>
-            <tr>
               <td>
                 <a href="sitedelete.php?domain_id=<?php
                   echo $row['domain_id']; ?>&domain=<?php
