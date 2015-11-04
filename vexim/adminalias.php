@@ -59,7 +59,7 @@
           print '<td class="check">';
           print '</tr>';
         }
-        $query = "SELECT user_id,localpart,smtp,realname,type,admin
+        $query = "SELECT user_id,localpart,smtp,realname,type,admin,enabled
           FROM users
           WHERE domain_id=:domain_id AND type='alias'
 		  ORDER BY localpart;";
@@ -67,7 +67,8 @@
         $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
         if ($sth->rowCount()) {
           while ($row = $sth->fetch()) {
-            print '<tr><td align="center">'
+            if($row['enabled']==="0") print '<tr class="disabled">'; else print '<tr>';
+            print '<td align="center">'
               . '<a href="adminaliasdelete.php?user_id='
               . $row['user_id']
               . '&localpart='
