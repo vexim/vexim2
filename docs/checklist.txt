@@ -19,9 +19,12 @@ Site management:
     [ ] Deleting domains
     [ ] Adding domain alias
     [ ] Deleting domain alias
+    [ ] Adding relay domain
+    [ ] Deleting relay domain
 
 Siteadmin Management:
     [ ] Change siteadmin password
+    [ ] Set siteadmin password to 'CHANGE', at next login you must change password.
 
 Account Additions:
     [ ] Adding aliases works
@@ -32,6 +35,7 @@ Account Additions:
 	    do they still show up?
 	[ ] Can you enable/disable the availible options?
         [ ] Can you change SpamAssassin scores?
+        [ ] Can you change if spam mails are moved/deleted?
     [ ] Does adding :fail:'s work?
     [ ] If you have a maximum number of accounts:
         [ ] Is this displayed?
@@ -44,6 +48,10 @@ Account Management:
         [ ] Can you update the name?
 	[ ] Can you update the 'to' ?
 	[ ] Can you update the final destination?
+        [ ] Can you enable/disable Anti-Virus?
+        [ ] Can you enable/disable SpamAssassin?
+        [ ] Can you update SpamAssassin scores?
+        [ ] Can you change if spam mails are forwarded/deleted?
     [ ] Update Catchall:
         [ ] Can you update the final destination?
     [ ] Update POP/IMAP accounts - name, password, UID, GID, procmail, admin
@@ -56,6 +64,7 @@ Account Management:
         [ ] Can you update the SpamAssassin flag?
         [ ] Can you update the Anti-Virus flag?
         [ ] Can you update the SpamAssassin scores?
+        [ ] Can you update the Spam-mail handling (move/delete)?
         [ ] Can you update the enabled flag?
 	[ ] Can you add and remove header filters?
     [ ] Update :fail:'s
@@ -66,10 +75,11 @@ Account Management:
     [ ] Can you enable/disable Anti-Virus?
     [ ] Can you enable/disable Spamassassin?
     [ ] Can you change SpamAssassin scores?
+    [ ] Can you change the Spam-mail handling (move/delete)?
     [ ] Can you add/remove header filters?
 
 [ ] Logging in as Postmaster, a second Admin user, and a regular user
-    [ ] Can you log in if the domain is disabled? Should work
+    [ ] Can you log in if the domain is disabled? Should work as postmaster, should not work as user
     [ ] Can you log in if the account is disabled? Should fail
 
 Account Deletions:
