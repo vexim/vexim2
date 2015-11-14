@@ -20,7 +20,8 @@
       AND username='siteadmin'
       AND users.domain_id = domains.domain_id";
   } else if ($AllowUserLogin) {
-		$query = "SELECT crypt,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
+		$query = "SELECT crypt,localpart,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled, users.enabled AS userenabled
+      FROM users,domains
       WHERE localpart=:localpart
       AND users.domain_id = domains.domain_id
       AND domains.domain=:domain;";
@@ -65,6 +66,18 @@
 		die();
 	}
 
+ if (($row['userenabled'] === '0')) {
+   header ('Location: index.php?userdisabled');
+   die();
+ }
+ if (($row['domainenabled'] === '0')) {
+   header ('Location: index.php?domaindisabled');
+   die();
+ }
+
+
+
+
 	# populate session variables from what was retrieved from the database (NOT what they posted)
     $_SESSION['localpart'] = $row['localpart'];
     $_SESSION['domain'] = $row['domain'];
@@ -85,10 +98,6 @@
 		header ('Location: admin.php');
 		die();
     }
-	if (($row['domainenabled'] == '0')) {
-		header ('Location: index.php?domaindisabled');
-		die();
-}
 	
 	# must be a user, send them to edit their own details
 	header ('Location: userchange.php');
