@@ -124,18 +124,28 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 <td><input name="submit" size="25" type="submit" value="<?php echo _("Submit Changes"); ?>"></td>
             </tr>
         </form>
-	<form name="sadisable" method="post" action="sitechangesubmit.php">
-	  <tr><td><?php echo _("Disable SpamAssassin for all domain users") . "<br><b>(" . _("Warning: cannot be reversed!") . ")</b>:</td>\n"; ?>
-	      <td><input name="sadisable" type="hidden" value="sadisable">
-		  <input name="domain_id" type="hidden" value="<?php print $_GET['domain_id']; ?>">
-		  <input name="submit" type="submit" value="<?php echo _("Disable"); ?>"></td></tr>
-	</form>
-	<form name="avdisable" method="post" action="sitechangesubmit.php">
-	  <tr><td><?php echo _("Disable Anti-Virus for all domain users") . "<br><b>(" . _("Warning: cannot be reversed!") . ")</b>:</td>\n"; ?>
-	      <td><input name="avdisable" type="hidden" value="avdisable">
-		  <input name="domain_id" type="hidden" value="<?php print $_GET['domain_id']; ?>">
-		  <input name="submit" type="submit" value="<?php echo _("Disable"); ?>"></td></tr>
-	</form>
+        <form name="allusers" method="post" action="sitechangesubmit.php">
+            <input name="allusers" type="hidden" value="<?php print $_GET['domain_id']; ?>">
+            <tr>
+                <td><?php echo _("SpamAssassin for all domain users") . "<br><b>(" . _("Warning: cannot be reversed!") . ")</b>:"; ?></td>
+                <td>
+                    <input type="radio" name="on_spamassassin" value="2" checked><?php echo _("Keep unchanged"); ?></input><br>
+                    <input type="radio" name="on_spamassassin" value="1"><?php echo _("Enable"); ?></input><br>
+                    <input type="radio" name="on_spamassassin" value="0"><?php echo _("Disable"); ?></input>
+                </td>
+            </tr>
+            <tr>
+                <td><?php echo _("Anti-Virus for all domain users") . "<br><b>(" . _("Warning: cannot be reversed!") . ")</b>:"; ?></td>
+                <td>
+                    <input type="radio" name="on_avscan" value="2" checked><?php echo _("Keep unchanged"); ?></input><br>
+                    <input type="radio" name="on_avscan" value="1"><?php echo _("Enable"); ?></input><br>
+                    <input type="radio" name="on_avscan" value="0"><?php echo _("Disable"); ?></input>
+                </td>
+            </tr>
+            <tr>
+                <td><input name="submit" type="submit" value="<?php echo _("Submit"); ?>"></td>
+            </tr>
+        </form>
     </table>
 </div>
 </body>
