@@ -1,5 +1,27 @@
 <?php
+  if (isset($_SESSION['domain_id'])) { // Check if accound or domain haven't been disabled
+    $headerquery = "SELECT domains.enabled AS domain, users.enabled AS user FROM users,domains
+                    WHERE users.localpart=:localpart AND domains.domain_id=:domain_id AND users.domain_id=domains.domain_id;";
+    $headerresult = $dbh->prepare($headerquery);
+    $headersuccess = $headerresult->execute(array(':localpart'=>$_SESSION['localpart'], ':domain_id'=>$_SESSION['domain_id']));
+    if ($headersuccess) {
+      $headerrow = $headerresult->fetch();
+      if ($headerrow['domain'] === "0") {
+        unset($_SESSION['domain_id']);
+        header ("Location: index.php?domaindisabled");
+	die();
+      }
+      if ($headerrow['user'] === "0") {
+        unset($_SESSION['domain_id']);
+        header ("Location: index.php?userdisabled");
+        die();
+      }
+    }
+  }
   print "<div id=\"Header\"><p><a href=\"https://github.com/vexim/vexim2\" target=\"_blank\">" . _("Virtual Exim") . "</a> ";
+  if (isset($_SESSION['domain'])) {
+    print     "-- " . $_SESSION['domain'] . " ";
+  }
   // First a few status messages about account maintenance
   if (isset($_GET['added'])) {
     printf (_("-- %s has been successfully added."), $_GET['added']);
