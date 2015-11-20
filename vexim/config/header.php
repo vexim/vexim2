@@ -7,12 +7,12 @@
     if ($headersuccess) {
       $headerrow = $headerresult->fetch();
       if ($headerrow['domain'] === "0") {
-        unset($_SESSION['domain_id']);
+        invalidate_session();
         header ("Location: index.php?domaindisabled");
 	die();
       }
       if ($headerrow['user'] === "0") {
-        unset($_SESSION['domain_id']);
+        invalidate_session();
         header ("Location: index.php?userdisabled");
         die();
       }
