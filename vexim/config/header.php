@@ -1,25 +1,29 @@
 <?php
   if (isset($_SESSION['domain_id'])) {
-    $domheaderquery = "SELECT enabled FROM domains WHERE domains.domain_id=:domain_id";
-    $domheaderresult = $dbh->prepare($domheaderquery);
-    $domsuccess = $domheaderresult->execute(array(':domain_id'=>$_SESSION['domain_id']));
-    if ($domsuccess) { $domheaderrow = $domheaderresult->fetch(); }
-    $usrheaderquery = "SELECT enabled FROM users WHERE localpart=:localpart AND domain_id=:domain_id";
-    $usrheaderresult = $dbh->prepare($usrheaderquery);
-    $usrsuccess = $usrheaderresult->execute(array(':localpart'=>$_SESSION['localpart'], ':domain_id'=>$_SESSION['domain_id']));
-    if ($usrsuccess) { $usrheaderrow = $usrheaderresult->fetch(); }
+    $headerquery = "SELECT domains.enabled AS domain, users.enabled AS user FROM users,domains
+                    WHERE users.localpart=:localpart AND domains.domain_id=:domain_id AND users.domain_id=domains.domain_id;";
+    $headerresult = $dbh->prepare($headerquery);
+    $headersuccess = $headerresult->execute(array(':localpart'=>$_SESSION['localpart'], ':domain_id'=>$_SESSION['domain_id']));
+    if ($headersuccess && $headerrow = $headerresult->fetch()) {
+      if ($headerrow['domain'] === "0") {
+        invalidate_session();
+        header ("Location: index.php?domaindisabled");
+        die();
+      }
+      if ($headerrow['user'] === "0") {
+        invalidate_session();
+        header ("Location: index.php?userdisabled");
+        die();
+      }
+    } else {
+      invalidate_session();
+      header ("Location: index.php?nodbquery");
+      die();
+    }
   }
-
-  print "<div id=\"Header\"><p><a href=\"https://github.com/avleen/vexim2\" target=\"_blank\">" . _("Virtual Exim") . "</a> ";
+  print "<div id=\"Header\"><p><a href=\"https://github.com/vexim/vexim2\" target=\"_blank\">" . _("Virtual Exim") . "</a> ";
   if (isset($_SESSION['domain'])) {
     print     "-- " . $_SESSION['domain'] . " ";
-  }
-  if (isset($_SESSION['domain_id'])) {
-    if ($domheaderrow['enabled'] === "0") {
-      print   _("-- domain disabled (please see your administrator).");
-    } else if ($usrheaderrow['enabled'] === "0") {
-      print   _("-- account disabled (please see your administrator).");
-    }
   }
   // First a few status messages about account maintenance
   if (isset($_GET['added'])) {
@@ -68,6 +72,8 @@
     printf (_("-- Deletion of %s was canceled."), $_GET['canceldelete']);
   } else if (isset($_GET['domaindisabled'])) {
     print   _("-- This domain is currently disabled. Please see your administrator.");
+  } else if (isset($_GET['userdisabled'])) {
+    print   _("-- This account is currently disabled. Please see your administrator.");
   } else if (isset($_GET['maxaccounts'])) {
     print   _("-- Your Domain Account Limit Has Been Reached. Please contact your administrator.");
   } else if (isset($_GET['quotahigh'])) {
@@ -92,6 +98,8 @@
     printf (_("-- Domain Mail directory “%s” does not exist, is not a directory or is not accessible."), $_GET['failmaildirmissing']);
   } else if (isset($_GET['invalidforward'])) {
     printf (_("-- %s is not a valid e-mail address."), $_GET['invalidforward']);
+  } else if (isset($_GET['nodbquery'])) {
+    print   _("-- Database query failed, terminating session");
   }
   if (isset($_GET['login']) && ($_GET['login'] == "failed")) { print _("Login failed"); }
 
