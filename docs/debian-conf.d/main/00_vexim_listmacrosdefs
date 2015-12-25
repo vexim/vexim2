@@ -2,6 +2,10 @@
 ### main/00_vexim_listmacrosdefs
 #################################
 
+# if you exim version < 4.83 , define macro below for enabling new
+# 'headers_remove' behavior. See https://github.com/vexim/vexim2/pull/102 .
+#OLD_HEADERS_REMOVE = yes
+
 hide mysql_servers = localhost::(/var/run/mysqld/mysqld.sock)/vexim/vexim/CHANGE
 
 # domains

@@ -87,6 +87,10 @@ hostlist   relay_from_hosts = localhost : @ : 192.168.0.0/24
 # Comment this line if you want to disable it, instead of + you can use a different separator.
 VEXIM_LOCALPART_SUFFIX = +*
 
+# if you exim version < 4.83 , define macro below for enabling new
+# 'headers_remove' behavior. See https://github.com/vexim/vexim2/pull/102 .
+#OLD_HEADERS_REMOVE = yes
+
 #Debian: hide mysql_servers = localhost::(/var/run/mysqld/mysqld.sock)/vexim/vexim/CHANGE
 #hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
@@ -662,18 +666,28 @@ virtual_domains:
                     {>{$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
                     {eq{1}{${extract{on_spamassassin}{$address_data}}}} \
                     } {X-Spam-Flag: YES\n}{} }
-  headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                            { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
-                                   {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
-                                  } \
-                            } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
-                          }  {X-Spam-Score}}
-  headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                            { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
-                                   {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
-                                  } \
-                            } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
-                          }  {X-Spam-Report}}
+  # Whether to use old or new headers_remove behavior.
+  .ifndef OLD_HEADERS_REMOVE
+    headers_remove = ${if or { { <{$spam_score_int}{1} } \
+                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
+                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
+                                    } \
+                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
+                            }  {X-Spam-Score}}
+    headers_remove = ${if or { { <{$spam_score_int}{1} } \
+                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
+                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
+                                    } \
+                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
+                            }  {X-Spam-Report}}
+  .else
+    headers_remove = ${if or { { <{$spam_score_int}{1} } \
+                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
+                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
+                                    } \
+                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
+                            }  {X-Spam-Score:X-Spam-Report}}
+  .endif
   # using local_part_suffixes enables possibility to use user-"something" localparts
   # which could cause you trouble if you're creating email-adresses with dashes in between.
   .ifdef VEXIM_LOCALPART_SUFFIX
