@@ -13,6 +13,9 @@ if (isset($_POST['clear'])) {$action = 'adminpass';}
 // Main action switch
 switch ($action) {
   case 'allusers':
+    // Default value
+    $success = TRUE;
+
     // Process SpamAssassin
     if (isset($_POST['on_spamassassin'])) {
       if ($_POST['on_spamassassin'] != '2' && ($_POST['on_spamassassin'] == '1' || $_POST['on_spamassassin'] == '0')) {
