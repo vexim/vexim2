@@ -15,7 +15,7 @@
   }
  
   # Fix the boolean values
-  $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas
+  $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas,maxmsgsize
     FROM domains
     WHERE domain_id=:domain_id";
   $sth = $dbh->prepare($query);
@@ -99,6 +99,12 @@
     $forwardaddr = $_POST['forwardmenu'];
   } else {
     $forwardaddr = $_POST['forward'];
+  }
+
+  if (isset($_POST['maxmsgsize']) && $row['maxmsgsize']!=='0') {
+    if ($_POST['maxmsgsize']<=0 || $_POST['maxmsgsize']>$row['maxmsgsize']) {
+      $_POST['maxmsgsize']=$row['maxmsgsize'];
+    }
   }
 
   # Prevent de-admining the last admin
