@@ -58,6 +58,10 @@
         </tr>
         <tr>
           <td><?php echo _('Email Address'); ?>:</td>
+          <td><?php print $row['localpart'] . '@' . $_SESSION['domain']; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo _('User Name'); ?>:</td>
           <td><?php print $row['username']; ?></td>
         </tr>
         <input name="user_id" type="hidden"

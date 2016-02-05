@@ -49,6 +49,12 @@
           </td>
         </tr>
         <tr>
+          <td><?php echo _('User Name'); ?>:</td>
+          <td colspan="2">
+            <input type="textfield" size="25" name="username" class="textfield">
+          </td>
+        </tr>
+        <tr>
           <td><?php echo _('Address'); ?>:</td>
           <td colspan="2">
             <input type="textfield" size="25" name="localpart"

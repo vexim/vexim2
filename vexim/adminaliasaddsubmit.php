@@ -45,7 +45,7 @@
 
   # check_user_exists() will die if a user account already exists with the same localpart and domain id
   check_user_exists(
-    $dbh,$_POST['localpart'],$_SESSION['domain_id'],'adminalias.php'
+    $dbh,$_POST['username'],$_POST['localpart'],$_SESSION['domain_id'],'adminalias.php'
   );
 
   if ((preg_match("/['@%!\/\|\" ']/",$_POST['localpart']))
@@ -73,7 +73,7 @@
     $sth = $dbh->prepare($query);
        $success = $sth->execute(array(
        ':localpart' => $_POST['localpart'],
-       ':username' => $_POST['localpart'] . '@' . $_SESSION['domain'],
+       ':username' => $_POST['username'],
        ':domain_id' => $_SESSION['domain_id'],
        ':crypt' => crypt_password($_POST['clear']),
        ':smtp' => $aliasto,

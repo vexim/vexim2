@@ -3,7 +3,7 @@
   include_once dirname(__FILE__) . '/config/authpostmaster.php';
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
-  $query = "SELECT localpart,realname,smtp,on_avscan,on_spamassassin,sa_tag,sa_refuse,spam_drop,
+  $query = "SELECT localpart,username,realname,smtp,on_avscan,on_spamassassin,sa_tag,sa_refuse,spam_drop,
     admin,enabled FROM users 	
 	WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
   $sth = $dbh->prepare($query);
@@ -50,6 +50,13 @@
             <td>
               <input name="realname" type="text"
               value="<?php print $row['realname']; ?>"class="textfield">
+            </td>
+          </tr>
+          <tr>
+            <td><?php echo _('User Name'); ?>:</td>
+            <td>
+              <input name="username" type="text"
+              value="<?php print $row['username']; ?>"class="textfield">
             </td>
           </tr>
           <tr>

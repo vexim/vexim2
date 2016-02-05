@@ -109,7 +109,7 @@
             WHERE domains.domain=:domain";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
-                ':username'=>$_POST['localpart'].'@'.$_POST['domain'],
+                ':username'=>$_POST['username'],
                 ':crypt'=>crypt_password($_POST['clear']),
                 ':uid'=>$uid, ':gid'=>$gid, ':smtp'=>$smtphomepath,
                 ':pop'=>$pophomepath,

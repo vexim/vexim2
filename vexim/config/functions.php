@@ -27,14 +27,17 @@
      * @param  string  $domain_id
      * @param  string  $page       page to return to
      */
-    function check_user_exists($dbh,$localpart,$domain_id,$page)
+    function check_user_exists($dbh,$username,$localpart,$domain_id,$page)
     {
         $query = "SELECT COUNT(*) AS c 
                   FROM   users 
-                  WHERE  localpart=:localpart
-                  AND    domain_id=:domain_id";
+                  WHERE  username=:username
+                  OR (
+                      localpart=:localpart
+                      AND    domain_id=:domain_id
+                  )";
         $sth = $dbh->prepare($query);
-        $sth->execute(array(':localpart'=>$localpart, ':domain_id'=>$domain_id));
+        $sth->execute(array(':username'=>$username, ':localpart'=>$localpart, ':domain_id'=>$domain_id));
         $row = $sth->fetch();
         if ($row['c'] != 0) 
         {
