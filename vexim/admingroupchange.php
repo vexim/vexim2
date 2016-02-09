@@ -75,7 +75,7 @@
         <tr>
           <td colspan="2"> 
             <?php
-              $query = "SELECT u.realname, u.username, u.enabled, c.member_id
+              $query = "SELECT u.realname, u.localpart, u.enabled, c.member_id
                 FROM users u, group_contents c
                 WHERE u.user_id=c.member_id and c.group_id=:group_id
                 ORDER BY u.enabled desc, u.realname asc";
@@ -106,7 +106,7 @@
                   </a>
                 </td>
                 <td><?php echo $row['realname']; ?></td>
-                <td><?php echo $row['username']; ?></td>
+                <td><?php echo $row['localpart'].'@'.$_SESSION['domain']; ?></td>
                 <td>
                   <?php
                     if($row['enabled']='1') {
@@ -143,7 +143,7 @@
               <select name="usertoadd">
                 <option selected value=""></option>
                 <?php
-                  $query = "SELECT realname, username, user_id FROM users
+                  $query = "SELECT realname, localpart, user_id FROM users
                     WHERE enabled='1' AND domain_id=:domain_id AND type!='fail'
                     ORDER BY realname, username, type desc";
                   $sth = $dbh->prepare($query);
@@ -152,7 +152,7 @@
                 ?>
                   <option value="<?php echo $row['user_id']; 
 					?>"><?php echo $row['realname']; 
-					?>(<?php echo $row['username']; ?>)</option>
+					?> (<?php echo $row['localpart'].'@'.$_SESSION['domain']; ?>)</option>
                 <?php 
                   }
                 ?>

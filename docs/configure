@@ -701,7 +701,7 @@ virtual_dom_groups:
                                             d.domain_id = g.domain_id and g.enabled = '1' and \
                                             g.name = '${quote_mysql:$local_part}'}}} \
                  {$sender_address} \
-                 {${lookup mysql{select u.username \
+                 {${lookup mysql{select concat_ws('@', u.localpart, d.domain) \
                                  from domains d, groups g, group_contents c, users u \
                                  where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
                                        d.domain_id = g.domain_id and g.name = '${quote_mysql:$local_part}' and \
@@ -710,7 +710,7 @@ virtual_dom_groups:
                                        d.domain_id = u.domain_id and u.enabled = '1' \
 				       and u.username = '${quote_mysql:$sender_address}' }}}}
   data = ${lookup mysql{ \
-            select u.username \
+            select concat_ws('@', u.localpart, d.domain) \
             from domains d, groups g, group_contents c, users u \
             where d.enabled     = '1'           and \
                   d.domain      = '${quote_mysql:$domain}'   and \
