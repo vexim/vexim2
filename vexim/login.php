@@ -63,13 +63,15 @@
     header ('Location: index.php?login=failed');
     die();
   }
-  if (($row['userenabled'] === '0')) {
-    header ('Location: index.php?userdisabled');
-    die();
-  }
-  if (($row['domainenabled'] === '0')) {
-    header ('Location: index.php?domaindisabled');
-    die();
+  if($row['localpart']!=='siteadmin') {
+    if (($row['userenabled'] === '0')) {
+      header ('Location: index.php?userdisabled');
+      die();
+    }
+    if (($row['domainenabled'] === '0')) {
+      header ('Location: index.php?domaindisabled');
+      die();
+    }
   }
 
   # populate session variables from what was retrieved from the database (NOT what they posted)
