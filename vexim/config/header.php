@@ -1,9 +1,9 @@
 <?php
   if (isset($_SESSION['domain_id'])) {
     $headerquery = "SELECT domains.enabled AS domain, users.enabled AS user FROM users,domains
-                    WHERE users.localpart=:localpart AND domains.domain_id=:domain_id AND users.domain_id=domains.domain_id;";
+                    WHERE users.username=:username AND domains.domain_id=:domain_id AND users.domain_id=domains.domain_id;";
     $headerresult = $dbh->prepare($headerquery);
-    $headersuccess = $headerresult->execute(array(':localpart'=>$_SESSION['localpart'], ':domain_id'=>$_SESSION['domain_id']));
+    $headersuccess = $headerresult->execute(array(':username'=>$_SESSION['username'], ':domain_id'=>$_SESSION['domain_id']));
     if ($headersuccess && $headerrow = $headerresult->fetch()) {
       if ($headerrow['domain'] === "0") {
         invalidate_session();

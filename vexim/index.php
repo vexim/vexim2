@@ -14,41 +14,15 @@
       <form style="margin-top:3em;" name="login" method="post" action="login.php">
         <table align="center">
           <tr>
-            <td><?php echo _('Username'); ?>:<td><input name="localpart" type="text" class="textfield">&nbsp;@&nbsp;</td>
-            <td>
-              <?php
-                $domain = preg_replace ("/^mail\./", "", $_SERVER["SERVER_NAME"]);
-                if ($domaininput == 'dropdown') {
-                  $query = "SELECT domain FROM domains WHERE type='local' AND domain!='admin' ORDER BY domain";
-                  $result = $dbh->query($query);
-              ?>
-                  <select name="domain" class="textfield">
-                  <option value=''></option>
-              <?php
-                    if ($result->rowCount()) {
-                      while ($row = $result->fetch()) {
-                        print "<option value='{$row['domain']}'>{$row['domain']}"
-                        . '</option>';
-                      }
-                    }
-                  print '</select>';
-                } else if ($domaininput == 'textbox') {
-                  print '<input type="text" name="domain" class="textfield"> (domain name)';
-                } else if ($domaininput == 'static') {
-                  print $domain
-                    . '<input type="hidden" name="domain" value='
-                    . $domain
-                    . '>';
-                }
-              ?>
-            </td>
+            <td><?php echo _('Username'); ?>:</td>
+            <td><input name="username" type="text" class="textfield"></td>
           </tr>
           <tr>
             <td><?php echo _("Password"); ?>:</td>
             <td><input name="crypt" type="password" class="textfield"></td>
           </tr>
           <tr>
-            <td colspan="3" style="text-align:center;padding-top:1em">
+            <td colspan="2" style="text-align:center;padding-top:1em">
               <input name="submit" type="submit"
                 value="<?php echo _("Submit"); ?>" class="longbutton">
             </td>
