@@ -14,7 +14,7 @@
     $_POST['on_forward'] = 0;
     $_POST['forward']='';
   }
-  if (isset($_POST['unseen'])) {$_POST['unseen'] = 1;} else {$_POST['unseen'] = 0;}
+  if (isset($_POST['unseen']) && $_POST['on_forward']==1) {$_POST['unseen'] = 1;} else {$_POST['unseen'] = 0;}
   # Do some checking, to make sure the user is ALLOWED to make these changes
   $query = "SELECT avscan,spamassassin,maxmsgsize from domains WHERE domain_id=:domain_id";
   $sth = $dbh->prepare($query);
@@ -28,7 +28,7 @@
     }
   }
 
-  if ($_POST['realname'] !== "") {
+  if (isset($_POST['realname'])) {
     $query = "UPDATE users SET realname=:realname
 		WHERE user_id=:user_id";
     $sth = $dbh->prepare($query);
@@ -50,6 +50,12 @@
       header ("Location: userchange.php?badpass");
       die;
     }
+  }
+
+#If the realname was changed in the upper form, don't run the rest of the script
+  if (isset($_POST['realname'])) {
+    header ("Location: userchange.php?userupdated");
+    die;
   }
 
   if (isset($_POST['vacation']) && is_string($_POST['vacation'])) {
