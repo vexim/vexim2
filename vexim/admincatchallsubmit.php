@@ -7,9 +7,9 @@
     header ("Location: adminalias.php?invalidforward=".htmlentities($_POST['smtp']));
     die;
   }
-  $query = "DELETE FROM users WHERE user_id=:user_id AND domain_id=:domain_id AND type='catch'";
+  $query = "DELETE FROM users WHERE domain_id=:domain_id AND type='catch'";
   $sth = $dbh->prepare($query);
-  $success = $sth->execute(array(':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
+  $success = $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if(!$success) {
     header ("Location: adminalias.php?failupdated=Catchall");
   } else {
