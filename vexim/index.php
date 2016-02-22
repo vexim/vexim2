@@ -15,7 +15,11 @@
         <table align="center">
           <tr>
             <td><?php echo _('Username'); ?>:</td>
-            <td><input name="username" type="text" class="textfield"></td>
+            <td><input name="username" type="text" class="textfield">
+            <?php
+            if($domainguess===1) echo '@'.preg_replace ("/^mail\./", "", $_SERVER["SERVER_NAME"]);
+            ?>
+            </td>
           </tr>
           <tr>
             <td><?php echo _("Password"); ?>:</td>
