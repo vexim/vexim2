@@ -44,6 +44,7 @@ if ($_GET['confirm'] == '1') {
   } else {
     header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
   }
+  die;
 } else if ($_GET['confirm'] == "cancel") {                 
     header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
     die;                                                      
