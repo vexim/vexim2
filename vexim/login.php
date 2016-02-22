@@ -11,24 +11,11 @@
     die;
   }
 
-  # construct the correct sql statement based on who the user is
-  if ($_POST['username'] === 'siteadmin') {
-    $query = "SELECT crypt,localpart,username,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
-    WHERE localpart='siteadmin'
-    AND domain='admin'
-    AND username='siteadmin'
-    AND users.domain_id = domains.domain_id";
-  } else if ($AllowUserLogin) {
-    $query = "SELECT crypt,username,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled, users.enabled AS userenabled
-    FROM users,domains
-    WHERE username=:username
-    AND users.domain_id = domains.domain_id";
-  } else {
-    $query = "SELECT crypt,username,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled FROM users,domains
-    WHERE username=:username
-    AND users.domain_id = domains.domain_id
-    AND admin=1;";
-  }
+  # sql statement based on username
+  $query = "SELECT crypt,username,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled, users.enabled AS userenabled
+  FROM users,domains
+  WHERE username=:username
+  AND users.domain_id = domains.domain_id";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':username'=>$_POST['username']));
   if(!$success) {
@@ -90,8 +77,12 @@
     die();
   }
 
-  # must be a user, send them to edit their own details
-  header ('Location: userchange.php');
-
+  # must be a user, send them to edit their own details, if User-Login is permitted
+  if($AllowUserLogin===1) {
+    header ('Location: userchange.php');
+    die();
+  } else {
+    header ('Location: index.php?login=failed');
+  }
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->
