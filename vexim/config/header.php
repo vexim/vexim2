@@ -100,6 +100,8 @@
     printf (_("-- %s is not a valid e-mail address."), $_GET['invalidforward']);
   } else if (isset($_GET['nodbquery'])) {
     print   _("-- Database query failed, terminating session");
+  } else if (isset($_GET['login']) && ($_GET['login'] === "disabled")) {
+    print   _("-- Login is disabled. Please contact your administrator.");
   }
   if (isset($_GET['login']) && ($_GET['login'] == "failed")) { print _("Login failed"); }
 

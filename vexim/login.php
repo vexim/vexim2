@@ -14,7 +14,8 @@
   if($domainguess === 1 && $_POST['username']!=='siteadmin') $_POST['username'].='@'.preg_replace ("/^mail\./", "", $_SERVER["SERVER_NAME"]);
 
   # sql statement based on username
-  $query = "SELECT crypt,username,user_id,domain,domains.domain_id,users.admin,users.type,domains.enabled AS domainenabled, users.enabled AS userenabled
+  $query = "SELECT users.crypt,users.username,users.user_id,domains.domain,domains.domain_id,users.admin,users.type,
+  domains.enabled AS domainenabled, users.enabled AS userenabled
   FROM users,domains
   WHERE username=:username
   AND users.domain_id = domains.domain_id";
@@ -83,8 +84,7 @@
   if($AllowUserLogin===1) {
     header ('Location: userchange.php');
     die();
-  } else {
-    header ('Location: index.php?login=failed');
   }
+  header ('Location: index.php?login=disabled');
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->
