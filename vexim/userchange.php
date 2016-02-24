@@ -23,7 +23,7 @@
     <title><?php echo _("Virtual Exim") . ": " . _("Manage Users"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.userchange.realname.focus()">
+  <body onLoad="document.forms[0].elements[0].focus()">
     <?php include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="menu">
       <a href="logout.php"><?php echo _("Logout"); ?></a><br>
@@ -161,7 +161,7 @@
 	  </select></td>
 	    <td><input name="blockval" type="text" size="25" class="textfield">
 	  <input name="color" type="hidden" value="black"></td></tr>
-  	  <tr><td><input name="submit" type="submit" value="Submit"></td></tr>
+  	  <tr><td></td><td class="button"><input name="submit" type="submit" value="Submit"></td></tr>
     </table>
     </form>
     <table align="center">
