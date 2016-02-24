@@ -3,18 +3,21 @@
   include_once dirname(__FILE__) . "/config/authuser.php";
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
-  if (isset($_POST['on_vacation'])) {$_POST['on_vacation'] = 1;} else {$_POST['on_vacation'] = 0;}
+
+  $_POST['on_vacation'] = isset($_POST['on_vacation']) ? 1 : 0;
   if (isset($_POST['on_forward'])) {
     $_POST['on_forward'] = 1;
     if(!filter_var($_POST['forward'], FILTER_VALIDATE_EMAIL)) {
       header ("Location: userchange.php?invalidforward=".htmlentities($_POST['forward']));
       die;
     }
+    $_POST['unseen'] = isset($_POST['unseen']) ? 1 : 0;
   } else {
     $_POST['on_forward'] = 0;
     $_POST['forward']='';
+    $_POST['unseen']=0;
   }
-  if (isset($_POST['unseen']) && $_POST['on_forward']==1) {$_POST['unseen'] = 1;} else {$_POST['unseen'] = 0;}
+
   # Do some checking, to make sure the user is ALLOWED to make these changes
   $query = "SELECT avscan,spamassassin,maxmsgsize from domains WHERE domain_id=:domain_id";
   $sth = $dbh->prepare($query);
@@ -28,7 +31,7 @@
     }
   }
 
-  if (isset($_POST['realname'])) {
+  if (isset($_POST['realname']) && $_POST['realname']!=="") {
     $query = "UPDATE users SET realname=:realname
 		WHERE user_id=:user_id";
     $sth = $dbh->prepare($query);
