@@ -43,6 +43,23 @@
         }
     }
 
+    /**
+     * Check if mail address is compliant with RFC 3696.
+     * localpart must not exceed 64 char, and the complete mail address
+     * must not exceed 254 characters.
+     *
+     * @param  string  $localpart
+     * @param  string  $domain
+     * @param  string  $page       page to return to in case of failure
+     */
+    function check_mail_address($localpart,$domain,$page)
+    {
+      if ((strlen($localpart)+strlen($domain)>253) || strlen($localpart)>64)
+        {
+            header ("Location: $page?addresstoolong=$localpart");
+            die;
+        }
+    }
 
     /**
      * Render the alphabet. Directly onto the page.

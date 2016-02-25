@@ -38,6 +38,8 @@
     printf (_("-- %s has been successfully updated."), $_GET['updated']);
   } else if (isset($_GET['userexists'])) {
     printf (_("-- The account could not be added as the name %s is already in use."), $_GET['userexists']);
+  } else if (isset($_GET['addresstoolong'])) {
+    printf (_("-- The account could not be added as the mail address is too long."), $_GET['addresstoolong']);
   } else if (isset($_GET['userupdated'])) {
     print   _("-- Your update was sucessful.");
   } else if (isset($_GET['userfailed'])) {
