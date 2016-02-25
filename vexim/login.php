@@ -49,7 +49,7 @@
     header ('Location: index.php?login=failed');
     die();
   }
-  if($row['localpart']!=='siteadmin') {
+  if($row['username']!=='siteadmin') {
     if (($row['userenabled'] === '0')) {
       header ('Location: index.php?userdisabled');
       die();

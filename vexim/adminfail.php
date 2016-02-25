@@ -35,6 +35,8 @@
               . '<td align="center">'
               . '<a href="adminfaildelete.php?user_id='
               . $row['user_id']
+              . '&localpart='
+              . $row['localpart']
               . '"><img class="trash" src="images/trashcan.gif" title="'
               . _('Delete fail ')
               . $row['localpart']

@@ -132,10 +132,6 @@
       } else {
         header ("Location: site.php?added={$_POST['domain']}" .
                 "&type={$_POST['type']}");
-        mail("{$_POST['localpart']}@{$_POST['domain']}",
-              vexim_encode_header(_("Welcome Domain Admin!")),
-              "$welcome_newdomain",
-              "From: {$_POST['localpart']}@{$_POST['domain']}\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\n");
         die;
       }
     } else {
@@ -143,25 +139,10 @@
       die;
     }
   } else if ($_POST['type'] == "alias") {
-    $query = "SELECT domain_id FROM domains
-              WHERE domain=:aliasdest
-                AND domain_id > 1";
-    $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':aliasdest'=>$_POST['aliasdest']));
-    if (!$success) {
-      header ("Location: site.php?baddestdom={$_POST['domain']}");
-      die;
-    } else {
-      $row = $sth->fetch();
-      if (!isset($row['domain_id'])) {
-        header ("Location: site.php?baddestdom={$_POST['domain']}");
-        die;
-      }
-    }
     $query = "INSERT INTO domainalias (domain_id, alias)
               VALUES (:domain_id, :alias)";
     $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':domain_id'=>$row['domain_id'], ':alias'=>$_POST['domain']));
+    $success = $sth->execute(array(':domain_id'=>$_POST['aliasdest'], ':alias'=>$_POST['domain']));
     if (!$success) {
       header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
       die;
