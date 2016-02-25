@@ -89,6 +89,10 @@
     $_POST['on_spamassassin'] = 0;
   }
 
+  check_mail_address(
+    $_POST['localpart'],$_SESSION['domain_id'],'adminuser.php'
+  );
+
   check_user_exists(
     $dbh,$_POST['localpart'],$_SESSION['domain_id'],'adminuser.php'
   );

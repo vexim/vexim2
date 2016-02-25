@@ -8,6 +8,10 @@
     die;
   }
 
+  check_mail_address(
+    $_POST['localpart'],$_SESSION['domain_id'],'admingroup.php'
+  );
+
   check_user_exists(
     $dbh,$_POST['localpart'],$_SESSION['domain_id'],'admingroup.php'
   );

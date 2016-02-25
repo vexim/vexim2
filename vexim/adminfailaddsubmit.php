@@ -4,6 +4,10 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
+  check_mail_address(
+    $_POST['localpart'],$_SESSION['domain_id'],'adminfail.php'
+  );
+
   check_user_exists(
     $dbh,$_POST['localpart'],$_SESSION['domain_id'],'adminfail.php'
   );
