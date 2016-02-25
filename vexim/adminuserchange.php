@@ -313,12 +313,11 @@
           value="<?php print $row['localpart']; ?>" class="textfield">
         <tr>
           <td colspan="2" class="button">
-            <input name="submit" type="submit" value="Submit">
+            <input name="submit" type="submit" value="<?php echo _('Submit'); ?>">
           </td>
         </tr>
         <tr>
           <td colspan="2" style="padding-top:1em">
-          <?php echo _('Aliases to this account'); ?>:<br>
           <?php
             # Print the aliases associated with this account
             $query = "SELECT user_id,localpart,domain,realname FROM users,domains
@@ -326,6 +325,7 @@
             $sth = $dbh->prepare($query);
             $sth->execute(array(':smtp'=>$row['localpart'].'@'.$_SESSION['domain']));
             if ($sth->rowCount()) {
+              echo "<h4>"._('Aliases to this account').":</h4>";
               while ($row = $sth->fetch()) {
                 if (($row['domain'] == $_SESSION['domain'])
                   && ($row['localpart'] != "*")) {
@@ -354,13 +354,16 @@
         </td></tr>
       </form>
     </table>
+    <br>
     <table align="center">
       <form name="blocklist" method="post" action="adminuserblocksubmit.php">
         <tr>
           <td colspan="2">
-            <?php
-              echo _('Add a new header blocking filter for this user');
-            ?>:
+            <h4>
+              <?php
+                echo _('Add a new header blocking filter for this user');
+              ?>:
+            </h4>
           </td>
         </tr>
         <tr>
@@ -383,7 +386,7 @@
           </td>
         </tr>
         <tr>
-          <td>
+          <td colspan="3" class="button">
             <input name="submit" type="submit"
               value="<?php echo _('Submit'); ?>">
           </td>
