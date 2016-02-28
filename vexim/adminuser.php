@@ -90,14 +90,14 @@
           if($row['enabled']==="0") print '<tr class="disabled">'; else print '<tr>';
           print '<td class="trash"><a href="adminuserdelete.php?user_id='
             . $row['user_id']
-            . '&localpart='
+            . '&amp;localpart='
             . $row['localpart']
             . '">';
           print '<img class="trash" title="Delete '
             . $row['realname']
             . '" src="images/trashcan.gif" alt="trashcan"></a></td>';
           print '<td><a href="adminuserchange.php?user_id=' . $row['user_id']
-            . '&localpart=' . $row['localpart']
+            . '&amp;localpart=' . $row['localpart']
             . '" title="' . _('Click to modify')
             . ' '
             . $row['realname']
@@ -105,7 +105,7 @@
             . $row['realname']
             . '</a></td>';
           print '<td><a href="adminuserchange.php?user_id=' . $row['user_id']
-            . '&localpart=' . $row['localpart']
+            . '&amp;localpart=' . $row['localpart']
             . '" title="' . _('Click to modify')
             . ' '
             . $row['realname']

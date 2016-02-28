@@ -49,14 +49,14 @@
             <td><?php echo _('Alias Name'); ?>:</td>
             <td>
               <input name="realname" type="text"
-              value="<?php print $row['realname']; ?>"class="textfield">
+              value="<?php print $row['realname']; ?>" class="textfield">
             </td>
           </tr>
           <tr>
             <td><?php echo _('Address'); ?>:</td>
             <td>
               <input name="localpart" type="text"
-              value="<?php print $row['localpart']; ?>"class="textfield">
+              value="<?php print $row['localpart']; ?>" class="textfield">
               @<?php print $_SESSION['domain']; ?>
             </td>
           </tr>

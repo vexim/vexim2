@@ -18,6 +18,7 @@
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Sites'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
+  <body>
   <?php include dirname(__FILE__) . '/config/header.php'; ?>
   <div id="menu">
     <a href="siteadd.php?type=alias"><?php echo _('Add alias domain'); ?></a><br>
@@ -68,7 +69,7 @@
       ?>
               <td>
                 <a href="sitedelete.php?domain_id=<?php
-                  echo $row['domain_id']; ?>&domain=<?php
+                  echo $row['domain_id']; ?>&amp;domain=<?php
                   echo $row['domain']; ?>">
                   <img class="trash" title="Delete <?php $row['domain']; ?>"
                     src="images/trashcan.gif" alt="trashcan">
@@ -76,7 +77,7 @@
               </td>
               <td>
                 <a href="sitechange.php?domain_id=<?php
-                  echo $row['domain_id']; ?>&domain=<?php
+                  echo $row['domain_id']; ?>&amp;domain=<?php
                   echo $row['domain']; ?>"><?php echo $row['domain']; ?></a>
               </td>
           <?php
@@ -120,8 +121,8 @@
             <tr>
               <td>
                 <a href="sitedelete.php?domain_id=<?php
-                  echo $row['domain_id']; ?>&domain=<?php
-                  echo $row['domain']; ?>&type=relay">
+                  echo $row['domain_id']; ?>&amp;domain=<?php
+                  echo $row['domain']; ?>&amp;type=relay">
                   <img class="trash" title="<?php echo _('Delete') .
                     $row['domain']; ?>" src="images/trashcan.gif" alt="trashcan">
                 </a>
@@ -144,8 +145,8 @@
             <tr>
               <td>
                 <a href="sitedelete.php?domain_id=<?php
-                  echo $row['domain_id']; ?>&domain=<?php
-                  echo $row['alias']; ?>&type=alias">
+                  echo $row['domain_id']; ?>&amp;domain=<?php
+                  echo $row['alias']; ?>&amp;type=alias">
                   <img class="trash" title="<?php echo _('Delete')
                     . $row['alias']; ?>" src="images/trashcan.gif" alt="trashcan">
                 </a>
