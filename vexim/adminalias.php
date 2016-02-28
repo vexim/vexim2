@@ -11,7 +11,7 @@
   </head>
   <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
-    <div id="menu">
+    <div id="Menu">
       <a href="adminaliasadd.php"><?php echo _('Add Alias'); ?></a></br>
       <?php $query = "SELECT user_id,realname,smtp,localpart FROM users
         WHERE domain_id=:domain_id AND type='catch'";

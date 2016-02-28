@@ -11,7 +11,7 @@
   </head>
   <body onLoad="document.adminadd.localpart.focus()">
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
-    <div id="menu">
+    <div id="Menu">
        <a href="adminfail.php"><?php echo _('Manage Fails'); ?></a><br>
        <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>
        <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
