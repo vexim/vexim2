@@ -41,7 +41,7 @@
           print '<tr><td align="center">'
             . '<a href="adminaliasdelete.php?user_id='
             . $row['user_id']
-            . '&localpart='
+            . '&amp;localpart='
             . $row['localpart']
             . '">'
             . '<img class="trash" src="images/trashcan.gif" title="'
@@ -71,9 +71,9 @@
             print '<td align="center">'
               . '<a href="adminaliasdelete.php?user_id='
               . $row['user_id']
-              . '&localpart='
+              . '&amp;localpart='
               . $row['localpart']
-              . '"><img class="trash"src="images/trashcan.gif" title="'
+              . '"><img class="trash" src="images/trashcan.gif" title="'
               . _('Delete alias ')
               . $row['localpart']
               .  '"></a></td>';
