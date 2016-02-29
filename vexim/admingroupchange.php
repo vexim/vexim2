@@ -19,7 +19,7 @@
   </head>
   <body onLoad="document.groupchange.realname.focus()">
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
-    <div id="menu">
+    <div id="Menu">
       <a href="admingroup.php"><?php echo _('Manage Groups'); ?></a><br>
       <a href="admingroupadd.php"><?php echo _('Add Group'); ?></a></br>
       <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>

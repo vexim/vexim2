@@ -18,7 +18,7 @@
   </head>
   <body onLoad="document.failchange.localpart.focus()">
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
-    <div id="menu">
+    <div id="Menu">
       <a href="adminfail.php"><?php echo _('Manage Fails'); ?></a><br>
       <a href="adminfailadd.php"><?php echo _('Add Fail'); ?></a><br>
       <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>

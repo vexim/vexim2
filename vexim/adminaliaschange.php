@@ -28,7 +28,7 @@
   </head>
   <body onLoad="document.aliaschange.realname.focus()">
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
-    <div id="menu">
+    <div id="Menu">
       <a href="adminalias.php"><?php echo _('Manage Aliases'); ?></a><br>
       <a href="adminaliasadd.php"><?php echo _('Add Alias'); ?></a></br>
       <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>

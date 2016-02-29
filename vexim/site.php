@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <?php include dirname(__FILE__) . '/config/header.php'; ?>
-  <div id="menu">
+  <div id="Menu">
     <a href="siteadd.php?type=alias"><?php echo _('Add alias domain'); ?></a><br>
     <a href="siteadd.php?type=local"><?php echo _('Add local domain'); ?></a><br>
     <a href="siteadd.php?type=relay"><?php echo _('Add relay domain'); ?></a><br>
