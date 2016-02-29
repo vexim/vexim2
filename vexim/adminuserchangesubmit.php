@@ -146,7 +146,7 @@
       $success = $sth->execute(array(':crypt'=>$cryptedpassword,
           ':localpart'=>$_POST['localpart'], ':domain_id'=>$_SESSION['domain_id']));
       if ($success) {
-        if ($_POST['localpart'] == $_SESSION['localpart']) { 
+        if ($_POST['user_id'] === $_SESSION['user_id']) { 
           $_SESSION['crypt'] = $cryptedpassword;
         }
       } else { 

@@ -29,6 +29,8 @@
     if ($_POST['maxmsgsize']<=0 || $_POST['maxmsgsize']>$row['maxmsgsize']) {
       $_POST['maxmsgsize']=$row['maxmsgsize'];
     }
+  } else {
+    $_POST['maxmsgsize']=0;
   }
 
   if (isset($_POST['realname']) && $_POST['realname']!=="") {
@@ -91,7 +93,7 @@
       ':user_id'=>$_SESSION['user_id']
       ));
     if ($success) {
-      if (strlen($_POST['vacation']) > $max_vacation_length)
+      if (isset($_POST['vacation']) && strlen($_POST['vacation']) > $max_vacation_length)
       {
         header ("Location: userchange.php?uservacationtolong=" . strlen($_POST['vacation']));
       }

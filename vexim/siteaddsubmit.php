@@ -140,15 +140,15 @@
     }
   } else if ($_POST['type'] == "alias") {
     $query = "INSERT INTO domainalias (domain_id, alias)
-              VALUES (:domain_id, :alias)";
+              SELECT domains.domain_id, :alias FROM domains WHERE domains.domain_id=:domain_id";
     $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':domain_id'=>$_POST['aliasdest'], ':alias'=>$_POST['domain']));
-    if (!$success) {
+    $sth->execute(array(':domain_id'=>$_POST['aliasdest'], ':alias'=>$_POST['domain']));
+    if ($sth->rowCount()!==1) {
       header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
       die;
     } else {
       header ("Location: site.php?added={$_POST['domain']}" .
-              "&type={$_POST['type']}");
+              "&amp;type={$_POST['type']}");
       die;
     }
   } else {
