@@ -11,18 +11,18 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
 </head>
 <body onLoad="document.passwordchange.localpart.focus()">
 <?php include dirname(__FILE__) . "/config/header.php"; ?>
-<div id="menu">
+<div id="Menu">
     <a href="site.php"><?php echo _("Manage Domains"); ?></a><br>
     <a href="sitepassword.php"><?php echo _("Site Password"); ?></a><br>
     <br>
     <a href="logout.php"><?php echo _("Logout"); ?></a><br>
 </div>
 <div id="Forms">
-    <table align="center">
-        <tr>
-            <td colspan="2"><h4><?php echo _("Modify Domain Admin"); ?>:</h4></td>
-        </tr>
-        <form name="passwordchange" method="post" action="sitechangesubmit.php">
+    <form name="passwordchange" method="post" action="sitechangesubmit.php">
+        <table align="center">
+            <tr>
+                <td colspan="2"><h4><?php echo _("Modify Domain Admin"); ?>:</h4></td>
+            </tr>
             <tr>
                 <td><?php echo _("Admin"); ?>:</td>
                 <td><select name="localpart" class="textfield">
@@ -60,16 +60,17 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 <td><input name="vclear" size="25" type="password" class="textfield"></td>
             </tr>
             <tr>
-                <td></td>
-                <td><input name="submit" size="25" type="submit" value="<?php echo _("Submit Password"); ?>"></td>
+                <td colspan="2" class="button">
+                    <input name="submit" size="25" type="submit" value="<?php echo _("Submit Password"); ?>">
+                </td>
             </tr>
-        </form>
-        <tr></tr>
-        <tr></tr>
-        <tr>
-            <td colspan="2"><h4><?php echo _("Modify Domain Properties"); ?>:</h4></td>
-        </tr>
-        <form name="domainchange" method="post" action="sitechangesubmit.php">
+        </table>
+    </form><br>
+    <form name="domainchange" method="post" action="sitechangesubmit.php">
+        <table align="center">
+            <tr>
+                <td colspan="2"><h4><?php echo _("Modify Domain Properties"); ?>:</h4></td>
+            </tr>
             <tr>
                 <td><?php echo _("System UID"); ?>:</td>
                 <td><input type="text" size="5" name="uid" value="<?php print $row['uid']; ?>" class="textfield"></td>
@@ -79,16 +80,16 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 <td><input type="text" size="5" name="gid" value="<?php print $row['gid']; ?>" class="textfield"></td>
             </tr>
             <tr>
-                <td><?php echo _("Maximum accounts") . "<br />(" . _("0 for unlimited") . ")"; ?>:</td>
+                <td><?php echo _("Maximum accounts") . "<br>(" . _("0 for unlimited") . ")"; ?>:</td>
                 <td><input type="text" size="5" name="max_accounts" value="<?php print $row['max_accounts']; ?>" class="textfield"></td>
             </tr>
             <tr>
-                <td><?php echo _("Max mailbox quota in Mb") . "<br />(" . _("0 for disabled") . ")"; ?>:</td>
+                <td><?php echo _("Max mailbox quota in MB") . "<br>(" . _("0 for disabled") . ")"; ?>:</td>
                 <td><input type="text" size="5" name="quotas" value="<?php print $row['quotas']; ?>" class="textfield"> </td>
             </tr>
             <tr>
                 <td><?php echo _("Maximum message size"); ?>:</td>
-                <td><input name="maxmsgsize" size="5" type="text" class="textfield" value="<?php print $row['maxmsgsize']; ?>"> Kb</td>
+                <td><input name="maxmsgsize" size="5" type="text" class="textfield" value="<?php print $row['maxmsgsize']; ?>"> KB</td>
             </tr>
             <tr>
                 <td><?php echo _("Spamassassin tag score"); ?>:</td>
@@ -119,33 +120,43 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 </td>
             </tr>
             <tr>
-                <td></td>
-                <td><input name="submit" size="25" type="submit" value="<?php echo _("Submit Changes"); ?>"></td>
+                <td colspan="2" class="button">
+                    <input name="submit" size="25" type="submit" value="<?php echo _("Submit Changes"); ?>">
+                </td>
             </tr>
-        </form>
-        <form name="allusers" method="post" action="sitechangesubmit.php">
+        </table>
+    </form><br>
+    <form name="allusers" method="post" action="sitechangesubmit.php">
             <input name="allusers" type="hidden" value="<?php print $_GET['domain_id']; ?>">
+            <input name="domain_id" type="hidden" value="<?php print $_GET['domain_id']; ?>">
+            <input name="domain" type="hidden" value="<?php print $_GET['domain']; ?>">
+        <table align="center">
+            <tr>
+                <td colspan="2"><h4><?php echo _("Modify SpamAssassin/Antivirus for all users").":"; ?></h4></td>
+            </tr>
             <tr>
                 <td><?php echo _("SpamAssassin for all domain users") . "<br><b>(" . _("Warning: cannot be reversed!") . ")</b>:"; ?></td>
                 <td>
-                    <input type="radio" name="on_spamassassin" value="2" checked><?php echo _("Keep unchanged"); ?></input><br>
-                    <input type="radio" name="on_spamassassin" value="1"><?php echo _("Enable"); ?></input><br>
-                    <input type="radio" name="on_spamassassin" value="0"><?php echo _("Disable"); ?></input>
+                    <input type="radio" name="on_spamassassin" value="2" checked><?php echo _("Keep unchanged"); ?><br>
+                    <input type="radio" name="on_spamassassin" value="1"><?php echo _("Enable"); ?><br>
+                    <input type="radio" name="on_spamassassin" value="0"><?php echo _("Disable"); ?>
                 </td>
             </tr>
             <tr>
                 <td><?php echo _("Anti-Virus for all domain users") . "<br><b>(" . _("Warning: cannot be reversed!") . ")</b>:"; ?></td>
                 <td>
-                    <input type="radio" name="on_avscan" value="2" checked><?php echo _("Keep unchanged"); ?></input><br>
-                    <input type="radio" name="on_avscan" value="1"><?php echo _("Enable"); ?></input><br>
-                    <input type="radio" name="on_avscan" value="0"><?php echo _("Disable"); ?></input>
+                    <input type="radio" name="on_avscan" value="2" checked><?php echo _("Keep unchanged"); ?><br>
+                    <input type="radio" name="on_avscan" value="1"><?php echo _("Enable"); ?><br>
+                    <input type="radio" name="on_avscan" value="0"><?php echo _("Disable"); ?>
                 </td>
             </tr>
             <tr>
-                <td><input name="submit" type="submit" value="<?php echo _("Submit"); ?>"></td>
+                <td colspan="2" class="button">
+                    <input name="submit" type="submit" value="<?php echo _("Submit"); ?>">
+                </td>
             </tr>
-        </form>
-    </table>
+        </table>
+    </form>
 </div>
 </body>
 </html>
