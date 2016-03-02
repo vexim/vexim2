@@ -7,8 +7,14 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
 $success = false;
 
 // Detect the user action
-if (isset($_POST['allusers'])) {$action = 'allusers';}
-if (isset($_POST['clear'])) {$action = 'adminpass';}
+if (isset($_POST['allusers'])) {
+  $action = 'allusers';
+}
+elseif (isset($_POST['clear']) && $_POST['clear']!=='') {
+  $action = 'adminpass';
+} else {
+  $action = 'default';
+}
 
 // Main action switch
 switch ($action) {
@@ -58,12 +64,22 @@ switch ($action) {
       $_POST['avscan'] = 1;
     } else {
       $_POST['avscan'] = 0;
+      $query = "UPDATE users SET on_avscan=:on_avscan WHERE domain_id=:domain_id";
+      $sth = $dbh->prepare($query);
+      $sth->execute(array(
+            ':domain_id' => $_POST['domain_id'],
+            ':on_avscan' => '0'));
     }
 
     if (isset($_POST['spamassassin'])) {
       $_POST['spamassassin'] = 1;
     } else {
       $_POST['spamassassin'] = 0;
+      $query = "UPDATE users SET on_spamassassin=:on_spamassassin WHERE domain_id=:domain_id";
+      $sth = $dbh->prepare($query);
+      $sth->execute(array(
+        ':domain_id' => $_POST['domain_id'],
+        ':on_spamassassin' => '0'));
     }
 
     if (isset($_POST['enabled'])) {
