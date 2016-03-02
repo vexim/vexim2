@@ -47,21 +47,21 @@
 		}else{
 	?>
 	
-    <table align="center">
-      <form name="userchange" method="post" action="adminuserchangesubmit.php">
+    <form name="userchange" method="post" action="adminuserchangesubmit.php">
+      <table align="center">
         <tr>
           <td><?php echo _('Name'); ?>:</td>
           <td>
             <input type="text" size="25" name="realname"
               value="<?php print $row['realname']; ?>" class="textfield">
+            <input name="user_id" type="hidden"
+              value="<?php print $_GET['user_id']; ?>">
           </td>
         </tr>
         <tr>
           <td><?php echo _('Email Address'); ?>:</td>
           <td><?php print $row['username']; ?></td>
         </tr>
-        <input name="user_id" type="hidden"
-          value="<?php print $_GET['user_id']; ?>" class="textfield">
         <tr>
           <td><?php echo _('Password'); ?>:</td>
           <td>
@@ -305,12 +305,12 @@
             if ($row['unseen'] == "1") {
               print " checked ";
             } ?>>
+            <input name="user_id" type="hidden"
+              value="<?php print $_GET['user_id']; ?>">
+            <input name="localpart" type="hidden"
+              value="<?php print $row['localpart']; ?>">
           </td>
         </tr>
-        <input name="user_id" type="hidden"
-          value="<?php print $_GET['user_id']; ?>" class="textfield">
-        <input name="localpart" type="hidden"
-          value="<?php print $row['localpart']; ?>" class="textfield">
         <tr>
           <td colspan="2" class="button">
             <input name="submit" type="submit" value="<?php echo _('Submit'); ?>">
@@ -352,11 +352,11 @@
           }
         ?>
         </td></tr>
-      </form>
-    </table>
+      </table>
+    </form>
     <br>
-    <table align="center">
-      <form name="blocklist" method="post" action="adminuserblocksubmit.php">
+    <form name="blocklist" method="post" action="adminuserblocksubmit.php">
+      <table align="center">
         <tr>
           <td colspan="2">
             <h4>
@@ -391,8 +391,8 @@
               value="<?php echo _('Submit'); ?>">
           </td>
         </tr>
-      </form>
-    </table>
+      </table>
+    </form>
     <table align="center">
       <tr>
         <th><?php echo _('Delete'); ?></th>

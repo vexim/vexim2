@@ -55,12 +55,12 @@
     printf (_("-- %s contains invalid characters."), $_GET['badname']);
   } else if (isset($_GET['badpass'])) {
     printf (_("-- Account %s could not be added. Your passwords were blank, do not match, or contain illegal characters: ' \" ` or ;"), $_GET['badpass']);
-  } else if (isset($_GET['baddestdom'])) {
-    print   _("-- The destination domain you specified does not exist.");
   } else if (isset($_GET['blankname'])) {
     print   _("-- You can not specify a blank realname.");
   } else if (isset($_GET['failadded'])) {
     printf (_("-- %s could not be added."), $_GET['failadded']);
+  } else if (isset($_GET['failaddeddomerr'])) {
+    printf (_("-- Domain %s could not be added."), $_GET['failaddeddomerr']);
   } else if (isset($_GET['failaddedpassmismatch'])) {
     printf (_("-- Domain %s could not be added. The passwords were blank, or did not match."), $_GET['failaddedpassmismatch']);
   } else if (isset($_GET['failaddedusrerr'])) {

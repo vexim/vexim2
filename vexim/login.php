@@ -14,7 +14,7 @@
   if($domainguess === 1 && $_POST['username']!=='siteadmin') $_POST['username'].='@'.preg_replace ("/^mail\./", "", $_SERVER["SERVER_NAME"]);
 
   # sql statement based on username
-  $query = "SELECT users.crypt,users.username,users.user_id,domains.domain,domains.domain_id,users.admin,users.type,
+  $query = "SELECT users.crypt,users.username,users.user_id,users.localpart,domains.domain,domains.domain_id,users.admin,users.type,
   domains.enabled AS domainenabled, users.enabled AS userenabled
   FROM users,domains
   WHERE username=:username
@@ -49,7 +49,7 @@
     header ('Location: index.php?login=failed');
     die();
   }
-  if($row['localpart']!=='siteadmin') {
+  if($row['username']!=='siteadmin') {
     if (($row['userenabled'] === '0')) {
       header ('Location: index.php?userdisabled');
       die();
@@ -62,6 +62,7 @@
 
   # populate session variables from what was retrieved from the database (NOT what they posted)
   $_SESSION['username'] = $row['username'];
+  $_SESSION['localpart'] = $row['localpart'];
   $_SESSION['domain_id'] = $row['domain_id'];
   $_SESSION['domain'] = $row['domain'];
   $_SESSION['crypt'] = $row['crypt'];

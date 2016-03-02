@@ -52,6 +52,10 @@
     $dbh,$_POST['localpart'],$_SESSION['domain_id'],'adminalias.php'
   );
 
+  if(!isset($_POST['realname']) || $_POST['realname']==='') {
+    $_POST['realname']=$_POST['localpart'];
+  }
+
   if ((preg_match("/['@%!\/\|\" ']/",$_POST['localpart']))
     || preg_match("/^\s*$/",$_POST['realname'])) {
     header("Location: adminalias.php?badname={$_POST['localpart']}");
