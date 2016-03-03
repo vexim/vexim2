@@ -23,25 +23,21 @@ switch ($action) {
     $success = TRUE;
 
     // Process SpamAssassin
-    if (isset($_POST['on_spamassassin'])) {
-      if ($_POST['on_spamassassin'] != '2' && ($_POST['on_spamassassin'] == '1' || $_POST['on_spamassassin'] == '0')) {
+    if (isset($_POST['on_spamassassin']) && ($_POST['on_spamassassin'] == '1' || $_POST['on_spamassassin'] == '0')) {
         $query = "UPDATE users SET on_spamassassin=:on_spamassassin WHERE domain_id=:domain_id";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array(
             ':domain_id' => $_POST['allusers'],
             ':on_spamassassin' => $_POST['on_spamassassin']));
-      }
     }
 
     // Process Anti-Virus
-    if (isset($_POST['on_avscan']) && $success) {
-      if ($_POST['on_avscan'] != '2' && ($_POST['on_avscan'] == '1' || $_POST['on_avscan'] == '0')) {
+    if (isset($_POST['on_avscan']) && $success && ($_POST['on_avscan'] == '1' || $_POST['on_avscan'] == '0')) {
         $query = "UPDATE users SET on_avscan=:on_avscan WHERE domain_id=:domain_id";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array(
             ':domain_id' => $_POST['allusers'],
             ':on_avscan' => $_POST['on_avscan']));
-      }
     }
     break;
 
@@ -94,13 +90,19 @@ switch ($action) {
       $_POST['pipe'] = 0;
     }
 
-    if ($_POST['max_accounts'] == '') {$_POST['max_accounts'] = '0';}
+    if (!isset($_POST['max_accounts']) || $_POST['max_accounts'] == '') {
+      $_POST['max_accounts'] = '0';
+    }
 
     // User can specify either UID, or username, the former being preferred.
     // Using posix_getpwuid/posix_getgrgid even when we have an UID is so we
     // are sure the UID exists.
-    if (isset ($_POST['uid'])) {$uid = $_POST['uid'];}
-    if (isset ($_POST['gid'])) {$gid = $_POST['gid'];}
+    if (isset ($_POST['uid'])) {
+      $uid = $_POST['uid'];
+    }
+    if (isset ($_POST['gid'])) {
+      $gid = $_POST['gid'];
+    }
 
     if ($userinfo = @posix_getpwuid($uid)) {
       $uid = $userinfo['uid'];
@@ -140,6 +142,6 @@ if ($success) {
   header("Location: site.php?updated={$_POST['domain']}");
   die;
 } else {
-  # Just-in-case catchall
+  // Just-in-case catchall
   header("Location: site.php?failupdated={$_POST['domain']}");
 }
