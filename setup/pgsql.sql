@@ -1,7 +1,7 @@
 CREATE DATABASE vexim WITH ENCODING 'UTF8';
 CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
-	domain varchar(64) UNIQUE NOT NULL,
-	maildir varchar(128) NOT NULL default '',
+	domain varchar(255) UNIQUE NOT NULL,
+	maildir varchar(4096) NOT NULL default '',
 	uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
 	gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
 	max_accounts int NOT NULL default '0',
@@ -18,13 +18,13 @@ CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
 	sa_refuse int NOT NULL default '0' CHECK(sa_refuse > -1));
 CREATE TABLE users (user_id SERIAL PRIMARY KEY,
 	domain_id int NOT NULL,
-	localpart varchar(192) NOT NULL,
+	localpart varchar(64) NOT NULL,
 	username varchar(255) NOT NULL,
 	crypt varchar(255) default NULL,
 	uid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
 	gid int NOT NULL default '65534' CHECK(uid BETWEEN 1 AND 65535),
-	smtp varchar(255) default NULL,
-	pop varchar(255) default NULL,
+	smtp varchar(4096) default NULL,
+	pop varchar(4096) default NULL,
 	type varchar(8) CHECK(type in ('local','alias','catch', 'fail', 'piped', 'admin', 'site')) NOT NULL,
 	admin smallint NOT NULL default '0',
 	on_avscan smallint NOT NULL default '0',
@@ -50,11 +50,11 @@ CREATE TABLE blocklists (block_id SERIAL PRIMARY KEY,
 	localpart varchar(192) NOT NULL,
 	user_id int NOT NULL,
 	blockhdr varchar(192) NOT NULL default '',
-	blockval varchar(192) NOT NULL default '',
+	blockval varchar(255) NOT NULL default '',
 	color varchar(8) NOT NULL default '');
 CREATE INDEX blocklists_user_id_key ON blocklists (user_id);
 CREATE TABLE domainalias (domain_id int NOT NULL,
-        alias varchar(64));
+        alias varchar(255));
 CREATE TABLE groups (
         id                  SERIAL PRIMARY KEY,
         domain_id           int CHECK(domain_id > -1),
