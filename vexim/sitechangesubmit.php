@@ -60,22 +60,12 @@ switch ($action) {
       $_POST['avscan'] = 1;
     } else {
       $_POST['avscan'] = 0;
-      $query = "UPDATE users SET on_avscan=:on_avscan WHERE domain_id=:domain_id";
-      $sth = $dbh->prepare($query);
-      $sth->execute(array(
-            ':domain_id' => $_POST['domain_id'],
-            ':on_avscan' => '0'));
     }
 
     if (isset($_POST['spamassassin'])) {
       $_POST['spamassassin'] = 1;
     } else {
       $_POST['spamassassin'] = 0;
-      $query = "UPDATE users SET on_spamassassin=:on_spamassassin WHERE domain_id=:domain_id";
-      $sth = $dbh->prepare($query);
-      $sth->execute(array(
-        ':domain_id' => $_POST['domain_id'],
-        ':on_spamassassin' => '0'));
     }
 
     if (isset($_POST['enabled'])) {
