@@ -183,8 +183,8 @@ sub create_mysqldb {
 
 sub create_mysqltables {
    $mydbh->do("CREATE TABLE IF NOT EXISTS $databasename.domains (domain_id mediumint(8) unsigned NOT NULL auto_increment,
-	domain varchar(64) NOT NULL default '',
-	maildir varchar(128) NOT NULL default '',
+	domain varchar(255) NOT NULL default '',
+	maildir varchar(4096) NOT NULL default '',
 	uid smallint(5) unsigned NOT NULL default '$uid',
 	gid smallint(5) unsigned NOT NULL default '$gid',
 	max_accounts int(10) unsigned NOT NULL default '0',
@@ -206,13 +206,13 @@ sub create_mysqltables {
    
   $mydbh->do("CREATE TABLE IF NOT EXISTS $databasename.users (user_id int(10) unsigned NOT NULL auto_increment,
 	domain_id mediumint(8) unsigned NOT NULL,
-	localpart varchar(192) NOT NULL default '',
+	localpart varchar(64) NOT NULL default '',
 	username varchar(255) NOT NULL default '',
 	crypt varchar(255) default NULL,
 	uid smallint(5) unsigned NOT NULL default '65534',
 	gid smallint(5) unsigned NOT NULL default '65534',
-	smtp varchar(255) default NULL,
-	pop varchar(255) default NULL,
+	smtp varchar(4096) default NULL,
+	pop varchar(4096) default NULL,
 	type enum('local','alias','catch', 'fail', 'piped', 'admin', 'site') NOT NULL default 'local',
 	admin bool NOT NULL default '0',
 	on_avscan bool NOT NULL default '0',
@@ -242,13 +242,13 @@ sub create_mysqltables {
   	domain_id mediumint(8) unsigned NOT NULL,
 	user_id int(10) unsigned default NULL,
 	blockhdr varchar(192) NOT NULL default '',
-	blockval varchar(192) NOT NULL default '',
+	blockval varchar(255) NOT NULL default '',
 	color varchar(8) NOT NULL default '',
 	PRIMARY KEY (block_id))") or die "Could not create table blocklists in the vexim database!";
   print "Created blocklists table\n";
    
   $mydbh->do("CREATE TABLE IF NOT EXISTS $databasename.domainalias (domain_id mediumint(8) unsigned NOT NULL,
-  	alias varchar(64))") or die "Could not create table domainalias in the vexim database!";
+  	alias varchar(255))") or die "Could not create table domainalias in the vexim database!";
   print "Created domainalias table\n";
   
   $mydbh->do("CREATE TABLE IF NOT EXISTS $databasename.group_contents (group_id int(10) NOT NULL,
