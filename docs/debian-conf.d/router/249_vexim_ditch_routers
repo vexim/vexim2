@@ -39,6 +39,7 @@ ditch_malware:
         where localpart = '${quote_mysql:$local_part}' \
         and domain = '${quote_mysql:$domain}' \ 
         and users.on_avscan = '1' \
+        and domains.avscan = '1' \
         and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
 
 # spam drop router
@@ -50,6 +51,7 @@ ditch_spam_drop:
         where localpart = '${quote_mysql:$local_part}' \
         and domain = '${quote_mysql:$domain}' \
         and users.on_spamassassin = '1' \
+        and domains.spamassassin = '1' \
         and users.spam_drop = '1' \
         and users.domain_id=domains.domain_id \
         and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
@@ -71,6 +73,7 @@ ditch_spam:
         where localpart = '${quote_mysql:$local_part}' \ 
         and domain = '${quote_mysql:$domain}' \ 
         and users.on_spamassassin = '1' \ 
+        and domains.spamassassin = '1' \
         and users.spam_drop = '0' \
         and users.on_forward = '0' \
         and users.type = 'local' \
