@@ -23,7 +23,7 @@ Restart your DNS server
 sudo /etc/init.d/bind9 restart
 ```
 
-Last this is to update your resolv.conf.
+Last this is to update your */etc/resolv.conf*.
 Ensure that only your own dns server is listed, multiple entries are used round robin
 Example:
 ```
