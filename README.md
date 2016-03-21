@@ -58,7 +58,7 @@ VExim might work with older (or newer) versions of these packages, but you may h
 ```
 If you want your mail server to scan messages for viruses and spam, you will have to install a few more packages:
 ```
-# apt-get install clamav-daemon clamav-freshclam sa-exim spamassassin
+# apt-get install clamav-daemon clamav-freshclam spamassassin
 ```
 
 ##### System user:
