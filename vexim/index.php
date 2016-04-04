@@ -17,7 +17,7 @@
             <td><?php echo _('Username'); ?>:</td>
             <td><input name="username" type="text" class="textfield">
             <?php
-            if($domainguess===1) echo '@'.preg_replace ("/^mail\./", "", $_SERVER["SERVER_NAME"]);
+            if($domainguess===1) echo '@'.preg_replace ("/^".$domainguess_lefttrim."\./", "", $_SERVER["SERVER_NAME"]);
             ?>
             </td>
           </tr>
