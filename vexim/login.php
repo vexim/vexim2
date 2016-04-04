@@ -11,7 +11,7 @@
     die;
   }
 
-  if($domainguess === 1 && $_POST['username']!=='siteadmin') $_POST['username'].='@'.preg_replace ("/^mail\./", "", $_SERVER["SERVER_NAME"]);
+  if($domainguess === 1 && $_POST['username']!=='siteadmin') $_POST['username'].='@'.preg_replace ("/^".$domainguess_lefttrim."\./", "", $_SERVER["SERVER_NAME"]);
 
   # sql statement based on username
   $query = "SELECT users.crypt,users.username,users.user_id,users.localpart,domains.domain,domains.domain_id,users.admin,users.type,

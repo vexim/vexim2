@@ -40,8 +40,11 @@
 
   /* Guess domain name from hostname and allow login based on
      local part only. It is off by default, set this value to 1
-     in order to enable this function */
+     in order to enable this function 
+     and set a string which will be cut off the left side of
+     the hostname*/
   $domainguess = 0;
+  $domainguess_lefttrim = "mail|vexim";
 
   /* The UID's and GID's control the default UID and GID for new domains
      and if postmasters can define their own.
