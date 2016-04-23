@@ -174,7 +174,7 @@
             <td colspan="2">
               <select name="aliasdest" type="text" class="textfield">
                 <?php
-                  $query = 'SELECT domain_id, domain FROM domains WHERE type="local"';
+                  $query = 'SELECT domain_id, domain FROM domains WHERE type="local" ORDER BY domain';
                   $sth = $dbh->prepare($query);
                   $sth->execute();
                   while ($row = $sth->fetch()) {
