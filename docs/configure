@@ -87,6 +87,11 @@ hostlist   relay_from_hosts = localhost : @ : 192.168.0.0/24
 # Comment this line if you want to disable it, instead of + you can use a different separator.
 VEXIM_LOCALPART_SUFFIX = +*
 
+# Reject mail with unvalid DKIM signature from the following domains. Use this only for domains which do not send
+# any user mails because mailinglists or mail redirections can invalidate the DKIM signature.
+#DKIM_REFUSE_UNSIGNED_DOMAINS = paypal.com:paypal.de:paypal.co.uk:ebay.com:dhl.de:github.com:amazon.com:amazonses.com:amazon.de:amazon.co.uk:twitter.com
+#dkim_verify_signers=$dkim_signers:DKIM_REFUSE_UNSIGNED_DOMAINS
+
 # if you exim version < 4.83 , define macro below for enabling new
 # 'headers_remove' behavior. See https://github.com/vexim/vexim2/pull/102 .
 #OLD_HEADERS_REMOVE = yes
@@ -156,6 +161,12 @@ acl_smtp_data = acl_check_content
 # for the configure file to make it your own.
 
 acl_smtp_helo = acl_check_helo
+
+# This ACL can be used to refuse mails with unvalid or missing DKIM signatures
+# to prevent phishing mails from domains that are always signed and are not
+# used for mailinglist or mail forwards.
+
+acl_smtp_dkim = acl_check_dkim
 
 # This configuration variable defines the virus scanner that is used with
 # the 'malware' ACL condition of the exiscan acl-patch. If you do not use
@@ -302,6 +313,22 @@ acl_check_helo:
 
 # Include Vexim specific helo ACLs
   .include /usr/local/etc/exim/vexim-acl-check-helo.conf
+
+acl_check_dkim:
+
+        #
+        # check the DKIM signature for DKIM_REFUSE_UNSIGNED_DOMAINS
+        # In a testing mode, you can replace "deny" by "warn".
+        # 
+
+  .ifdef DKIM_REFUSE_UNSIGNED_DOMAINS
+        deny    message         = DKIM signature fail
+                sender_domains  = DKIM_REFUSE_UNSIGNED_DOMAINS
+                dkim_signers    = DKIM_REFUSE_UNSIGNED_DOMAINS
+                dkim_status     = none:invalid:fail
+  .endif
+
+        accept
 
 # This access control list is used for every RCPT command in an incoming
 # SMTP message. The tests are run in order until the address is either
