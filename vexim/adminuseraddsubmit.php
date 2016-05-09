@@ -98,8 +98,7 @@
   );
 
   if (preg_match("/^\s*$/",$_POST['realname'])) {
-    header('Location: adminuser.php?blankname=yes');
-    die;
+    $_POST['realname']=$_POST['localpart'];
   }
 
   if (preg_match("/['@%!\/\| ']/",$_POST['localpart'])
