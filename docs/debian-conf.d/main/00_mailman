@@ -1,0 +1,14 @@
+# Home dir for your Mailman installation -- aka Mailman's prefix
+# directory.
+MAILMAN_HOME=/var/lib/mailman
+MAILMAN_WRAP=MAILMAN_HOME/mail/mailman
+
+# User and group for Mailman, should match your --with-mail-gid
+# switch to Mailman's configure script.
+MAILMAN_USER=list
+MAILMAN_GROUP=daemon
+#MY_IP=x.x.x.x
+
+MM_DOMAINS = SELECT DISTINCT domain FROM domains WHERE type = 'local' AND enabled = '1' AND domain LIKE 'lists.%' AND domain = '${quote_mysql:$domain}' AND host_smtp = 'mail'
+domainlist mm_domains=${lookup mysql{MM_DOMAINS}}
+MAILMAN_LISTCHK=MAILMAN_HOME/lists/${lc::$local_part}/config.pck
