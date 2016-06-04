@@ -15,7 +15,10 @@ CREATE TABLE domains (domain_id SERIAL PRIMARY KEY,
 	quotas int NOT NULL default '0' CHECK(quotas > -1),
 	maxmsgsize int NOT NULL default '0' CHECK(maxmsgsize > -1),
 	sa_tag int NOT NULL default '0' CHECK(sa_tag > -1),
-	sa_refuse int NOT NULL default '0' CHECK(sa_refuse > -1));
+	sa_refuse int NOT NULL default '0' CHECK(sa_refuse > -1)),
+	host_smtp varchar(255) default 'mail',
+	host_imap varchar(255) default 'mail',
+	host_pop varchar(255) default 'mail';
 CREATE TABLE users (user_id SERIAL PRIMARY KEY,
 	domain_id int NOT NULL,
 	localpart varchar(64) NOT NULL,
@@ -54,7 +57,10 @@ CREATE TABLE blocklists (block_id SERIAL PRIMARY KEY,
 	color varchar(8) NOT NULL default '');
 CREATE INDEX blocklists_user_id_key ON blocklists (user_id);
 CREATE TABLE domainalias (domain_id int NOT NULL,
-        alias varchar(255));
+        alias varchar(255)),
+	host_smtp varchar(255) default 'mail',
+	host_imap varchar(255) default 'mail',
+	host_pop varchar(255) default 'mail';
 CREATE TABLE groups (
         id                  SERIAL PRIMARY KEY,
         domain_id           int CHECK(domain_id > -1),
