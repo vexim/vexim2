@@ -114,7 +114,9 @@ switch ($action) {
     $query = "UPDATE domains SET uid=:uid, gid=:gid, avscan=:avscan,
             maxmsgsize=:maxmsgsize, pipe=:pipe, max_accounts=:max_accounts,
             quotas=:quotas, sa_tag=:sa_tag, sa_refuse=:sa_refuse,
-            spamassassin=:spamassassin, enabled=:enabled
+            spamassassin=:spamassassin,
+            host_smtp=:host_smtp, host_imap=:host_imap, host_pop=:host_pop,
+            enabled=:enabled
             WHERE domain_id=:domain_id";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':uid' => $uid, ':gid' => $gid,
@@ -123,7 +125,11 @@ switch ($action) {
         ':quotas' => $_POST['quotas'],
         ':sa_tag' => ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0),
         ':sa_refuse' => ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0),
-        ':spamassassin' => $_POST['spamassassin'], ':enabled' => $_POST['enabled'],
+        ':spamassassin' => $_POST['spamassassin'],
+        ':host_smtp' => $_POST['host_smtp'],
+        ':host_imap' => $_POST['host_imap'],
+        ':host_pop' => $_POST['host_pop'],
+        ':enabled' => $_POST['enabled'],
         ':domain_id' => $_POST['domain_id'],
     ));
 }
