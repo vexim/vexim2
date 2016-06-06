@@ -86,7 +86,9 @@
               max_accounts, quotas, maildir, pipe, enabled, uid, gid,
               type, maxmsgsize)
               VALUES (:domain, :spamassassin, :sa_tag, :sa_refuse,
-              :avscan, :max_accounts, :quotas, :maildir, :pipe, :enabled,
+              :avscan, :max_accounts, :quotas, :maildir, :pipe,
+              host_smtp=:host_smtp, host_imap=:host_imap, host_pop=:host_pop,
+              :enabled,
               :uid, :gid, :type, :maxmsgsize)";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':domain'=>$_POST['domain'],
@@ -96,7 +98,11 @@
         ':avscan'=>$_POST['avscan'], ':max_accounts'=>$_POST['max_accounts'],
         ':quotas'=>((isset($_POST['quotas'])) ? $_POST['quotas'] : 0),
         ':maildir'=>((isset($_POST['maildir'])) ? $domainpath : ''),
-        ':pipe'=>$_POST['pipe'], ':enabled'=>$_POST['enabled'],
+        ':pipe'=>$_POST['pipe'],
+        ':host_smtp' => $_POST['host_smtp'],
+        ':host_imap' => $_POST['host_imap'],
+        ':host_pop' => $_POST['host_pop'],
+        ':enabled'=>$_POST['enabled'],
         ':uid'=>$uid, ':gid'=>$gid, ':type'=>$_POST['type'],
         ':maxmsgsize'=>((isset($_POST['maxmsgsize'])) ? $_POST['maxmsgsize'] : 0)
         ));
