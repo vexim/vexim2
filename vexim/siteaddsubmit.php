@@ -145,10 +145,15 @@
       die;
     }
   } else if ($_POST['type'] == "alias") {
-    $query = "INSERT INTO domainalias (domain_id, alias)
-              SELECT domains.domain_id, :alias FROM domains WHERE domains.domain_id=:domain_id";
+    $query = "INSERT INTO domainalias (domain_id, alias, host_smtp, host_imap, host_pop)
+              SELECT domains.domain_id, :alias, :host_smtp, :host_imap, :host_pop
+                FROM domains WHERE domains.domain_id=:domain_id";
     $sth = $dbh->prepare($query);
-    $sth->execute(array(':domain_id'=>$_POST['aliasdest'], ':alias'=>$_POST['domain']));
+    $sth->execute(array(':domain_id'=>$_POST['aliasdest'], ':alias'=>$_POST['domain'],
+      ':host_smtp'=>$_POST['host_smtp'],
+      ':host_imap'=>$_POST['host_imap'],
+      ':host_pop'=>$_POST['host_pop']),
+      );
     if ($sth->rowCount()!==1) {
       header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
       die;
