@@ -211,6 +211,33 @@
               </select>
             </td>
           </tr>
+          <tr>
+            <td><?php echo _('Host/Group to handle SMTP'); ?>:</td>
+            <td>
+              <input name="host_smtp" type="text" class="textfield"
+              value="<?php echo $host_smtp; ?>">
+            </td>
+            <td><?php echo _('This can be any value as info for the SMTP server'); ?>
+            </td>
+          </tr>
+          <tr>
+            <td><?php echo _('Host/Group to handle IMAP'); ?>:</td>
+            <td>
+              <input name="host_imap" type="text" class="textfield"
+              value="<?php echo $host_imap; ?>">
+            </td>
+            <td><?php echo _('This can be any value as info for the IMAP server'); ?>
+            </td>
+          </tr>
+          <tr>
+            <td><?php echo _('Host/Group to handle POP'); ?>:</td>
+            <td>
+              <input name="host_pop" type="text" class="textfield"
+              value="<?php echo $host_pop; ?>">
+            </td>
+            <td><?php echo _('This can be any value as info for the POP server'); ?>
+            </td>
+          </tr>
         <?php
            }
         ?>
