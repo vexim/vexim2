@@ -97,6 +97,7 @@ a:link {color:#09c;}
 a:visited {color:#07a;}
 a:hover {background-color:#eee;}
 
+#HeaderMessage { color: red; }
 #Header {
 	font-size: 12pt;
 	margin:50px 0px 10px 0px;
