@@ -83,13 +83,13 @@
     ($_POST['type'] != "alias")) {
     $query = "INSERT INTO domains 
               (domain, spamassassin, sa_tag, sa_refuse, avscan,
-              max_accounts, quotas, maildir, pipe, enabled, uid, gid,
-              type, maxmsgsize)
+              max_accounts, quotas, maildir, pipe,
+              host_smtp, host_imap, host_pop,
+              enabled, uid, gid, type, maxmsgsize)
               VALUES (:domain, :spamassassin, :sa_tag, :sa_refuse,
               :avscan, :max_accounts, :quotas, :maildir, :pipe,
-              host_smtp=:host_smtp, host_imap=:host_imap, host_pop=:host_pop,
-              :enabled,
-              :uid, :gid, :type, :maxmsgsize)";
+              :host_smtp, :host_imap, :host_pop,
+              :enabled, :uid, :gid, :type, :maxmsgsize)";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':domain'=>$_POST['domain'],
         ':spamassassin'=>$_POST['spamassassin'],
