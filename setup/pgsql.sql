@@ -54,7 +54,7 @@ CREATE TABLE blocklists (block_id SERIAL PRIMARY KEY,
 	color varchar(8) NOT NULL default '');
 CREATE INDEX blocklists_user_id_key ON blocklists (user_id);
 CREATE TABLE domainalias (domain_id int NOT NULL,
-        alias varchar(255));
+        alias varchar(255) NOT NULL PRIMARY KEY);
 CREATE TABLE groups (
         id                  SERIAL PRIMARY KEY,
         domain_id           int CHECK(domain_id > -1),
