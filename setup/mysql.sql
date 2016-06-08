@@ -96,8 +96,9 @@ CREATE TABLE IF NOT EXISTS `vexim`.`blocklists`
 --
 CREATE TABLE IF NOT EXISTS `vexim`.`domainalias` 
 (
-    domain_id        mediumint(8)  unsigned  NOT NULL,
-	alias varchar(255)
+	domain_id        mediumint(8)  unsigned  NOT NULL,
+	alias            varchar(255)            NOT NULL,
+	PRIMARY KEY (alias)
 );
 
 --
