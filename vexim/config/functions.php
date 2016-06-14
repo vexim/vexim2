@@ -15,7 +15,24 @@
         return is_string($password) && ($password === $confirmationPassword) && ($password !== "");
     }
 
-
+    /**
+     * check user password strength
+     *
+     * validate if password is strong enough
+     *
+     * @param   string   $candidate   cleartext password
+     * @return  boolean  true if password is strong enough
+     */
+    function password_strengthcheck($candidate) {
+        if (preg_match_all('$\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$', $candidate)
+          || preg_match_all('$\S*(?=\S{12,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$', $candidate)
+          || preg_match_all('$\S*(?=\S{16,})(?=\S*[a-z])(?=\S*[A-Z])\S*$', $candidate)
+          || (strlen($candidate)>20)
+        )
+            return TRUE;
+        return FALSE;
+    }
+    
     /**
      * Check if a user already exists.
      *
