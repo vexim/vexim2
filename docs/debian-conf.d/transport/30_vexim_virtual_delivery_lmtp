@@ -1,0 +1,10 @@
+### transport/30_vexim_virtual_delivery_lmtp
+#######################################
+
+# LMTP transport for dovecot on the same machine
+
+virtual_delivery_lmtp:
+  driver = lmtp
+  socket = /var/run/dovecot/lmtp
+  #maximum number of deliveries per batch, default 1
+  batch_max = 200
