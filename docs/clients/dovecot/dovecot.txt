@@ -1,0 +1,48 @@
+Configuring Dovecot to work with Virtual Exim
+
+  This short manual is based on my experience setting up Dovecot 1.2.15
+  to work with Vexim under Debian 6.0 (Squeeze). Any additions or
+  improvements to this document are very welcome.
+
+  Dovecot is an open source IMAP and POP3 email server for Linux/UNIX-like
+  systems, written with security primarily in mind.
+
+  Setting Dovecot up to work with Vexim is indeed rather trivial:
+
+1. Edit /etc/dovecot/dovecot.conf. It is documented rather extensively,
+   at least in Debian, so I won't go through everything. The things I had to
+   change for Vexim auth to work were the following:
+   * 'first_valid_uid' must be low enough for vexim user to be able to log in.
+     For example:
+
+      first_valid_uid = 100
+
+   * comment out the 'passdb pam' block, and uncomment the 'passdb sql' block
+     instead. My `passdb sql' looks like this:
+
+      passdb sql {
+        # Path for SQL configuration file
+        args = /etc/dovecot/dovecot-sql.conf
+      }
+
+   * I have also uncommented the 'userdb prefetch' block:
+
+      userdb prefetch {
+      }
+
+2. Edit /etc/dovecot/dovecot-sql.conf. Again, it is well documeted, so I
+   won't go into detail. With comments stripped out, my dovecot-sql.conf
+   looks like following:
+
+      driver = mysql
+      connect = host=/var/run/mysqld/mysqld.sock dbname=vexim user=vexim password=CHANGE
+      default_pass_scheme = CRYPT #PLAIN
+      password_query = \
+        SELECT `username` AS `user`, `crypt` AS `password`, \
+          `pop` AS `userdb_home`, `uid` AS `userdb_uid`, `gid` AS `userdb_gid` \
+        FROM `users` WHERE `username` = '%u'
+
+   Dovecot expects the select to return a set of columns with particular
+   names, hence usage of the 'AS' keyword above.
+
+3. Just restart Dovecot, and it should work.
