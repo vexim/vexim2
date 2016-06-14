@@ -1,0 +1,138 @@
+### router/250_vexim_virtual_domains_lmtp
+###  disable router/250_vexim_virtual_domains if using this file.
+### just by renaming both files
+#################################
+
+virtual_vacation:
+  driver = accept
+  domains = +local_domains
+  condition = ${if and { {!match {$h_precedence:}{(?i)junk|bulk|list}} \
+                         {eq {${lookup mysql{select users.on_vacation from users,domains \
+                                where localpart = '${quote_mysql:$local_part}' \
+                                and domain = '${quote_mysql:$domain}' \
+                                and users.on_vacation = '1' \
+                                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
+  no_verify
+  no_expn
+  unseen
+  transport = virtual_vacation_delivery
+
+virtual_forward:
+  driver = redirect
+  domains = +local_domains
+  check_ancestor
+  unseen = ${if eq {${lookup mysql{select unseen from users,domains \
+                where localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
+                and users.on_forward = '1' \
+                and users.domain_id=domains.domain_id}}}{1} {yes}{no}}
+  data = ${lookup mysql{select forward from users,domains \
+        where localpart='${quote_mysql:$local_part}' \
+        and domain='${quote_mysql:$domain}' \
+        and users.domain_id=domains.domain_id \
+        and on_forward = '1'}}
+  # We explicitly make this condition NOT forward mailing list mail!
+  condition = ${if and { {!match {$h_precedence:}{(?i)junk}} \
+                         {eq {${lookup mysql{select users.on_forward from users,domains \
+                                where localpart = '${quote_mysql:$local_part}' \
+                                and domain = '${quote_mysql:$domain}' \
+                                and users.on_forward = '1' \
+                                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
+
+virtual_domains_lmtp:
+  driver = accept
+  domains = +local_domains
+  headers_add = ${if and { \
+                    {>{$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
+                    {eq{1}{${extract{on_spamassassin}{$address_data}}}} \
+                    } {X-Spam-Flag: YES\n}{} }
+  # Whether to use old or new headers_remove behavior.
+  .ifndef OLD_HEADERS_REMOVE
+    headers_remove = ${if or { { <{$spam_score_int}{1} } \
+                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
+                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
+                                    } \
+                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
+                            }  {X-Spam-Score}}
+    headers_remove = ${if or { { <{$spam_score_int}{1} } \
+                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
+                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
+                                    } \
+                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
+                            }  {X-Spam-Report}}
+  .else
+    headers_remove = ${if or { { <{$spam_score_int}{1} } \
+                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
+                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
+                                    } \
+                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
+                            }  {X-Spam-Score:X-Spam-Report}}
+  .endif
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
+  transport = virtual_delivery_lmtp
+
+# A group is a list of users
+#
+# if a group is flaged public
+# then anyone on the internet can write to it
+# else only members can write to it
+#
+# If not public non member sender will receive a "550 Unknown user" message
+virtual_dom_groups:
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  senders = ${if eq{Y}{${lookup mysql{select g.is_public \
+                                      from groups g, domains d \
+                                      where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
+                                            d.domain_id = g.domain_id and g.enabled = '1' and \
+                                            g.name = '${quote_mysql:$local_part}'}}} \
+                 {$sender_address} \
+                 {${lookup mysql{select concat_ws('@', u.localpart, d.domain) \
+                                 from domains d, groups g, group_contents c, users u \
+                                 where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
+                                       d.domain_id = g.domain_id and g.name = '${quote_mysql:$local_part}' and \
+                                       g.enabled = '1' and \
+                                       g.is_public = 'N' and c.member_id = u.user_id and \
+                                       d.domain_id = u.domain_id and u.enabled = '1' \
+                                       and u.username = '${quote_mysql:$sender_address}' }}}}
+  data = ${lookup mysql{ \
+            select concat_ws('@', u.localpart, d.domain) \
+            from domains d, groups g, group_contents c, users u \
+            where d.enabled     = '1'           and \
+                  d.domain      = '${quote_mysql:$domain}'   and \
+                  d.domain_id   = g.domain_id   and \
+                  g.enabled     = '1'           and \
+                  g.id          = c.group_id    and \
+                  c.member_id   = u.user_id     and \
+                  d.domain_id   = u.domain_id   and \
+                  u.enabled     = '1'           and \
+                  g.name        = '${quote_mysql:$local_part}'} }
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
+  retry_use_local_part
+  reply_transport = address_reply
+  pipe_transport = address_pipe
+
+virtual_domains_catchall_lmtp:
+  driver = accept
+  domains = +local_domains
+  transport = virtual_delivery_lmtp
+
+virtual_domain_alias:
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  data = ${lookup mysql{select concat('${quote_mysql:$local_part}@', domain) \
+                from domains,domainalias where domainalias.alias = '${quote_mysql:$domain}' \
+                and domainalias.domain_id = domains.domain_id}}
+  retry_use_local_part

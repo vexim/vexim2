@@ -137,7 +137,9 @@
         <th><?php echo _('Aliased domains'); ?></th>
       </tr>
       <?php
-        $query = "SELECT alias,domain,domains.domain_id AS domain_id FROM domainalias,domains
+        $query = "SELECT alias, domain, domains.domain_id AS domain_id,
+                         domainalias.host_smtp, domainalias.host_imap, domainalias.host_pop
+          FROM domainalias,domains
           WHERE domainalias.domain_id = domains.domain_id";
         $sth = $dbh->query($query);
         while ($row = $sth->fetch()) {
@@ -154,6 +156,16 @@
             <td colspan="3">
               <?php echo $row['alias'] . ' → ' . $row['domain']; ?>
             </td>
+          </tr>
+          <tr>
+            <td>
+            </td>
+            <td colspan="3">
+              <?php echo 'SMTP Host: ' . $row['host_smtp']; ?>
+              <?php echo ' | IMAP Host: ' . $row['host_imap']; ?>
+              <?php echo ' | POP Host: ' . $row['host_pop']; ?>
+            </td>
+
           </tr>
       <?php
         }

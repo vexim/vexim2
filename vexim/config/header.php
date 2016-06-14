@@ -25,6 +25,7 @@
   if (isset($_SESSION['domain'])) {
     print     "-- " . $_SESSION['domain'] . " ";
   }
+  print "<span id=\"HeaderMessage\">";
   // First a few status messages about account maintenance
   if (isset($_GET['added'])) {
     printf (_("-- %s has been successfully added."), $_GET['added']);
@@ -107,5 +108,5 @@
   }
   if (isset($_GET['login']) && ($_GET['login'] == "failed")) { print _("Login failed"); }
 
-  print "</p></div>";
+  print "</span></p></div>";
 ?>
