@@ -1,0 +1,30 @@
+Example config for LMTP Transport exim-dovecot
+
+This example is using UNIX sockets for LMTP
+Using LMTP has the benefit that dovecot can update its files during delivery of emails.
+
+1. Dovecot setup:
+  http://wiki.dovecot.org/LMTP
+  
+  enable the sieve plugin:
+    vim /etc/dovecot/conf.d/21-lmtp-override.conf
+      protocol lmtp {
+        # Space separated list of plugins to load (default is global mail_plugins).
+        mail_plugins = $mail_plugins sieve
+      }
+
+2. Exim setup:
+  http://wiki.dovecot.org/LMTP/Exim
+  
+  We need a router and a transport (files provided in vexim2/docs/debian-conf.d):
+   	router/250_vexim_virtual_domains_lmtp.disabled
+   	transport/30_vexim_virtual_delivery_lmtp
+  Copy these files to the according directories under /etc/exim4/conf.d/ on your server
+  
+  To activate this setup its only necessary to rename 2 files:
+    cd /etc/exim4/conf.d/router
+    mv 250_vexim_virtual_domains_lmtp.disabled 250_vexim_virtual_domains_lmtp
+    mv 250_vexim_virtual_domains 250_vexim_virtual_domains_lmtp.disabled
+  
+  Update exim config and restart exim:
+    update-exim4.conf -v && service exim4 restart
