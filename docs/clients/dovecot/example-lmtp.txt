@@ -4,7 +4,7 @@ This example is using UNIX sockets for LMTP
 Using LMTP has the benefit that dovecot can update its files during delivery of emails.
 
 1. Dovecot setup:
-  http://wiki.dovecot.org/LMTP/Exim
+  http://wiki.dovecot.org/LMTP
   
   enable the sieve plugin:
     vim /etc/dovecot/conf.d/21-lmtp-override.conf
@@ -14,6 +14,8 @@ Using LMTP has the benefit that dovecot can update its files during delivery of 
       }
 
 2. Exim setup:
+  http://wiki.dovecot.org/LMTP/Exim
+  
   We need a router and a transport (files provided in vexim2/docs/debian-conf.d):
    	router/250_vexim_virtual_domains_lmtp.disabled
    	transport/30_vexim_virtual_delivery_lmtp
