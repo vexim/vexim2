@@ -23,7 +23,10 @@
      * @param   string   $candidate   cleartext password
      * @return  boolean  true if password is strong enough
      */
-    function password_strengthcheck($candidate) {
+    function password_strengthcheck($candidate)
+    {
+        global $passwordstrengthcheck;
+        
         if ( $passwordstrengthcheck == 0
           || preg_match_all('$\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$', $candidate)
           || preg_match_all('$\S*(?=\S{12,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$', $candidate)
