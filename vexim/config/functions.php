@@ -32,7 +32,14 @@
           || preg_match_all('$\S*(?=\S{12,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$', $candidate)
           || preg_match_all('$\S*(?=\S{16,})(?=\S*[a-z])(?=\S*[A-Z])\S*$', $candidate)
           || (strlen($candidate)>20)
-        ) { return TRUE; }
+        ) {
+            if (strtolower($candidate) <> strtolower($_POST['localpart'])
+                && strtolower($candidate) <> strtolower($_POST['username'])
+                )
+            {
+                return TRUE;
+            }
+        }
 
         return FALSE;
 /*
