@@ -44,6 +44,7 @@
   $domainguess = 0;
 
   /* Enable password strength check
+     To disable this check set $passwordstrengthcheck = 0;
   */
   $passwordstrengthcheck = 1;
 
