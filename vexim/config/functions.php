@@ -28,8 +28,8 @@
           || preg_match_all('$\S*(?=\S{12,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$', $candidate)
           || preg_match_all('$\S*(?=\S{16,})(?=\S*[a-z])(?=\S*[A-Z])\S*$', $candidate)
           || (strlen($candidate)>20)
-        )
-            return TRUE;
+        ) { return TRUE; }
+
         return FALSE;
     }
     
