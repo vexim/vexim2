@@ -5,6 +5,10 @@
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
+    if (!password_strengthcheck($_POST['clear'])) {       
+      header ("Location: site.php?weakpass=siteadmin");
+      die;
+    }
     $cryptedpassword = crypt_password($_POST['clear']);
     $query = "UPDATE users SET crypt=:crypt WHERE localpart='siteadmin' AND domain_id='1'";
     $sth = $dbh->prepare($query);
