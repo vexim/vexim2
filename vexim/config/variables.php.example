@@ -43,6 +43,10 @@
      in order to enable this function */
   $domainguess = 0;
 
+  /* Enable password strength check
+  */
+  $passwordstrengthcheck = 1;
+
   /* The UID's and GID's control the default UID and GID for new domains
      and if postmasters can define their own.
      THE UID AND GID MUST BE NUMERIC! */
