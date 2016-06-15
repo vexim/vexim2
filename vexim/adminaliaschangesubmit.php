@@ -45,6 +45,10 @@
   # Update the password, if the password was given
   if(isset($_POST['password']) && $_POST['password']!=='' ){
 	if (validate_password($_POST['password'], $_POST['vpassword'])) {
+          if (!password_strengthcheck($_POST['password'])) {  
+            header ("Location: adminalias.php?weakpass={$_POST['localpart']}");
+            die;
+          }
 		$cryptedpassword = crypt_password($_POST['password']);
 		$query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
           $sth = $dbh->prepare($query);
