@@ -1,4 +1,6 @@
-### router/250_vexim_virtual_domains
+### router/250_vexim_virtual_domains_lmtp
+###  disable router/250_vexim_virtual_domains if using this file.
+### just by renaming both files
 #################################
 
 virtual_vacation:
