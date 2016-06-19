@@ -1,6 +1,4 @@
-### router/250_vexim_virtual_domains_lmtp
-###  disable router/250_vexim_virtual_domains if using this file.
-### just by renaming both files
+### router/250_vexim_virtual_domains
 #################################
 
 virtual_vacation:
@@ -39,9 +37,34 @@ virtual_forward:
                                 and users.on_forward = '1' \
                                 and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
 
-virtual_domains_lmtp:
+virtual_domains_useralias:
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  data = ${lookup mysql{select smtp from users,domains \
+	where users.type = 'alias' \
+		and localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
+                and domains.enabled = '1' \
+                and users.enabled = '1' \
+                and users.domain_id = domains.domain_id}}
+  retry_use_local_part
+
+virtual_domains:
+  debug_print = "R: LMTP virtual_user for $local_part@$domain"
   driver = accept
   domains = +local_domains
+  address_data = ${lookup mysql{\
+        select username, smtp, localpart, users.sa_tag*10 AS sa_tag, users.on_spamassassin AND domains.spamassassin AS on_spamassassin, \
+        users.uid AS uid, users.gid AS gid, quota \
+        from users,domains \
+        where users.type='local' \
+		and localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
+                and domains.enabled = '1' \
+                and users.enabled = '1' \
+                and users.domain_id = domains.domain_id}{$value}fail}
+  cannot_route_message = Unknown user
   headers_add = ${if and { \
                     {>{$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
                     {eq{1}{${extract{on_spamassassin}{$address_data}}}} \
@@ -74,6 +97,7 @@ virtual_domains_lmtp:
     local_part_suffix = VEXIM_LOCALPART_SUFFIX
     local_part_suffix_optional
   .endif
+  retry_use_local_part
   transport = virtual_delivery_lmtp
 
 # A group is a list of users
@@ -123,10 +147,17 @@ virtual_dom_groups:
   reply_transport = address_reply
   pipe_transport = address_pipe
 
-virtual_domains_catchall_lmtp:
-  driver = accept
+virtual_domains_catchall:
+  driver = redirect
   domains = +local_domains
-  transport = virtual_delivery_lmtp
+  allow_fail
+  data = ${lookup mysql{select smtp from users,domains where localpart = '*' \
+                and domain = '${quote_mysql:$domain}' \
+                and users.domain_id = domains.domain_id}}
+  retry_use_local_part
+  file_transport = virtual_delivery_lmtp
+  reply_transport = address_reply
+  pipe_transport = address_pipe_catchall
 
 virtual_domain_alias:
   driver = redirect
