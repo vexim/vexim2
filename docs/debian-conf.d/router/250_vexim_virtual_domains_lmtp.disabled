@@ -1,4 +1,4 @@
-### router/250_vexim_virtual_domains_lmtp
+### router/250_vexim_virtual_domains
 ###  disable router/250_vexim_virtual_domains if using this file.
 ### just by renaming both files
 #################################
@@ -40,6 +40,7 @@ virtual_forward:
                                 and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
 
 virtual_domains_useralias:
+  debug_print = "R: virtual_domains_useralias for $local_part@$domain"
   driver = redirect
   domains = +local_domains
   allow_fail
@@ -52,11 +53,25 @@ virtual_domains_useralias:
                 and users.domain_id = domains.domain_id}}
   retry_use_local_part
 
+virtual_pipe:
+  debug_print = "R: virtual_pipe for $local_part@$domain"
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  data = ${lookup mysql{select smtp from users,domains \
+        where users.type='piped' \
+                and localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
+                and domains.enabled = '1' \
+                and users.enabled = '1' \
+                and users.domain_id = domains.domain_id}}
+  pipe_transport = address_pipe
+
 virtual_domains:
   debug_print = "R: LMTP virtual_user for $local_part@$domain"
   driver = accept
   domains = +local_domains
-  address_data = ${lookup mysql{\
+  address_data = ${lookup mysql{ \
         select username, smtp, localpart, users.sa_tag*10 AS sa_tag, users.on_spamassassin AND domains.spamassassin AS on_spamassassin, \
         users.uid AS uid, users.gid AS gid, quota \
         from users,domains \
