@@ -7,6 +7,7 @@ plain_virtual_exim:
         server_condition = ${if crypteq{$auth3}{${lookup mysql{ \
                            SELECT crypt FROM users \
                            WHERE username = '${quote_mysql:$auth2}' \
+                             AND enabled = 1 \
                            }}}{1}{0}}
         server_set_id = $auth2
     .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
@@ -25,6 +26,7 @@ login_virtual_exim:
         server_condition = ${if crypteq{$auth2}{${lookup mysql{ \
                            SELECT crypt FROM users \
                            WHERE username = '${quote_mysql:$auth1}' \
+                             AND enabled = 1 \
                            }}}{1}{0}}
         server_set_id = $auth1
     .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
