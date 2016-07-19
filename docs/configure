@@ -288,9 +288,8 @@ tls_certificate = /etc/exim4/exim.crt
 tls_privatekey = /etc/exim4/exim.key
 tls_dhparam = /etc/exim4/dhparam.pem
 tls_require_ciphers = ${if =={$received_port}{25}\
-{NORMAL:%COMPAT:!VERS-SSL3.0}\
-{SECURE128}}
-
+    {NORMAL:%COMPAT:-ARCFOUR-128:-ARCFOUR-40:-MD5:-VERS-SSL3.0}\
+    {SECURE128:+AES-256-CBC:+CAMELLIA-256-CBC:-ARCFOUR-128:-ARCFOUR-40:-MD5:-VERS-SSL3.0}}
 
 ######################################################################
 #                       ACL CONFIGURATION                            #
