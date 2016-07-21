@@ -5,17 +5,29 @@
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   $_POST['on_vacation'] = isset($_POST['on_vacation']) ? 1 : 0;
-  if (isset($_POST['on_forward'])) {
+  if (isset($_POST['on_forward']) && isset($_POST['forward']) && $_POST['forward']!=='') {
     $_POST['on_forward'] = 1;
-    if(!filter_var($_POST['forward'], FILTER_VALIDATE_EMAIL)) {
-      header ("Location: userchange.php?invalidforward=".htmlentities($_POST['forward']));
-      die;
+    $forwardto=explode(",",$_POST['forward']);
+    for($i=0; $i<count($forwardto); $i++){
+      $forwardto[$i]=trim($forwardto[$i]);
+      if(!filter_var($forwardto[$i], FILTER_VALIDATE_EMAIL)) {
+        header ("Location: userchange.php?invalidforward=".htmlentities($forwardto[$i]));
+        die;
+      }
     }
+    $_POST['forward'] = implode(",",$forwardto);
     $_POST['unseen'] = isset($_POST['unseen']) ? 1 : 0;
   } else {
     $_POST['on_forward'] = 0;
-    $_POST['forward']='';
     $_POST['unseen']=0;
+
+    # confirm that the postmaster is updating a user they are permitted to change before going further
+    $query = "SELECT * FROM users WHERE user_id=:user_id
+              AND domain_id=:domain_id AND (type='local' OR type='piped')";
+    $sth = $dbh->prepare($query);
+    $sth->execute(array(':user_id'=>$_SESSION['user_id'], ':domain_id'=>$_SESSION['domain_id']));
+    $account = $sth->fetch();
+    $_POST['forward']=$account['forward'];
   }
 
   # Do some checking, to make sure the user is ALLOWED to make these changes

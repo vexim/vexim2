@@ -29,8 +29,25 @@
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script src="scripts.js" type="text/javascript"></script>
+    <script type='text/javascript'>
+      function fwac() {
+      document.getElementById('forward').disabled = !document.getElementById('on_forward').checked;
+      document.getElementById('forwardmenu').disabled = !document.getElementById('on_forward').checked;
+      }
+      function boxadd() {
+        var exstring = document.getElementById('forward').value;
+        var box = document.getElementById('forwardmenu');
+        var selectitem = box.options[box.selectedIndex].value;
+        if (!exstring.match(/\S/)) {
+          document.getElementById('forward').value=selectitem;
+        } else {
+          document.getElementById('forward').value += "," + selectitem;
+        }
+      }
+
+    </script>
   </head>
-  <body onLoad="document.userchange.realname.focus()">
+  <body onLoad="document.userchange.realname.focus(); fwac()">
   <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminuser.php"><?php echo _('Manage Accounts'); ?></a><br>
@@ -265,20 +282,20 @@
         </tr>
         <tr>
           <td><?php echo _('Forwarding on'); ?>:</td>
-          <td><input name="on_forward" type="checkbox" <?php
+          <td><input name="on_forward" id="on_forward" type="checkbox" <?php
             if ($row['on_forward'] == "1") {
               print " checked";
-            } ?>>
+            } ?> onchange="fwac()" onclick="fwac()">
           </td>
         </tr>
         <tr>
-          <td><?php echo _('Forward mail to'); ?>:</td>
+          <td valign="top"><?php echo _('Forward mail to'); ?>:</td>
           <td>
-            <input type="text" size="25" name="forward"
+            <input type="text" size="25" name="forward" id="forward"
             value="<?php print $row['forward']; ?>" class="textfield"><br>
-            <?php echo _('Must be a full e-mail address'); ?>!<br>
-            <?php echo _('OR') .":<br>\n"; ?>
-            <select name="forwardmenu">
+            <?php echo _('Enter full e-mail addresses, use commas to separate them'); ?>!<br>
+            <?php echo _('or select from this list') .":<br>\n"; ?>
+            <select name="forwardmenu" id="forwardmenu" onchange="boxadd()">
               <option selected value=""></option>
               <?php
                 $queryuserlist = "SELECT realname, username, user_id, unseen

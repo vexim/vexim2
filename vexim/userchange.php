@@ -22,8 +22,13 @@
   <head>
     <title><?php echo _("Virtual Exim") . ": " . _("Manage Users"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <script type='text/javascript'>
+      function fwac() {
+      document.getElementById('forward').disabled = !document.getElementById('on_forward').checked;
+      }
+    </script>
   </head>
-  <body onLoad="document.forms[0].elements[0].focus()">
+  <body onLoad="document.forms[0].elements[0].focus(); fwac()">
     <?php include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="Menu">
       <a href="logout.php"><?php echo _("Logout"); ?></a><br>
@@ -133,12 +138,12 @@
         <?php } ?>
   	  </tr>
   	  <tr><td><?php echo _("Forwarding enabled"); ?>:</td>
-  	    <td><input name="on_forward" type="checkbox"
-          <?php if($row['on_forward'] == "1") { print " checked "; } ?>>
+  	    <td><input name="on_forward" type="checkbox" id="on_forward"
+          <?php if($row['on_forward'] == "1") { print " checked "; } ?> onchange="fwac()" onclick="fwac()">
           </td></tr>
   	  <tr><td><?php echo _("Forward mail to");?>:</td>
-	    <td><input type="text" name="forward" value="<?php print $row['forward']; ?>" class="textfield"><br>
-          <?php echo _("Must be a full e-mail address"); ?>
+	    <td><input type="text" name="forward" id="forward" value="<?php print $row['forward']; ?>" class="textfield"><br>
+          <?php echo _("Enter full e-mail addresses, use commas to separate them."); ?>
         </td></tr>
   	  <tr><td><?php echo  _("Store Forwarded Mail Locally");?>:</td>
   	    <td><input name="unseen" type="checkbox"
