@@ -91,6 +91,17 @@ VEXIM_LOCALPART_SUFFIX = +*
 # 'headers_remove' behavior. See https://github.com/vexim/vexim2/pull/102 .
 #OLD_HEADERS_REMOVE = yes
 
+# Reverse DNS checks can be efficient to fight spam. It checks if host name associated to the ip address matches
+# the sender_host_name (for properly configured mail servers this should be the case). However, there are some
+# downsides: DNS checks slow down the delivery process, DNS problems can result in rejected mails. You should
+# consider using a caching DNS server such as unbound on your host.
+# If the rule is activated, failed rDNS entries will only be logged to your exim-logfile (test mode). If you want
+# to reject mails directly, go to the vexim-acl-check-rcpt.conf and replace this line:
+#  warn message           = Warning - Reverse DNS lookup failed for host $sender_host_address.
+# by:
+#  deny message           = Warning - Reverse DNS lookup failed for host $sender_host_address.
+#CHECK_RCPT_REVERSE_DNS = yes
+
 #Debian: hide mysql_servers = localhost::(/var/run/mysqld/mysqld.sock)/vexim/vexim/CHANGE
 #hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
 #hide pgsql_servers = localhost/vexim/vexim/CHANGE
