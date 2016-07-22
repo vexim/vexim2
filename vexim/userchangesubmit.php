@@ -64,9 +64,9 @@
         header ("Location: userchange.php?userupdated");
         die;
       }
-      header ("Location: userchange.php?badpass");
-      die;
     }
+    header ("Location: userchange.php?badpass");
+    die;
   }
 
 #If the realname was changed in the upper form, don't run the rest of the script
