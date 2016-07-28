@@ -73,7 +73,7 @@ yum update
 ``` 
 For Enterprise Linux 7.X
 ```
-rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum update
 
 ```
