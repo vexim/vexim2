@@ -61,6 +61,46 @@ If you want your mail server to scan messages for viruses and spam, you will hav
 # apt-get install clamav-daemon clamav-freshclam spamassassin
 ```
 
+**EL:** - For RedHat based (Enterprise Linux, CentOS, RHEL, Scientific) Exim is not build linked against Mysql libraries making it imposible to use vexim against a RDBMS such as mysql or postfix. The EPEL project provides support for Exim that will utilize Mysql. The EPEL repo is a Red Hat sponsored community based repo, details can be found https://fedoraproject.org/wiki/EPEL
+
+We first must enable the EPEL repo for the right version of Enterprise Linux. Your host will need outgoing access to the internet on port 443.
+for Enterprise Linux 6.X
+
+rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+yum update
+
+For Enterprise Linux 7.X
+
+rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum update
+
+With the correct EPEL repo enabled, you can now install the correct exim package from epel.
+
+yum install exim-mysql
+
+This package will pull in exim with Mysql support and associated dependencies.
+
+To install the other required packages to run the vexim application the following packages must be installed via yum, this will pull in the required packages and dependencies
+
+For Enterprise Linux 6.X
+
+yum install php php-mysql php-pdo httpd mysql-server
+
+For Enterprise Linux 7.X
+
+yum install php php-mysql php-pdo httpd mariadb-server
+
+For optional functionality within vexim, such as spam filtering, antivirus scanning install the following packages which will pull in dependencies.
+
+For Enterprise Linux 6.X - be aware the version of clam that ships for EL6 is now too old to take all current virus definition updates
+
+yum install clamd spamassassin mailman
+
+For Enterprise Linux 7.X
+
+yum install clamav clamav-server-systemd clamav-update spamassassin mailman
+
+
 ##### System user:
 You should create a new user account to whom the virtual mailboxes will belong. Since you do not want anyone to be able to login using that account, you should also disable logging in for that user. Here are the command lines to do that. This manual assumes you want to have your virtual mailboxes in /var/vmail. If you want them elsewhere, adjust the commands. After the user and group are created, find their uid and gid using the last command and memorize these values:
 ```
