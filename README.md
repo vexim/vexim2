@@ -23,10 +23,10 @@ Some sections may contain distribution or OS-specific notes. You'll find them af
 2. Files and Apache
 3. System user
 4. Databases and authentication
-5. Exim configuration
-6. Site Admin
-7. Virtual Domains
-8. Mailman
+5. Mailman
+6. Exim configuration
+7. Site Admin
+8. Virtual Domains
 9. Mail storage and Delivery
 10. POP3 and IMAP daemons (separate to this software)
 
@@ -74,11 +74,9 @@ You should create a new user account to whom the virtual mailboxes will belong. 
 
 ##### MySQL:
 This distribution contains a file "vexim2/setup/mysql.sql". This file provides the database schema used by vexim. You will have to import it into MySQL, like this:
-
 ```
 # mysql -u root -D YOUR_DATABASE_NAME -p < vexim2/setup/mysql.sql
 ```
-
 Where `YOUR_DATABASE_NAME` is the name of an empty database you have created for vexim. If you want the script to create the database for you and set up access to it, this is also doable: just open it in a text editor, and find a commented out block which begins with `-- CREATE DATABASE` near the top of the file. This block is documented just above it, so you may uncomment it, apply the changes you want and save the file. With the necessary changes made, you should run the following command line to initialize the database:
 ```
 # mysql -u root -p < vexim2/setup/mysql.sql
@@ -104,9 +102,9 @@ After copying the 'vexim' directory, you should find the 'variables.php.example'
 * $sqlpass – to the vexim database user's password which you chose while editing 'mysql.sql' in the "Databases and authentication" step.
 * $uid, $gid and $mailroot to the values you have from the "System user" step.
 * $cryptscheme is set to "sha512", a more specific configuration or other crypt-schemes can be used.
+* $mailmanroot to the default URL pattern of mailman
 
 Other, less interesting options are documented in the comments of that file. Feel free to explore them as well.
-
 
 ##### Exim configuration:
 **NOTE:** the configuration files supplied here have been revised. You should use them carefully and report problems!
@@ -114,12 +112,12 @@ Other, less interesting options are documented in the comments of that file. Fee
 An example Exim 'configure' file, has been included with this distribution as 'docs/configure'. Copy this to the location Exim expects its configuration file to be on your installation. You will also need to copy docs/vexim* to /usr/local/etc/exim/. The following lines are important and will have to be edited if you are using this configure, or copied to your own configure file:
 
 
-Edit these if your mailman is in a different location:
+Edit these if your mailman is in a different location (in Debian: `/var/lib/mailman`):
 ```
 MAILMAN_HOME=/usr/local/mailman
 MAILMAN_WRAP=MAILMAN_HOME/mail/mailman
 ```
-These need to match the username and group under which exim runs:
+These need to match the username and group under which exim runs (in Debian: `list`/`daemon`):
 ```
 MAILMAN_USER=mailnull
 MAILMAN_GROUP=mail
@@ -128,6 +126,8 @@ Change this to the name of your server:
 ```
 primary_hostname=mail.example.org
 ```
+In general, it is required that your reverseDNS-entry of your IP points to this hostname.
+
 If you are using MySQL, uncomment the following two lines:
 ```
 #VIRTUAL_DOMAINS = SELECT DISTINCT CONCAT(domain, ' : ') FROM domains type = 'local'
@@ -147,19 +147,24 @@ domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
 hostlist   relay_from_hosts = localhost : @ : 192.168.0.0/24
 #trusted_users = www-data
 ```
-Specify here, the username and group under which Exim runs. This combination is also that under which mailman must run in order to work:
+This line configures database connectivity. You need to uncomment it and change the word 'CHANGE', to the password you will use for the 'vexim' database user, which we will set up in the next part. The socket path in Debian is `/var/run/mysqld/mysqld.sock` per default.
 ```
-exim_user = mailnull
-exim_group = mail
+#hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
 ```
 If you want to use either Anti-Virus scanning, or SpamAssassin, you will need to uncomment the appropriate line here.
 ```
 # av_scanner = clamd:/tmp/clamd
 # spamd_address = 127.0.0.1 783
-``` 
-This line configures database connectivity. You need to uncomment it and change the word 'CHANGE', to the password you will use for the 'vexim' database user, which we will set up in the next part.
 ```
-#hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
+in Debian use:
+```
+# av_scanner = /var/run/clamav/clamd.ctl
+# spamd_address = /var/run/spamd.sock
+```
+Specify here, the username and group under which Exim runs (Debian: `Debian-exim`). This combination is also that under which mailman must run in order to work:
+```
+exim_user = mailnull
+exim_group = mail
 ```
 Also it is assumed that the mysql domain socket is /tmp/mysql.sock, which is where the FreeBSD port puts it. Other installations put it in /var/tmp, /usr/lib, or any number of other places. If yours isn't /tmp/mysql.sock, you will need to set this.
 
@@ -177,6 +182,19 @@ The Diffie-Hellman group should have at least 1024 bit and can be created with t
 ```
 # openssl dhparam -out /etc/exim4/dhparam.pem 2048
 ```
+In the router section, you need to modify the user and group to the exim-user `system_aliases`-router (around line 800):
+```
+system_aliases:
+  driver = redirect
+  allow_fail
+  allow_defer
+  data = ${lookup{$local_part}lsearch{/etc/aliases}}
+  user = <exim-user>
+  group = <exim-group>
+  file_transport = address_file
+  pipe_transport = address_pipe
+```
+Replace `<exim-user>` and `<exim-group>` with the actual exim user/group of your system (`mailnull`/`mail` in FreeBSD and `Debian-exim`/`Debian-exim` in Debian).
 
 ###### ACL's: 
 We have split all of the ACL's into separate files, to make managing them easier. Please review the ACL section of the configure file. If there are ACL's you would rather not have executed, please comment out the '.include' line that references them, or edit the ACL file directly and comment them out.
@@ -192,16 +210,13 @@ In order to add and delete domains from the database, you need to have a "site a
 
 The default username and password for the siteadmin, are:
 * **Username:** siteadmin
-* **Domain value:** (blank)
 * **Password:** CHANGE
 
-The password is case sensitive. You are strongly advised to log in and change it as soon as you get a chance. :-)
+The password is case sensitive. After you login, you have to change it first.
 
 #### Virtual Domains:
 Virtual Exim can now control which local domains Exim accepts mail for and which domains it relays mail for. The features are controlled by the siteadmin, and domains can be easily added/removed from the siteadmin pages. Local domains can also be enabled/disabled on the fly, but relay domains are always enabled.
 
-#### Mailman:
-Mailman needs to be installed if you want to use mailing lists. The default location is assumed to be /usr/local/mailman. If this is not the location of your installation, edit Exim's configure file, and change the paths where ever 'mailman' is mentioned, and do the same in vexim/config/variables.php
 
 #### Mail storage and Delivery:
 The mysql configuration assumes that mail will be stored in /var/vmail/domain.com/username/Maildir. If you want to change the path from '/var/vmail/', you need to edit the file:
