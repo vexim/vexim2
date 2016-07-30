@@ -1,6 +1,5 @@
 --
--- Password for siteadmin is CHANGE. SHA512 is used by default, other
--- crypting schemes can be found at the end of this file
+-- The password for siteadmin is CHANGE.
 --
 
 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT;
@@ -17,7 +16,7 @@ SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0;
 --
 -- Uncomment the following block if you want this script to create 
 -- the database for you and set up its access.
--- Don't forget to change the password.
+-- Don't forget to change the password (currently: CHANGE).
 -- You may also change the database and user names if you want.
 --
 
@@ -157,6 +156,7 @@ CREATE TABLE `groups` (
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `group_name` (`domain_id`, `name`),
+  INDEX `fk_groups_domain_id_idx` (`domain_id`),
   CONSTRAINT `fk_groups_domain_id`
     FOREIGN KEY (`domain_id`)
     REFERENCES `domains` (`domain_id`)
@@ -173,7 +173,8 @@ CREATE TABLE `group_contents` (
   `group_id` int(10) unsigned NOT NULL,
   `member_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`group_id`, `member_id`),
-  INDEX `fk_group_contents_member_id_idx` (`member_id` ASC),
+  INDEX `fk_group_contents_group_id_idx` (`group_id`),
+  INDEX `fk_group_contents_member_id_idx` (`member_id`),
   CONSTRAINT `fk_group_contents_group_id`
     FOREIGN KEY (`group_id`)
     REFERENCES `groups` (`id`)
@@ -187,7 +188,7 @@ CREATE TABLE `group_contents` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `domains`
+-- Seed the `domains` table with the hidden siteadmin domain
 --
 
 LOCK TABLES `domains` WRITE;
@@ -197,17 +198,12 @@ ALTER TABLE `domains` ENABLE KEYS;
 UNLOCK TABLES;
 
 --
--- Dumping data for table `users`
+-- Seed the `users` table with the siteadmin user
 --
 
 LOCK TABLES `users` WRITE;
 ALTER TABLE `users` DISABLE KEYS;
 INSERT INTO `users` VALUES (1,1,'siteadmin','siteadmin','$6$uR.EiB1dj5rrvwMF$Qh5LgdjOZavKXwhi9IF0Yuzu7qxsG.dLTTB8e./55ZRNfBuZVLnfUSOEXa0oWT6174myO.WYkOy83HYWAKPbK/',65535,65535,'','','site',1,0,0,0,0,0,0,0,1,NULL,NULL,0,0,0,'SiteAdmin',0,0,NULL,NULL);
-
--- fix password if using bcrypt (on *BSD only) encrypted passwords:
--- UPDATE `vexim`.`users` SET `crypt` = '$2a$10$KKtb78YkexNl4Ik3RymPEObqTsk/ivneEHl/Q5TsDpRBGyYjOl33G'
---   WHERE `user_id` = '1' LIMIT 1 ;
-
 ALTER TABLE `users` ENABLE KEYS;
 UNLOCK TABLES;
 
