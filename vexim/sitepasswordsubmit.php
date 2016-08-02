@@ -11,6 +11,7 @@
     $success = $sth->execute(array(':crypt'=>$cryptedpassword));
     if ($success) {
       $_SESSION['crypt'] = $cryptedpassword;
+      if(isset($_SESSION['pw_enforce'])) unset($_SESSION['pw_enforce']);
       header ("Location: site.php?sitepass=success");
       die;
     } else {
@@ -18,6 +19,10 @@
       die;
     }
   } else {
+    if(isset($_SESSION['pw_enforce'])) {
+      header ("Location: sitepassword.php?badpass=siteadmin");
+      die;
+    }
     header ("Location: site.php?badpass=siteadmin");
   }
 ?>

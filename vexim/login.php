@@ -71,6 +71,7 @@
   # redirect the user to the correct starting page
   if (($row['admin'] == '1') && ($row['type'] == 'site')) {
     if($_POST['crypt']=="CHANGE") {
+      $_SESSION['pw_enforce']=1;
       header ('Location: sitepassword.php');
       die();
     }

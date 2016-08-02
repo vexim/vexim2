@@ -12,6 +12,11 @@
   if (!isset($_POST['searchfor'])) {
     $_POST['searchfor'] = '';
   }
+  if(isset($_SESSION['pw_enforce'])) {
+    header ("Location: sitepassword.php");
+    die;
+  }
+
 ?>
 <html>
   <head>
