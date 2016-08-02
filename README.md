@@ -69,8 +69,8 @@ You should create a new user account to whom the virtual mailboxes will belong. 
 ```
 **FREEBSD:** Instead of the commands above, you should probably use the following:
 ```
-# pw useradd vexim -u 1,100 -g "" -d /var/vmail -m -s /nonexistant
-# id vexim
+# pw groupadd vexim -g 90
+# pw useradd vexim -u 90 -g vexim -d /usr/local/mail -m -s /nonexistant
 ```
 **DEBIAN:** Use the following command instead:
 ```
