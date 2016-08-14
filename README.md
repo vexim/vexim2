@@ -106,6 +106,16 @@ After copying the 'vexim' directory, you should find the 'variables.php.example'
 
 Other, less interesting options are documented in the comments of that file. Feel free to explore them as well.
 
+#### Mailman:
+Mailman needs to be installed if you want to use mailing lists. Edit the default configuration file (`/etc/mailman/mm_cfg.py`):
+```
+DEFAULT_URL_PATTERN = 'https://%s/mailman/'
+DEFAULT_SERVER_LANGUAGE = 'en'
+DEFAULT_EMAIL_HOST = 'mail.example.tld'
+DEFAULT_URL_HOST   = 'mail.example.tld'
+```
+Debian will already create a default configuration for your webserver that you can enable with `a2ensite mailman`. Create your master password: `mmsitepass MY_PASSWORD``. Restart mailman and apache.
+
 ##### Exim configuration:
 **NOTE:** the configuration files supplied here have been revised. You should use them carefully and report problems!
 
@@ -182,19 +192,6 @@ The Diffie-Hellman group should have at least 1024 bit and can be created with t
 ```
 # openssl dhparam -out /etc/exim4/dhparam.pem 2048
 ```
-In the router section, you need to modify the user and group to the exim-user `system_aliases`-router (around line 800):
-```
-system_aliases:
-  driver = redirect
-  allow_fail
-  allow_defer
-  data = ${lookup{$local_part}lsearch{/etc/aliases}}
-  user = <exim-user>
-  group = <exim-group>
-  file_transport = address_file
-  pipe_transport = address_pipe
-```
-Replace `<exim-user>` and `<exim-group>` with the actual exim user/group of your system (`mailnull`/`mail` in FreeBSD and `Debian-exim`/`Debian-exim` in Debian).
 
 ###### ACL's: 
 We have split all of the ACL's into separate files, to make managing them easier. Please review the ACL section of the configure file. If there are ACL's you would rather not have executed, please comment out the '.include' line that references them, or edit the ACL file directly and comment them out.
