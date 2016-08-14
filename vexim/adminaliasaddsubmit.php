@@ -90,9 +90,9 @@
        ':admin' => $_POST['admin'],
        ':on_avscan' => $_POST['on_avscan'],
        ':on_spamassassin' => $_POST['on_spamassassin'],
-       ':sa_tag' => $_POST['sa_tag'],
-       ':sa_refuse' => $_POST['sa_refuse'],
-       ':spam_drop' => $_POST['spam_drop'],
+       ':sa_tag'=>(isset($_POST['sa_tag']) ? $_POST['sa_tag'] : $sa_tag),
+       ':sa_refuse'=>(isset($_POST['sa_refuse']) ? $_POST['sa_refuse'] : $sa_refuse),
+       ':spam_drop'=>(isset($_POST['spam_drop']) ? $_POST['spam_drop'] : 0),
        ':enabled' => $_POST['enabled']
        ));
        

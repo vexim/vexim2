@@ -91,8 +91,8 @@
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':domain'=>$_POST['domain'],
         ':spamassassin'=>$_POST['spamassassin'],
-        ':sa_tag'=>((isset($_POST['sa_tag'])) ? $_POST['sa_tag']  : 0),
-        ':sa_refuse'=>((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse']  : 0),
+        ':sa_tag'=>((isset($_POST['sa_tag'])) ? $_POST['sa_tag']  : $sa_tag),
+        ':sa_refuse'=>((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse']  : $sa_refuse),
         ':avscan'=>$_POST['avscan'], ':max_accounts'=>$_POST['max_accounts'],
         ':quotas'=>((isset($_POST['quotas'])) ? $_POST['quotas'] : 0),
         ':maildir'=>((isset($_POST['maildir'])) ? $domainpath : ''),

@@ -121,8 +121,8 @@ switch ($action) {
         ':avscan' => $_POST['avscan'], ':maxmsgsize' => $_POST['maxmsgsize'],
         ':pipe' => $_POST['pipe'], ':max_accounts' => $_POST['max_accounts'],
         ':quotas' => $_POST['quotas'],
-        ':sa_tag' => ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0),
-        ':sa_refuse' => ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0),
+        ':sa_tag' => ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : $sa_tag),
+        ':sa_refuse' => ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : $sa_refuse),
         ':spamassassin' => $_POST['spamassassin'], ':enabled' => $_POST['enabled'],
         ':domain_id' => $_POST['domain_id'],
     ));
