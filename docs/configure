@@ -833,10 +833,6 @@ system_aliases:
   allow_fail
   allow_defer
   data = ${lookup{$local_part}lsearch{/etc/aliases}}
-  user = mailnull
-  group = mail
-  file_transport = address_file
-  pipe_transport = address_pipe
 
 
 # This router handles forwarding using traditional .forward files in users'
