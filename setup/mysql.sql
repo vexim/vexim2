@@ -203,7 +203,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `users` WRITE;
 ALTER TABLE `users` DISABLE KEYS;
-INSERT INTO `users` VALUES (1,1,'siteadmin','siteadmin','$6$uR.EiB1dj5rrvwMF$Qh5LgdjOZavKXwhi9IF0Yuzu7qxsG.dLTTB8e./55ZRNfBuZVLnfUSOEXa0oWT6174myO.WYkOy83HYWAKPbK/',65535,65535,'','','site',1,0,0,0,0,0,0,0,1,NULL,NULL,0,0,0,'SiteAdmin',0,0,NULL,NULL);
+INSERT INTO `users` VALUES (1,1,'siteadmin','siteadmin','$1$qZc7ANMc$h07fKA10jQQmJ33fzlJ3Z0',65535,65535,'','','site',1,0,0,0,0,0,0,0,1,NULL,NULL,0,0,0,'SiteAdmin',0,0,NULL,NULL);
 ALTER TABLE `users` ENABLE KEYS;
 UNLOCK TABLES;
 
