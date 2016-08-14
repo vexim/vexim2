@@ -95,8 +95,8 @@
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':on_avscan'=>$_POST['on_avscan'],
       ':on_spamassassin'=>$_POST['on_spamassassin'],
-      ':sa_tag'=>(isset($_POST['sa_tag']) ? $_POST['sa_tag'] : 0),
-      ':sa_refuse'=>(isset($_POST['sa_refuse']) ? $_POST['sa_refuse'] : 0),
+      ':sa_tag'=>(isset($_POST['sa_tag']) ? $_POST['sa_tag'] : $sa_tag),
+      ':sa_refuse'=>(isset($_POST['sa_refuse']) ? $_POST['sa_refuse'] : $sa_refuse),
       ':on_vacation'=>$_POST['on_vacation'],
       ':vacation'=>$vacation,
       ':on_forward'=>$_POST['on_forward'], ':forward'=>$_POST['forward'],
