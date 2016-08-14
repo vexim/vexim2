@@ -7,7 +7,7 @@ This document provides a basic guide on how to get Virtual Exim working on your 
 
 Before we go into any details, I'd like to thanks Philip Hazel and the Exim developers for a fine product. I would also like to thanks the postmasters at various domains for letting me play havoc with their mail while I set this up :-) Finally, a special note of thanks to Dan Bernstein for his Qmail MTA. Dan, thank you for educating me how mail delivery really shouldn't be done, on the Internet.
 
-The Virtual Exim project currently lives on GitHub: https://github.com/avleen/vexim2
+The Virtual Exim project currently lives on GitHub: https://github.com/vexim/vexim2
 And its mailing list/Google group is available at: https://groups.google.com/group/vexim
 
 ### Installation steps for each component:
@@ -49,16 +49,9 @@ The following packages provide optional functionality:
 
 VExim might work with older (or newer) versions of these packages, but you may have to perform some adaptation work to achieve that. In any case, you are welcome to file bugs and/or provide patches on GitHub.
 
-**UPGRADING:** If you are upgrading from VExim 1.x, the following packages will help you to perform automatic database schema migration. They will only be needed during the upgrade and can be removed later:
-* Perl + DBI module + DBD-mysql (you would need DBD-Pg to migrate a PostgreSQL database, but PostreSQL migration is not implemented in the migration script)
-
-**DEBIAN:** The following command line installs all the required packages (this is assuming you're going with MySQL setup):
+**DEBIAN:** The following command line installs all the packages mentioned above (last four are optional), if you're going with MySQL setup:
 ```
-# apt-get install apache2 exim4-daemon-heavy mysql-server libapache2-mod-php5 php5-mysql php5-imap
-```
-If you want your mail server to scan messages for viruses and spam, you will have to install a few more packages:
-```
-# apt-get install clamav-daemon clamav-freshclam spamassassin
+# apt-get install apache2 exim4-daemon-heavy mysql-server libapache2-mod-php php-mysql php-imap clamav-daemon clamav-freshclam spamassassin mailman
 ```
 
 ##### System user:
@@ -78,34 +71,15 @@ You should create a new user account to whom the virtual mailboxes will belong. 
 ```
 
 ##### Databases and authentication:
-When creating the databases you have two options. You can either use the SQL command files, or the perl script. If you are creating new databases, I *HIGHLY* recommend you use the SQL command files. They are much simpler. However, if you are migrating from Virtual Exim 1.x to 2.x, you will need to use the perl script to migrate the data.
-
-**IMPORTANT NOTE:** if you have a database called "vexim" in MySQL or PostgreSQL, you should back it up first. The SQL command files assume that the database with that name does not exist and has to be created. You can edit the files to use a different database name, but you are still strongly advised to make a backup of the "vexim" database – just in case.
 
 ##### MySQL:
-This ditribution contains a file "vexim2/setup/mysql.sql". This file provides the database schema used by vexim. You will have to import it into MySQL, but before that, some changes must be made to this file in order for it to work.
+This distribution contains a file "vexim2/setup/mysql.sql". This file provides the database schema used by vexim. You will have to import it into MySQL, like this:
 
-Open this file in a text editor and look for the word "CHANGE". You will find the following two lines not far from the top (lines 15-16):
-```mysql
-uid              smallint(5)   unsigned  NOT NULL  default 'CHANGE',
-gid              smallint(5)   unsigned  NOT NULL  default 'CHANGE',
 ```
-Replace "CHANGE" with the uid and gid of your freshly created "vexim" user (see the System user step). This will be the default user to own mailbox files for new domains.
-
-Further below you will find the following section:
-```mysql
---
--- Privileges:
---
-GRANT SELECT,INSERT,DELETE,UPDATE ON `vexim`.* to "vexim"@"localhost"
-    IDENTIFIED BY 'CHANGE';
-FLUSH PRIVILEGES;
+# mysql -u root -D YOUR_DATABASE_NAME -p < vexim2/setup/mysql.sql
 ```
-Replace the word "CHANGE" with a secure password - It will be used both by the Exim MTA and the web interface to access the database.
 
-If the crypt() function on your system produces DES hashes, you will also have to uncomment the appropriate lines, as noted by the comments, at the end of mysql.sql.
-
-With the necessary changes made, you should run the following command line to initialize the database:
+Where `YOUR_DATABASE_NAME` is the name of an empty database you have created for vexim. If you want the script to create the database for you and set up access to it, this is also doable: just open it in a text editor, and find a commented out block which begins with `-- CREATE DATABASE` near the top of the file. This block is documented just above it, so you may uncomment it, apply the changes you want and save the file. With the necessary changes made, you should run the following command line to initialize the database:
 ```
 # mysql -u root -p < vexim2/setup/mysql.sql
 ```
@@ -114,12 +88,10 @@ With the necessary changes made, you should run the following command line to in
 The code has been tested by several users to work with Virtual Exim, and we try our best to make sure it always will. Unfortunately I don't have much PostgreSQL knowledge to support it fully. A database schema for it is included however, as setup/pgsql.sql to help you set up the database. Make sure to adjust it similarly as per MySQL instructions above.
 
 **UPGRADING:**
-If you are upgrading your installation you will need to use the perl script. Executing it as:
+If you are upgrading your installation, we have prepared MySQL migration scripts for you, which you will find under vexim2/setup/migrations/. Find out the version of Vexim that you have and apply the necessary scripts in a sequential manner, like this:
 ```
-# create_db.pl --act=migratemysql --dbtype=mysql --uid=90 --gid=90 --mailstore=/var/vmail
+# mysql -u root -D YOUR_DATABASE_NAME -p < vexim2/setup/migrations/SCRIPT_FILENAME.sql
 ```
-should work fine. Replace 'uid', 'gid' and 'mailstore' values with the ones you have from the "System user" step.
-
 
 #### Files and Apache:
 In this distribution is a directory called 'vexim'. You have two options:
