@@ -1,3 +1,10 @@
+-- The following defines the salt prefix for siteadmin password hash..
+-- When adding the siteadmin user, we will hash that user's password using a secure hashing scheme
+-- (SHA-512 by default, supported by Linux, FreeBSD and Solaris).
+-- Below you may change this prefix if you prefer a different hashing scheme, e.g. '$2a$10$' for bcrypt
+-- (*BSD-only Blowfish hashing scheme):
+SET @PW_PREFIX='$6$';
+
 --
 -- The password for siteadmin is CHANGE.
 --
@@ -198,12 +205,18 @@ ALTER TABLE `domains` ENABLE KEYS;
 UNLOCK TABLES;
 
 --
+-- Generate password for siteadmin
+--
+
+SET @SITE_ADMIN_PW = SUBSTRING(TO_BASE64(LOWER(CONV(FLOOR(RAND() * 99999999999999), 10, 36))),1,10);
+
+--
 -- Seed the `users` table with the siteadmin user
 --
 
 LOCK TABLES `users` WRITE;
 ALTER TABLE `users` DISABLE KEYS;
-INSERT INTO `users` VALUES (1,1,'siteadmin','siteadmin','$1$qZc7ANMc$h07fKA10jQQmJ33fzlJ3Z0',65535,65535,'','','site',1,0,0,0,0,0,0,0,1,NULL,NULL,0,0,0,'SiteAdmin',0,0,NULL,NULL);
+INSERT INTO `users` VALUES (1,1,'siteadmin','siteadmin',ENCRYPT(@SITE_ADMIN_PW,CONCAT(@PW_PREFIX,REPLACE(TO_BASE64(MD5(RAND())),'=',''))),65535,65535,'','','site',1,0,0,0,0,0,0,0,1,NULL,NULL,0,0,0,'SiteAdmin',0,0,NULL,NULL);
 ALTER TABLE `users` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -216,3 +229,27 @@ SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT;
 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS;
 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION;
 SET SQL_NOTES=@OLD_SQL_NOTES;
+
+--
+-- Output siteadmin credentials
+--
+
+SELECT '' AS ``;
+SELECT '' AS `A site administrator user has been created with the following credentials:`;
+SELECT 'Password:' AS `User name:`, @SITE_ADMIN_PW AS `siteadmin`;
+SELECT 'You are encouraged to change this password to an even more secure one though.' AS ``;
+SELECT '' AS ``;
+
+-- Single query. Looks nicer, but requires --raw to be used when executing this script.
+--
+-- SELECT CONCAT("
+--
+-- A site administrator account has been created with the following credentials:
+--
+-- User name:   siteadmin
+-- Password:    ", @SITE_ADMIN_PW, "
+--
+-- You are encouraged to change this password to an even more secure one though.") AS ``;
+
+SET @PW_PREFIX = NULL;
+SET @SITE_ADMIN_PW = NULL;
