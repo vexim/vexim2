@@ -7,7 +7,7 @@ This document provides a basic guide on how to get Virtual Exim working on your 
 
 Before we go into any details, I'd like to thanks Philip Hazel and the Exim developers for a fine product. I would also like to thanks the postmasters at various domains for letting me play havoc with their mail while I set this up :-) Finally, a special note of thanks to Dan Bernstein for his Qmail MTA. Dan, thank you for educating me how mail delivery really shouldn't be done, on the Internet.
 
-The Virtual Exim project currently lives on GitHub: https://github.com/avleen/vexim2
+The Virtual Exim project currently lives on GitHub: https://github.com/vexim/vexim2
 And its mailing list/Google group is available at: https://groups.google.com/group/vexim
 
 ### Installation steps for each component:
@@ -49,16 +49,9 @@ The following packages provide optional functionality:
 
 VExim might work with older (or newer) versions of these packages, but you may have to perform some adaptation work to achieve that. In any case, you are welcome to file bugs and/or provide patches on GitHub.
 
-**UPGRADING:** If you are upgrading from VExim 1.x, the following packages will help you to perform automatic database schema migration. They will only be needed during the upgrade and can be removed later:
-* Perl + DBI module + DBD-mysql (you would need DBD-Pg to migrate a PostgreSQL database, but PostreSQL migration is not implemented in the migration script)
-
-**DEBIAN:** The following command line installs all the required packages (this is assuming you're going with MySQL setup):
+**DEBIAN:** The following command line installs all the packages mentioned above (last four are optional), if you're going with MySQL setup:
 ```
-# apt-get install apache2 exim4-daemon-heavy mysql-server libapache2-mod-php5 php5-mysql php5-imap
-```
-If you want your mail server to scan messages for viruses and spam, you will have to install a few more packages:
-```
-# apt-get install clamav-daemon clamav-freshclam spamassassin
+# apt-get install apache2 exim4-daemon-heavy mysql-server libapache2-mod-php php-mysql php-imap clamav-daemon clamav-freshclam spamassassin mailman
 ```
 
 ##### System user:
@@ -91,8 +84,6 @@ Where `YOUR_DATABASE_NAME` is the name of an empty database you have created for
 # mysql -u root -p < vexim2/setup/mysql.sql
 ```
 
-**NOTE:** if the `crypt()` function on your system does not support SHA-512 hashes, you will have to change the siteadmin password hash at the bottom of the file. Perhaps the easiest way is to set it to the following value: `$1$qZc7ANMc$h07fKA10jQQmJ33fzlJ3Z0`.
-
 ##### PGSQL:
 The code has been tested by several users to work with Virtual Exim, and we try our best to make sure it always will. Unfortunately I don't have much PostgreSQL knowledge to support it fully. A database schema for it is included however, as setup/pgsql.sql to help you set up the database. Make sure to adjust it similarly as per MySQL instructions above.
 
@@ -101,7 +92,6 @@ If you are upgrading your installation, we have prepared MySQL migration scripts
 ```
 # mysql -u root -D YOUR_DATABASE_NAME -p < vexim2/setup/migrations/SCRIPT_FILENAME.sql
 ```
-
 
 #### Files and Apache:
 In this distribution is a directory called 'vexim'. You have two options:
