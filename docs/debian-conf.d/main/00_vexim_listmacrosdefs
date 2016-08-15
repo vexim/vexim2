@@ -49,5 +49,14 @@ add_environment = MAIN_ADD_ENVIRONMENT
 # Comment this line if you want to disable it, instead of + you can use a different separator.
 VEXIM_LOCALPART_SUFFIX = +*
 
-CHECK_RCPT_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-rcpt.conf
-CHECK_DATA_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-content.conf
+# USE the vexim ACL-rules:
+
+.ifndef MAIN_ACL_CHECK_HELO
+MAIN_ACL_CHECK_HELO = acl_vexim_check_helo
+.endif
+acl_smtp_helo = MAIN_ACL_CHECK_HELO
+
+.ifndef MAIN_ACL_CHECK_DATA
+MAIN_ACL_CHECK_DATA = acl_vexim_check_content
+.endif
+acl_smtp_data = MAIN_ACL_CHECK_DATA
