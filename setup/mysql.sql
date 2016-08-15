@@ -3,11 +3,22 @@
 -- (SHA-512 by default, supported by Linux, FreeBSD and Solaris).
 -- Below you may change this prefix if you prefer a different hashing scheme, e.g. '$2a$10$' for bcrypt
 -- (*BSD-only Blowfish hashing scheme):
+
 SET @PW_PREFIX='$6$';
 
---
--- The password for siteadmin is CHANGE.
---
+-- Uncomment the following block if you want this script to create
+-- the database for you and set up its access.
+-- Don't forget to change the password (currently: CHANGE).
+-- You may also change the database and user names if you want.
+
+-- CREATE DATABASE IF NOT EXISTS `vexim` DEFAULT CHARACTER SET utf8;
+-- USE `vexim`;
+-- GRANT SELECT,INSERT,DELETE,UPDATE ON `vexim`.* to "vexim"@"localhost"
+--    IDENTIFIED BY 'CHANGE';
+-- FLUSH PRIVILEGES;
+
+
+-- No further changes should be made to this script.
 
 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT;
 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS;
@@ -19,19 +30,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0;
-
---
--- Uncomment the following block if you want this script to create 
--- the database for you and set up its access.
--- Don't forget to change the password (currently: CHANGE).
--- You may also change the database and user names if you want.
---
-
--- CREATE DATABASE IF NOT EXISTS `vexim` DEFAULT CHARACTER SET utf8;
--- USE `vexim`;
--- GRANT SELECT,INSERT,DELETE,UPDATE ON `vexim`.* to "vexim"@"localhost" 
---    IDENTIFIED BY 'CHANGE';
--- FLUSH PRIVILEGES;
 
 --
 -- Table structure for table `domains`
