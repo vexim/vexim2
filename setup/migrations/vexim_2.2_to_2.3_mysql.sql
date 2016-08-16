@@ -48,7 +48,9 @@ ALTER TABLE `users` MODIFY COLUMN `smtp` varchar(4096) DEFAULT NULL;
 ALTER TABLE `users` MODIFY COLUMN `pop` varchar(4096) DEFAULT NULL;
 ALTER TABLE `users` DROP COLUMN `on_complexpass`;
 ALTER TABLE `users` ADD COLUMN `spam_drop` tinyint(1) NOT NULL DEFAULT '0' AFTER `on_vacation`;
-ALTER TABLE `users` MODIFY COLUMN `vacation` varchar(1024) DEFAULT NULL;
+ALTER TABLE `users` MODIFY COLUMN `forward` varchar(4096) DEFAULT NULL;
+ALTER TABLE `users` MODIFY COLUMN `unseen` tinyint(1) NOT NULL DEFAULT '0';
+ALTER TABLE `users` MODIFY COLUMN `vacation` text DEFAULT NULL;
 ALTER TABLE `users` ADD KEY `fk_users_domain_id_idx` (`domain_id`);
 ALTER TABLE `users` ADD CONSTRAINT `fk_users_domain_id`
                           FOREIGN KEY (`domain_id`)

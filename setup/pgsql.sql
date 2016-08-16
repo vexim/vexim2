@@ -89,15 +89,15 @@ CREATE TABLE "users" (
   "spam_drop" smallint NOT NULL default '0' CHECK("spam_drop" BETWEEN 0 AND 1),
   "enabled" smallint NOT NULL default '1' CHECK("enabled" BETWEEN 0 AND 1),
   "flags" varchar(16) default NULL,
-  "forward" varchar(255) default NULL,
-  "unseen" smallint default '0' CHECK("unseen" BETWEEN 0 AND 1),
+  "forward" varchar(4096) default NULL,
+  "unseen" smallint NOT NULL default '0' CHECK("unseen" BETWEEN 0 AND 1),
   "maxmsgsize" int NOT NULL default '0' CHECK("maxmsgsize" > -1),
   "quota" int NOT NULL default '0' CHECK("quota" > -1),
   "realname" varchar(255) default NULL,
   "sa_tag" smallint NOT NULL default '0' CHECK("sa_tag" > -1),
   "sa_refuse" smallint NOT NULL default '0' CHECK("sa_refuse" > -1),
   "tagline" varchar(255) default NULL,
-  "vacation" varchar(1024) default NULL,
+  "vacation" text default NULL,
   UNIQUE ("localpart","domain_id"));
 CREATE INDEX "local" ON "users" ("localpart");
 CREATE INDEX "fk_users_domain_id_idx" ON "users" ("domain_id");
