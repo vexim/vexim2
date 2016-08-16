@@ -101,14 +101,12 @@ msgid "Admin"
 msgstr "Administrator"
 
 #: adminalias.php:48 adminalias.php:77
-#, fuzzy
 msgid "Delete alias "
 msgstr "Alias %s l&ouml;schen"
 
 #: adminalias.php:91 adminuser.php:119
-#, fuzzy
 msgid " is an administrator"
-msgstr "%s ist Administrator."
+msgstr " ist Administrator."
 
 #: adminalias.php:100
 msgid "Note"
@@ -141,12 +139,11 @@ msgid "Address"
 msgstr "Adresse"
 
 #: adminaliasadd.php:40
-#, fuzzy
 msgid ""
 "Multiple addresses should be comma separated,\n"
 "                with no spaces"
 msgstr ""
-"Mehrere Adressen m&uuml;ssen ohne Leerzeichen durch Kommata getrennt werden."
+"Mehrere Adressen m&uuml;ssen durch Kommata getrennt werden"
 
 #: adminaliasadd.php:45 adminaliaschange.php:77
 msgid "Forward To"
@@ -159,7 +156,6 @@ msgid "Password"
 msgstr "Passwort"
 
 #: adminaliasadd.php:56
-#, fuzzy
 msgid ""
 "Password only needed if you want the user to be able\n"
 "              to log in, or if the Alias is the admin account"
@@ -196,17 +192,15 @@ msgstr "SPAM verschieben / l&ouml;schen ab Bewertung von"
 #: adminaliasadd.php:98 adminaliaschange.php:150 adminuseradd.php:150
 #: adminuserchange.php:234 userchange.php:98
 msgid "How to handle mail above the SA refuse score"
-msgstr ""
+msgstr "Als Spam erkannte Nachrichten"
 
 #: adminaliasadd.php:101
-#, fuzzy
 msgid "forward Spam mails"
-msgstr "Nachricht weiterleiten an"
+msgstr "zustellen"
 
 #: adminaliasadd.php:103
-#, fuzzy
 msgid "delete Spam mails"
-msgstr "Fail %s l&ouml;schen"
+msgstr "direkt l&ouml;schen"
 
 #: adminaliasadd.php:108 adminaliaschange.php:164 admingroup.php:25
 #: admingroupchange.php:59 admingroupchange.php:91 adminuseradd.php:167
@@ -223,13 +217,11 @@ msgid "Submit"
 msgstr "senden"
 
 #: adminaliaschange.php:72 userchange.php:146
-#, fuzzy
 msgid "Enter full e-mail addresses, use commas to separate them."
 msgstr ""
-"Mehrere Adressen m&uuml;ssen ohne Leerzeichen durch Kommata getrennt werden."
+"Mehrere Adressen m&uuml;ssen durch Kommata getrennt werden."
 
 #: adminaliaschange.php:91
-#, fuzzy
 msgid ""
 "Password only needed if you want the user to be\n"
 "              able to log in, or if the Alias is the admin account"
@@ -238,14 +230,12 @@ msgstr ""
 "nnen soll oder wenn das Alias das Konto des Administrators ist."
 
 #: adminaliaschange.php:154 userchange.php:102
-#, fuzzy
 msgid "forward spam mails"
-msgstr "Nachricht weiterleiten an"
+msgstr "in Spam-Ordner verschieben"
 
 #: adminaliaschange.php:157
-#, fuzzy
 msgid "delete spam mails"
-msgstr "Fail %s l&ouml;schen"
+msgstr "direkt l&ouml;schen"
 
 #: adminaliasdelete.php:30 admingroupdelete.php:45 adminuserdelete.php:71
 #: sitedelete.php:70
@@ -336,22 +326,18 @@ msgid "Is public"
 msgstr "ist &ouml;ffentlich"
 
 #: admingroup.php:38
-#, fuzzy
 msgid "Delete group"
 msgstr "Gruppe %s l&ouml;schen"
 
 #: admingroup.php:44
-#, fuzzy
 msgid "Click to modify "
 msgstr "zum Bearbeiten anklicken"
 
 #: admingroup.php:50
-#, fuzzy
 msgid "Anyone can write to"
 msgstr "Jeder kann an %s schreiben."
 
 #: admingroup.php:56
-#, fuzzy
 msgid " is enabled"
 msgstr "%s ist aktiviert"
 
@@ -376,9 +362,8 @@ msgid "Email Address"
 msgstr "Email-Adresse"
 
 #: admingroupchange.php:126
-#, fuzzy
 msgid "There are no members in this group"
-msgstr "In dieser Gruppe gibt es kein Mitglied."
+msgstr "Diese Gruppe hat keine Mitglieder"
 
 #: admingroupchange.php:137
 msgid "Add Member"
@@ -439,13 +424,12 @@ msgid "Name"
 msgstr "Name"
 
 #: adminuseradd.php:73 adminuserchange.php:97
-#, fuzzy
 msgid "Generate password"
-msgstr "Site-Passwort"
+msgstr "Passwort erzeugen"
 
 #: adminuseradd.php:75 adminuserchange.php:99
 msgid "Copy"
-msgstr ""
+msgstr "kopieren"
 
 #: adminuseradd.php:81 adminuserchange.php:105
 msgid "UID"
@@ -489,7 +473,6 @@ msgid "Enable piped command?"
 msgstr "aktiviert"
 
 #: adminuseradd.php:135
-#, fuzzy
 msgid ""
 "The score at which to tag potential spam\n"
 "              mail but still deliver"
@@ -498,19 +481,18 @@ msgstr ""
 "zugestellt wird"
 
 #: adminuseradd.php:145
-#, fuzzy
 msgid ""
 "The score at which to move potential spam mail\n"
 "                to folder or to delete"
-msgstr "die Punktzahl, ab der eine Mail zur&uuml;ckgewiesen wird"
+msgstr "die Punktzahl, ab der eine Mail zur&uuml;ckgewiesen oder gel&ouml;scht wird"
 
 #: adminuseradd.php:153 adminuserchange.php:238 userchange.php:102
 msgid "move to Spam-folder"
-msgstr ""
+msgstr "in Spam-Ordner verschieben"
 
 #: adminuseradd.php:155 adminuserchange.php:241 userchange.php:105
 msgid "delete - you cannot restore these mails"
-msgstr ""
+msgstr "endg&uuml;ltig l&ouml;schen"
 
 #: adminuseradd.php:160 adminuserchange.php:248 siteadd.php:113
 #: sitechange.php:91 userchange.php:113
@@ -523,7 +505,6 @@ msgid "Welcome %s!"
 msgstr "%s l&ouml;schen"
 
 #: adminuserchange.php:120
-#, fuzzy
 msgid ""
 "When you update the UID or GID, please make sure\n"
 "                your MTA still has permission to create the required user\n"
@@ -534,7 +515,6 @@ msgstr ""
 "Benutzerverzeichnisse besitzt!"
 
 #: adminuserchange.php:131
-#, fuzzy, php-format
 msgid "Mailbox quota (%s MB max)"
 msgstr "Speicherplatz der Mailbox (%s MB max)"
 
@@ -543,7 +523,6 @@ msgid "MB"
 msgstr ""
 
 #: adminuserchange.php:149
-#, php-format
 msgid "Space used:"
 msgstr "Belegter Speicherplatz:"
 
@@ -557,7 +536,6 @@ msgid "Pipe to command or alternative Maildir"
 msgstr "Shell-Kommando oder Verzeichnis"
 
 #: adminuserchange.php:169
-#, fuzzy
 msgid "Pipe all mail to a command (e.g. procmail)."
 msgstr "Mails an ein Shell Kommando (z.B. procmail) &uuml;bergeben."
 
@@ -574,7 +552,6 @@ msgid "Vacation message"
 msgstr "Nachricht durch Auto-Reply"
 
 #: adminuserchange.php:277 userchange.php:134
-#, fuzzy
 msgid "Vacation message (ASCII only!)"
 msgstr "Nachricht durch Auto-Reply"
 
@@ -587,14 +564,13 @@ msgid "Forward mail to"
 msgstr "Nachricht weiterleiten an"
 
 #: adminuserchange.php:296
-#, fuzzy
 msgid "Enter full e-mail addresses, use commas to separate them"
 msgstr ""
-"Mehrere Adressen m&uuml;ssen ohne Leerzeichen durch Kommata getrennt werden."
+"Mehrere Adressen m&uuml;ssen durch Kommata getrennt werden"
 
 #: adminuserchange.php:297
 msgid "or select from this list"
-msgstr ""
+msgstr "oder von dieser Liste w&auml;hlen"
 
 #: adminuserchange.php:320 userchange.php:148
 msgid "Store Forwarded Mail Locally"
@@ -867,16 +843,14 @@ msgid ""
 msgstr ""
 
 #: config/header.php:102
-#, fuzzy, php-format
 msgid "-- %s is not a valid e-mail address."
-msgstr "-- %s enh&auml;lt ung&uuml;ltige Zeichen."
+msgstr "-- %s ist keine g&uuml;ltige E-Mailadresse."
 
 #: config/header.php:104
 msgid "-- Database query failed, terminating session"
 msgstr ""
 
 #: config/header.php:106
-#, fuzzy
 msgid "-- Login is disabled. Please contact your administrator."
 msgstr "-- Domain deaktiviert, bitte wenden Sie sich an Ihren Administrator."
 
@@ -922,7 +896,6 @@ msgid "Total admins"
 msgstr "Anzahl der Administratoren"
 
 #: site.php:90
-#, fuzzy
 msgid "Multiple admins"
 msgstr "Anzahl der Administratoren"
 
@@ -931,7 +904,6 @@ msgid "WARNING"
 msgstr "WARNUNG"
 
 #: site.php:104
-#, fuzzy
 msgid ""
 "Deleting a domain will delete all user accounts in that\n"
 "              domain permanently!"
@@ -981,7 +953,6 @@ msgid "Domain Mail directory"
 msgstr "Mail-Verzeichnis"
 
 #: siteadd.php:87
-#, fuzzy
 msgid ""
 "Create the domain directory below this top-level\n"
 "                  mailstore"
@@ -1008,7 +979,6 @@ msgid "Kb"
 msgstr "KB"
 
 #: siteadd.php:119
-#, fuzzy
 msgid ""
 "The maximum size for incoming mail (user\n"
 "                tunable)"
@@ -1017,7 +987,6 @@ msgstr ""
 "einstellbar)"
 
 #: siteadd.php:130
-#, fuzzy
 msgid ""
 "The score at the \"X-Spam-Flag: YES\" header will\n"
 "                be added"
@@ -1025,7 +994,6 @@ msgstr ""
 "die Punktzahl, ab der der 'X-Spam-Flag: YES' Header hinzugef&uuml;gt wird"
 
 #: siteadd.php:140
-#, fuzzy
 msgid ""
 "The score at which to refuse potentially spam\n"
 "              mail and not deliver"
@@ -1054,9 +1022,8 @@ msgid "Redirect messages to domain"
 msgstr "Mail an Domain umleiten"
 
 #: siteaddsubmit.php:131
-#, fuzzy
 msgid "Welcome Domain Admin!"
-msgstr "Domain-Administrator"
+msgstr "Herzlich Willkommen Domain-Administrator"
 
 #: sitechange.php:24
 msgid "Modify Domain Admin"
@@ -1071,7 +1038,6 @@ msgid "Modify Domain Properties"
 msgstr "Einstellungen der Domain ver&auml;ndern"
 
 #: sitechange.php:87
-#, fuzzy
 msgid "Max mailbox quota in MB"
 msgstr "Speicherlimit der Mailbox in MB"
 
@@ -1088,14 +1054,12 @@ msgid "Submit Changes"
 msgstr "&Auml;nderungen speichern"
 
 #: sitechange.php:135
-#, fuzzy
 msgid "Modify SpamAssassin/Antivirus for all users"
-msgstr "Deaktivieren des Spam-Filters f&uuml;r alle Domain-Benutzer"
+msgstr "Einstellungen des Spam- und Viren-Filters f&uuml;r alle Domain-Benutzer"
 
 #: sitechange.php:138
-#, fuzzy
 msgid "SpamAssassin for all domain users"
-msgstr "Deaktivieren des Spam-Filters f&uuml;r alle Domain-Benutzer"
+msgstr "Spam-Filter f&uuml;r alle Domain-Benutzer:"
 
 #: sitechange.php:138 sitechange.php:146
 msgid "Warning: cannot be reversed!"
@@ -1103,21 +1067,19 @@ msgstr "Warnung: Kann nicht r&uuml;ckg&auml;ngig gemacht werden!"
 
 #: sitechange.php:140 sitechange.php:148
 msgid "Keep unchanged"
-msgstr ""
+msgstr "nicht ver&auml;ndern"
 
 #: sitechange.php:141 sitechange.php:149
-#, fuzzy
 msgid "Enable"
-msgstr "Konto aktiviert"
+msgstr "aktivieren"
 
 #: sitechange.php:142 sitechange.php:150
 msgid "Disable"
 msgstr "deaktivieren"
 
 #: sitechange.php:146
-#, fuzzy
 msgid "Anti-Virus for all domain users"
-msgstr "deaktivieren des Anti-Virus f&uuml;r alle Domain Benutzer"
+msgstr "Anti-Virus f&uuml;r alle Domain Benutzer"
 
 #: sitedelete.php:83
 #, php-format
