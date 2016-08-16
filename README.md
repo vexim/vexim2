@@ -41,6 +41,7 @@ The following packages must be installed on your system, for Virtual Exim to wor
   * imap
   * gettext
   * iconv
+  * filter
 
 The following packages provide optional functionality:
 * Mailman – to have mailing lists
