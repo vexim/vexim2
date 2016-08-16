@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Virtual Exim 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-16 12:58+0300\n"
+"POT-Creation-Date: 2016-08-16 14:47+0300\n"
 "PO-Revision-Date: 2004-08-04 17:12+0100\n"
 "Last-Translator: Goetz Bock <vexim@blacknet.de>\n"
 "Language-Team: German\n"
@@ -142,8 +142,7 @@ msgstr "Adresse"
 msgid ""
 "Multiple addresses should be comma separated,\n"
 "                with no spaces"
-msgstr ""
-"Mehrere Adressen m&uuml;ssen durch Kommata getrennt werden"
+msgstr "Mehrere Adressen m&uuml;ssen durch Kommata getrennt werden"
 
 #: adminaliasadd.php:45 adminaliaschange.php:77
 msgid "Forward To"
@@ -218,8 +217,7 @@ msgstr "senden"
 
 #: adminaliaschange.php:72 userchange.php:146
 msgid "Enter full e-mail addresses, use commas to separate them."
-msgstr ""
-"Mehrere Adressen m&uuml;ssen durch Kommata getrennt werden."
+msgstr "Mehrere Adressen m&uuml;ssen durch Kommata getrennt werden."
 
 #: adminaliaschange.php:91
 msgid ""
@@ -484,7 +482,8 @@ msgstr ""
 msgid ""
 "The score at which to move potential spam mail\n"
 "                to folder or to delete"
-msgstr "die Punktzahl, ab der eine Mail zur&uuml;ckgewiesen oder gel&ouml;scht wird"
+msgstr ""
+"die Punktzahl, ab der eine Mail zur&uuml;ckgewiesen oder gel&ouml;scht wird"
 
 #: adminuseradd.php:153 adminuserchange.php:238 userchange.php:102
 msgid "move to Spam-folder"
@@ -515,6 +514,7 @@ msgstr ""
 "Benutzerverzeichnisse besitzt!"
 
 #: adminuserchange.php:131
+#, php-format
 msgid "Mailbox quota (%s MB max)"
 msgstr "Speicherplatz der Mailbox (%s MB max)"
 
@@ -523,6 +523,7 @@ msgid "MB"
 msgstr ""
 
 #: adminuserchange.php:149
+#, php-format
 msgid "Space used:"
 msgstr "Belegter Speicherplatz:"
 
@@ -565,8 +566,7 @@ msgstr "Nachricht weiterleiten an"
 
 #: adminuserchange.php:296
 msgid "Enter full e-mail addresses, use commas to separate them"
-msgstr ""
-"Mehrere Adressen m&uuml;ssen durch Kommata getrennt werden"
+msgstr "Mehrere Adressen m&uuml;ssen durch Kommata getrennt werden"
 
 #: adminuserchange.php:297
 msgid "or select from this list"
@@ -843,6 +843,7 @@ msgid ""
 msgstr ""
 
 #: config/header.php:102
+#, php-format
 msgid "-- %s is not a valid e-mail address."
 msgstr "-- %s ist keine g&uuml;ltige E-Mailadresse."
 
@@ -918,6 +919,18 @@ msgstr "Relay-Domains"
 #: site.php:137
 msgid "Aliased domains"
 msgstr "Alias-Domains"
+
+#: site.php:164
+msgid ""
+"Standard user accounts are currently able to login and change their own "
+"personal details"
+msgstr ""
+
+#: site.php:166
+msgid ""
+"The system is currently configured to prevent standard users logging in to "
+"change their own personal details."
+msgstr ""
 
 #: siteadd.php:9 siteadd.php:16 sitechange.php:9 sitechange.php:15
 #: sitedelete.php:76 sitepassword.php:15
@@ -1055,7 +1068,8 @@ msgstr "&Auml;nderungen speichern"
 
 #: sitechange.php:135
 msgid "Modify SpamAssassin/Antivirus for all users"
-msgstr "Einstellungen des Spam- und Viren-Filters f&uuml;r alle Domain-Benutzer"
+msgstr ""
+"Einstellungen des Spam- und Viren-Filters f&uuml;r alle Domain-Benutzer"
 
 #: sitechange.php:138
 msgid "SpamAssassin for all domain users"
@@ -1108,12 +1122,12 @@ msgid "Change SiteAdmin Password"
 msgstr "Passwort des Seiten-Administrators &auml;ndern"
 
 #: userchange.php:43
-msgid "Note:"
-msgstr "Beachten:"
-
-#: userchange.php:43
 msgid "Attempting to set blank passwords does not work!"
 msgstr "Es ist nicht m&ouml;glich ein leeres Passwort zu setzen!"
+
+#: userchange.php:43
+msgid "Note:"
+msgstr "Beachten:"
 
 #: userchange.php:52
 #, php-format
