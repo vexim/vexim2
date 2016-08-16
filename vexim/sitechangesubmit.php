@@ -43,6 +43,10 @@ switch ($action) {
 
   case 'adminpass':
     if (validate_password($_POST['clear'], $_POST['vclear'])) {
+      if (!password_strengthcheck($_POST['clear'])) {  
+        header ("Location: site.php?weakpass={$_POST['domain']}");
+        die;
+      }
       $query = "UPDATE users SET crypt=:crypt WHERE localpart=:localpart AND domain_id=:domain_id";
       $sth = $dbh->prepare($query);
       $success = $sth->execute(array(

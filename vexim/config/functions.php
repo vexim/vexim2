@@ -15,7 +15,47 @@
         return is_string($password) && ($password === $confirmationPassword) && ($password !== "");
     }
 
+    /**
+     * check user password strength
+     *
+     * validate if password is strong enough
+     *
+     * @param   string   $candidate   cleartext password
+     * @return  boolean  true if password is strong enough
+     */
+    function password_strengthcheck($candidate)
+    {
+        global $passwordstrengthcheck;
+        
+        if ( $passwordstrengthcheck == 0
+          || preg_match_all('$\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$', $candidate)
+          || preg_match_all('$\S*(?=\S{12,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])\S*$', $candidate)
+          || preg_match_all('$\S*(?=\S{16,})(?=\S*[a-z])(?=\S*[A-Z])\S*$', $candidate)
+          || (strlen($candidate)>20)
+        ) {
+            if (strtolower($candidate) <> strtolower($_POST['localpart'])
+                && strtolower($candidate) <> strtolower($_POST['username'])
+                )
+            {
+                return TRUE;
+            }
+        }
 
+        return FALSE;
+/*
+    Explaining $\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$
+    $ = beginning of string
+    \S* = any set of characters
+    (?=\S{8,}) = of at least length 8
+    (?=\S*[a-z]) = containing at least one lowercase letter
+    (?=\S*[A-Z]) = and at least one uppercase letter
+    (?=\S*[\d]) = and at least one number
+    (?=\S*[\W]) = and at least a special character (non-word characters)
+    $ = end of the string
+
+ */
+    }
+    
     /**
      * Check if a user already exists.
      *

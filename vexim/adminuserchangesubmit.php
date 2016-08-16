@@ -138,7 +138,11 @@
   # Update the password, if the password was given
   if (isset($_POST['clear']) && $_POST['clear']!=='') {
     if (validate_password($_POST['clear'], $_POST['vclear'])) {
-      $cryptedpassword = crypt_password($_POST['clear']);
+      if (!password_strengthcheck($_POST['clear'])) {    
+        header ("Location: adminuser.php?weakpass={$_POST['localpart']}");
+        die;
+      }
+       $cryptedpassword = crypt_password($_POST['clear']);
       $query = "UPDATE users
         SET crypt=:crypt WHERE localpart=:localpart
         AND domain_id=:domain_id";

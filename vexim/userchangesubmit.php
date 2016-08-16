@@ -55,6 +55,10 @@
 # Update the password, if the password was given
   if (isset($_POST['clear']) && $_POST['clear']!=='') {
     if (validate_password($_POST['clear'], $_POST['vclear'])) {
+      if (!password_strengthcheck($_POST['clear'])) {
+        header ("Location: userchange.php?weakpass");
+        die;
+      }
       $cryptedpassword = crypt_password($_POST['clear']);
       $query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id";
       $sth = $dbh->prepare($query);

@@ -81,6 +81,10 @@
 //Gah. Transactions!! -- GCBirzan
   if ((validate_password($_POST['clear'], $_POST['vclear'])) &&
     ($_POST['type'] != "alias")) {
+      if (!password_strengthcheck($_POST['clear'])) {  
+        header ("Location: site.php?weakpass={$_POST['domain']}");
+        die;
+      }
     $query = "INSERT INTO domains 
               (domain, spamassassin, sa_tag, sa_refuse, avscan,
               max_accounts, quotas, maildir, pipe, enabled, uid, gid,
