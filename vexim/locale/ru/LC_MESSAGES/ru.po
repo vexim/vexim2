@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Virtual Exim 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-16 12:58+0300\n"
+"POT-Creation-Date: 2016-08-16 14:47+0300\n"
 "PO-Revision-Date: 2015-06-06 21:30+0300\n"
 "Last-Translator: Konstantin Smirnov <skv@ivsor.net>\n"
 "Language-Team: Russian\n"
@@ -920,6 +920,18 @@ msgstr "Домены ретрансляции"
 msgid "Aliased domains"
 msgstr "Домены псевдонимы"
 
+#: site.php:164
+msgid ""
+"Standard user accounts are currently able to login and change their own "
+"personal details"
+msgstr ""
+
+#: site.php:166
+msgid ""
+"The system is currently configured to prevent standard users logging in to "
+"change their own personal details."
+msgstr ""
+
 #: siteadd.php:9 siteadd.php:16 sitechange.php:9 sitechange.php:15
 #: sitedelete.php:76 sitepassword.php:15
 msgid "Manage Domains"
@@ -1117,12 +1129,12 @@ msgid "Change SiteAdmin Password"
 msgstr "Изменить пароль администратора сайта"
 
 #: userchange.php:43
-msgid "Note:"
-msgstr "Примечание:"
-
-#: userchange.php:43
 msgid "Attempting to set blank passwords does not work!"
 msgstr "Попытка установить пустой пароль не сработает!"
+
+#: userchange.php:43
+msgid "Note:"
+msgstr "Примечание:"
 
 #: userchange.php:52
 #, php-format

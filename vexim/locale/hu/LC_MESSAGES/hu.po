@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Virtual Exim 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-16 12:58+0300\n"
+"POT-Creation-Date: 2016-08-16 14:47+0300\n"
 "PO-Revision-Date: 2004-03-01 15:45+0200\n"
 "Last-Translator: Ildik&oacute; V&aacute;mos-Wentworth <translate@vamos-"
 "wentworth.org>\n"
@@ -961,6 +961,18 @@ msgstr ""
 msgid "Aliased domains"
 msgstr "Domainek Kezel&eacute;se"
 
+#: site.php:164
+msgid ""
+"Standard user accounts are currently able to login and change their own "
+"personal details"
+msgstr ""
+
+#: site.php:166
+msgid ""
+"The system is currently configured to prevent standard users logging in to "
+"change their own personal details."
+msgstr ""
+
 #: siteadd.php:9 siteadd.php:16 sitechange.php:9 sitechange.php:15
 #: sitedelete.php:76 sitepassword.php:15
 msgid "Manage Domains"
@@ -1180,11 +1192,11 @@ msgid "Change SiteAdmin Password"
 msgstr "SiteAdmin Jelsz&oacute; Valtoztat&aacute;sa"
 
 #: userchange.php:43
-msgid "Note:"
+msgid "Attempting to set blank passwords does not work!"
 msgstr ""
 
 #: userchange.php:43
-msgid "Attempting to set blank passwords does not work!"
+msgid "Note:"
 msgstr ""
 
 #: userchange.php:52
