@@ -194,6 +194,8 @@ The Diffie-Hellman group should have at least 1024 bit and can be created with t
 ```
 # openssl dhparam -out /etc/exim4/dhparam.pem 2048
 ```
+In `tls_require_ciphers`, currently (2016) secure ciphers are selected. It works by default on GnuTLS setups (Debian/Ubuntu). If your distribution uses OpenSSL (e.g. FreeBSD, CentOS), comment the block `tls_require_ciphers = ...` and uncomment the line `openssl_options = ...`. If you are not sure, the output of `exim -bV` will show either GnuTLS or OpenSSL.
+
 
 ###### ACL's: 
 We have split all of the ACL's into separate files, to make managing them easier. Please review the ACL section of the configure file. If there are ACL's you would rather not have executed, please comment out the '.include' line that references them, or edit the ACL file directly and comment them out.
