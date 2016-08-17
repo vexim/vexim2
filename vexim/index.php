@@ -1,4 +1,6 @@
 <?php
+  // This is Vexim 2.3
+
   require_once dirname(__FILE__) . '/config/variables.php';
   require_once dirname(__FILE__) . '/config/functions.php';
   require_once dirname(__FILE__) . '/config/httpheaders.php';
