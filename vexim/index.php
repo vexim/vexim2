@@ -7,6 +7,7 @@
   <head>
     <title><?php echo _('Virtual Exim'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <meta name="robots" content="noindex, nofollow">
   </head>
   <body onLoad="document.login.localpart.focus()">
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
