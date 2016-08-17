@@ -1,5 +1,5 @@
 <?php
-  // This is Vexim 2.3
+  // This is Vexim 2.3+git
 
   require_once dirname(__FILE__) . '/config/variables.php';
   require_once dirname(__FILE__) . '/config/functions.php';
