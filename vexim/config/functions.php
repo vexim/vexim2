@@ -199,17 +199,12 @@
         if (function_exists('mb_encode_mimeheader')) {
             mb_internal_encoding('UTF-8');
             $text = mb_encode_mimeheader($text, 'UTF-8', 'Q');
-        } elseif (function_exists('imap_8bit')) {
-            $text = str_replace(" ", "_", imap_8bit(trim($text)));
+        } else {
+            $text = str_replace(" ", "_", quoted_printable_encode(trim($text)));
             $text = str_replace("?", "=3F", $text);
             $text = str_replace("=\r\n", "?=\r\n =?UTF-8?Q?", $text);
             $text = "=?UTF-8?Q?" . $text . "?=" ;
         }
-        // if both mb and imap are not available, simply return what was given.
-        // this isn't standards-compliant, and the header will be displayed
-        // incorrectly if it contains accented letters. Let's just hope it won't
-        // be the case too often. :)
-        return $text;
     }
 
     /**
