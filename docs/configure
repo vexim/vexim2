@@ -343,9 +343,6 @@ acl_check_rcpt:
 
   accept  hosts = :
 
-  # Include Vexim specific rcpt ACLs
-  .include /usr/local/etc/exim/vexim-acl-check-rcpt.conf
-
   # Deny if the local part contains @ or % or / or | or !. These are rarely
   # found in genuine local parts, but are often tried by people looking to
   # circumvent relaying restrictions.
@@ -363,22 +360,22 @@ acl_check_rcpt:
   accept  local_parts   = postmaster
           domains       = +local_domains
 
-  # Deny unless the sender address can be verified.
-  # require verify        = sender
+  # Accept if the message arrived over an authenticated connection, from
+  # any host. These messages are usually from MUAs that don't cope well
+  # with SMTP error responses, so recipient verification is omitted.
 
-  #############################################################################
-  # There are no checks on DNS "black" lists because the domains that contain
-  # these lists are changing all the time. However, here are two examples of
-  # how you could get Exim to perform a DNS black list lookup at this point.
-  # The first one denies, while the second just warns.
-  #
-  # deny    message       = rejected because $sender_host_address is in a black list at $dnslist_domain\n$dnslist_text
-  #         dnslists      = black.list.example
-  #
-  # warn    message       = X-Warning: $sender_host_address is in a black list at $dnslist_domain
-  #         log_message   = found in $dnslist_domain
-  #         dnslists      = black.list.example
-  #############################################################################
+  accept  authenticated = *
+
+  # Accept if the message comes from one of the hosts for which we are an
+  # outgoing relay. Recipient verification is omitted here, because in many
+  # cases the clients are MUAs. If you are actually relaying out from MTAs,
+  # you should probably add recipient verification here.
+
+  accept  hosts         = +relay_from_hosts
+
+  # Include Vexim specific rcpt ACLs
+
+  .include /usr/local/etc/exim/vexim-acl-check-rcpt.conf
 
   # Accept if the address is in a local domain, but only if the recipient can
   # be verified. Otherwise deny. The "endpass" line is the border between
@@ -398,20 +395,6 @@ acl_check_rcpt:
 
   # If control reaches this point, the domain is neither in +local_domains
   # nor in +relay_to_domains.
-
-  # Accept if the message comes from one of the hosts for which we are an
-  # outgoing relay. Recipient verification is omitted here, because in many
-  # cases the clients are dumb MUAs that don't cope well with SMTP error
-  # responses. If you are actually relaying out from MTAs, you should probably
-  # add recipient verification here.
-
-  accept  hosts         = +relay_from_hosts
-
-  # Accept if the message arrived over an authenticated connection, from
-  # any host. Again, these messages are usually from MUAs, so recipient
-  # verification is omitted.
-
-  accept  authenticated = *
 
   # Reaching the end of the ACL causes a "deny", but we might as well give
   # an explicit message.
