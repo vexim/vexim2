@@ -361,20 +361,20 @@ acl_check_rcpt:
           domains       = +local_domains
 
   # Accept if the message arrived over an authenticated connection, from
-  # any host. Again, these messages are usually from MUAs, so recipient
-  # verification is omitted.
+  # any host. These messages are usually from MUAs that don't cope well
+  # with SMTP error responses, so recipient verification is omitted.
 
   accept  authenticated = *
 
   # Accept if the message comes from one of the hosts for which we are an
   # outgoing relay. Recipient verification is omitted here, because in many
-  # cases the clients are dumb MUAs that don't cope well with SMTP error
-  # responses. If you are actually relaying out from MTAs, you should probably
-  # add recipient verification here.
+  # cases the clients are MUAs. If you are actually relaying out from MTAs,
+  # you should probably add recipient verification here.
 
   accept  hosts         = +relay_from_hosts
 
   # Include Vexim specific rcpt ACLs
+
   .include /usr/local/etc/exim/vexim-acl-check-rcpt.conf
 
   # Accept if the address is in a local domain, but only if the recipient can
