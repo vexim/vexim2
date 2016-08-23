@@ -1,0 +1,9 @@
+# This transport is used for handling pipe deliveries. If the commands 
+# fails and produces any output on standard output or standard error
+# streams, the output is returned to the sender of the message as a
+# delivery error. From the localpart stripped affixes will be added again.
+vexim_pipe:
+  debug_print = "T: vexim_pipe for $local_part@$domain"
+  driver = pipe
+  rcpt_include_affixes = true
+  return_fail_output
