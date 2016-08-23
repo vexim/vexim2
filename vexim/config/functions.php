@@ -216,4 +216,13 @@
       $_SESSION = array();
       session_destroy();
     }
-?>
+
+    /**
+     * Makes any text safe to be displayed on a web page
+     * @param $text string
+     * @return string
+     */
+    function html_escape($text)
+    {
+        return htmlspecialchars((string)$text, ENT_QUOTES, 'UTF-8');
+    }
