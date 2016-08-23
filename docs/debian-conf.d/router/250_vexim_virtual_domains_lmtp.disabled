@@ -51,7 +51,6 @@ virtual_domains_useralias:
                 and domains.enabled = '1' \
                 and users.enabled = '1' \
                 and users.domain_id = domains.domain_id}}
-  retry_use_local_part
 
 virtual_pipe:
   debug_print = "R: virtual_pipe for $local_part@$domain"
@@ -65,7 +64,13 @@ virtual_pipe:
                 and domains.enabled = '1' \
                 and users.enabled = '1' \
                 and users.domain_id = domains.domain_id}}
-  pipe_transport = address_pipe
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
+  pipe_transport = vexim_pipe
 
 virtual_domains:
   debug_print = "R: LMTP virtual_user for $local_part@$domain"
