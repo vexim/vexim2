@@ -24,12 +24,6 @@
   } else {
     $_POST['pipe'] = 0;
   }
-  if ($_POST['type'] == "relay") {
-    $_POST['clear'] = $_POST['vclear'] = "BLANK";
-  }
-  if ($_POST['type'] == "alias") {
-    $_POST['clear'] = $_POST['vclear'] = "BLANK";
-  }
   if (!isset($_POST['max_accounts']) || $_POST['max_accounts'] == '') {
     $_POST['max_accounts'] = '0';
   }
@@ -79,12 +73,17 @@
     $pophomepath = $domainpath . "/" . $_POST['localpart'];
   }
 //Gah. Transactions!! -- GCBirzan
-  if ((validate_password($_POST['clear'], $_POST['vclear'])) &&
-    ($_POST['type'] != "alias")) {
-      if (!password_strengthcheck($_POST['clear'])) {  
-        header ("Location: site.php?weakpass={$_POST['domain']}");
-        die;
-      }
+  if ($_POST['type'] !== "alias") {
+    if ($_POST['type'] === "local") {
+        if (!validate_password($_POST['clear'], $_POST['vclear'])) {  
+          header ("Location: site.php?badpass={$_POST['domain']}");
+          die;
+        }
+        if (!password_strengthcheck($_POST['clear'])) {  
+          header ("Location: site.php?weakpass={$_POST['domain']}");
+          die;
+	}
+    }
     $query = "INSERT INTO domains 
               (domain, spamassassin, sa_tag, sa_refuse, avscan,
               max_accounts, quotas, maildir, pipe, enabled, uid, gid,
