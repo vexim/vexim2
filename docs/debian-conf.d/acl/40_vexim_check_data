@@ -1,0 +1,48 @@
+acl_vexim_check_content:
+  
+  # First unpack MIME containers and reject serious errors.
+  deny  message		= This message contains a MIME error ($demime_reason)
+        demime		= *
+        condition	= ${if >{$demime_errorlevel}{2}{1}{0}}
+        
+  # Reject typically wormish file extensions. There is almost no
+  # sense in sending such files by email.
+  # Note that you might want to change the list of extensions.
+  deny  message = This domain has a policy of not accepting certain types of attachments \
+                  in mail as they may contain a virus.  This mail has a file with a .$found_extension \
+                  attachment and is not accepted.  If you have a legitimate need to send \
+                  this particular attachment, send it in a compressed archive, and it will \
+                  then be forwarded to the recipient.
+        demime = ade:adep:adp:bas:bat:chm:cmd:cnf:com:cpl:crt:dll:hlp:hta:inf:ins:isp:js:jse:lnk:mad:maf:mag:mam:maq:mar:mas:mat:mav:maw:ocx:pcd:pif:reg:scf:scr:sct:vbe:vbs:wsc:wsf:wsh:url:xnk
+
+  # Reject virus infested messages.
+  warn  message		= This message contains malware ($malware_name)
+        malware		= *
+        log_message	= This message contains malware ($malware_name)
+
+  # Reject messages containing "viagra" in all kinds of whitespace/case combinations
+  # WARNING: this is an example !
+  # deny  message = This message matches a blacklisted regular expression ($regex_match_string)
+  #      regex = [Vv] *[Ii] *[Aa] *[Gg] *[Rr] *[Aa]
+  
+  # Mails larger than 300 KB are accepted without spam-checking to save resources.
+  # Message scanning time grows exponentially in the size of the message and goes timeout
+  # after 2~5 minutes, while typical spam has only a few KB in size.
+  accept  condition = ${if >={$message_size}{300k}{yes}{no}}
+
+  # Reject mails with more than 15 spam-points. This is a system-wide setting and does not respect
+  # individual user settings!
+  #deny    message = This message has been rejected due to spam.
+  #        spam = maildeliver:true
+  #        condition = ${if >{$spam_score_int}{150}{true}{false}}
+
+  # Always add X-Spam-Score and X-Spam-Report headers, using SA system-wide settings
+  # (user "nobody"), no matter if over threshold or not.
+  warn  message		= X-Spam-Score: $spam_score ($spam_bar)
+        spam		= maildeliver:true
+  warn  message		= X-Spam-Report: $spam_report
+        spam		= maildeliver:true
+  accept hosts		= 127.0.0.1:+relay_from_hosts
+  accept authenticated	= *
+
+  accept
