@@ -83,13 +83,13 @@
       die;
     } else {
       header ("Location: site.php?added={$_POST['domain']}" .
-              "&amp;type={$_POST['type']}");
+              "&type={$_POST['type']}");
       die;
     }
   } else { // local or relay
       if ($_POST['type'] === "local") {
         if (!validate_password($_POST['clear'], $_POST['vclear'])) {  
-          header ("Location: site.php?badpass={$_POST['domain']}");
+          header ("Location: site.php?failaddedpassmismatch={$_POST['domain']}");
           die;
         }
         if (!password_strengthcheck($_POST['clear'])) {  
@@ -148,12 +148,8 @@
                 "&type={$_POST['type']}");
         die;
       }
-    } else {
-      header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
-      die;
-    }
+    } 
+    header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
   }
-  header ("Location: site.php?failaddedpassmismatch={$_POST['domain']}");
-
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->
