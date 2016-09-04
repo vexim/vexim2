@@ -24,12 +24,6 @@
   } else {
     $_POST['pipe'] = 0;
   }
-  if ($_POST['type'] == "relay") {
-    $_POST['clear'] = $_POST['vclear'] = "BLANK";
-  }
-  if ($_POST['type'] == "alias") {
-    $_POST['clear'] = $_POST['vclear'] = "BLANK";
-  }
   if (!isset($_POST['max_accounts']) || $_POST['max_accounts'] == '') {
     $_POST['max_accounts'] = '0';
   }
@@ -78,13 +72,31 @@
     $smtphomepath = $domainpath . "/" . $_POST['localpart'] . "/Maildir";
     $pophomepath = $domainpath . "/" . $_POST['localpart'];
   }
-//Gah. Transactions!! -- GCBirzan
-  if ((validate_password($_POST['clear'], $_POST['vclear'])) &&
-    ($_POST['type'] != "alias")) {
-      if (!password_strengthcheck($_POST['clear'])) {  
-        header ("Location: site.php?weakpass={$_POST['domain']}");
-        die;
-      }
+
+  if ($_POST['type'] === "alias") {
+    $query = "INSERT INTO domainalias (domain_id, alias)
+              SELECT domains.domain_id, :alias FROM domains WHERE domains.domain_id=:domain_id";
+    $sth = $dbh->prepare($query);
+    $sth->execute(array(':domain_id'=>$_POST['aliasdest'], ':alias'=>$_POST['domain']));
+    if ($sth->rowCount()!==1) {
+      header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
+      die;
+    } else {
+      header ("Location: site.php?added={$_POST['domain']}" .
+              "&type={$_POST['type']}");
+      die;
+    }
+  } else { // local or relay
+      if ($_POST['type'] === "local") {
+        if (!validate_password($_POST['clear'], $_POST['vclear'])) {  
+          header ("Location: site.php?failaddedpassmismatch={$_POST['domain']}");
+          die;
+        }
+        if (!password_strengthcheck($_POST['clear'])) {  
+          header ("Location: site.php?weakpass={$_POST['domain']}");
+          die;
+	}
+    }
     $query = "INSERT INTO domains 
               (domain, spamassassin, sa_tag, sa_refuse, avscan,
               max_accounts, quotas, maildir, pipe, enabled, uid, gid,
@@ -119,8 +131,6 @@
                 ':pop'=>$pophomepath,
                 ':domain'=>$_POST['domain'],
                 ));
-           
-// Is using indexes worth setting the domain_id by hand? -- GCBirzan
         if (!$success) {
           header ("Location: site.php?failaddedusrerr={$_POST['domain']}");
           die;
@@ -138,26 +148,8 @@
                 "&type={$_POST['type']}");
         die;
       }
-    } else {
-      header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
-      die;
-    }
-  } else if ($_POST['type'] == "alias") {
-    $query = "INSERT INTO domainalias (domain_id, alias)
-              SELECT domains.domain_id, :alias FROM domains WHERE domains.domain_id=:domain_id";
-    $sth = $dbh->prepare($query);
-    $sth->execute(array(':domain_id'=>$_POST['aliasdest'], ':alias'=>$_POST['domain']));
-    if ($sth->rowCount()!==1) {
-      header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
-      die;
-    } else {
-      header ("Location: site.php?added={$_POST['domain']}" .
-              "&amp;type={$_POST['type']}");
-      die;
-    }
-  } else {
-    header ("Location: site.php?failaddedpassmismatch={$_POST['domain']}");
+    } 
+    header ("Location: site.php?failaddeddomerr={$_POST['domain']}");
   }
-
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->
