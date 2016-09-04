@@ -455,7 +455,7 @@ acl_check_content:
 
   # finally accept all the rest
   accept
-  
+
 
 ######################################################################
 #                      ROUTERS CONFIGURATION                         #
@@ -560,7 +560,7 @@ ditch_malware:
   condition = ${if and { {match {$h_X-ACL-Warn:}{.*malware.*}} \
                          {eq {${lookup mysql{select users.on_avscan from users,domains \
 		                where localpart = '${quote_mysql:$local_part}' \
-		                and domain = '${quote_mysql:$domain}' \ 
+		                and domain = '${quote_mysql:$domain}' \
 		                and users.on_avscan = '1' \
                                 and domains.avscan = '1' \
 		                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
@@ -584,23 +584,23 @@ ditch_spam:
     driver = redirect
     allow_fail
     file_transport = virtual_ditch_spam_transport
-    data = ${lookup mysql{select concat(smtp,'/.Spam') \ 
-        from users,domains \ 
-        where localpart = '${quote_mysql:$local_part}' \ 
-        and domain = '${quote_mysql:$domain}' \ 
-        and domains.enabled = '1' \ 
-        and users.enabled = '1' \ 
+    data = ${lookup mysql{select concat(smtp,'/.Spam') \
+        from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
+        and domain = '${quote_mysql:$domain}' \
+        and domains.enabled = '1' \
+        and users.enabled = '1' \
         and users.domain_id = domains.domain_id}}
-    condition = ${if >{$spam_score_int}{${lookup mysql{select \ 
-        users.sa_refuse * 10 from users,domains \ 
-        where localpart = '${quote_mysql:$local_part}' \ 
-        and domain = '${quote_mysql:$domain}' \ 
-        and users.on_spamassassin = '1' \ 
+    condition = ${if >{$spam_score_int}{${lookup mysql{select \
+        users.sa_refuse * 10 from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
+        and domain = '${quote_mysql:$domain}' \
+        and users.on_spamassassin = '1' \
         and domains.spamassassin = '1' \
         and users.spam_drop = '0' \
         and users.on_forward = '0' \
         and users.type = 'local' \
-        and users.domain_id=domains.domain_id \ 
+        and users.domain_id=domains.domain_id \
         and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
     retry_use_local_part
     headers_add = ${if and { \
@@ -681,7 +681,7 @@ virtual_vacation:
   condition = ${if and { {!match {$h_precedence:}{(?i)junk|bulk|list}} \
                          {eq {${lookup mysql{select users.on_vacation from users,domains \
 		                where localpart = '${quote_mysql:$local_part}' \
-		                and domain = '${quote_mysql:$domain}' \ 
+		                and domain = '${quote_mysql:$domain}' \
 		                and users.on_vacation = '1' \
 		                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
   no_verify
@@ -706,7 +706,7 @@ virtual_forward:
   condition = ${if and { {!match {$h_precedence:}{(?i)junk}} \
                          {eq {${lookup mysql{select users.on_forward from users,domains \
 		                where localpart = '${quote_mysql:$local_part}' \
-		                and domain = '${quote_mysql:$domain}' \ 
+		                and domain = '${quote_mysql:$domain}' \
 		                and users.on_forward = '1' \
 		                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
 
@@ -803,7 +803,7 @@ virtual_domain_alias:
   		from domains,domainalias where domainalias.alias = '${quote_mysql:$domain}' \
 		and domainalias.domain_id = domains.domain_id}}
   retry_use_local_part
-  
+
 
 # This router handles aliasing using a linearly searched alias file with the
 # name /etc/aliases. When this configuration is installed automatically,
@@ -953,13 +953,13 @@ virtual_ditch_spam_transport:
   mode = 0600
   maildir_format = true
   create_directory = true
-  user = ${lookup mysql{select users.uid  from users,domains \ 
-                where localpart = '${quote_mysql:$local_part}' \ 
-                and domain = '${quote_mysql:$domain}' \ 
+  user = ${lookup mysql{select users.uid  from users,domains \
+                where localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
                 and users.domain_id = domains.domain_id}}
-  group = ${lookup mysql{select users.gid from users,domains \ 
-                where localpart = '${quote_mysql:$local_part}' \ 
-                and domain = '${quote_mysql:$domain}' \ 
+  group = ${lookup mysql{select users.gid from users,domains \
+                where localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
                 and users.domain_id = domains.domain_id}}
   maildir_use_size_file = false
 
