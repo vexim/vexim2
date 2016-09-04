@@ -87,9 +87,13 @@ hostlist   relay_from_hosts = localhost : @ : 192.168.0.0/24
 # Comment this line if you want to disable it, instead of + you can use a different separator.
 VEXIM_LOCALPART_SUFFIX = +*
 
-# if you exim version < 4.83 , define macro below for enabling new
-# 'headers_remove' behavior. See https://github.com/vexim/vexim2/pull/102 .
-#OLD_HEADERS_REMOVE = yes
+# Exim will put the detailed spam report into an X-Spam-Report header by default.
+# This report is really huge by default, but its template can be tweaked to make
+# it look almost exactly like contents of the X-Spam-Status header, which
+# SpamAssassin adds when scanning messages externally, and which is a much more
+# compact version of the report. If you tweak your template this way, you may
+# as well want to change the header name here.
+#VEXIM_SPAM_REPORT_HEADER_NAME = X-Spam-Status
 
 # Reverse DNS checks can be efficient to fight spam. It checks if host name associated to the ip address matches
 # the sender_host_name (for properly configured mail servers this should be the case). However, there are some
@@ -463,6 +467,11 @@ acl_check_content:
 
 begin routers
 
+# Make sure that the name of the spam report header is set.
+.ifndef VEXIM_SPAM_REPORT_HEADER_NAME
+VEXIM_SPAM_REPORT_HEADER_NAME = X-Spam-Report
+.endif
+
 # This router routes to remote hosts over SMTP by explicit IP address,
 # when an email address is given in "domain literal" form, for example,
 # <user@[192.168.35.64]>. The RFCs require this facility. However, it is
@@ -476,7 +485,6 @@ begin routers
 #   driver = ipliteral
 #   domains = ! +local_domains
 #   transport = remote_smtp
-#   headers_remove = X-Spam-Report:X-Spam-Score
 
 
 # This router routes addresses that are not in local domains by doing a DNS
@@ -492,7 +500,6 @@ dnslookup:
   domains = ! +local_domains
   transport = remote_smtp
   ignore_target_hosts = 0.0.0.0 : 127.0.0.0/8
-  headers_remove = X-Spam-Report:X-Spam-Score
   no_more
 
 mailman_router:
@@ -502,7 +509,6 @@ mailman_router:
   local_part_suffix = -bounces : -bounces+* : \
                       -confirm+* : -join : -leave : \
                       -owner : -request : -admin
-  headers_remove = X-Spam-Score:X-Spam-Report
   transport = mailman_transport
 
 # The remaining routers handle addresses in the local domain(s).
@@ -597,6 +603,10 @@ ditch_spam:
         and users.domain_id=domains.domain_id \ 
         and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
     retry_use_local_part
+    headers_add = ${if and { \
+                     {match{$domain}{$original_domain}} \
+                     {match{$local_part}{$original_local_part}} \
+                     } {X-Spam-Flag: YES\nX-Spam-Score: $acl_m_spam_score\nVEXIM_SPAM_REPORT_HEADER_NAME: $acl_m_spam_report}{} }
 
 ditch_hdrmailer:
   driver = redirect
@@ -715,31 +725,11 @@ virtual_domains:
   allow_fail
   data = ${extract{smtp}{$address_data}}
   headers_add = ${if and { \
+                    {match{$domain}{$original_domain}} \
+                    {match{$local_part}{$original_local_part}} \
                     {>{$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
                     {eq{1}{${extract{on_spamassassin}{$address_data}}}} \
-                    } {X-Spam-Flag: YES\n}{} }
-  # Whether to use old or new headers_remove behavior.
-  .ifndef OLD_HEADERS_REMOVE
-    headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
-                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
-                                    } \
-                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
-                            }  {X-Spam-Score}}
-    headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
-                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
-                                    } \
-                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
-                            }  {X-Spam-Report}}
-  .else
-    headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
-                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
-                                    } \
-                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
-                            }  {X-Spam-Score:X-Spam-Report}}
-  .endif
+                    } {X-Spam-Flag: YES\nX-Spam-Score: $acl_m_spam_score\nVEXIM_SPAM_REPORT_HEADER_NAME: $acl_m_spam_report}{} }
   # using local_part_suffixes enables possibility to use user-"something" localparts
   # which could cause you trouble if you're creating email-adresses with dashes in between.
   .ifdef VEXIM_LOCALPART_SUFFIX

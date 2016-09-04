@@ -80,6 +80,10 @@ ditch_spam:
         and users.domain_id=domains.domain_id \ 
         and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
     retry_use_local_part
+    headers_add = ${if and { \
+                     {match{$domain}{$original_domain}} \
+                     {match{$local_part}{$original_local_part}} \
+                     } {X-Spam-Flag: YES\nX-Spam-Score: $acl_m_spam_score\nVEXIM_SPAM_REPORT_HEADER_NAME: $acl_m_spam_report}{} }
 
 ditch_hdrmailer:
     driver = redirect
