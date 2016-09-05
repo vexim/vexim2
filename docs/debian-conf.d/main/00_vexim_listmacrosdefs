@@ -2,10 +2,6 @@
 ### main/00_vexim_listmacrosdefs
 #################################
 
-# if you exim version < 4.83 , define macro below for enabling new
-# 'headers_remove' behavior. See https://github.com/vexim/vexim2/pull/102 .
-#OLD_HEADERS_REMOVE = yes
-
 hide mysql_servers = localhost::(/var/run/mysqld/mysqld.sock)/vexim/vexim/CHANGE
 
 # domains
@@ -51,3 +47,11 @@ VEXIM_LOCALPART_SUFFIX = +*
 
 CHECK_RCPT_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-rcpt.conf
 CHECK_DATA_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-content.conf
+
+# Exim will put the detailed spam report into an X-Spam-Report header by default.
+# This report is really huge by default, but its template can be tweaked to make
+# it look almost exactly like contents of the X-Spam-Status header, which
+# SpamAssassin adds when scanning messages externally, and which is a much more
+# compact version of the report. If you tweak your template this way, you may
+# as well want to change the header name here.
+VEXIM_SPAM_REPORT_HEADER_NAME = X-Spam-Report
