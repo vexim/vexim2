@@ -55,7 +55,7 @@ virtual_domains:
   headers_add = ${if and { \
                     {match{$domain}{$original_domain}} \
                     {match{$local_part}{$original_local_part}} \
-                    {>{$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
+                    {>={$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
                     {eq{1}{${extract{on_spamassassin}{$address_data}}}} \
                     } {X-Spam-Flag: YES\nX-Spam-Score: $acl_m_spam_score\nVEXIM_SPAM_REPORT_HEADER_NAME: $acl_m_spam_report}{} }
   # using local_part_suffixes enables possibility to use user-"something" localparts

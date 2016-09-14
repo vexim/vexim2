@@ -553,7 +553,7 @@ ditch_spam_drop:
     driver = redirect
     allow_fail
     data = :blackhole:
-    condition = ${if >{$spam_score_int}{${lookup mysql{select users.sa_refuse * 10 from users,domains \
+    condition = ${if >={$spam_score_int}{${lookup mysql{select users.sa_refuse * 10 from users,domains \
         where localpart = '${quote_mysql:$local_part}' \
         and domain = '${quote_mysql:$domain}' \
         and users.on_spamassassin = '1' \
@@ -574,7 +574,7 @@ ditch_spam:
         and domains.enabled = '1' \
         and users.enabled = '1' \
         and users.domain_id = domains.domain_id}}
-    condition = ${if >{$spam_score_int}{${lookup mysql{select \
+    condition = ${if >={$spam_score_int}{${lookup mysql{select \
         users.sa_refuse * 10 from users,domains \
         where localpart = '${quote_mysql:$local_part}' \
         and domain = '${quote_mysql:$domain}' \
@@ -710,7 +710,7 @@ virtual_domains:
   headers_add = ${if and { \
                     {match{$domain}{$original_domain}} \
                     {match{$local_part}{$original_local_part}} \
-                    {>{$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
+                    {>={$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
                     {eq{1}{${extract{on_spamassassin}{$address_data}}}} \
                     } {X-Spam-Flag: YES\nX-Spam-Score: $acl_m_spam_score\nVEXIM_SPAM_REPORT_HEADER_NAME: $acl_m_spam_report}{} }
   # using local_part_suffixes enables possibility to use user-"something" localparts

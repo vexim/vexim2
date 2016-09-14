@@ -47,7 +47,7 @@ ditch_spam_drop:
     driver = redirect
     allow_fail
     data = :blackhole:
-    condition = ${if >{$spam_score_int}{${lookup mysql{select users.sa_refuse * 10 from users,domains \
+    condition = ${if >={$spam_score_int}{${lookup mysql{select users.sa_refuse * 10 from users,domains \
         where localpart = '${quote_mysql:$local_part}' \
         and domain = '${quote_mysql:$domain}' \
         and users.on_spamassassin = '1' \
@@ -68,7 +68,7 @@ ditch_spam:
         and domains.enabled = '1' \
         and users.enabled = '1' \
         and users.domain_id = domains.domain_id}}
-    condition = ${if >{$spam_score_int}{${lookup mysql{select \
+    condition = ${if >={$spam_score_int}{${lookup mysql{select \
         users.sa_refuse * 10 from users,domains \
         where localpart = '${quote_mysql:$local_part}' \
         and domain = '${quote_mysql:$domain}' \
