@@ -41,6 +41,42 @@ add_environment = MAIN_ADD_ENVIRONMENT
 #CHECK_RCPT_REVERSE_DNS = true
 #CHECK_RCPT_SPF = true
 
+
+# Mailman-related options. Uncomment VEXIM_HAVE_MAILMAN and adjust the macros
+# below if want to use Mailman with this installation.
+# NOTE: we only have integration with Mailman 2 ready at the moment.
+
+#VEXIM_HAVE_MAILMAN = yes
+
+
+# Home dir for your Mailman installation - aka Mailman's prefix
+# directory.
+# On a Red Hat/Fedora system using RPM, use "/var/mailman"
+# On Debian using the deb package use "/var/lib/mailman"
+# This is normally the same as ~mailman
+
+MAILMAN_HOME=/usr/local/mailman
+
+
+# User and group for Mailman, should match your --with-mail-gid
+# switch to Mailman's configure script.
+# Value is normally "mailman"
+
+MAILMAN_USER=mailman
+MAILMAN_GROUP=mailman
+
+
+# The path of the Mailman mail wrapper script
+
+MAILMAN_WRAP=MAILMAN_HOME/mail/mailman
+
+
+# The path of the list config file (used as a required file when
+# verifying list addresses)
+
+MAILMAN_LISTCHK = MAILMAN_HOME/lists/${lc::$local_part}/config.pck
+
+
 # If the local-part suffix is used, mails to user+whatevertext@example.org will be delivered to user@example.org
 # Comment this line if you want to disable it, instead of + you can use a different separator.
 VEXIM_LOCALPART_SUFFIX = +*
