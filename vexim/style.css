@@ -50,6 +50,10 @@ table,tr,td,th {
 	text-align: left;
 }
 
+table.zebra tr:nth-child(even) {
+	background-color: #f0f0f0;
+}
+
 td.check {
 	text-align: center;
 }

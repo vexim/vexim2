@@ -1,9 +1,18 @@
 <?php
-  if (isset($_SESSION['domain_id'])) {
+  $validateAsSiteadmin =
+    (    isset($siteadminManageDomains)
+      && $siteadminManageDomains
+      && isset($_SESSION['username'])
+      && 'siteadmin' === $_SESSION['username']
+      && isset($_SESSION['siteadmin_domain_id']) );
+  $domain_id = $validateAsSiteadmin
+    ? $_SESSION['siteadmin_domain_id']
+    : (isset($_SESSION['domain_id']) ? $_SESSION['domain_id'] : null);
+  if (null !== $domain_id) {
     $headerquery = "SELECT domains.enabled AS domain, users.enabled AS user FROM users,domains
                     WHERE users.username=:username AND domains.domain_id=:domain_id AND users.domain_id=domains.domain_id;";
     $headerresult = $dbh->prepare($headerquery);
-    $headersuccess = $headerresult->execute(array(':username'=>$_SESSION['username'], ':domain_id'=>$_SESSION['domain_id']));
+    $headersuccess = $headerresult->execute(array(':username'=>$_SESSION['username'], ':domain_id'=>$domain_id));
     if ($headersuccess && $headerrow = $headerresult->fetch()) {
       if ($headerrow['domain'] === "0") {
         invalidate_session();
@@ -104,5 +113,7 @@
     print   _("-- Login is disabled. Please contact your administrator.");
   }
   if (isset($_GET['login']) && ($_GET['login'] == "failed")) { print _("Login failed"); }
+
+  if ($validateAsSiteadmin) print '<a href="/site.php" style="float:right; margin-right:20px;">siteadmin home</a>';
 
   print "</p></div>";
