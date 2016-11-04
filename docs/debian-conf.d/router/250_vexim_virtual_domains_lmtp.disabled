@@ -51,6 +51,12 @@ virtual_domains_useralias:
                 and domains.enabled = '1' \
                 and users.enabled = '1' \
                 and users.domain_id = domains.domain_id}}
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
 
 virtual_pipe:
   debug_print = "R: virtual_pipe for $local_part@$domain"
