@@ -95,7 +95,7 @@
           <?php
             if (isset($siteadminManageDomains) && $siteadminManageDomains) {
           ?>
-            <td><a href="/admin.php?manage_domain_id=<?php echo $row['domain_id']; ?>">manage</a></td>
+            <td><a href="admin.php?manage_domain_id=<?php echo $row['domain_id']; ?>">manage</a></td>
           <?php
             }
           ?>
