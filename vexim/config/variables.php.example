@@ -57,6 +57,9 @@
   $uid = "90";
   $gid = "90";
   $postmasteruidgid = "yes";
+  
+  /* Allow the siteadmin user to manage domains? */
+  $siteadminManageDomains = true;
 
   /* The location of your mailstore for new domains.
      Make sure the directory belongs to the configured $uid/$gid! */
