@@ -172,9 +172,11 @@ acl_smtp_data = acl_check_content
 
 acl_smtp_helo = acl_check_helo
 
-# This ACL can be used to refuse certain file extension in ZIP files
+# This ACL checks attached files to comply with certain rules (number of
+# attachments, file name length etc.). You can also block certain file
+# extensions.
 
-#acl_smtp_mime = acl_check_mime
+acl_smtp_mime = acl_check_mime
 
 # This configuration variable defines the virus scanner that is used with
 # the 'malware' ACL condition of the exiscan acl-patch. If you do not use
@@ -405,25 +407,13 @@ acl_check_rcpt:
 
   deny    message       = relay not permitted
 
-# Check zip files for suspicious mail extensions
-# http://www.gossamer-threads.com/lists/exim/users/98336#98336
+acl_check_mime:
 
-#acl_check_mime:
-#
-#  deny message = A .zip attachment contains a Windows-executable file - \
-#                blocked because we are afraid of new viruses \
-#                not recognized [yet] by antiviruses.
-#  condition = ${if match{$mime_filename}{\N(?i)\.zip$\N}}
-#  condition = ${if def:sender_host_address}
-#  !authenticated = *
-#  decode = default
-#  log_message = forbidden binary in attachment: filename=$mime_filename, \
-#  recipients=$recipients
-#  condition = ${if match{${run{/usr/bin/unzip -l \
-#        $mime_decoded_filename}}}\
-#        {\N(?i)\.(exe|com|ade|adep|adp|bas|bat|chm|cmd|cnf|com|cpl|crt|dll|hlp|hta|inf|ins|isp|js|jse|lnk|mad|maf|mag|mam|maq|mar|mas|matmav|maw|ocx|pcd|pif|reg|scf|scr|sct|vbe|vbs|wsc|wsf|wsh|url|xnk)\n\N}}
-#
-#  accept
+   #Include Vexim specific MIME rules:
+   .include /usr/local/etc/exim/vexim-acl-check-mime.conf
+
+  #accept content which is not forbidden
+  accept
 
 # This access control list is used for content scanning with the exiscan-acl
 # patch. You must also uncomment the entry for acl_smtp_data (scroll up),
