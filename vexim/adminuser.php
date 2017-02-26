@@ -12,7 +12,7 @@
   if (!isset($_POST['searchfor'])) {
     $_POST['searchfor'] = '';
   }
-  if (!isset($_POST['field']) || ($_POST['field'] != 'localpart')) {
+  if (!isset($_POST['field']) || (($_POST['field'] != 'localpart') && ($_POST['field'] != 'username'))) {
     $_POST['field'] = 'realname';
   }
 ?>
@@ -57,6 +57,9 @@
           <option value="realname" <?php if ($_POST['field'] == 'realname') {
             echo 'selected="selected"';
           } ?>><?php echo _('User'); ?></option>
+          <option value="username" <?php if ($_POST['field'] == 'username') {
+            echo "selected=\"selected\"";
+          } ?>><?php echo _('User Name'); ?></option>
           <option value="localpart" <?php if ($_POST['field'] == 'localpart') {
             echo "selected=\"selected\"";
           } ?>><?php echo _('Email address'); ?></option>

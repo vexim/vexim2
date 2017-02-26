@@ -13,7 +13,7 @@
   );
 
   check_user_exists(
-    $dbh,$_POST['localpart'],$_SESSION['domain_id'],'admingroup.php'
+    $dbh,$_POST['localpart'].'@'.$_SESSION['domain'],$_POST['localpart'],$_SESSION['domain_id'],'admingroup.php'
   );
 
   $query = "INSERT INTO groups (name, domain_id)

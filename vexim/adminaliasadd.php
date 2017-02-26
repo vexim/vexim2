@@ -29,6 +29,11 @@
             <td><input name="realname" type="text" class="textfield"></td>
           </tr>
           <tr>
+            <td><?php echo _('User Name'); ?>:</td>
+            <td>
+              <input name="username" type="text" class="textfield"></td>
+          </tr>
+          <tr>
             <td><?php echo _('Address'); ?>:</td>
             <td>
               <input name="localpart" type="text" class="textfield">@

@@ -24,6 +24,8 @@
   # Strip off leading and trailing spaces
   $_POST['localpart'] = preg_replace("/^\s+/","",$_POST['localpart']);
   $_POST['localpart'] = preg_replace("/\s+$/","",$_POST['localpart']); 
+  $_POST['username'] = preg_replace("/^\s+/","",$_POST['username']);
+  $_POST['username'] = preg_replace("/\s+$/","",$_POST['username']); 
 
   # get the settings for the domain 
   $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas,maxmsgsize FROM domains 
@@ -94,7 +96,7 @@
   );
 
   check_user_exists(
-    $dbh,$_POST['localpart'],$_SESSION['domain_id'],'adminuser.php'
+    $dbh,$_POST["username"],$_POST['localpart'],$_SESSION['domain_id'],'adminuser.php'
   );
 
   if (preg_match("/^\s*$/",$_POST['realname'])) {
@@ -135,7 +137,7 @@
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
         ':localpart'=>$_POST['localpart'],
-        ':username'=>$_POST['localpart'].'@'.$_SESSION['domain'],
+        ':username'=>$_POST['username'],
         ':domain_id'=>$_SESSION['domain_id'],
         ':crypt'=>crypt_password($_POST['clear']),
         ':smtp'=>$smtphomepath,

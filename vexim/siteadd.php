@@ -31,15 +31,24 @@
             if ($_GET['type'] == "local") {
           ?>
           <tr>
-            <td><?php echo _('Domain Admin'); ?>:</td>
+            <td><?php echo _('User Name'); ?>:</td>
             <td>
-              <input name="localpart" type="text" value="postmaster"
+              <input name="username" type="text" value=""
                 class="textfield">
             </td>
             <td>
               <?php
                 echo _('The username of the domain\'s administrator account');
               ?>
+            </td>
+          </tr>
+          <tr>
+            <td><?php echo _('Domain Admin'); ?>:</td>
+            <td>
+              <input name="localpart" type="text" value="postmaster"
+                class="textfield">
+            </td>
+            <td>
             </td>
           </tr>
           <tr>

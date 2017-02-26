@@ -9,7 +9,7 @@
   );
 
   check_user_exists(
-    $dbh,$_POST['localpart'],$_SESSION['domain_id'],'adminfail.php'
+    $dbh,$_POST['localpart'].'@'.$_SESSION['domain'],$_POST['localpart'],$_SESSION['domain_id'],'adminfail.php'
   );
 
   if (preg_match("/['@%!\/\| ']/",$_POST['localpart'])) {
