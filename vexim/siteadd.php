@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css" type="text/css">
     <script src="scripts.js" type="text/javascript"></script>
   </head>
-  <body onLoad="document.siteadd.domain.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id='menu'>
       <a href="site.php"><?php echo _('Manage Domains'); ?></a><br>
@@ -23,7 +23,7 @@
         <table align="center">
           <tr>
             <td><?php echo _('New Domain'); ?>:</td>
-            <td><input name="domain" type="text" class="textfield"></td>
+            <td><input name="domain" type="text" class="textfield" autofocus></td>
             <td>
               <?php echo _('The name of the new domain you are adding'); ?>
             </td>

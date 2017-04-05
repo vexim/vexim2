@@ -17,7 +17,7 @@
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.failchange.localpart.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminfail.php"><?php echo _('Manage Fails'); ?></a><br>
@@ -40,7 +40,7 @@
             <td><?php echo _('Fail address'); ?>:</td>
 	    <td>
               <input name="localpart" type="text"
-                value="<?php print $row['localpart']; ?>" class="textfield">@
+                value="<?php print $row['localpart']; ?>" class="textfield" autofocus>@
               <?php print $_SESSION['domain']; ?>
             </td>
 	    <td>

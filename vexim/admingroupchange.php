@@ -18,7 +18,7 @@
     <title><?php echo _('Virtual Exim') . ': ' . _('Edit group'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.groupchange.realname.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="admingroup.php"><?php echo _('Manage Groups'); ?></a><br>
@@ -42,7 +42,7 @@
           <td><?php echo _('Group Address'); ?>:</td>
           <td>
             <input name="localpart" type="text"
-              value="<?php echo $row['name']; ?>"class="textfield">@
+              value="<?php echo $row['name']; ?>"class="textfield" autofocus>@
               <?php echo $_SESSION['domain']; ?>
             <input name="group_id" type="hidden"
               value="<?php echo $_GET['group_id']; ?>" class="textfield">

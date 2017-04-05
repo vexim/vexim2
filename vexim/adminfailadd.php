@@ -10,7 +10,7 @@
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.adminadd.localpart.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
        <a href="adminfail.php"><?php echo _('Manage Fails'); ?></a><br>
@@ -23,7 +23,7 @@
 	  <tr>
 	    <td><?php echo _('Address to fail'); ?>:</td>
             <td>
-              <input name="localpart" type="text" class="textfield">@
+              <input name="localpart" type="text" class="textfield" autofocus>@
               <?php print $_SESSION['domain']; ?>
             </td>
 	  </tr>

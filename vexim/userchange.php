@@ -29,7 +29,7 @@
       }
     </script>
   </head>
-  <body onLoad="document.forms[0].elements[0].focus(); fwac()">
+  <body onLoad="fwac()">
     <?php include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="Menu">
       <a href="logout.php"><?php echo _("Logout"); ?></a><br>
@@ -37,7 +37,7 @@
     <div id="forms">
       <form name="userchange" method="post" action="userchangesubmit.php">
         <table align="center">
-	  <tr><td><?php echo _("Name"); ?>:</td><td><input name="realname" type="text" value="<?php print $row['realname']; ?>" class="textfield"></td></tr>
+	  <tr><td><?php echo _("Name"); ?>:</td><td><input name="realname" type="text" value="<?php print $row['realname']; ?>" class="textfield" autofocus></td></tr>
 	  <tr><td><?php echo _("Email Address"); ?>:</td><td><?php print $row['localpart']."@".$_SESSION['domain']; ?></td>
 	  <tr><td><?php echo _("Password"); ?>:</td><td><input name="clear" type="password" class="textfield"></td></tr>
 	  <tr><td><?php echo _("Verify Password"); ?>:</td><td><input name="vclear" type="password" class="textfield"></td></tr>
