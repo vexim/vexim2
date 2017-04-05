@@ -12,6 +12,7 @@
     $grouplocalpart = $row['name'];
   }
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Edit group'); ?></title>

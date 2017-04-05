@@ -4,6 +4,7 @@
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _("Virtual Exim") . ": " . _("Manage Sites"); ?></title>

@@ -24,6 +24,7 @@
   $blocksth = $dbh->prepare($blockquery);
   $blocksth->execute(array(':user_id'=>$_GET['user_id']));
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>

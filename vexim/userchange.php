@@ -18,6 +18,7 @@
   $blocksth = $dbh->prepare($blockquery);
   $blocksuccess = $blocksth->execute(array(':user_id'=>$_SESSION['user_id']));
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _("Virtual Exim") . ": " . _("Manage Users"); ?></title>

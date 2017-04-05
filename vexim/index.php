@@ -5,20 +5,21 @@
   require_once dirname(__FILE__) . '/config/functions.php';
   require_once dirname(__FILE__) . '/config/httpheaders.php';
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <meta name="robots" content="noindex, nofollow">
   </head>
-  <body onLoad="document.login.localpart.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Centered">
       <form style="margin-top:3em;" name="login" method="post" action="login.php">
         <table align="center">
           <tr>
             <td><?php echo _('Username'); ?>:</td>
-            <td><input name="username" type="text" class="textfield">
+            <td><input name="username" type="text" class="textfield" autofocus>
             <?php
             if($domainguess===1) echo '@'.preg_replace ("/^(".$domainguess_lefttrim.")\./", "", $_SERVER["SERVER_NAME"]);
             ?>
@@ -29,7 +30,7 @@
             <td><input name="crypt" type="password" class="textfield"></td>
           </tr>
           <tr>
-            <td colspan="2" style="text-align:center;padding-top:1em">
+            <td colspan="2" class="button">
               <input name="submit" type="submit"
                 value="<?php echo _("Submit"); ?>" class="longbutton">
             </td>
