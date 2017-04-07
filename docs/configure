@@ -633,7 +633,7 @@ ditch_hdrfrom:
   data = :blackhole:
   condition = ${if eq {${lookup mysql{select count(*) from blocklists,users,domains \
   			where blocklists.blockhdr = 'from' \
-			and blocklists.blockval = '${quote_mysql:$h_from:}' \
+			and blocklists.blockval = '${quote_mysql:${rfc2047:$h_from:}}' \
 			and users.localpart = '${quote_mysql:$local_part}' \
   			and domains.domain = '${quote_mysql:$domain}' \
 			and domains.domain_id=blocklists.domain_id \
@@ -650,7 +650,7 @@ ditch_hdrsubject:
   data = :blackhole:
   condition = ${if eq {${lookup mysql{select count(*) from blocklists,users,domains \
   			where blocklists.blockhdr = 'subject' \
-			and blocklists.blockval = '${quote_mysql:$h_subject:}' \
+			and blocklists.blockval = '${quote_mysql:${rfc2047:$h_subject:}}' \
 			and users.localpart = '${quote_mysql:$local_part}' \
   			and domains.domain = '${quote_mysql:$domain}' \
 			and domains.domain_id=blocklists.domain_id \
