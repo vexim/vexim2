@@ -21,12 +21,13 @@
 ?>
 
 
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.aliaschange.realname.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminalias.php"><?php echo _('Manage Aliases'); ?></a><br>
@@ -49,7 +50,7 @@
             <td><?php echo _('Alias Name'); ?>:</td>
             <td>
               <input name="realname" type="text"
-              value="<?php print $row['realname']; ?>" class="textfield">
+              value="<?php print $row['realname']; ?>" class="textfield" autofocus>
             </td>
           </tr>
           <tr>

@@ -4,12 +4,13 @@ include_once dirname(__FILE__) . "/config/authsite.php";
 include_once dirname(__FILE__) . "/config/functions.php";
 include_once dirname(__FILE__) . "/config/httpheaders.php";
 ?>
+<!DOCTYPE html>
 <html>
 <head>
     <title><?php echo _("Virtual Exim") . ": " . _("Manage Domains"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
-<body onLoad="document.passwordchange.localpart.focus()">
+<body>
 <?php include dirname(__FILE__) . "/config/header.php"; ?>
 <div id="Menu">
     <a href="site.php"><?php echo _("Manage Domains"); ?></a><br>
@@ -25,7 +26,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
             </tr>
             <tr>
                 <td><?php echo _("Admin"); ?>:</td>
-                <td><select name="localpart" class="textfield">
+                <td><select name="localpart" class="textfield" autofocus>
                         <?php
                         $query = "SELECT localpart,domain FROM users,domains
                             WHERE domains.domain_id=:domain_id

@@ -3,12 +3,13 @@
   include_once dirname(__FILE__) . '/config/authpostmaster.php';
   include_once dirname(__FILE__) . "/config/functions.php";
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Add Group'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.adminadd.localpart.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="admingroup.php"><?php echo _('Manage Groups'); ?></a><br>
@@ -21,7 +22,7 @@
         <tr>
           <td><?php echo _('Group Address'); ; ?>:</td>
           <td>
-            <input name="localpart" type="text" class="textfield">@
+            <input name="localpart" type="text" class="textfield" autofocus>@
             <?php echo $_SESSION['domain']; ?>
           </td>
         </tr>

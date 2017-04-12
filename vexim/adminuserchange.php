@@ -24,6 +24,7 @@
   $blocksth = $dbh->prepare($blockquery);
   $blocksth->execute(array(':user_id'=>$_GET['user_id']));
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
@@ -47,7 +48,7 @@
 
     </script>
   </head>
-  <body onLoad="document.userchange.realname.focus(); fwac()">
+  <body onLoad="fwac()">
   <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminuser.php"><?php echo _('Manage Accounts'); ?></a><br>
@@ -70,7 +71,7 @@
           <td><?php echo _('Name'); ?>:</td>
           <td>
             <input type="text" size="25" name="realname"
-              value="<?php print $row['realname']; ?>" class="textfield">
+              value="<?php print $row['realname']; ?>" class="textfield" autofocus>
             <input name="user_id" type="hidden"
               value="<?php print $_GET['user_id']; ?>">
           </td>

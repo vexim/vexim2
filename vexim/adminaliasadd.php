@@ -9,12 +9,13 @@
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($sth->rowCount()) { $row = $sth->fetch(); }
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.adminadd.realname.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminalias.php"><?php echo _('Manage Aliases'); ?></a><br>
@@ -26,7 +27,7 @@
         <table align="center">
           <tr>
             <td><?php echo _('Alias Name'); ?>:</td>
-            <td><input name="realname" type="text" class="textfield"></td>
+            <td><input name="realname" type="text" class="textfield" autofocus></td>
           </tr>
           <tr>
             <td><?php echo _('Address'); ?>:</td>

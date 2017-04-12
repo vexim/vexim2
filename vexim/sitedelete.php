@@ -65,6 +65,7 @@
     $row = $sth->fetch();
   }
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _("Virtual Exim") . ": " .  _("Confirm Delete"); ?></title>

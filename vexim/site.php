@@ -13,6 +13,7 @@
     $_POST['searchfor'] = '';
   }
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Sites'); ?></title>

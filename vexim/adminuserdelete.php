@@ -66,6 +66,7 @@ if ($_GET['confirm'] == '1') {
   if ($sth->rowCount()) { $row = $sth->fetch(); }
 }
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Confirm Delete'); ?></title>

@@ -7,6 +7,7 @@
     header ("Location: $mailmanroot/admin/{$_POST['listname']}");
   }
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Mailing List Administration'); ?></title>

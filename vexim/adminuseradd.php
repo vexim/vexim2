@@ -26,13 +26,14 @@
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   $row = $sth->fetch();
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script src="scripts.js" type="text/javascript"></script>
   </head>
-  <body onLoad="document.adminadd.realname.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminuser.php"><?php echo _('Manage Accounts'); ?></a><br>
@@ -45,7 +46,7 @@
         <tr>
           <td><?php echo _('Name'); ?>:</td>
           <td colspan="2">
-            <input type="textfield" size="25" name="realname" class="textfield">
+            <input type="textfield" size="25" name="realname" class="textfield" autofocus>
           </td>
         </tr>
         <tr>
