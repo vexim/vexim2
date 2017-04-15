@@ -23,13 +23,9 @@
   <head>
     <title><?php echo _("Virtual Exim") . ": " . _("Manage Users"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
-    <script type='text/javascript'>
-      function fwac() {
-      document.getElementById('forward').disabled = !document.getElementById('on_forward').checked;
-      }
-    </script>
+    <script src="scripts.js" type="text/javascript"></script>
   </head>
-  <body onLoad="fwac()">
+  <body>
     <?php include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="Menu">
       <a href="logout.php"><?php echo _("Logout"); ?></a><br>
@@ -131,7 +127,7 @@
   	  </tr>
   	  <tr><td><?php echo _("Forwarding enabled"); ?>:</td>
   	    <td><input name="on_forward" type="checkbox" id="on_forward"
-          <?php if($row['on_forward'] == "1") { print " checked "; } ?> onchange="fwac()" onclick="fwac()">
+          <?php if($row['on_forward'] == "1") { print " checked "; } ?>>
           </td></tr>
   	  <tr><td><?php echo _("Forward mail to");?>:</td>
 	    <td><input type="text" name="forward" id="forward" value="<?php print $row['forward']; ?>" class="textfield"><br>

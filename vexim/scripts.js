@@ -46,9 +46,52 @@ function copyPassword(sourceFieldName, target1FieldName, target2FieldName) {
 
 
 /**
- * Add event listener for buttons on the password generator form
+ * Enables forward-destination field and selection box only if forwarding is enabled
+ */
+function fwform() {
+    document.getElementById('forward').disabled = !document.getElementById('on_forward').checked;
+    if (document.getElementById('forwardmenu') != null) { //userchange.php has no box
+      document.getElementById('forwardmenu').disabled = !document.getElementById('on_forward').checked;
+    }
+    return true;
+}
+
+
+/**
+ * If item on forwarding destination is selected from a list of destinations
+ * the forwarding text box is updated
+ */
+function boxadd() {
+    var exstring = document.getElementById('forward').value;
+    var box = document.getElementById('forwardmenu');
+    var selectitem = box.options[box.selectedIndex].value;
+    if (!exstring.match(/\S/)) {
+      document.getElementById('forward').value=selectitem;
+    } else {
+      document.getElementById('forward').value += "," + selectitem;
+    }
+}
+
+
+/**
+ * Add event listener
  */
 document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('pwcopy').addEventListener('click', function() { copyPassword('suggest', 'clear', 'vclear')});
-  document.getElementById('pwgenerate').addEventListener('click', function() { suggestPassword('suggest')});
+    if (document.getElementById('pwcopy') != null) {
+      document.getElementById('pwcopy').addEventListener('click', function() { copyPassword('suggest', 'clear', 'vclear')});
+    }
+    if (document.getElementById('pwgenerate') != null) {
+      document.getElementById('pwgenerate').addEventListener('click', function() { suggestPassword('suggest') });
+    }
+    if (document.getElementById('on_forward') != null) {
+      document.getElementById('on_forward').addEventListener('change', function() { fwform() });
+    }
+    if (document.getElementById('forwardmenu') != null) {
+    document.getElementById('forwardmenu').addEventListener('change', function() { boxadd() });
+    }
+
+    // settings at page load
+    if (document.getElementById('forward') != null) {
+      fwform();
+    }
 });

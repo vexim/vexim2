@@ -30,25 +30,8 @@
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script src="scripts.js" type="text/javascript"></script>
-    <script type='text/javascript'>
-      function fwac() {
-      document.getElementById('forward').disabled = !document.getElementById('on_forward').checked;
-      document.getElementById('forwardmenu').disabled = !document.getElementById('on_forward').checked;
-      }
-      function boxadd() {
-        var exstring = document.getElementById('forward').value;
-        var box = document.getElementById('forwardmenu');
-        var selectitem = box.options[box.selectedIndex].value;
-        if (!exstring.match(/\S/)) {
-          document.getElementById('forward').value=selectitem;
-        } else {
-          document.getElementById('forward').value += "," + selectitem;
-        }
-      }
-
-    </script>
   </head>
-  <body onLoad="fwac()">
+  <body>
   <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminuser.php"><?php echo _('Manage Accounts'); ?></a><br>
@@ -279,7 +262,7 @@
           <td><input name="on_forward" id="on_forward" type="checkbox" <?php
             if ($row['on_forward'] == "1") {
               print " checked";
-            } ?> onchange="fwac()" onclick="fwac()">
+            } ?>>
           </td>
         </tr>
         <tr>
@@ -289,7 +272,7 @@
             value="<?php print $row['forward']; ?>" class="textfield"><br>
             <?php echo _('Enter full e-mail addresses, use commas to separate them'); ?>!<br>
             <?php echo _('or select from this list') .":<br>\n"; ?>
-            <select name="forwardmenu" id="forwardmenu" onchange="boxadd()">
+            <select name="forwardmenu" id="forwardmenu">
               <option selected value=""></option>
               <?php
                 $queryuserlist = "SELECT realname, username, user_id, unseen
