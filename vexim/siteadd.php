@@ -58,9 +58,9 @@
         <tr>
             <td></td>
             <td colspan="2">
-              <input type="button" value="Generate password" onclick="suggestPassword('suggest')">
+              <input type="button" id="pwgenerate" value="Generate password">
               <input type="text" size="15" name="suggest" id="suggest" class="textfield">
-              <input type="button" value="Copy" onclick="copyPassword('suggest', 'clear', 'vclear')">
+              <input type="button" id="pwcopy" value="Copy">
             </td>
           </tr>
           <tr>

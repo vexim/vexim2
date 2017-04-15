@@ -44,3 +44,11 @@ function copyPassword(sourceFieldName, target1FieldName, target2FieldName) {
     return true;
 }
 
+
+/**
+ * Add event listener for buttons on the password generator form
+ */
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('pwcopy').addEventListener('click', function() { copyPassword('suggest', 'clear', 'vclear')});
+  document.getElementById('pwgenerate').addEventListener('click', function() { suggestPassword('suggest')});
+});

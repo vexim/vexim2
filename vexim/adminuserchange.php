@@ -95,9 +95,9 @@
         <tr>
           <td></td>
           <td>
-            <input type="button" value="<?php echo _('Generate password'); ?>" onclick="suggestPassword('suggest')">
+            <input type="button" id="pwgenerate" value="<?php echo _('Generate password'); ?>">
             <input type="text" size="15" id="suggest" class="textfield">
-            <input type="button" value="<?php echo _('Copy'); ?>" onclick="copyPassword('suggest', 'clear', 'vclear')">
+            <input type="button" id="pwcopy" value="<?php echo _('Copy'); ?>">
           </td>
         </tr>
         <?php
