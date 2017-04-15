@@ -100,7 +100,7 @@
             </td>
           </tr> 
           <tr>
-            <td colspan="2" style="padding-bottom:1em">
+            <td colspan="2" class="padafter">
               <?php echo _('When you update the UID or GID, please make sure
                 your MTA still has permission to create the required user
                 directories!'); ?>
@@ -148,7 +148,7 @@
             </td>
           </tr>
           <tr>
-            <td colspan="2" style="padding-bottom:1em">
+            <td colspan="2" class="padafter">
               <?php echo _('Optional'); ?>:
               <?php echo _('Pipe all mail to a command (e.g. procmail).'); ?>
               <br>
@@ -311,7 +311,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2" style="padding-top:1em">
+          <td colspan="2" class="padafter">
           <?php
             # Print the aliases associated with this account
             $query = "SELECT user_id,localpart,domain,realname FROM users,domains

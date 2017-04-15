@@ -15,7 +15,7 @@
   <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Centered">
-      <form style="margin-top:3em;" name="login" method="post" action="login.php">
+      <form class="login" name="login" method="post" action="login.php">
         <table align="center">
           <tr>
             <td><?php echo _('Username'); ?>:</td>
