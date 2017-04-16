@@ -1,0 +1,24 @@
+
+### router/240_vexim_mailman
+############################
+
+
+# This router picks up all the addresses going to the Mailman lists. Initially
+# it selects only the domains that may have lists in them, then selects where
+# local_part matches a list name (ie you can see a list config file). The
+# suffixes pick up all the Mailman admin addresses
+
+.ifdef VEXIM_HAVE_MAILMAN
+mailman_router:
+  driver = accept
+  domains = +local_domains
+  require_files = MAILMAN_LISTCHK
+  local_part_suffix_optional
+  local_part_suffix = -admin     : \
+         -bounces   : -bounces+* : \
+         -confirm   : -confirm+* : \
+         -join      : -leave     : \
+         -owner     : -request   : \
+         -subscribe : -unsubscribe
+  transport = mailman_transport
+.endif
