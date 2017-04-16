@@ -91,10 +91,6 @@ MAILMAN_LISTCHK = MAILMAN_HOME/lists/${lc::$local_part}/config.pck
 daemon_smtp_ports = 25 : 587
 #tls_on_connect_ports = 465
 
-# Uncomment the next line if you want to be able to authenticate over unsecure
-# connections (without using SSL or TLS). Note that this is highly discouraged!
-#AUTH_SERVER_ALLOW_NOTLS_PASSWORDS = true
-
 # The next three settings create two lists of domains and one list of hosts.
 # These lists are referred to later in this configuration using the syntax
 # +local_domains, +relay_to_domains, and +relay_from_hosts, respectively. They
@@ -1103,13 +1099,11 @@ plain_virtual_exim:
                              AND enabled = 1 \
                            }}}{1}{0}}
         server_set_id = $auth2
-    .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-      server_advertise_condition = ${if or{\
-        {!eq{$tls_cipher}{}}\
-        {match_ip {$sender_host_address}{@[]}}\
-        }\
-        {*}{}}
-    .endif
+        server_advertise_condition = ${if or{\
+          {!eq{$tls_cipher}{}}\
+          {match_ip {$sender_host_address}{@[]}}\
+          }\
+          {*}{}}
 
 login_virtual_exim:
         driver = plaintext
@@ -1121,13 +1115,11 @@ login_virtual_exim:
                              AND enabled = 1 \
                            }}}{1}{0}}
         server_set_id = $auth1
-    .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-      server_advertise_condition = ${if or{\
-        {!eq{$tls_cipher}{}}\
-        {match_ip {$sender_host_address}{@[]}}\
-        }\
-        {*}{}}
-    .endif
+        server_advertise_condition = ${if or{\
+          {!eq{$tls_cipher}{}}\
+          {match_ip {$sender_host_address}{@[]}}\
+          }\
+          {*}{}}
 
 
 # You can use the authenticator of your IMAP server (Courier or Dovecot) to authenticate
@@ -1152,13 +1144,11 @@ login_virtual_exim:
 #               {yes} \
 #               fail}
 #   server_set_id = $auth2
-#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-#     server_advertise_condition = ${if or{\
-#       {!eq{$tls_cipher}{}}\
-#       {match_ip {$sender_host_address}{@[]}}\
-#       }\
-#       {*}{}}
-#   .endif
+#   server_advertise_condition = ${if or{\
+#     {!eq{$tls_cipher}{}}\
+#     {match_ip {$sender_host_address}{@[]}}\
+#     }\
+#     {*}{}}
 #
 # login_courier_authdaemon:
 #   driver = plaintext
@@ -1171,13 +1161,11 @@ login_virtual_exim:
 #               {yes} \
 #               fail}
 #   server_set_id = $auth1
-#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-#     server_advertise_condition = ${if or{\
-#       {!eq{$tls_cipher}{}}\
-#       {match_ip {$sender_host_address}{@[]}}\
-#       }\
-#       {*}{}}
-#   .endif
+#   server_advertise_condition = ${if or{\
+#     {!eq{$tls_cipher}{}}\
+#     {match_ip {$sender_host_address}{@[]}}\
+#     }\
+#     {*}{}}
 
 # Authenticate against Dovecot SASL
 # Based on: http://wiki2.dovecot.org/HowTo/EximAndDovecotSASL
@@ -1187,26 +1175,22 @@ login_virtual_exim:
 #   public_name = LOGIN
 #   server_socket = /var/run/dovecot/auth-client
 #   server_set_id = $auth1
-#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-#     server_advertise_condition = ${if or{\
-#       {!eq{$tls_cipher}{}}\
-#       {match_ip {$sender_host_address}{@[]}}\
-#       }\
-#       {*}{}}
-#   .endif
+#   server_advertise_condition = ${if or{\
+#     {!eq{$tls_cipher}{}}\
+#     {match_ip {$sender_host_address}{@[]}}\
+#     }\
+#     {*}{}}
 #
 # plain_dovecot_sasl:
 #   driver = dovecot
 #   public_name = PLAIN
 #   server_socket = /var/run/dovecot/auth-client
 #   server_set_id = $auth1
-#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-#     server_advertise_condition = ${if or{\
-#       {!eq{$tls_cipher}{}}\
-#       {match_ip {$sender_host_address}{@[]}}\
-#       }\
-#       {*}{}}
-#   .endif
+#   server_advertise_condition = ${if or{\
+#     {!eq{$tls_cipher}{}}\
+#     {match_ip {$sender_host_address}{@[]}}\
+#     }\
+#     {*}{}}
 
 
 ######################################################################
