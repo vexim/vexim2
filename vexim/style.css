@@ -63,6 +63,14 @@ td.trash {
 	padding-right: 3px;
 }
 
+td.padafter {
+        padding-bottom:1em;
+}
+
+td.padbefore {
+	padding-top:1em;
+}
+
 tr.disabled a {
        color:#666;
 }
@@ -137,6 +145,10 @@ body>#Header {height:28px;}
 	border: 1px dashed #999; 
 	padding: 10px; 
 	overflow: visible;
+}
+
+form.login {
+	margin-top:3em;
 }
 
 #Centered {

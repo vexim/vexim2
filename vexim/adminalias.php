@@ -97,7 +97,7 @@
         }
       ?>
       <tr>
-        <td colspan="4" style="padding-top:1em">
+        <td colspan="4" class="padbefore">
           <b><?php echo _('Note'); ?>:</b>
           <?php
             echo _('You can only have one catchall per domain.')

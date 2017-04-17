@@ -52,7 +52,7 @@
             }
           ?>
         <tr>
-          <td style="padding-top:1em">
+          <td class="padbefore">
             <a href="logout.php"><?php echo _('Logout'); ?></a>
           </td>
         </tr>
