@@ -16,7 +16,8 @@
 		die();
 	}
 
-	if ($_SESSION['username'] != "siteadmin"){
+	if ($_SESSION['username'] !== 'siteadmin')
+	{
 		header ("Location: index.php?login=failed");
 		die();
 	}
