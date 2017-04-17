@@ -51,6 +51,10 @@
   */
   $passwordstrengthcheck = 1;
 
+  /* Enable Content Security Policy (CSP) to prevent cross-site scripting
+     and other code-injection attacks. */
+  $CSPenabled = false;
+
   /* The UID's and GID's control the default UID and GID for new domains
      and if postmasters can define their own.
      THE UID AND GID MUST BE NUMERIC! */
