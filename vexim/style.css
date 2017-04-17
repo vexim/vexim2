@@ -129,6 +129,12 @@ body>#Header {height:28px;}
   font-size: 12pt;
   color: #09c;
 }
+
+#SiteadminHome {
+  float: right;
+  margin-right: 20px;
+}
+
 #Content {
 	margin: 0px 50px 50px 250px;
 	padding:10px;
