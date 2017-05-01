@@ -41,7 +41,7 @@
       <input type="submit" name="search"
         value="<?php echo _('search'); ?>">
     </form>
-    <table>
+    <table class="zebra">
       <tr>
         <th></th>
         <th><?php echo _('Local domains'); ?></th>
@@ -93,6 +93,13 @@
             }
           ?>
             <td><?php echo $row['count']; ?></td>
+          <?php
+            if (isset($siteadminManageDomains) && $siteadminManageDomains) {
+          ?>
+            <td><a href="admin.php?manage_domain_id=<?php echo $row['domain_id']; ?>">manage</a></td>
+          <?php
+            }
+          ?>
            </tr>
           <?php
         }
@@ -158,9 +165,9 @@
           </tr>
       <?php
         }
-		
+
 		# display status of $AllowUserLogin
-		echo '<tr><td colspan="3">&nbsp;</td></tr>';       
+		echo '<tr><td colspan="3">&nbsp;</td></tr>';
 		if($AllowUserLogin){
 		    echo '<tr><td colspan="3">'._('Standard user accounts are currently able to login and change their own personal details').'.</td></tr>';
 		}else{
