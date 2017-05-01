@@ -192,6 +192,13 @@ av_scanner = clamd:/var/run/clamav/clamd
 
 spamd_address = 127.0.0.1 783
 
+# User who passes mails to spamassassin. He should have a home directory in order
+# to save configuration and scanning data (e.g. for Bayes filter). The default 
+# vexim-user can be used for this purpose. If the user does not exist, SpamAssassin 
+# will fall back to "nobody" and default settings, with all consequences.
+
+VEXIM_SA_USERNAME = vexim
+
 # Specify the domain you want to be added to all unqualified addresses
 # here. An unqualified address is one that does not contain an "@" character
 # followed by a domain. For example, "caesar@rome.example" is a fully qualified
