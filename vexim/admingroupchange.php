@@ -27,14 +27,14 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div id="Forms">
-	<?php 
+	<?php
 		# ensure this page can only be used to view/edit aliases that already exist for the domain of the admin account
-		if (!$sth->rowCount()) {			
+		if (!$sth->rowCount()) {
 			echo '<table align="center"><tr><td>';
-			echo "Invalid groupid '" . htmlentities($_GET['group_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
+			echo "Invalid groupid '" . htmlentities($_GET['group_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";
 			echo '</td></tr></table>';
 		}else{
-	?>	
+	?>
       <table align="center">
         <form name="groupchange" method="post"
           action="admingroupchangesubmit.php">
@@ -74,7 +74,7 @@
           <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
-          <td colspan="2"> 
+          <td colspan="2">
             <?php
               $query = "SELECT u.realname, u.localpart, u.enabled, c.member_id
                 FROM users u, group_contents c
@@ -97,8 +97,8 @@
               <tr>
                 <td class="trash">
                   <a href="admingroupcontentdeletesubmit.php?group_id=<?php echo $_GET['group_id'];
-					?>&member_id=<?php echo $row['member_id']; 
-					?>&localpart=<?php echo $grouplocalpart; 
+					?>&member_id=<?php echo $row['member_id'];
+					?>&localpart=<?php echo $grouplocalpart;
 					?>">
                     <img class="trash"
                       title="Remove member <?php echo $row['realname']
@@ -151,10 +151,10 @@
                   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
                   while ($row = $sth->fetch()) {
                 ?>
-                  <option value="<?php echo $row['user_id']; 
-					?>"><?php echo $row['realname']; 
+                  <option value="<?php echo $row['user_id'];
+					?>"><?php echo $row['realname'];
 					?> (<?php echo $row['localpart'].'@'.$_SESSION['domain']; ?>)</option>
-                <?php 
+                <?php
                   }
                 ?>
               </select>
@@ -168,10 +168,10 @@
           </tr>
         </form>
       </table>
-		<?php 		
+		<?php
 			# end of the block editing a group within the domain
-		}  
-		?>		  
+		}
+		?>
     </div>
   </body>
 </html>

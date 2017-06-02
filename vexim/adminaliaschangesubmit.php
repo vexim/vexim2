@@ -4,17 +4,17 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  # confirm that the postmaster is updating an alias they are permitted to change before going further  
+  # confirm that the postmaster is updating an alias they are permitted to change before going further
   $query = "SELECT localpart,realname,smtp,on_spamassassin,sa_tag,sa_refuse,spam_drop,
-    admin,enabled FROM users 
+    admin,enabled FROM users
 	WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
   if (!$sth->rowCount()) {
 	  header ("Location: adminalias.php?failupdated={$_POST['localpart']}");
-	  die();  
+	  die();
   }
-  
+
   # Fix the boolean values
   if (isset($_POST['admin'])) {
     $_POST['admin'] = 1;
@@ -45,7 +45,7 @@
   # Update the password, if the password was given
   if(isset($_POST['password']) && $_POST['password']!=='' ){
 	if (validate_password($_POST['password'], $_POST['vpassword'])) {
-          if (!password_strengthcheck($_POST['password'])) {  
+          if (!password_strengthcheck($_POST['password'])) {
             header ("Location: adminalias.php?weakpass={$_POST['localpart']}");
             die;
           }
@@ -53,7 +53,7 @@
 		$query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
           $sth = $dbh->prepare($query);
           $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
-        
+
 		if ($success) {
 			if ($_POST['localpart'] == $_SESSION['localpart']) {
 				$_SESSION['crypt'] = $cryptedpassword;

@@ -9,7 +9,7 @@ Installing Courier-IMAP 2.x on FreeBSD:
       cp imapd.dist imapd
       vi imapd
 
-Installing Courier-IMAP on Debian: 
+Installing Courier-IMAP on Debian:
       apt-get install courier-imap courier-imap-ssl courier-pop courier-pop-ssl courier-authlib-mysql courier-authdaemon
 
 

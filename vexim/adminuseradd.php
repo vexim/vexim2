@@ -119,7 +119,7 @@
             <td><?php echo _('Anti-Virus'); ?>:</td>
             <td colspan="2"><input name="on_avscan" type="checkbox"></td>
           </tr>
-          <?php } 
+          <?php }
             if ($row['spamassassin'] == "1") {
           ?>
           <tr>

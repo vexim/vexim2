@@ -5,7 +5,7 @@
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
-    if (!password_strengthcheck($_POST['clear'])) {       
+    if (!password_strengthcheck($_POST['clear'])) {
       header ("Location: site.php?weakpass=siteadmin");
       die;
     }
