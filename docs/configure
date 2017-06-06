@@ -424,6 +424,10 @@ acl_check_rcpt:
   # access (if tests below it fail).
 
   accept  domains       = +local_domains
+          condition     = ${if eq {1}{${lookup mysql{select count(*) from users,domains \
+                          where localpart = '${quote_mysql:$local_part}' \
+                          and domain = '${quote_mysql:$domain}' \
+                          and users.type = 'fail'}}} {no}{yes}}
           endpass
           verify        = recipient
 
