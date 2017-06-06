@@ -208,7 +208,7 @@ acl_smtp_mime = acl_check_mime
 # This configuration variable defines the virus scanner that is used with
 # the 'malware' ACL condition of the exiscan acl-patch. If you do not use
 # virus scanning, leave it commented. Please read:
-# http://www.exim.org/exim-html-current/doc/html/spec_html/ch-content_scanning_at_acl_time.html 
+# http://www.exim.org/exim-html-current/doc/html/spec_html/ch-content_scanning_at_acl_time.html
 # for a list of supported scanners.
 
 av_scanner = clamd:/var/run/clamav/clamd
@@ -221,8 +221,8 @@ av_scanner = clamd:/var/run/clamav/clamd
 spamd_address = 127.0.0.1 783
 
 # User who passes mails to spamassassin. He should have a home directory in order
-# to save configuration and scanning data (e.g. for Bayes filter). The default 
-# vexim-user can be used for this purpose. If the user does not exist, SpamAssassin 
+# to save configuration and scanning data (e.g. for Bayes filter). The default
+# vexim-user can be used for this purpose. If the user does not exist, SpamAssassin
 # will fall back to "nobody" and default settings, with all consequences.
 
 VEXIM_SA_USERNAME = vexim

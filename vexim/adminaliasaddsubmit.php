@@ -76,7 +76,7 @@
       die;
     }
     $query = "INSERT INTO users
-      (localpart, username, domain_id, crypt, smtp, pop, uid, gid, realname, type, admin, on_avscan, 
+      (localpart, username, domain_id, crypt, smtp, pop, uid, gid, realname, type, admin, on_avscan,
        on_spamassassin, sa_tag, sa_refuse, spam_drop, enabled)
       SELECT :localpart, :username, :domain_id, :crypt, :smtp, :pop, uid, gid, :realname, 'alias', :admin,
       :on_avscan, :on_spamassassin, :sa_tag, :sa_refuse, :spam_drop, :enabled
@@ -99,7 +99,7 @@
        ':spam_drop'=>(isset($_POST['spam_drop']) ? $_POST['spam_drop'] : 0),
        ':enabled' => $_POST['enabled']
        ));
-       
+
 
     if ($success) {
       header ("Location: adminalias.php?added={$_POST['localpart']}");
@@ -108,6 +108,6 @@
     }
   } else {
     header ("Location: adminalias.php?badaliaspass={$_POST['localpart']}");
-  } 
+  }
 ?>
 <!-- Layout and CSS tricks obtained from http://www.bluerobot.com/web/layouts/ -->

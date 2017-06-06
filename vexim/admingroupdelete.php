@@ -5,15 +5,15 @@
 
   if(array_key_exists('confirm', $_GET)) {
     if ($_GET['confirm'] == '1') {
-      # confirm that the user is deleting a group they are permitted to change before going further  
+      # confirm that the user is deleting a group they are permitted to change before going further
 	  $query = "SELECT * FROM groups WHERE id=:group_id AND domain_id=:domain_id";
       $sth = $dbh->prepare($query);
       $sth->execute(array(':group_id'=>$_GET['group_id'], ':domain_id'=>$_SESSION['domain_id']));
 	  if (!$sth->rowCount()) {
   	    header ("Location: admingroup.php?group_faildeleted={$_GET['localpart']}");
-	    die();  
+	    die();
 	  }
-	
+
       # delete group member first
       $query = "DELETE FROM group_contents WHERE group_id=:group_id";
       $sth = $dbh->prepare($query);

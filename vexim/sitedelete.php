@@ -13,7 +13,7 @@
   if(!isset($_GET['type'])) {
       $_GET['type'] = null;
   }
-  
+
   // Delete the domain's users
   if (($_POST['confirm'] == "1") && ($_POST['type'] != "alias")) {
     $usrdelquery = "DELETE FROM users WHERE domain_id=:domain_id";

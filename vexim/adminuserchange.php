@@ -287,7 +287,7 @@
                   <?php echo $rowuserlist['realname']; ?>
                   (<?php echo $rowuserlist['username']; ?>)
                 </option>
-              <?php 
+              <?php
                 }
               ?>
             </select>
@@ -399,7 +399,7 @@
       ?>
             <tr>
               <td>
-                <a href="adminuserblocksubmit.php?action=delete&user_id=<?php 
+                <a href="adminuserblocksubmit.php?action=delete&user_id=<?php
 					print $_GET['user_id']
 					. '&block_id='
 					. $blockrow['block_id']
@@ -417,10 +417,10 @@
         }
       ?>
     </table>
-	<?php 		
+	<?php
 		# end of the block editing an alias within the domain
-	}  
-	?>	
+	}
+	?>
     </div>
   </body>
 </html>

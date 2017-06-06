@@ -152,7 +152,7 @@ If you are using PGSQL, uncomment the following four lines:
 ```
 Depending on the database type you are using, you will need to uncomment the appropriate lines in the config, to enable lookups.
 
-These control which domains you accept mail for and deliver locally (local_domains), which domains you accept mail for and deliver remotely (relay_to_domains), which IP addresses are allowed to send mail to any domain (relay_from_hosts) and which system users are considered trusted (trusted_users). More on these options – in Exim documentation. 
+These control which domains you accept mail for and deliver locally (local_domains), which domains you accept mail for and deliver remotely (relay_to_domains), which IP addresses are allowed to send mail to any domain (relay_from_hosts) and which system users are considered trusted (trusted_users). More on these options – in Exim documentation.
 ```
 domainlist local_domains = @ : example.org : ${lookup mysql{VIRTUAL_DOMAINS}} : ${lookup mysql{ALIAS_DOMAINS}}
 domainlist relay_to_domains = ${lookup mysql{RELAY_DOMAINS}}
@@ -181,7 +181,7 @@ exim_group = mail
 ```
 Also it is assumed that the mysql domain socket is /tmp/mysql.sock, which is where the FreeBSD port puts it. Other installations put it in /var/tmp, /usr/lib, or any number of other places. If yours isn't /tmp/mysql.sock, you will need to set this.
 
-TLS is activated by default. We suppose that you already created a SSL key and certificate. 
+TLS is activated by default. We suppose that you already created a SSL key and certificate.
 ```
 tls_certificate = /etc/exim4/exim.crt
 tls_privatekey = /etc/exim4/exim.key
@@ -198,7 +198,7 @@ The Diffie-Hellman group should have at least 1024 bit and can be created with t
 In `tls_require_ciphers`, currently (2016) secure ciphers are selected. It works by default on GnuTLS setups (Debian/Ubuntu). If your distribution uses OpenSSL (e.g. FreeBSD, CentOS), comment the block `tls_require_ciphers = ...` and uncomment the line `openssl_options = ...`. If you are not sure, the output of `exim -bV` will show either GnuTLS or OpenSSL.
 
 
-###### ACL's: 
+###### ACL's:
 We have split all of the ACL's into separate files, to make managing them easier. Please review the ACL section of the configure file. If there are ACL's you would rather not have executed, please comment out the '.include' line that references them, or edit the ACL file directly and comment them out.
 
 ###### DEBIAN:

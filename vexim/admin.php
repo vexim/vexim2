@@ -59,7 +59,7 @@
         <tr><td></td></tr>
         <tr><td></td></tr>
         <?php
-          $query = "SELECT alias,domain FROM domainalias,domains 
+          $query = "SELECT alias,domain FROM domainalias,domains
             WHERE domainalias.domain_id=:domain_id
             AND domains.domain_id = domainalias.domain_id";
           $sth = $dbh->prepare($query);

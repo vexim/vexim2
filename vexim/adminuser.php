@@ -33,7 +33,7 @@
           WHERE users.domain_id=:domain_id
           AND domains.domain_id=users.domain_id
           AND (users.type='local' OR users.type='piped')
-          GROUP BY max_accounts"; 
+          GROUP BY max_accounts";
         $sth = $dbh->prepare($query);
         $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
         $row = $sth->fetch();
@@ -72,7 +72,7 @@
           <th><?php echo _('Admin'); ?></th>
         </tr>
         <?php
-        $query = "SELECT user_id, localpart, realname, admin, enabled 
+        $query = "SELECT user_id, localpart, realname, admin, enabled
           FROM users
           WHERE domain_id=:domain_id
           AND  (type = 'local' OR type= 'piped')";
