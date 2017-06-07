@@ -34,7 +34,7 @@
       <form name="userchange" method="post" action="userchangesubmit.php">
         <table align="center">
 	  <tr><td><?php echo _("Name"); ?>:</td><td><input name="realname" type="text" value="<?php print $row['realname']; ?>" class="textfield" autofocus></td></tr>
-	  <tr><td><?php echo _("Email Address"); ?>:</td><td><?php print $row['localpart']."@".$_SESSION['domain']; ?></td>
+	  <tr><td><?php echo _("Email address"); ?>:</td><td><?php print $row['localpart']."@".$_SESSION['domain']; ?></td>
 	  <tr><td><?php echo _("Password"); ?>:</td><td><input name="clear" type="password" class="textfield"></td></tr>
 	  <tr><td class="padafter"><?php echo _("Verify Password"); ?>:</td><td><input name="vclear" type="password" class="textfield"></td></tr>
    	  <tr><td colspan="2"><b><?php echo _("Note:"); ?></b> <?php echo _("Attempting to set blank passwords does not work!"); ?><td></tr>
@@ -131,7 +131,7 @@
           </td></tr>
   	  <tr><td><?php echo _("Forward mail to");?>:</td>
 	    <td><input type="text" name="forward" id="forward" value="<?php print $row['forward']; ?>" class="textfield"><br>
-          <?php echo _("Enter full e-mail addresses, use commas to separate them."); ?>
+          <?php echo _("Enter full e-mail addresses, use commas to separate them"); ?>
         </td></tr>
   	  <tr><td><?php echo  _("Store Forwarded Mail Locally");?>:</td>
   	    <td><input name="unseen" type="checkbox"

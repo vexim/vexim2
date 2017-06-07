@@ -60,7 +60,7 @@
           </td>
         </tr>
         <tr>
-          <td><?php echo _('Email Address'); ?>:</td>
+          <td><?php echo _('Email address'); ?>:</td>
           <td><?php print $row['username']; ?></td>
         </tr>
         <tr>
@@ -112,12 +112,12 @@
         ?>
             <tr>
                <td>
-                 <?php printf (_('Mailbox quota (%s MB max)'),
+                 <?php printf (_('Mailbox quota (%s Mb max)'),
                    $domrow['quotas']); ?>:</td>
                 <td>
                   <input type="text" size="5" name="quota" class="textfield"
                     value="<?php echo ($domrow['quotas'] == 0 ? $row['quota'] : ($row['quota'] == 0 ? $domrow['quotas'] : min($domrow['quotas'], $row['quota']))); ?>">
-                    <?php echo _('MB'); ?>
+                    <?php echo _('Mb'); ?>
                 </td>
               </tr>
           <?php
@@ -132,7 +132,7 @@
               printf ("<tr><td>"
                 . _('Space used:')
                 . "</td><td>"
-                . _('%.2f MB')
+                . _('%.2f Mb')
                 . "</td></tr>",
                 $quota['STORAGE']['usage'] / 1024);
               }
@@ -150,7 +150,7 @@
           <tr>
             <td colspan="2" class="padafter">
               <?php echo _('Optional'); ?>:
-              <?php echo _('Pipe all mail to a command (e.g. procmail).'); ?>
+              <?php echo _('Pipe all mail to a command (e.g. procmail)'); ?>
               <br>
               <?php echo _('Check box below to enable'); ?>:
             </td>

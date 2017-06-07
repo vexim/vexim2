@@ -37,7 +37,7 @@
       <form name="failchange" method="post" action="adminfailchangesubmit.php">
 	<table align="center">
 	  <tr>
-            <td><?php echo _('Fail address'); ?>:</td>
+            <td><?php echo _('Address to fail'); ?>:</td>
 	    <td>
               <input name="localpart" type="text"
                 value="<?php print $row['localpart']; ?>" class="textfield" autofocus>@

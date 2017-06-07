@@ -66,10 +66,10 @@
           $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
 
           if($sth->rowCount()) {
-            print '<tr><td>Domain data:</td></tr>';
+            print '<tr><td>' . _('Domain data:'). '</td></tr>';
             while ($row = $sth->fetch()) {
               print '<tr><td>';
-              print "{$row['alias']} is an alias of {$_SESSION['domain']}";
+              print "{$row['alias']} " . _('is an alias of') . " {$_SESSION['domain']}";
               print '</td></tr>';
             }
           }

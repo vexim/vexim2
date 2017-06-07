@@ -21,7 +21,7 @@
   <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
-      <a href="admingroup.php"><?php echo _('Manage Groups'); ?></a><br>
+      <a href="admingroup.php"><?php echo _('Manage groups'); ?></a><br>
       <a href="admingroupadd.php"><?php echo _('Add Group'); ?></a></br>
       <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
@@ -88,7 +88,7 @@
               <tr>
                 <th>&nbsp;</th>
                 <th><?php echo _('Real name'); ?></th>
-                <th><?php echo _('Email Address'); ?></th>
+                <th><?php echo _('Email address'); ?></th>
                 <th><?php echo _('Enabled'); ?></th>
               </tr>
               <?php

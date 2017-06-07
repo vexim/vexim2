@@ -60,6 +60,14 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+#: admin.php:69
+msgid "Domain data:"
+msgstr ""
+
+#: admin.php:72
+msgid "is an alias of"
+msgstr ""
+
 #: adminalias.php:9 adminaliasadd.php:14 adminaliaschange.php:26
 #: admincatchall.php:16 admincatchalladd.php:9 adminfail.php:9
 #: adminfailadd.php:9 adminfailchange.php:16 adminuser.php:21
@@ -154,7 +162,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: adminaliasadd.php:56
+#: adminaliasadd.php:56 adminaliaschange.php:91
 msgid ""
 "Password only needed if you want the user to be able\n"
 "              to log in, or if the Alias is the admin account"
@@ -167,7 +175,7 @@ msgid "Verify Password"
 msgstr ""
 
 #: adminaliasadd.php:74 adminaliaschange.php:114 adminuseradd.php:120
-#: adminuserchange.php:200 userchange.php:64
+#: adminuserchange.php:200 userchange.php:64 sitechange.php:107
 msgid "Anti-Virus"
 msgstr ""
 
@@ -191,12 +199,12 @@ msgstr ""
 msgid "How to handle mail above the SA refuse score"
 msgstr ""
 
-#: adminaliasadd.php:101
-msgid "forward Spam mails"
+#: adminaliasadd.php:101 adminaliaschange.php:154 userchange.php:102
+msgid "forward spam mails"
 msgstr ""
 
-#: adminaliasadd.php:103
-msgid "delete Spam mails"
+#: adminaliasadd.php:103 adminaliaschange.php:157
+msgid "delete spam mails"
 msgstr ""
 
 #: adminaliasadd.php:108 adminaliaschange.php:164 admingroup.php:25
@@ -213,22 +221,8 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: adminaliaschange.php:72 userchange.php:146
-msgid "Enter full e-mail addresses, use commas to separate them."
-msgstr ""
-
-#: adminaliaschange.php:91
-msgid ""
-"Password only needed if you want the user to be\n"
-"              able to log in, or if the Alias is the admin account"
-msgstr ""
-
-#: adminaliaschange.php:154 userchange.php:102
-msgid "forward spam mails"
-msgstr ""
-
-#: adminaliaschange.php:157
-msgid "delete spam mails"
+#: adminaliaschange.php:72 userchange.php:146 adminuserchange.php:296
+msgid "Enter full e-mail addresses, use commas to separate them"
 msgstr ""
 
 #: adminaliasdelete.php:30 admingroupdelete.php:45 adminuserdelete.php:71
@@ -293,12 +287,8 @@ msgstr ""
 msgid "Manage Fails"
 msgstr ""
 
-#: adminfailadd.php:23
+#: adminfailadd.php:23 adminfailchange.php:39
 msgid "Address to fail"
-msgstr ""
-
-#: adminfailchange.php:39
-msgid "Fail address"
 msgstr ""
 
 #: admingroup.php:8
@@ -310,7 +300,7 @@ msgstr ""
 msgid "Add Group"
 msgstr ""
 
-#: admingroup.php:23 adminuser.php:62 adminuser.php:70
+#: admingroup.php:23 adminuser.php:62 adminuser.php:70 admingroupchange.php:90 adminuserchange.php:79 userchange.php:40
 msgid "Email address"
 msgstr ""
 
@@ -350,10 +340,6 @@ msgstr ""
 msgid "Real name"
 msgstr ""
 
-#: admingroupchange.php:90 adminuserchange.php:79 userchange.php:40
-msgid "Email Address"
-msgstr ""
-
 #: admingroupchange.php:126
 msgid "There are no members in this group"
 msgstr ""
@@ -372,7 +358,7 @@ msgid "Mailing List Administration"
 msgstr ""
 
 #: adminlists.php:18
-msgid "Add a list"
+msgid "Add list"
 msgstr ""
 
 #: adminlists.php:27
@@ -432,12 +418,12 @@ msgstr ""
 msgid "GID"
 msgstr ""
 
-#: adminuseradd.php:91
+#: adminuseradd.php:91 adminuserchange.php:131
 #, php-format
 msgid "Mailbox quota (%s Mb max)"
 msgstr ""
 
-#: adminuseradd.php:92 siteadd.php:109
+#: adminuseradd.php:92 siteadd.php:109 adminuserchange.php:136
 msgid "Mb"
 msgstr ""
 
@@ -453,7 +439,7 @@ msgstr ""
 msgid "Optional"
 msgstr ""
 
-#: adminuseradd.php:107
+#: adminuseradd.php:107 adminuserchange.php:169
 msgid "Pipe all mail to a command (e.g. procmail)"
 msgstr ""
 
@@ -502,15 +488,6 @@ msgid ""
 "                directories!"
 msgstr ""
 
-#: adminuserchange.php:131
-#, php-format
-msgid "Mailbox quota (%s MB max)"
-msgstr ""
-
-#: adminuserchange.php:136
-msgid "MB"
-msgstr ""
-
 #: adminuserchange.php:149
 #, php-format
 msgid "Space used:"
@@ -518,15 +495,11 @@ msgstr ""
 
 #: adminuserchange.php:151
 #, php-format
-msgid "%.2f MB"
+msgid "%.2f Mb"
 msgstr ""
 
 #: adminuserchange.php:160
 msgid "Pipe to command or alternative Maildir"
-msgstr ""
-
-#: adminuserchange.php:169
-msgid "Pipe all mail to a command (e.g. procmail)."
 msgstr ""
 
 #: adminuserchange.php:175
@@ -551,10 +524,6 @@ msgstr ""
 
 #: adminuserchange.php:292 userchange.php:144
 msgid "Forward mail to"
-msgstr ""
-
-#: adminuserchange.php:296
-msgid "Enter full e-mail addresses, use commas to separate them"
 msgstr ""
 
 #: adminuserchange.php:297
@@ -1007,10 +976,6 @@ msgstr ""
 
 #: sitechange.php:87
 msgid "Max mailbox quota in MB"
-msgstr ""
-
-#: sitechange.php:107
-msgid "Anti-virus"
 msgstr ""
 
 #: sitechange.php:111

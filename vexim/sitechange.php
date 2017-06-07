@@ -105,7 +105,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 <td><input type="checkbox" name="spamassassin" <?php if ($row['spamassassin'] == 1) {print "checked";} ?>></td>
             </tr>
             <tr>
-                <td><?php echo _("Anti-virus"); ?>:</td>
+                <td><?php echo _("Anti-Virus"); ?>:</td>
                 <td><input type="checkbox" name="avscan" <?php if ($row['avscan'] == 1) {print "checked";} ?>></td>
             </tr>
             <tr>

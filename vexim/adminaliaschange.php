@@ -70,7 +70,7 @@
           <tr>
             <td colspan="2" class="padafter">
               <?php
-                echo _('Enter full e-mail addresses, use commas to separate them.');
+                echo _('Enter full e-mail addresses, use commas to separate them');
               ?>
             </td>
           </tr>
@@ -89,8 +89,8 @@
           </tr>
           <tr>
             <td colspan="2" class="padafter">
-              (<?php echo _('Password only needed if you want the user to be
-              able to log in, or if the Alias is the admin account'); ?>)
+              (<?php echo _('Password only needed if you want the user to be able
+              to log in, or if the Alias is the admin account'); ?>)
             </td>
           </tr>
           <tr

@@ -99,9 +99,9 @@
             <td><?php echo _('How to handle mail above the SA refuse score'); ?>:</td>
             <td>
              <input type="radio" id="off" name="spam_drop" value="0" checked>
-             <label for="off"> <?PHP echo _('forward Spam mails'); ?></label><br>
+             <label for="off"> <?PHP echo _('forward spam mails'); ?></label><br>
              <input type="radio" id="on" name="spam_drop" value="1">
-             <label for="on"><?PHP echo _('delete Spam mails'); ?></label><br>
+             <label for="on"><?PHP echo _('delete spam mails'); ?></label><br>
             </td>
           </tr>
           <?php } ?>
