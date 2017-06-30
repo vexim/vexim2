@@ -24,17 +24,23 @@
       $usrdelquery = "DELETE FROM blocklists WHERE domain_id=:domain_id";
       $usrdelsth = $dbh->prepare($usrdelquery);
       $usrdelsuccess = $usrdelsth->execute(array(':domain_id'=>$_POST['domain_id']));
-      // if we were successful, delete the domain itself
-      if ($usrdelsuccess) {
-        $domdelquery = "DELETE FROM domains WHERE domain_id=:domain_id";
-        $domdelsth = $dbh->prepare($domdelquery);
-        $domdelsuccess = $domdelsth->execute(array(':domain_id'=>$_POST['domain_id']));
-        // If everything went well, redirect to a success page.
+      // if we were successful, delete the domain's aliases
+      if($usrdelsuccess) {
+	$aliasdelquery = "DELETE FROM domainalias WHERE domain_id=:domain_id";
+        $aliasdelsth = $dbh->prepare($aliasdelquery);
+        $aliasdelsuccess = $aliasdelsth->execute(array(':domain_id'=>$_POST['domain_id']));
+        // if we were successful, delete the domain itself
+        if ($aliasdelsuccess) {
+          $domdelquery = "DELETE FROM domains WHERE domain_id=:domain_id";
+          $domdelsth = $dbh->prepare($domdelquery);
+          $domdelsuccess = $domdelsth->execute(array(':domain_id'=>$_POST['domain_id']));
+          // If everything went well, redirect to a success page.
 	    if ($domdelsuccess) {
 	      header ("Location: site.php?deleted={$_POST['domain']}");
 	      die;
 	    }
-      }
+        }
+      }	
     } else {
       header ("Location: site.php?faildeleted={$_POST['domain']}");
       die;
