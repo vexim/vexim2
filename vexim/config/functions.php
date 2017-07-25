@@ -119,7 +119,7 @@
                   "?LETTER=ALL' class='alpha'>ALL</a>&nbsp;&nbsp; ";
             // loops through the alphabet.
             // For international alphabets, replace the string in the proper order
-            foreach (preg_split('//', _("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), -1,
+            foreach (preg_split('//u', _("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), -1,
                                 PREG_SPLIT_NO_EMPTY) as $i)
             {
       	        print "<a href='" . $_SERVER['PHP_SELF'] .
