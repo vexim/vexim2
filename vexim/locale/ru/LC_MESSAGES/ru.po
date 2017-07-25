@@ -890,7 +890,7 @@ msgid ""
 "Standard user accounts are currently able to login and change their own "
 "personal details"
 msgstr ""
-"Обычные пользователи теперь могут заходить и менять свои персональные настройки"
+"Обычные пользователи теперь могут заходить и менять свои "
 "персональные настройки"
 
 #: site.php:166
