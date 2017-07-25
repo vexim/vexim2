@@ -790,6 +790,10 @@ msgstr ""
 msgid "Login failed"
 msgstr ""
 
+#: config/header.php:117
+msgid "siteadmin home"
+msgstr ""
+
 #: index.php:17
 msgid "Username"
 msgstr ""

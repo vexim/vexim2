@@ -791,7 +791,8 @@ msgstr "-- Ошибка получения UID/GID для %s"
 #, php-format
 msgid ""
 "-- Domain Mail directory must be an absolute path, but “%s” was provided"
-msgstr "-- Почтовая папка домена должна быть задана абсолютным путём, но “%s” не указан"
+msgstr ""
+"-- Почтовая папка домена должна быть задана абсолютным путём, но “%s” не указан"
 
 #: config/header.php:100
 #, php-format
@@ -818,6 +819,10 @@ msgstr "-- Доступ запрещён. Пожалуйста, обратите
 #: config/header.php:108 index.php:39
 msgid "Login failed"
 msgstr "Ошибка доступа"
+
+#: config/header.php:117
+msgid "siteadmin home"
+msgstr "Главная страница админки"
 
 #: index.php:17
 msgid "Username"
