@@ -17,7 +17,7 @@
 
 # Finally 'the rest' which is handled by the profile form
   if (preg_match("/^\s*$/",$_POST['blockval'])) { header("Location: userchange.php"); die; }
-  $query = "INSERT INTO blocklists (domain_id, user_id, blockhdr, blockval, color) values (
+  $query = "INSERT INTO blocklists (`domain_id`, `user_id`, `blockhdr`, `blockval`, `color`) values (
       :domain_id, :user_id, :blockhdr, :blockval, :color)";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':domain_id'=>$_SESSION['domain_id'], ':user_id'=>$_SESSION['user_id'],
