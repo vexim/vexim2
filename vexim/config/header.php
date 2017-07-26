@@ -114,6 +114,6 @@
   }
   if (isset($_GET['login']) && ($_GET['login'] == "failed")) { print _("Login failed"); }
 
-  if ($validateAsSiteadmin) print '<a href="site.php" id="SiteadminHome">siteadmin home</a>';
+  if ($validateAsSiteadmin) print '<a href="site.php" id="SiteadminHome">' . _('siteadmin home') . '</a>';
 
   print "</p></div>";
