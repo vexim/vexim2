@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
 
   # confirm that the user is updating a group they are permitted to change before going further
-  $query = "SELECT * FROM groups WHERE id=:group_id AND domain_id=:domain_id";
+  $query = "SELECT * FROM groups WHERE `id`=:group_id AND `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':group_id'=>$_POST['group_id'], ':domain_id'=>$_SESSION['domain_id']));
   if (!$sth->rowCount()) {
@@ -17,7 +17,7 @@
     header("Location: admingroup.php?badname={$_POST['usertoadd']}");
     die;
   }
-  $query = "INSERT INTO group_contents (group_id, member_id) VALUES (:group_id, :usertoadd)";
+  $query = "INSERT INTO group_contents (`group_id`, `member_id`) VALUES (:group_id, :usertoadd)";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':group_id'=>$_POST['group_id'], ':usertoadd'=>$_POST['usertoadd']));
   if ($success) {

@@ -14,8 +14,8 @@
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminaliasadd.php"><?php echo _('Add Alias'); ?></a></br>
-      <?php $query = "SELECT user_id,realname,smtp,localpart FROM users
-        WHERE domain_id=:domain_id AND type='catch'";
+      <?php $query = "SELECT `user_id`,`realname`,`smtp`,`localpart` FROM users
+        WHERE `domain_id`=:domain_id AND `type`='catch'";
         $sth = $dbh->prepare($query);
         $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
         if (!$sth->rowCount()) {
@@ -60,10 +60,10 @@
           print '<td class="check">';
           print '</tr>';
         }
-        $query = "SELECT user_id,localpart,smtp,realname,type,admin,enabled
+        $query = "SELECT `user_id`,`localpart`,`smtp`,`realname`,`type`,`admin`,`enabled`
           FROM users
-          WHERE domain_id=:domain_id AND type='alias'
-		  ORDER BY localpart;";
+          WHERE `domain_id`=:domain_id AND `type`='alias'
+		  ORDER BY `localpart`";
         $sth = $dbh->prepare($query);
         $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
         if ($sth->rowCount()) {

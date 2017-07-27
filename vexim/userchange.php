@@ -4,15 +4,15 @@
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
-  $domquery = "SELECT avscan,spamassassin FROM domains WHERE domain_id=:domain_id";
+  $domquery = "SELECT `avscan`,`spamassassin` FROM domains WHERE `domain_id`=:domain_id";
   $domsth = $dbh->prepare($domquery);
   $success = $domsth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($success) { $domrow = $domsth->fetch(); }
-  $query = "SELECT * FROM users WHERE user_id=:user_id";
+  $query = "SELECT * FROM users WHERE `user_id`=:user_id";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':user_id'=>$_SESSION['user_id']));
   if ($success) { $row = $sth->fetch(); }
-  $blockquery = "SELECT block_id,blockhdr,blockval FROM blocklists,users
+  $blockquery = "SELECT `block_id`,`blockhdr`,`blockval` FROM blocklists,users
               WHERE blocklists.user_id=:user_id
 		AND users.user_id=blocklists.user_id";
   $blocksth = $dbh->prepare($blockquery);
@@ -34,7 +34,7 @@
       <form name="userchange" method="post" action="userchangesubmit.php">
         <table align="center">
 	  <tr><td><?php echo _("Name"); ?>:</td><td><input name="realname" type="text" value="<?php print $row['realname']; ?>" class="textfield" autofocus></td></tr>
-	  <tr><td><?php echo _("Email Address"); ?>:</td><td><?php print $row['localpart']."@".$_SESSION['domain']; ?></td>
+	  <tr><td><?php echo _("Email address"); ?>:</td><td><?php print $row['localpart']."@".$_SESSION['domain']; ?></td>
 	  <tr><td><?php echo _("Password"); ?>:</td><td><input name="clear" type="password" class="textfield"></td></tr>
 	  <tr><td class="padafter"><?php echo _("Verify Password"); ?>:</td><td><input name="vclear" type="password" class="textfield"></td></tr>
    	  <tr><td colspan="2"><b><?php echo _("Note:"); ?></b> <?php echo _("Attempting to set blank passwords does not work!"); ?><td></tr>
@@ -131,7 +131,7 @@
           </td></tr>
   	  <tr><td><?php echo _("Forward mail to");?>:</td>
 	    <td><input type="text" name="forward" id="forward" value="<?php print $row['forward']; ?>" class="textfield"><br>
-          <?php echo _("Enter full e-mail addresses, use commas to separate them."); ?>
+          <?php echo _("Enter full e-mail addresses, use commas to separate them"); ?>
         </td></tr>
   	  <tr><td><?php echo  _("Store Forwarded Mail Locally");?>:</td>
   	    <td><input name="unseen" type="checkbox"

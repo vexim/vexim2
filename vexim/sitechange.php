@@ -28,9 +28,9 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 <td><?php echo _("Admin"); ?>:</td>
                 <td><select name="localpart" class="textfield" autofocus>
                         <?php
-                        $query = "SELECT localpart,domain FROM users,domains
+                        $query = "SELECT `localpart`,`domain` FROM users,domains
                             WHERE domains.domain_id=:domain_id
-                            AND admin=1 AND users.domain_id=domains.domain_id";
+                            AND `admin`=1 AND users.domain_id=domains.domain_id";
                         $sth = $dbh->prepare($query);
                         $sth->execute(array(':domain_id' => $_GET['domain_id']));
                         while ($row = $sth->fetch()) {
@@ -38,7 +38,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                         }
                         ?>
                     </select>@<?php
-                    $query = "SELECT * FROM domains WHERE domain_id=:domain_id";
+                    $query = "SELECT * FROM domains WHERE `domain_id`=:domain_id";
                     $sth = $dbh->prepare($query);
                     $sth->execute(array(':domain_id' => $_GET['domain_id']));
                     if ($sth->rowCount()) {
@@ -105,7 +105,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 <td><input type="checkbox" name="spamassassin" <?php if ($row['spamassassin'] == 1) {print "checked";} ?>></td>
             </tr>
             <tr>
-                <td><?php echo _("Anti-virus"); ?>:</td>
+                <td><?php echo _("Anti-Virus"); ?>:</td>
                 <td><input type="checkbox" name="avscan" <?php if ($row['avscan'] == 1) {print "checked";} ?>></td>
             </tr>
             <tr>

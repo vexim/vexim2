@@ -15,8 +15,8 @@
   } else {
     $_POST['enabled'] = 0;
   }
-  $query = "SELECT avscan,spamassassin from domains
-    WHERE domain_id=:domain_id";
+  $query = "SELECT `avscan`,`spamassassin` from domains
+    WHERE `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   $row = $sth->fetch();
@@ -76,9 +76,9 @@
       die;
     }
     $query = "INSERT INTO users
-      (localpart, username, domain_id, crypt, smtp, pop, uid, gid, realname, type, admin, on_avscan,
-       on_spamassassin, sa_tag, sa_refuse, spam_drop, enabled)
-      SELECT :localpart, :username, :domain_id, :crypt, :smtp, :pop, uid, gid, :realname, 'alias', :admin,
+      (`localpart`, `username`, `domain_id`, `crypt`, `smtp`, `pop`, `uid`, `gid`, `realname`, `type`, `admin`, `on_avscan`,
+       `on_spamassassin`, `sa_tag`, `sa_refuse`, `spam_drop`, `enabled`)
+      SELECT :localpart, :username, :domain_id, :crypt, :smtp, :pop, `uid`, `gid`, :realname, `alias`, :admin,
       :on_avscan, :on_spamassassin, :sa_tag, :sa_refuse, :spam_drop, :enabled
       FROM domains
       WHERE domains.domain_id=:domain_id";

@@ -24,10 +24,10 @@
         <th><?php echo _('Failed Address'); ?>..</th>
       </tr>
       <?php
-        $query = "SELECT user_id,localpart FROM users
-          WHERE domain_id=:domain_id
+        $query = "SELECT `user_id`,`localpart` FROM users
+          WHERE `domain_id`=:domain_id
           AND users.type='fail'
-          ORDER BY localpart;";
+          ORDER BY `localpart`";
         $sth = $dbh->prepare($query);
         $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
         if ($sth->rowCount()) {

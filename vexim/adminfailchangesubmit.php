@@ -4,8 +4,8 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  $query = "UPDATE users SET localpart=:localpart, username=:username
-    WHERE user_id=:user_id AND domain_id=:domain_id AND type='fail'";
+  $query = "UPDATE users SET `localpart`=:localpart, `username`=:username
+    WHERE `user_id`=:user_id AND `domain_id`=:domain_id AND `type`='fail'";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
     ':username'=>$_POST['localpart'].'@'.$_SESSION['domain'],

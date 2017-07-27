@@ -17,7 +17,7 @@
   $query = "SELECT users.crypt,users.username,users.user_id,users.localpart,domains.domain,domains.domain_id,users.admin,users.type,
   domains.enabled AS domainenabled, users.enabled AS userenabled
   FROM users,domains
-  WHERE username=:username
+  WHERE `username`=:username
   AND users.domain_id = domains.domain_id";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':username'=>$_POST['username']));

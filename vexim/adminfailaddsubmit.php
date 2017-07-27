@@ -17,10 +17,10 @@
     die;
   }
 
-  $query = "INSERT INTO users (localpart, username, domain_id, smtp, pop,
-    uid, gid, type, realname) SELECT :localpart,
-    :username, :domain_id, ':fail:', ':fail:', uid, gid, 'fail',
-    'Fail' FROM domains WHERE domain_id=:domain_id";
+  $query = "INSERT INTO users (`localpart`, `username`, `domain_id`, `smtp`, `pop`,
+    `uid`, `gid`, `type`, `realname`) SELECT :localpart,
+    :username, :domain_id, ':fail:', ':fail:', `uid`, `gid`, 'fail',
+    'Fail' FROM domains WHERE `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
       ':username'=>$_POST['localpart'].'@'.$_SESSION['domain'],

@@ -16,7 +16,7 @@
   <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
-      <?php print "<a href=\"$mailmanroot/create\">" . _('Add a list') . '</a><br>'; ?>
+      <?php print "<a href=\"$mailmanroot/create\">" . _('Add list') . '</a><br>'; ?>
       <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>

@@ -13,9 +13,9 @@
   if(!$success) {
     header ("Location: adminalias.php?failupdated=Catchall");
   } else {
-    $query = "INSERT INTO users (localpart, username, domain_id, smtp,
-      pop, uid, gid, realname, type, enabled) SELECT '*',
-        :domain, :domain_id, :smtp, :smtp, uid, gid, 'CatchAll', 'catch',
+    $query = "INSERT INTO users (`localpart`, `username`, `domain_id`, `smtp`,
+      `pop`, `uid`, `gid`, `realname`, `type`, `enabled`) SELECT '*',
+        :domain, :domain_id, :smtp, :smtp, `uid`, `gid`, 'CatchAll', 'catch',
         '1' FROM domains WHERE domains.domain_id=:domain_id";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':domain'=>'*@'.$_SESSION['domain'], ':domain_id'=>$_SESSION['domain_id'], ':smtp'=>$_POST['smtp']));

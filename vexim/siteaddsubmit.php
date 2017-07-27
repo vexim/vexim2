@@ -74,7 +74,7 @@
   }
 
   if ($_POST['type'] === "alias") {
-    $query = "INSERT INTO domainalias (domain_id, alias)
+    $query = "INSERT INTO domainalias (`domain_id`, `alias`)
               SELECT domains.domain_id, :alias FROM domains WHERE domains.domain_id=:domain_id";
     $sth = $dbh->prepare($query);
     $sth->execute(array(':domain_id'=>$_POST['aliasdest'], ':alias'=>$_POST['domain']));
@@ -98,9 +98,9 @@
 	}
     }
     $query = "INSERT INTO domains 
-              (domain, spamassassin, sa_tag, sa_refuse, avscan,
-              max_accounts, quotas, maildir, pipe, enabled, uid, gid,
-              type, maxmsgsize)
+              (`domain`, `spamassassin`, `sa_tag`, `sa_refuse`, `avscan`,
+              `max_accounts`, `quotas`, `maildir`, `pipe`, `enabled`, `uid`, `gid`,
+              `type`, `maxmsgsize`)
               VALUES (:domain, :spamassassin, :sa_tag, :sa_refuse,
               :avscan, :max_accounts, :quotas, :maildir, :pipe, :enabled,
               :uid, :gid, :type, :maxmsgsize)";
@@ -119,8 +119,8 @@
     if ($success) {
       if ($_POST['type'] == "local") {
         $query = "INSERT INTO users
-          (domain_id, localpart, username, crypt, uid, gid, smtp, pop, realname, type, admin)
-           SELECT domain_id, :localpart, :username, :crypt, :uid, :gid, :smtp, :pop, 'Domain Admin', 'local', 1
+          (`domain_id`, `localpart`, `username`, `crypt`, `uid`, `gid`, `smtp`, `pop`, `realname`, `type`, `admin`)
+           SELECT `domain_id`, :localpart, :username, :crypt, :uid, :gid, :smtp, :pop, 'Domain Admin', 'local', 1
             FROM domains
             WHERE domains.domain=:domain";
         $sth = $dbh->prepare($query);

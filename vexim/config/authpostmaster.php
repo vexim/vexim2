@@ -25,7 +25,7 @@
 	$domain_id = $validateAsSiteadmin ? $_SESSION['siteadmin_domain_id'] : $_SESSION['domain_id'];
 
 	# Match the session details to an admin account the domain of the postmaster
-	$query = "SELECT crypt FROM users WHERE user_id=:user_id AND domain_id=:domain_id AND admin='1';";
+	$query = "SELECT `crypt` FROM users WHERE `user_id`=:user_id AND `domain_id`=:domain_id AND `admin`=1";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':user_id'=>$_SESSION['user_id'], ':domain_id'=>$domain_id));
     if(!$success || ($sth->rowCount()!=1)) {
@@ -47,7 +47,7 @@
 	    && isset($_GET['manage_domain_id'])
 	    )
 	{
-		$query = "SELECT domain FROM domains WHERE domain_id=:domain_id;";
+		$query = "SELECT `domain` FROM domains WHERE `domain_id`=:domain_id";
 		$sth = $dbh->prepare($query);
 		$success = $sth->execute(array(':domain_id'=>$_GET['manage_domain_id']));
 		if(!$success || ($sth->rowCount()!=1)) {

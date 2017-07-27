@@ -5,8 +5,8 @@
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
   # confirm that the postmaster is updating a user they are permitted to change before going further  
-  $query = "SELECT * FROM users WHERE user_id=:user_id
-		AND domain_id=:domain_id AND (type='local' OR type='piped')";
+  $query = "SELECT * FROM users WHERE `user_id`=:user_id
+		AND `domain_id`=:domain_id AND (`type`='local' OR `type`='piped')";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
   if (!$sth->rowCount()) {
@@ -16,9 +16,9 @@
   $account = $sth->fetch();
  
   # Fix the boolean values
-  $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas,maxmsgsize
+  $query = "SELECT `avscan`,`spamassassin`,`pipe`,`uid`,`gid`,`quotas`,`maxmsgsize`
     FROM domains
-    WHERE domain_id=:domain_id";
+    WHERE `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($sth->rowCount()) {
@@ -108,9 +108,9 @@
   }
 
   # Prevent de-admining the last admin
-  $query = "SELECT COUNT(user_id) AS count FROM users
-    WHERE admin=1 AND domain_id=:domain_id
-	AND (type='local' OR type='piped')
+  $query = "SELECT COUNT(`user_id`) AS `count` FROM users
+    WHERE `admin`=1 AND `domain_id`=:domain_id
+	AND (`type`='local' OR `type`='piped')
     AND user_id!=:user_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id'], ':user_id'=>$_POST['user_id']));
@@ -121,7 +121,7 @@
   }
 
   # Set the appropriate maildirs
-  $query = "SELECT maildir FROM domains WHERE domain_id=:domain_id";
+  $query = "SELECT `maildir` FROM domains WHERE `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   $row = $sth->fetch();
@@ -144,8 +144,8 @@
       }
        $cryptedpassword = crypt_password($_POST['clear']);
       $query = "UPDATE users
-        SET crypt=:crypt WHERE localpart=:localpart
-        AND domain_id=:domain_id";
+        SET `crypt`=:crypt WHERE `localpart`=:localpart
+        AND `domain_id`=:domain_id";
       $sth = $dbh->prepare($query);
       $success = $sth->execute(array(':crypt'=>$cryptedpassword,
           ':localpart'=>$_POST['localpart'], ':domain_id'=>$_SESSION['domain_id']));
@@ -170,26 +170,26 @@
     $vacation = '';
   }
 
-  $query = "UPDATE users SET uid=:uid,
-    gid=:gid, smtp=:smtp, pop=:pop,
-    realname=:realname,
-    admin=:admin,
-    on_avscan=:on_avscan,
-    on_forward=:on_forward,
-    on_piped=:on_piped,
-    on_spamassassin=:on_spamassassin,
-    on_vacation=:on_vacation,
-    enabled=:enabled,
-    forward=:forward,
-    maxmsgsize=:maxmsgsize,
-    quota=:quota,
-    sa_tag=:sa_tag,
-    sa_refuse=:sa_refuse,
-    spam_drop=:spam_drop,
-    type=:type,
-    vacation=:vacation,
-    unseen=:unseen
-    WHERE user_id=:user_id";
+  $query = "UPDATE users SET `uid`=:uid,
+    `gid`=:gid, `smtp`=:smtp, `pop`=:pop,
+    `realname`=:realname,
+    `admin`=:admin,
+    `on_avscan`=:on_avscan,
+    `on_forward`=:on_forward,
+    `on_piped`=:on_piped,
+    `on_spamassassin`=:on_spamassassin,
+    `on_vacation`=:on_vacation,
+    `enabled`=:enabled,
+    `forward`=:forward,
+    `maxmsgsize`=:maxmsgsize,
+    `quota`=:quota,
+    `sa_tag`=:sa_tag,
+    `sa_refuse`=:sa_refuse,
+    `spam_drop`=:spam_drop,
+    `type`=:type,
+    `vacation`=:vacation,
+    `unseen`=:unseen
+    WHERE `user_id`=:user_id";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':uid'=>$_POST['uid'], ':gid'=>$_POST['gid'],
     ':smtp'=>$smtphomepath, ':pop'=>$pophomepath, ':realname'=>$_POST['realname'],

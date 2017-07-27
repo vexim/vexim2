@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  $query = "SELECT localpart FROM users WHERE user_id=:user_id AND domain_id=:domain_id AND users.type='fail'";
+  $query = "SELECT `localpart` FROM users WHERE `user_id`=:user_id AND `domain_id`=:domain_id AND users.type='fail'";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
   if($sth->rowCount()) {
@@ -37,7 +37,7 @@
       <form name="failchange" method="post" action="adminfailchangesubmit.php">
 	<table align="center">
 	  <tr>
-            <td><?php echo _('Fail address'); ?>:</td>
+            <td><?php echo _('Address to fail'); ?>:</td>
 	    <td>
               <input name="localpart" type="text"
                 value="<?php print $row['localpart']; ?>" class="textfield" autofocus>@

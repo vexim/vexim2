@@ -24,7 +24,7 @@ switch ($action) {
 
     // Process SpamAssassin
     if (isset($_POST['on_spamassassin']) && ($_POST['on_spamassassin'] == '1' || $_POST['on_spamassassin'] == '0')) {
-        $query = "UPDATE users SET on_spamassassin=:on_spamassassin WHERE domain_id=:domain_id";
+        $query = "UPDATE users SET `on_spamassassin`=:on_spamassassin WHERE `domain_id`=:domain_id";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array(
             ':domain_id' => $_POST['allusers'],
@@ -33,7 +33,7 @@ switch ($action) {
 
     // Process Anti-Virus
     if (isset($_POST['on_avscan']) && $success && ($_POST['on_avscan'] == '1' || $_POST['on_avscan'] == '0')) {
-        $query = "UPDATE users SET on_avscan=:on_avscan WHERE domain_id=:domain_id";
+        $query = "UPDATE users SET `on_avscan`=:on_avscan WHERE `domain_id`=:domain_id";
         $sth = $dbh->prepare($query);
         $success = $sth->execute(array(
             ':domain_id' => $_POST['allusers'],
@@ -47,7 +47,7 @@ switch ($action) {
         header ("Location: site.php?weakpass={$_POST['domain']}");
         die;
       }
-      $query = "UPDATE users SET crypt=:crypt WHERE localpart=:localpart AND domain_id=:domain_id";
+      $query = "UPDATE users SET `crypt`=:crypt WHERE `localpart`=:localpart AND `domain_id`=:domain_id";
       $sth = $dbh->prepare($query);
       $success = $sth->execute(array(
           ':crypt' => crypt_password($_POST['clear']),
@@ -115,11 +115,11 @@ switch ($action) {
       header("Location: site.php?failuidguid={$_POST['domain']}");
       die;
     }
-    $query = "UPDATE domains SET uid=:uid, gid=:gid, avscan=:avscan,
-            maxmsgsize=:maxmsgsize, pipe=:pipe, max_accounts=:max_accounts,
-            quotas=:quotas, sa_tag=:sa_tag, sa_refuse=:sa_refuse,
-            spamassassin=:spamassassin, enabled=:enabled
-            WHERE domain_id=:domain_id";
+    $query = "UPDATE domains SET `uid`=:uid, `gid`=:gid, `avscan`=:avscan,
+            `maxmsgsize`=:maxmsgsize, `pipe`=:pipe, `max_accounts`=:max_accounts,
+            `quotas`=:quotas, `sa_tag`=:sa_tag, `sa_refuse`=:sa_refuse,
+            `spamassassin`=:spamassassin, `enabled`=:enabled
+            WHERE `domain_id`=:domain_id";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':uid' => $uid, ':gid' => $gid,
         ':avscan' => $_POST['avscan'], ':maxmsgsize' => $_POST['maxmsgsize'],

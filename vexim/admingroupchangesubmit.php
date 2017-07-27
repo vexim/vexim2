@@ -12,9 +12,9 @@
     header("Location: admingroupchange.php?group_id={$_POST['group_id']}&badname={$_POST['localpart']}");
     die;
   }
-  $query = "UPDATE groups SET name=:localpart,
-    enabled=:enabled, is_public=:is_public
-    WHERE id=:group_id AND domain_id=:domain_id";
+  $query = "UPDATE groups SET `name`=:localpart,
+    `enabled`=:enabled, `is_public`=:is_public
+    WHERE `id`=:group_id AND `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':localpart'=>$_POST['localpart'], ':enabled'=>$_POST['enabled'],
       ':is_public'=>$_POST['is_public'], ':group_id'=>$_POST['group_id'], ':domain_id'=>$_SESSION['domain_id']));

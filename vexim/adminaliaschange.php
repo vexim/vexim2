@@ -3,16 +3,16 @@
   include_once dirname(__FILE__) . '/config/authpostmaster.php';
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
-  $query = "SELECT localpart,realname,smtp,on_avscan,on_spamassassin,sa_tag,sa_refuse,spam_drop,
-    admin,enabled FROM users
-	WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
+  $query = "SELECT `localpart`,`realname`,`smtp`,`on_avscan`,`on_spamassassin`,`sa_tag`,`sa_refuse`,`spam_drop`,
+    `admin`,`enabled` FROM users
+	WHERE `user_id`=:user_id AND `domain_id`=:domain_id AND `type`='alias'";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
   if ($sth->rowCount()) {
     $row = $sth->fetch();
   }
-  $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains
-    WHERE domain_id=:domain_id";
+  $domquery = "SELECT `avscan`,`spamassassin`,`quotas`,`pipe` FROM domains
+    WHERE `domain_id`=:domain_id";
   $domsth = $dbh->prepare($domquery);
   $domsth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($domsth->rowCount()) {
@@ -70,7 +70,7 @@
           <tr>
             <td colspan="2" class="padafter">
               <?php
-                echo _('Enter full e-mail addresses, use commas to separate them.');
+                echo _('Enter full e-mail addresses, use commas to separate them');
               ?>
             </td>
           </tr>
@@ -89,8 +89,8 @@
           </tr>
           <tr>
             <td colspan="2" class="padafter">
-              (<?php echo _('Password only needed if you want the user to be
-              able to log in, or if the Alias is the admin account'); ?>)
+              (<?php echo _('Password only needed if you want the user to be able
+              to log in, or if the Alias is the admin account'); ?>)
             </td>
           </tr>
           <tr

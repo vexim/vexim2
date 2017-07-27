@@ -71,8 +71,8 @@
     {
         $query = "SELECT COUNT(*) AS c
                   FROM   users
-                  WHERE  localpart=:localpart
-                  AND    domain_id=:domain_id";
+                  WHERE  `localpart`=:localpart
+                  AND    `domain_id`=:domain_id";
         $sth = $dbh->prepare($query);
         $sth->execute(array(':localpart'=>$localpart, ':domain_id'=>$domain_id));
         $row = $sth->fetch();
@@ -119,7 +119,7 @@
                   "?LETTER=ALL' class='alpha'>ALL</a>&nbsp;&nbsp; ";
             // loops through the alphabet.
             // For international alphabets, replace the string in the proper order
-            foreach (preg_split('//', _("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), -1,
+            foreach (preg_split('//u', _("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), -1,
                                 PREG_SPLIT_NO_EMPTY) as $i)
             {
       	        print "<a href='" . $_SERVER['PHP_SELF'] .

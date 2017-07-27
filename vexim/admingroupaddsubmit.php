@@ -16,7 +16,7 @@
     $dbh,$_POST['localpart'],$_SESSION['domain_id'],'admingroup.php'
   );
 
-  $query = "INSERT INTO groups (name, domain_id)
+  $query = "INSERT INTO groups (`name`, `domain_id`)
     VALUES (:localpart, :domain_id)";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':localpart'=>$_POST['localpart'], ':domain_id'=>$_SESSION['domain_id']));
