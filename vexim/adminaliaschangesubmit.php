@@ -5,9 +5,9 @@
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
   # confirm that the postmaster is updating an alias they are permitted to change before going further
-  $query = "SELECT localpart,realname,smtp,on_spamassassin,sa_tag,sa_refuse,spam_drop,
-    admin,enabled FROM users
-	WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
+  $query = "SELECT `localpart`,`realname`,`smtp`,`on_spamassassin`,`sa_tag`,`sa_refuse`,`spam_drop`,
+    `admin`,`enabled` FROM users
+	WHERE `user_id`=:user_id AND `domain_id`=:domain_id AND `type`='alias'";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
   if (!$sth->rowCount()) {
@@ -26,8 +26,8 @@
   } else {
     $_POST['enabled'] = 0;
   }
-  $query = "SELECT avscan,spamassassin from domains
-    WHERE domain_id=:domain_id";
+  $query = "SELECT `avscan`,`spamassassin` from domains
+    WHERE `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   $row = $sth->fetch();
@@ -50,7 +50,7 @@
             die;
           }
 		$cryptedpassword = crypt_password($_POST['password']);
-		$query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
+		$query = "UPDATE users SET `crypt`=:crypt WHERE `user_id`=:user_id AND `domain_id`=:domain_id AND `type`='alias'";
           $sth = $dbh->prepare($query);
           $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':user_id'=>$_POST['user_id'], ':domain_id'=>$_SESSION['domain_id']));
 
@@ -78,13 +78,12 @@
     }
   }
   $aliasto = implode(",",$forwardto);
-  $query = "UPDATE users SET localpart=:localpart,
-    username=:username, smtp=:smtp, pop=:pop,
-    realname=:realname, admin=:admin, on_avscan=:on_avscan,
-    on_spamassassin=:on_spamassassin, sa_tag=:sa_tag, sa_refuse=:sa_refuse,
-    spam_drop=:spam_drop,enabled=:enabled
-    WHERE user_id=:user_id
-	AND domain_id=:domain_id AND type='alias'";
+  $query = "UPDATE users SET `localpart`=:localpart,
+    `username`=:username, `smtp`=:smtp, `pop`=:pop,
+    `realname`=:realname, `admin`=:admin, `on_avscan`=:on_avscan,
+    `on_spamassassin`=:on_spamassassin, `sa_tag`=:sa_tag, `sa_refuse`=:sa_refuse,
+    `spam_drop`=:spam_drop,`enabled`=:enabled
+    WHERE `user_id`=:user_id AND `domain_id`=:domain_id AND `type`='alias'";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(
     ':localpart'=>$_POST['localpart'],

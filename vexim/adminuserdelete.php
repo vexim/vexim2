@@ -5,9 +5,9 @@
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
 # confirm that the postmaster is looking to delete a user they are permitted to change before going further
-$query = "SELECT * FROM users WHERE user_id=:user_id
-	AND domain_id=:domain_id
-	AND (type='local' OR type='piped')";
+$query = "SELECT * FROM users WHERE `user_id`=:user_id
+	AND `domain_id`=:domain_id
+	AND (`type`='local' OR `type`='piped')";
 $sth = $dbh->prepare($query);
 $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
 if (!$sth->rowCount()) {
@@ -18,10 +18,10 @@ if(!isset($_GET['confirm'])) { $_GET['confirm'] = null; }
 
 if ($_GET['confirm'] == '1') {
   # prevent deleting the last admin
-  $query = "SELECT COUNT(user_id) AS count FROM users
-    WHERE admin=1 AND domain_id=:domain_id
-	AND (type='local' OR type='piped')
-    AND user_id!=:user_id";
+  $query = "SELECT COUNT(`user_id`) AS count FROM users
+    WHERE `admin`=1 AND `domain_id`=:domain_id
+	AND (`type`='local' OR `type`='piped')
+    AND `user_id`!=:user_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id'], ':user_id'=>$_GET['user_id']));
   $row = $sth->fetch();
@@ -49,10 +49,10 @@ if ($_GET['confirm'] == '1') {
     header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
     die;
 } else {
-  $query = "SELECT COUNT(user_id) AS count FROM users
-    WHERE admin=1 AND domain_id=:domain_id
-	AND (type='local' OR type='piped')
-    AND user_id!=:user_id";
+  $query = "SELECT COUNT(`user_id`) AS `count` FROM users
+    WHERE `admin`=1 AND `domain_id`=:domain_id
+	AND (`type`='local' OR `type`='piped')
+    AND `user_id`!=:user_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id'], ':user_id'=>$_GET['user_id']));
   $row = $sth->fetch();
@@ -60,7 +60,7 @@ if ($_GET['confirm'] == '1') {
     header ("Location: adminuser.php?lastadmin={$_GET['localpart']}");
     die;
   }
-  $query = "SELECT localpart FROM users WHERE user_id=:user_id";
+  $query = "SELECT `localpart` FROM users WHERE `user_id`=:user_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_GET['user_id']));
   if ($sth->rowCount()) { $row = $sth->fetch(); }

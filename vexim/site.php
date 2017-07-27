@@ -49,20 +49,20 @@
         <th><?php echo _('Total admins'); ?></th>
       </tr>
       <?php
-        $query = "SELECT MIN(localpart) AS localpart, domain,
-          domains.domain_id, count(*) AS count, domains.enabled AS enabled
+        $query = "SELECT MIN(`localpart`) AS `localpart`, `domain`,
+          domains.domain_id, count(*) AS `count`, domains.enabled AS `enabled`
           FROM   users, domains
           WHERE  users.domain_id = domains.domain_id
-          AND    domain !='admin' AND admin=1";
+          AND    `domain`!='admin' AND `admin`=1";
         $queryParams = array();
         if ($alphadomains AND $letter != '') {
-          $query .= " AND lower(domain) LIKE lower(:letter)";
+          $query .= " AND lower(`domain`) LIKE lower(:letter)";
           $queryParams[':letter'] = $letter.'%';
         } elseif ($_POST['searchfor'] != '') {
-          $query .= " AND domain LIKE :searchfor";
+          $query .= " AND `domain` LIKE :searchfor";
           $queryParams[':searchfor'] = '%'.$_POST['searchfor'].'%';
         }
-        $query .= " GROUP BY domains.domain, domains.domain_id ORDER BY domain";
+        $query .= " GROUP BY domains.domain, domains.domain_id ORDER BY `domain`";
         $sth = $dbh->prepare($query);
         $sth->execute($queryParams);
         while ($row = $sth->fetch()) {
@@ -121,8 +121,8 @@
       </tr>
       <?php
         $query = "SELECT domain,domain_id FROM domains
-        WHERE domain !='admin'
-        AND type='relay' ORDER BY domain";
+        WHERE `domain`!='admin'
+        AND `type`='relay' ORDER BY `domain`";
         $sth = $dbh->query($query);
         while ($row = $sth->fetch()) {
       ?>
@@ -145,7 +145,7 @@
         <th><?php echo _('Aliased domains'); ?></th>
       </tr>
       <?php
-        $query = "SELECT alias,domain,domains.domain_id AS domain_id FROM domainalias,domains
+        $query = "SELECT `alias`,`domain`,domains.domain_id AS `domain_id` FROM domainalias,domains
           WHERE domainalias.domain_id = domains.domain_id";
         $sth = $dbh->query($query);
         while ($row = $sth->fetch()) {

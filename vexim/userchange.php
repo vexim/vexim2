@@ -4,15 +4,15 @@
   include_once dirname(__FILE__) . "/config/functions.php";
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
-  $domquery = "SELECT avscan,spamassassin FROM domains WHERE domain_id=:domain_id";
+  $domquery = "SELECT `avscan`,`spamassassin` FROM domains WHERE `domain_id`=:domain_id";
   $domsth = $dbh->prepare($domquery);
   $success = $domsth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($success) { $domrow = $domsth->fetch(); }
-  $query = "SELECT * FROM users WHERE user_id=:user_id";
+  $query = "SELECT * FROM users WHERE `user_id`=:user_id";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':user_id'=>$_SESSION['user_id']));
   if ($success) { $row = $sth->fetch(); }
-  $blockquery = "SELECT block_id,blockhdr,blockval FROM blocklists,users
+  $blockquery = "SELECT `block_id`,`blockhdr`,`blockval` FROM blocklists,users
               WHERE blocklists.user_id=:user_id
 		AND users.user_id=blocklists.user_id";
   $blocksth = $dbh->prepare($blockquery);

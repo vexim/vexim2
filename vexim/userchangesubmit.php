@@ -22,8 +22,8 @@
     $_POST['unseen']=0;
 
     # confirm that the postmaster is updating a user they are permitted to change before going further
-    $query = "SELECT * FROM users WHERE user_id=:user_id
-              AND domain_id=:domain_id AND (type='local' OR type='piped')";
+    $query = "SELECT * FROM users WHERE `user_id`=:user_id
+              AND `domain_id`=:domain_id AND (`type`='local' OR `type`='piped')";
     $sth = $dbh->prepare($query);
     $sth->execute(array(':user_id'=>$_SESSION['user_id'], ':domain_id'=>$_SESSION['domain_id']));
     $account = $sth->fetch();
@@ -31,7 +31,7 @@
   }
 
   # Do some checking, to make sure the user is ALLOWED to make these changes
-  $query = "SELECT avscan,spamassassin,maxmsgsize from domains WHERE domain_id=:domain_id";
+  $query = "SELECT `avscan`,`spamassassin`,`maxmsgsize` from domains WHERE `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   $row = $sth->fetch();
@@ -46,8 +46,8 @@
   }
 
   if (isset($_POST['realname']) && $_POST['realname']!=="") {
-    $query = "UPDATE users SET realname=:realname
-		WHERE user_id=:user_id";
+    $query = "UPDATE users SET `realname`=:realname
+		WHERE `user_id`=:user_id";
     $sth = $dbh->prepare($query);
     $sth->execute(array(':realname'=>$_POST['realname'], ':user_id'=>$_SESSION['user_id']));
   }
@@ -60,7 +60,7 @@
         die;
       }
       $cryptedpassword = crypt_password($_POST['clear']);
-      $query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id";
+      $query = "UPDATE users SET `crypt`=:crypt WHERE `user_id`=:user_id";
       $sth = $dbh->prepare($query);
       $success = $sth->execute(array(':crypt'=>$cryptedpassword, ':user_id'=>$_SESSION['user_id']));
       if ($success) {
@@ -87,13 +87,13 @@
   }
 
     # Finally 'the rest' which is handled by the profile form
-    $query = "UPDATE users SET on_avscan=:on_avscan,
-      on_spamassassin=:on_spamassassin, sa_tag=:sa_tag,
-      sa_refuse=:sa_refuse, on_vacation=:on_vacation,
-      vacation=:vacation, on_forward=:on_forward,
-      forward=:forward, maxmsgsize=:maxmsgsize,
-      unseen=:unseen, spam_drop=:spam_drop
-      WHERE user_id=:user_id";
+    $query = "UPDATE users SET `on_avscan`=:on_avscan,
+      `on_spamassassin`=:on_spamassassin, `sa_tag`=:sa_tag,
+      `sa_refuse`=:sa_refuse, `on_vacation`=:on_vacation,
+      `vacation`=:vacation, `on_forward`=:on_forward,
+      `forward`=:forward, `maxmsgsize`=:maxmsgsize,
+      `unseen`=:unseen, `spam_drop`=:spam_drop
+      WHERE `user_id`=:user_id";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':on_avscan'=>$_POST['on_avscan'],
       ':on_spamassassin'=>$_POST['on_spamassassin'],

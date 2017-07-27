@@ -26,8 +26,8 @@
   $_POST['localpart'] = preg_replace("/\s+$/","",$_POST['localpart']); 
 
   # get the settings for the domain 
-  $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas,maxmsgsize FROM domains 
-    WHERE domain_id=:domain_id";
+  $query = "SELECT `avscan`,`spamassassin`,`pipe`,`uid`,`gid`,`quotas`,`maxmsgsize` FROM domains 
+    WHERE `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($sth->rowCount()) {
@@ -107,7 +107,7 @@
     die;
   }
 
-  $query = "SELECT maildir FROM domains WHERE domain_id=:domain_id";
+  $query = "SELECT `maildir` FROM domains WHERE `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($sth->rowCount()) { $row = $sth->fetch(); }

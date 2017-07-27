@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
   $query = "SELECT * FROM domains
-    WHERE domain_id=:domain_id";
+    WHERE `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($sth->rowCount()) { $row = $sth->fetch(); }

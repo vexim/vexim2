@@ -71,8 +71,8 @@
     {
         $query = "SELECT COUNT(*) AS c
                   FROM   users
-                  WHERE  localpart=:localpart
-                  AND    domain_id=:domain_id";
+                  WHERE  `localpart`=:localpart
+                  AND    `domain_id`=:domain_id";
         $sth = $dbh->prepare($query);
         $sth->execute(array(':localpart'=>$localpart, ':domain_id'=>$domain_id));
         $row = $sth->fetch();

@@ -26,9 +26,9 @@
           <th><?php echo _('Enabled'); ?></th>
         </tr>
         <?php
-          $query = "SELECT id, name, is_public, enabled FROM groups
-            WHERE domain_id=:domain_id
-            ORDER BY NAME ASC";
+          $query = "SELECT `id`, `name`, `is_public`, `enabled` FROM groups
+            WHERE `domain_id`=:domain_id
+            ORDER BY `name` ASC";
           $sth = $dbh->prepare($query);
           $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
           while ($row = $sth->fetch()) {

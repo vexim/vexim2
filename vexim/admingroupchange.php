@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . "/config/functions.php";
 ?>
 <?php
-  $query = "SELECT * FROM groups WHERE id=:group_id AND domain_id=:domain_id";
+  $query = "SELECT * FROM groups WHERE `id`=:group_id AND `domain_id`=:domain_id";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':group_id'=>$_GET['group_id'], ':domain_id'=>$_SESSION['domain_id']));
   if($sth->rowCount()) {
@@ -144,9 +144,9 @@
               <select name="usertoadd">
                 <option selected value=""></option>
                 <?php
-                  $query = "SELECT realname, localpart, user_id FROM users
-                    WHERE enabled='1' AND domain_id=:domain_id AND type!='fail'
-                    ORDER BY realname, username, type desc";
+                  $query = "SELECT `realname`, `localpart`, `user_id` FROM users
+                    WHERE `enabled`=1 AND `domain_id`=:domain_id AND `type`!='fail'
+                    ORDER BY `realname`, `username`, `type` DESC";
                   $sth = $dbh->prepare($query);
                   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
                   while ($row = $sth->fetch()) {

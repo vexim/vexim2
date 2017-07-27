@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  $query = "SELECT * FROM users WHERE user_id=:user_id
+  $query = "SELECT * FROM users WHERE `user_id`=:user_id
 		AND domain_id=:domain_id
 		AND (type='local' OR type='piped')";
   $sth = $dbh->prepare($query);
@@ -12,14 +12,14 @@
   if ($sth->rowCount()) { $row = $sth->fetch(); }
   
   $username = $row['username'];
-  $domquery = "SELECT avscan,spamassassin,quotas,pipe FROM domains
-    WHERE domain_id=:domain_id";
+  $domquery = "SELECT `avscan`,`spamassassin`,`quotas`,`pipe` FROM domains
+    WHERE `domain_id`=:domain_id";
   $domsth = $dbh->prepare($domquery);
   $domsth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($domsth->rowCount()) {
     $domrow = $domsth->fetch();
   }
-  $blockquery = "SELECT blockhdr,blockval,block_id FROM blocklists
+  $blockquery = "SELECT `blockhdr`,`blockval`,`block_id` FROM blocklists
     WHERE blocklists.user_id=:user_id";
   $blocksth = $dbh->prepare($blockquery);
   $blocksth->execute(array(':user_id'=>$_GET['user_id']));
@@ -275,10 +275,10 @@
             <select name="forwardmenu" id="forwardmenu">
               <option selected value=""></option>
               <?php
-                $queryuserlist = "SELECT realname, username, user_id, unseen
+                $queryuserlist = "SELECT `realname`, `username`, `user_id`, `unseen`
                 FROM users
-                WHERE enabled='1' AND domain_id=:domain_id AND type != 'fail'
-                ORDER BY realname, username, type desc";
+                WHERE `enabled`=1 AND `domain_id`=:domain_id AND `type` != 'fail'
+                ORDER BY `realname`, `username`, `type` DESC";
                 $sthuserlist = $dbh->prepare($queryuserlist);
                 $sthuserlist->execute(array(':domain_id'=>$_SESSION['domain_id']));
                 while ($rowuserlist = $sthuserlist->fetch()) {
@@ -314,8 +314,8 @@
           <td colspan="2" class="padafter">
           <?php
             # Print the aliases associated with this account
-            $query = "SELECT user_id,localpart,domain,realname FROM users,domains
-              WHERE smtp=:smtp AND users.domain_id=domains.domain_id ORDER BY realname";
+            $query = "SELECT `user_id`,`localpart`,`domain`,`realname` FROM users,domains
+              WHERE `smtp`=:smtp AND users.domain_id=domains.domain_id ORDER BY `realname`";
             $sth = $dbh->prepare($query);
             $sth->execute(array(':smtp'=>$row['localpart'].'@'.$_SESSION['domain']));
             if ($sth->rowCount()) {
