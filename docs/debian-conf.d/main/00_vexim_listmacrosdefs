@@ -8,6 +8,7 @@ hide mysql_servers = localhost::(/var/run/mysqld/mysqld.sock)/vexim/vexim/CHANGE
 VEXIM_VIRTUAL_DOMAINS = SELECT DISTINCT domain FROM domains WHERE type = 'local' AND enabled = '1' AND domain = '${quote_mysql:$domain}'
 VEXIM_RELAY_DOMAINS = SELECT DISTINCT domain FROM domains WHERE type = 'relay'  AND domain = '${quote_mysql:$domain}'
 VEXIM_ALIAS_DOMAINS = SELECT DISTINCT alias FROM domainalias WHERE alias = '${quote_mysql:$domain}'
+VEXIM_OUTIP = SELECT DISTINCT out_ip FROM domains WHERE domain = '${quote_mysql:$domain}'
 
 # domains and relay networks
 MAIN_LOCAL_DOMAINS = MAIN_LOCAL_DOMAINS : ${lookup mysql{VEXIM_VIRTUAL_DOMAINS}} : ${lookup mysql{VEXIM_ALIAS_DOMAINS}}
@@ -15,6 +16,10 @@ MAIN_RELAY_TO_DOMAINS = MAIN_RELAY_TO_DOMAINS : ${lookup mysql{VEXIM_RELAY_DOMAI
 
 # primary hostname
 #MAIN_HARDCODE_PRIMARY_HOSTNAME=myhostname
+OUTGOING_IP_ADDRESSES = ${lookup mysql{VEXIM_OUTIP}}
+.ifndef OUTGOING_IP_ADDRESSES
+  OUTGOING_IP_ADDRESSES = 127.0.0.1 ; ::1
+.endif
 
 # add vexim system user
 #MAIN_TRUSTED_USERS = www-data
