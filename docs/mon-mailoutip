@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Vexim, out-IP check
+# by Markus Gschwendt
+# this script checks the out-IPs from the vexim domains table
+# if they are configured on any systems network interface
+# if not, then send an alert
+# per mail (sendmail, mailx) and xmpp/jabber (requires package sendxmpp)
+#
+# to run it hourly, put this in /etc/cron.hourly/mon-mailoutip
+# and make it executble chmod +x /etc/cron.hourly/mon-mailoutip
+
+MAILADR="root"
+XMPPADR='markus@jabber.runout.at'
+XMPPOPT='-t -a /etc/ssl/certs/'
+# XMPPUSER='-u <USER> -j <SERVER> -p <PASSWORD>'
+XMPPUSER='-u noc -j jabber.runout.at -p Noc-pwD17+3'
+
+DATE=$(date +%H:%M:%S)
+HOST=$(hostname -f)
+HOSTIP=$(ip addr show | grep "inet" | awk '{print $2}' | cut -d/ -f1)
+
+SUBJ="[monitoring] Vexim out-IP check"
+
+IFS_=${IFS}
+# get configured IPs from the system
+IP_CONF=$(ip addr show | grep inet)
+
+# query to retrieve all outgoing IPs for domains
+DB_QUERY='SELECT `domain`, `out_ip` from `domains` WHERE `out_ip` <> "";'
+
+# get DB credencials for the database from exim config files
+IFS="/"
+read DB_HOST DB_DB DB_USER DB_PW <<< \
+    "$(grep -hoP "^(hide.*|)?mysql_servers.*=(\s|\t)*\K.*" /etc/exim4/conf.d/main/*)"
+
+# query the database
+DOMAIN_LIST=$(echo "${DB_QUERY}" | \
+    mysql -N -B -u ${DB_USER} -p${DB_PW} -h ${DB_HOST} ${DB_DB} | \
+    sed "s/\t/,/g")
+
+IFS=","
+while read DOMAIN IP_LIST; do
+    IP_LIST=$(echo ${IP_LIST} | tr -d "[:space:]" | sed "s/;/\n/g")
+
+    # iterate through the IPs from the database
+    # and prepare a message body for the alert if the IP was not found in the config
+    while read IP; do
+        if [[ -z "$(echo ${IP_CONF} | grep ${IP})" ]]; then
+            BODY="${IP}\tfor ${DOMAIN}\n"
+        fi
+    done <<< "${IP_LIST}"
+
+done <<< "${DOMAIN_LIST}"
+
+IFS=${IFS_}
+
+# send the alert if ${BODY} is not empty
+# per mail and xmpp/jabber (requires sendxmpp)
+if [[ ! -z "${BODY// }" ]]; then
+    BODY="${DATE} - ${0} - ${HOST}\n\nCheck of outgoing mailserver IPs for domains in vexim database.\n\n"
+    BODY="${BODY}Configured IPs from 'ip addr show':\n${HOSTIP}\n\n"
+    BODY="${BODY}Following IPs were not found in the actual network config:\n${BODY}\n"
+    test -x /usr/bin/mail && echo -e "${BODY}" | mail -e -s "${SUBJ}" ${MAILADR}
+    test -x /usr/bin/sendxmpp && echo -e "${BODY}" | sendxmpp ${XMPPOPT} ${XMPPUSER} -s "${SUBJ}" ${XMPPADR}
+fi
+
+exit 0
