@@ -6,21 +6,26 @@
 # if they are configured on any systems network interface
 # if not, then send an alert
 # per mail (sendmail, mailx) and xmpp/jabber (requires package sendxmpp)
+# the {{ ... }} syntax is useful for ansible-variables
+# but you can just replace it with your own values
 #
 # to run it hourly, put this in /etc/cron.hourly/mon-mailoutip
 # and make it executble chmod +x /etc/cron.hourly/mon-mailoutip
 
 MAILADR="root"
-XMPPADR='xxxx@jabber.yyyy.ww'
-XMPPOPT='-t -a /etc/ssl/certs/'
+# XMPPADR="<TARGET ADDRESS>"
+XMPPADR="{{ v_xmppalertee }}"
+XMPPOPT="-t -a /etc/ssl/certs/"
 # XMPPUSER='-u <USER> -j <SERVER> -p <PASSWORD>'
-XMPPUSER='-u vvvv -j jabber.wwww.ww -p zzzz'
+XMPPUSER="-u {{ v_xmppuser }} -j {{ v_xmppserver }} -p {{ v_xmpppassword }}"
+
+SUBJ="[monitoring] Vexim out-IP check"
+
+### END OF CONFIG ###
 
 DATE=$(date +%H:%M:%S)
 HOST=$(hostname -f)
 HOSTIP=$(ip addr show | grep "inet" | awk '{print $2}' | cut -d/ -f1)
-
-SUBJ="[monitoring] Vexim out-IP check"
 
 IFS_=${IFS}
 # get configured IPs from the system
@@ -47,7 +52,7 @@ while read DOMAIN IP_LIST; do
     # and prepare a message body for the alert if the IP was not found in the config
     while read IP; do
         if [[ -z "$(echo ${IP_CONF} | grep ${IP})" ]]; then
-            BODY="${IP}\tfor ${DOMAIN}\n"
+            IP_FAIL="${IP}\tfor ${DOMAIN}\n"
         fi
     done <<< "${IP_LIST}"
 
@@ -57,10 +62,10 @@ IFS=${IFS_}
 
 # send the alert if ${BODY} is not empty
 # per mail and xmpp/jabber (requires sendxmpp)
-if [[ ! -z "${BODY// }" ]]; then
+if [[ ! -z "${IP_FAIL// }" ]]; then
     BODY="${DATE} - ${0} - ${HOST}\n\nCheck of outgoing mailserver IPs for domains in vexim database.\n\n"
     BODY="${BODY}Configured IPs from 'ip addr show':\n${HOSTIP}\n\n"
-    BODY="${BODY}Following IPs were not found in the actual network config:\n${BODY}\n"
+    BODY="${BODY}Following IPs were not found in the actual network config:\n${IP_FAIL}\n"
     test -x /usr/bin/mail && echo -e "${BODY}" | mail -e -s "${SUBJ}" ${MAILADR}
     test -x /usr/bin/sendxmpp && echo -e "${BODY}" | sendxmpp ${XMPPOPT} ${XMPPUSER} -s "${SUBJ}" ${XMPPADR}
 fi
