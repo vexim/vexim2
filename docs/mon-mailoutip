@@ -1,35 +1,31 @@
 #!/bin/bash
 
-# Vexim, monitoring, out-IP check
+# Vexim, out-IP check
 # by Markus Gschwendt
 # this script checks the out-IPs from the vexim domains table
 # if they are configured on any systems network interface
 # if not, then send an alert
 # per mail (sendmail, mailx) and xmpp/jabber (requires package sendxmpp)
-# the {{ ... }} syntax is useful for ansible-variables
-# but you can just replace it with your own values
+# package ipv6calc required
 #
 # to run it hourly, put this in /etc/cron.hourly/mon-mailoutip
 # and make it executble chmod +x /etc/cron.hourly/mon-mailoutip
 
 MAILADR="root"
-# XMPPADR="<TARGET ADDRESS>"
 XMPPADR="{{ v_xmppalertee }}"
 XMPPOPT="-t -a /etc/ssl/certs/"
-# XMPPUSER='-u <USER> -j <SERVER> -p <PASSWORD>'
 XMPPUSER="-u {{ v_xmppuser }} -j {{ v_xmppserver }} -p {{ v_xmpppassword }}"
-
-SUBJ="[monitoring] Vexim out-IP check"
-
-### END OF CONFIG ###
 
 DATE=$(date +%H:%M:%S)
 HOST=$(hostname -f)
 HOSTIP=$(ip addr show | grep "inet" | awk '{print $2}' | cut -d/ -f1)
 
+SUBJ="[monitoring] Vexim out-IP check"
+
 IFS_=${IFS}
 # get configured IPs from the system
-IP_CONF=$(ip addr show | grep inet)
+IP_CONF6="$(ip -6 addr show | grep inet6 | cut -d ' ' -f6 | ipv6calc --addr_to_compressed 2>/dev/null >&1)"
+IP_CONF4="$(ip -4 addr show | grep inet | cut -d ' ' -f6 | ipv6calc --out ipv4addr 2>/dev/null >&1)"
 
 # query to retrieve all outgoing IPs for domains
 DB_QUERY='SELECT `domain`, `out_ip` from `domains` WHERE `out_ip` <> "";'
@@ -51,21 +47,31 @@ while read DOMAIN IP_LIST; do
     # iterate through the IPs from the database
     # and prepare a message body for the alert if the IP was not found in the config
     while read IP; do
-        if [[ -z "$(echo ${IP_CONF} | grep ${IP})" ]]; then
-            IP_FAIL="${IP}\tfor ${DOMAIN}\n"
+        IP_FAIL=
+        if [[ ! -z "$(ipv6calc --in ipv6addr --showinfo -i ${IP} 2>/dev/null >&1)" ]]; then
+            IP=$(ipv6calc --addr_to_compressed ${IP})
+        elif [[ -z "$(ipv6calc --in ipv4addr --showinfo -i ${IP} 2>/dev/null >&1)" ]]; then
+            IP_FAIL="${IP}\tfor ${DOMAIN}\tis INVALID\n"
         fi
+
+        if [[ -z "${IP_FAIL// }" ]]; then
+            if [[ -z "$(echo "${IP_CONF6} ${IP_CONF4}" | grep ${IP})" ]]; then
+            IP_FAIL="${IP}\tfor ${DOMAIN}\tnot found\n"
+            fi
+        fi
+
+        IP_FAILLIST="${IP_FAILLIST}${IP_FAIL}"
     done <<< "${IP_LIST}"
 
 done <<< "${DOMAIN_LIST}"
-
 IFS=${IFS_}
 
 # send the alert if ${BODY} is not empty
 # per mail and xmpp/jabber (requires sendxmpp)
-if [[ ! -z "${IP_FAIL// }" ]]; then
+if [[ ! -z "${IP_FAILLIST// }" ]]; then
     BODY="${DATE} - ${0} - ${HOST}\n\nCheck of outgoing mailserver IPs for domains in vexim database.\n\n"
     BODY="${BODY}Configured IPs from 'ip addr show':\n${HOSTIP}\n\n"
-    BODY="${BODY}Following IPs were not found in the actual network config:\n${IP_FAIL}\n"
+    BODY="${BODY}Following IPs were not found in the actual network config or invalid:\n${IP_FAILLIST}\n"
     test -x /usr/bin/mail && echo -e "${BODY}" | mail -e -s "${SUBJ}" ${MAILADR}
     test -x /usr/bin/sendxmpp && echo -e "${BODY}" | sendxmpp ${XMPPOPT} ${XMPPUSER} -s "${SUBJ}" ${XMPPADR}
 fi
