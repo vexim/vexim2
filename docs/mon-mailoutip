@@ -7,6 +7,8 @@
 # if not, then send an alert
 # per mail (sendmail, mailx) and xmpp/jabber (requires package sendxmpp)
 # package ipv6calc required
+# the {{ ... }} syntax is useful for ansible-variables
+# but you can just replace it with your own values
 #
 # to run it hourly, put this in /etc/cron.hourly/mon-mailoutip
 # and make it executble chmod +x /etc/cron.hourly/mon-mailoutip
@@ -16,11 +18,13 @@ XMPPADR="{{ v_xmppalertee }}"
 XMPPOPT="-t -a /etc/ssl/certs/"
 XMPPUSER="-u {{ v_xmppuser }} -j {{ v_xmppserver }} -p {{ v_xmpppassword }}"
 
+SUBJ="[monitoring] Vexim out-IP check"
+
+### END OF CONFIG ###
+
 DATE=$(date +%H:%M:%S)
 HOST=$(hostname -f)
 HOSTIP=$(ip addr show | grep "inet" | awk '{print $2}' | cut -d/ -f1)
-
-SUBJ="[monitoring] Vexim out-IP check"
 
 IFS_=${IFS}
 # get configured IPs from the system
