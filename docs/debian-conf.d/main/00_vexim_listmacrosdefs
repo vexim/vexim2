@@ -91,3 +91,10 @@ CHECK_DATA_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-content.conf
 # compact version of the report. If you tweak your template this way, you may
 # as well want to change the header name here.
 VEXIM_SPAM_REPORT_HEADER_NAME = X-Spam-Report
+
+# lmtp delivery to an lmtp capable application like dovecot
+# can be enabled by setting either LMTP_COMMAND or LMTP_SOCKET
+# this will enable the LMTP routers and set a command or socket in the LMTP transport
+# ! Set only one of the macros !
+#LMTP_COMMAND = /some/local/lmtp/delivery/program
+LMTP_SOCKET = /var/run/dovecot/lmtp
