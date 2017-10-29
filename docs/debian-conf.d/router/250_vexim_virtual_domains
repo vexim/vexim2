@@ -1,5 +1,7 @@
-
 ### router/250_vexim_virtual_domains
+###
+### to enable routing for LMTP transport
+### set one of LMTP_COMMAND or LMTP_SOCKET in main/00_vexim_listmacrosdefs
 #################################
 
 virtual_vacation:
@@ -15,6 +17,12 @@ virtual_vacation:
   no_expn
   unseen
   transport = virtual_vacation_delivery
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
 
 virtual_forward:
   driver = redirect
@@ -37,27 +45,74 @@ virtual_forward:
                                 and domain = '${quote_mysql:$domain}' \
                                 and users.on_forward = '1' \
                                 and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
 
-virtual_domains:
+virtual_domains_useralias:
+  debug_print = "R: virtual_domains_useralias for $local_part@$domain"
   driver = redirect
   domains = +local_domains
-  address_data = ${lookup mysql{\
-        select smtp, users.sa_tag*10 AS sa_tag, users.on_spamassassin AND domains.spamassassin AS on_spamassassin, \
+  allow_fail
+  data = ${lookup mysql{select smtp from users,domains \
+	where users.type = 'alias' \
+		and localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
+                and domains.enabled = '1' \
+                and users.enabled = '1' \
+                and users.domain_id = domains.domain_id}}
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
+
+virtual_pipe:
+  debug_print = "R: virtual_pipe for $local_part@$domain"
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  data = ${lookup mysql{select smtp from users,domains \
+        where users.type='piped' \
+                and localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
+                and domains.enabled = '1' \
+                and users.enabled = '1' \
+                and users.domain_id = domains.domain_id}}
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
+  pipe_transport = vexim_pipe
+
+virtual_domains:
+  debug_print = "R: LMTP virtual_user for $local_part@$domain"
+  driver = accept
+  domains = +local_domains
+  address_data = ${lookup mysql{ \
+        select username, smtp, localpart, users.sa_tag*10 AS sa_tag, users.on_spamassassin AND domains.spamassassin AS on_spamassassin, \
         users.uid AS uid, users.gid AS gid, quota \
         from users,domains \
-        where localpart = '${quote_mysql:$local_part}' \
+        where users.type='local' \
+		and localpart = '${quote_mysql:$local_part}' \
                 and domain = '${quote_mysql:$domain}' \
                 and domains.enabled = '1' \
                 and users.enabled = '1' \
                 and users.domain_id = domains.domain_id}{$value}fail}
-  allow_fail
-  data = ${extract{smtp}{$address_data}}
+  cannot_route_message = Unknown user
   headers_add = ${if and { \
                     {match{$domain}{$original_domain}} \
                     {match{$local_part}{$original_local_part}} \
                     {>={$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
                     {eq{1}{${extract{on_spamassassin}{$address_data}}}} \
                     } {X-Spam-Flag: YES\nX-Spam-Score: $acl_m_spam_score\nVEXIM_SPAM_REPORT_HEADER_NAME: $acl_m_spam_report}{} }
+
   # using local_part_suffixes enables possibility to use user-"something" localparts
   # which could cause you trouble if you're creating email-adresses with dashes in between.
   .ifdef VEXIM_LOCALPART_SUFFIX
@@ -65,9 +120,11 @@ virtual_domains:
     local_part_suffix_optional
   .endif
   retry_use_local_part
-  file_transport = virtual_delivery
-  reply_transport = address_reply
-  pipe_transport = address_pipe
+  .ifdef LMTP_COMMAND LMTP_SOCKET
+    transport = virtual_delivery_lmtp
+  .else
+    transport = virtual_delivery
+  .endif
 
 # A group is a list of users
 #
@@ -124,7 +181,11 @@ virtual_domains_catchall:
                 and domain = '${quote_mysql:$domain}' \
                 and users.domain_id = domains.domain_id}}
   retry_use_local_part
-  file_transport = virtual_delivery
+  .ifdef LMTP_COMMAND LMTP_SOCKET
+    file_transport = virtual_delivery_lmtp
+  .else
+    file_transport = virtual_delivery
+  .endif
   reply_transport = address_reply
   pipe_transport = address_pipe_catchall
 
@@ -136,3 +197,5 @@ virtual_domain_alias:
                 from domains,domainalias where domainalias.alias = '${quote_mysql:$domain}' \
                 and domainalias.domain_id = domains.domain_id}}
   retry_use_local_part
+
+#.endif
