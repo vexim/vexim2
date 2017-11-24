@@ -89,14 +89,18 @@
         $sth->execute($queryParams);
         while ($row = $sth->fetch()) {
           if($row['enabled']==="0") print '<tr class="disabled">'; else print '<tr>';
-          print '<td class="trash"><a href="adminuserdelete.php?user_id='
-            . $row['user_id']
-            . '&amp;localpart='
-            . $row['localpart']
-            . '">';
-          print '<img class="trash" title="Delete '
-            . $row['realname']
-            . '" src="images/trashcan.gif" alt="trashcan"></a></td>';
+	  print '<td class="trash">';
+	  if($row['localpart']!=='postmaster') {
+            print '<a href="adminuserdelete.php?user_id='
+              . $row['user_id']
+              . '&amp;localpart='
+              . $row['localpart']
+              . '">';
+            print '<img class="trash" title="Delete '
+              . $row['realname']
+              . '" src="images/trashcan.gif" alt="trashcan"></a>';
+          }
+	  print '</td>';
           print '<td><a href="adminuserchange.php?user_id=' . $row['user_id']
             . '&amp;localpart=' . $row['localpart']
             . '" title="' . _('Click to modify')
