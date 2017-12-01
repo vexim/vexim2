@@ -1,0 +1,133 @@
+#!/bin/bash
+###########
+# Vexim, mon-certificates
+# by Markus Gschwendt
+#
+# This script will query the vexim database.domains table
+# and try to create/renew certificates for all domains
+# Certbot will listen on the IP resolved by DNS
+# and the ACME server will use the same IP for validating
+#
+# make sure the host will be reachable by the IPs which
+# will be resolved by DNS for the domainnames the MX records
+#
+# renewal will be done only for certificates close to expiry
+# this is default beahaviour of certbot
+###########
+
+# whitespace separated list of subdomain prefixes
+# this prefixes will be added to all domains
+# e.g. with "mail smtp", for the domain example.com
+# we will request the certificates mail.example.com
+# and smtp.example.com
+# additionally certificates for all DNS MX records of example.com
+# will be requested automagically
+# no certificate for example.com itself will be requested
+SUBDOMAIN_LIST="mail smtp"
+
+# if you want to use a dedicated DNS resolver put it here
+DNSSERVER=""
+# type of IP address should be used "AAAA" or "A"
+DNSTYPE="AAAA"
+
+# some options for letsencrypt certificates deployed by certbot
+# you will need the certbot package from stretch-backports
+CERTBOT_OPTS="certonly -n --standalone --preferred-challenges http"
+#CERTBOT_OPTS+=" -q"
+
+# enable this for certbot debugging
+#CERTBOT_OPTS+=" -v"
+#CERTBOT_TESTCERT="--test-cert"
+#CERTBOT_DRYRUN="--dry-run"
+
+# configuration of vexim DB
+DB_HOST="mysqlserver"
+DB_PORT="3306"
+DB_DB="vexim2"
+DB_USER="dbuser"
+DB_PASS="secret db password_"
+DB_OPT=""
+
+LOG_FILE="/var/log/letsencrypt/mon-certificates.log"
+
+
+##########
+# end of config
+##########
+
+CERTBOT_OPTS+=" ${CERTBOT_TESTCERT} ${CERTBOT_DRYRUN}"
+
+DB_OPT+=" --skip-column-names"
+DB_MYSQL="mysql -u ${DB_USER} -p${DB_PASS} -h ${DB_HOST} -P ${DB_PORT} ${DB_OPT} ${DB_DB}"
+DB_QUERY_DOMAINS="SELECT \`domain\` FROM \`domains\`"
+if [[ ! -z "${DNSSERVER}" ]]; then
+    DNSSERVER="@$(dig +short -t ${DNSTYPE} ${DNSSERVER})"
+fi
+#echo ${DNSSERVER}
+SUBDOMAIN_LIST="$(echo "${SUBDOMAIN_LIST}" | sed "s/\s/\n/")"
+
+
+##########
+# retreive domains from mysql
+##########
+
+getdomlist () {
+    DOMAIN_LIST=$(${DB_MYSQL} <<< ${DB_QUERY_DOMAINS} | sed '/^[[:space:]]*$/d')
+    #echo -e "${DOMAIN_LIST}"
+}
+
+
+##########
+# check certificate
+##########
+
+check_cert () {
+    DOMAIN_=${1}
+    # if we did not already process this domain
+    if [[ -z "$(echo -e "${DOMAINS_PROCESSED}" | grep "${DOMAIN_}")" ]]; then
+        DOMAIN_IP_="$(dig +short -t ${DNSTYPE} ${DOMAIN_} ${DNSSERVER} | tail -n1)"
+        # get cert only if there is a AAAA/A record in dns
+        # and this IP is in our network config
+        if [[ ! -z ${DOMAIN_IP_} ]] && \
+           [[ ! -z "$(ip -6 addr show | grep "${DOMAIN_IP_}")" ]]; then
+            DOMAINS_PROCESSED+="$(echo -e "${DOMAIN_} ${DOMAIN_IP_}")\n"
+            echo -e "${DOMAIN_} ${DOMAIN_IP_}" >> "${LOG_FILE}"
+            certbot ${CERTBOT_OPTS} -d ${DOMAIN_} --http-01-address ${DOMAIN_IP_} >> "${LOG_FILE}" 2>&1
+        else
+            DOMAINS_WRONGIP+="$(echo -e "${DOMAIN_} ${DOMAIN_IP_}")\n"
+        fi
+            DOMAINS_DUPLICATES+="$(echo -e "${DOMAIN_} ${DOMAIN_IP_}")\n"
+    fi
+}
+
+# keep one oldlogfile
+mv -f ${LOG_FILE} ${LOG_FILE}.1
+
+##########
+# main
+##########
+
+# retrieve domainlist
+getdomlist
+
+# loop through domainlist
+while read DOMAIN REST; do
+    # add subdomains and call function check_cert
+    while read SUBDOMAIN REST; do
+        check_cert ${SUBDOMAIN}.${DOMAIN}
+    done <<< ${SUBDOMAIN_LIST}
+
+    # call function check_cert for MX records
+    while read DOMAIN REST; do
+        check_cert ${DOMAIN}
+    done <<< "$(dig +short -t mx ${DOMAIN} ${DNSSERVER} | cut -d " " -f2)"
+
+done <<< ${DOMAIN_LIST}
+
+# add some more stuff to the log
+echo -e "\n" >> "${LOG_FILE}"
+echo -e "processed:\n${DOMAINS_PROCESSED}\n" >> "${LOG_FILE}"
+echo -e "no/unconfigured IP:\n${DOMAINS_WRONGIP}\n" >> "${LOG_FILE}"
+echo -e "already processed before:\n${DOMAINS_DUPLICATES}\n" >> "${LOG_FILE}"
+
+exit 0
