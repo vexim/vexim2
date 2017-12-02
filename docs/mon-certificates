@@ -48,6 +48,10 @@ DB_USER="dbuser"
 DB_PASS="secret db password_"
 DB_OPT=""
 
+# set this if a config file for dovecot should be created
+# this will also reload dovecot
+DOVECOT_SSL="/etc/dovecot/conf.d/11-ssl-domlist.conf"
+
 LOG_FILE="/var/log/letsencrypt/mon-certificates.log"
 
 
@@ -55,7 +59,6 @@ LOG_FILE="/var/log/letsencrypt/mon-certificates.log"
 # end of config
 ##########
 
-CERTBOT_OPTS+=" ${CERTBOT_TESTCERT} ${CERTBOT_DRYRUN}"
 
 DB_OPT+=" --skip-column-names"
 DB_MYSQL="mysql -u ${DB_USER} -p${DB_PASS} -h ${DB_HOST} -P ${DB_PORT} ${DB_OPT} ${DB_DB}"
@@ -65,6 +68,13 @@ if [[ ! -z "${DNSSERVER}" ]]; then
 fi
 #echo ${DNSSERVER}
 SUBDOMAIN_LIST="$(echo "${SUBDOMAIN_LIST}" | sed "s/\s/\n/")"
+if [ -f ${DOVECOT_SSL} ]; then
+    mv -f ${DOVECOT_SSL} ${DOVECOT_SSL}.1
+fi
+
+DOMAINS_PROCESSED=""
+DOMAINS_WRONGIP=""
+DOMAINS_DUPLICATES=""
 
 
 ##########
@@ -85,6 +95,7 @@ check_cert () {
     DOMAIN_=${1}
     # if we did not already process this domain
     if [[ -z "$(echo -e "${DOMAINS_PROCESSED}" | grep "${DOMAIN_}")" ]]; then
+
         DOMAIN_IP_="$(dig +short -t ${DNSTYPE} ${DOMAIN_} ${DNSSERVER} | tail -n1)"
         # get cert only if there is a AAAA/A record in dns
         # and this IP is in our network config
@@ -92,40 +103,45 @@ check_cert () {
            [[ ! -z "$(ip -6 addr show | grep "${DOMAIN_IP_}")" ]]; then
             DOMAINS_PROCESSED+="$(echo -e "${DOMAIN_} ${DOMAIN_IP_}")\n"
             echo -e "${DOMAIN_} ${DOMAIN_IP_}" >> "${LOG_FILE}"
-            certbot ${CERTBOT_OPTS} -d ${DOMAIN_} --http-01-address ${DOMAIN_IP_} >> "${LOG_FILE}" 2>&1
+            certbot ${CERTBOT_OPTS} ${CERTBOT_TESTCERT} ${CERTBOT_DRYRUN} -d ${DOMAIN_} --http-01-address ${DOMAIN_IP_} >> "${LOG_FILE}" 2>&1
+            if [[ ! -z "${DOVECOT_SSL}" ]] && \
+               [ -f /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ] && \
+               [ -f /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ]; then
+                echo -e "local_name ${DOMAIN_} {\n  ssl_cert = </etc/letsencrypt/live/${DOMAIN_}/fullchain.pem\n  ssl_key = </etc/letsencrypt/live/${DOMAIN_}/privkey.pem\n}\n" >> "${DOVECOT_SSL}"
+            fi
         else
             DOMAINS_WRONGIP+="$(echo -e "${DOMAIN_} ${DOMAIN_IP_}")\n"
         fi
-            DOMAINS_DUPLICATES+="$(echo -e "${DOMAIN_} ${DOMAIN_IP_}")\n"
+
+    else
+        DOMAINS_DUPLICATES+="$(echo -e "${DOMAIN_} ${DOMAIN_IP_}")\n"
     fi
 }
 
 # keep one oldlogfile
-mv -f ${LOG_FILE} ${LOG_FILE}.1
+mv ${LOG_FILE} ${LOG_FILE}.1
 
-##########
-# main
-##########
-
-# retrieve domainlist
 getdomlist
 
-# loop through domainlist
 while read DOMAIN REST; do
-    # add subdomains and call function check_cert
+
     while read SUBDOMAIN REST; do
-        check_cert ${SUBDOMAIN}.${DOMAIN}
+        check_cert ${SUBDOMAIN}.${DOMAIN%.}
     done <<< ${SUBDOMAIN_LIST}
 
-    # call function check_cert for MX records
     while read DOMAIN REST; do
-        check_cert ${DOMAIN}
+        check_cert ${DOMAIN%.}
     done <<< "$(dig +short -t mx ${DOMAIN} ${DNSSERVER} | cut -d " " -f2)"
 
 done <<< ${DOMAIN_LIST}
 
-# add some more stuff to the log
-echo -e "\n" >> "${LOG_FILE}"
+if [[ ! -z "${DOVECOT_SSL}" ]]; then
+    service dovecot reload
+fi
+
+DOMAINS_PROCESSED="$(echo -e "${DOMAINS_PROCESSED}" | sort -u)"
+DOMAINS_WRONGIP="$(echo -e "${DOMAINS_WRONGIP}" | sort -u)"
+DOMAINS_DUPLICATES="$(echo -e "${DOMAINS_DUPLICATES}" | sort -u)"
 echo -e "processed:\n${DOMAINS_PROCESSED}\n" >> "${LOG_FILE}"
 echo -e "no/unconfigured IP:\n${DOMAINS_WRONGIP}\n" >> "${LOG_FILE}"
 echo -e "already processed before:\n${DOMAINS_DUPLICATES}\n" >> "${LOG_FILE}"
