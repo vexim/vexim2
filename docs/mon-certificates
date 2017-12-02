@@ -30,6 +30,11 @@ DNSSERVER=""
 # type of IP address should be used "AAAA" or "A"
 DNSTYPE="AAAA"
 
+# create a fallback certificate for this domain
+# and put all other domains in the SAN field
+# e.g. put the main fqdn of your server here
+FALLBACK_DOMAIN="mx01.example.com"
+
 # some options for letsencrypt certificates deployed by certbot
 # you will need the certbot package from stretch-backports
 CERTBOT_OPTS="certonly -n --standalone --preferred-challenges http"
@@ -107,6 +112,7 @@ check_cert () {
             if [[ ! -z "${DOVECOT_SSL}" ]] && \
                [ -f /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ] && \
                [ -f /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ]; then
+                # write to dovecot config file
                 echo -e "local_name ${DOMAIN_} {\n  ssl_cert = </etc/letsencrypt/live/${DOMAIN_}/fullchain.pem\n  ssl_key = </etc/letsencrypt/live/${DOMAIN_}/privkey.pem\n}\n" >> "${DOVECOT_SSL}"
             fi
         else
@@ -123,6 +129,11 @@ mv ${LOG_FILE} ${LOG_FILE}.1
 
 getdomlist
 
+# DOMAINS_PROCESSED is used at the end to create a certificate with all domains in the SAN field as a fallback
+# putting the FALLBACK_DOMAIN in here it will be skipped for now
+FALLBACK_IP="$(dig +short -t ${DNSTYPE} ${FALLBACK_DOMAIN} ${DNSSERVER} | tail -n1)"
+DOMAINS_PROCESSED="${FALLBACK_DOMAIN} ${FALLBACK_IP}"
+
 while read DOMAIN REST; do
 
     while read SUBDOMAIN REST; do
@@ -135,10 +146,22 @@ while read DOMAIN REST; do
 
 done <<< ${DOMAIN_LIST}
 
+# create certificate with all domains in the SAN field as fallback
+DOMAIN_SAN="$(echo -e  ${DOMAINS_PROCESSED} | cut -d " " -f 1 | sed "/^$/d" | sed "s/^/-d /" | tr '\n' ' ')"
+echo -e "${DOMAIN_SAN}"
+certbot ${CERTBOT_OPTS} ${CERTBOT_TESTCERT} ${CERTBOT_DRYRUN} --cert-name ${FALLBACK_DOMAIN} ${DOMAIN_SAN} --http-01-address ${FALLBACK_IP} >> "${LOG_FILE}" 2>&1
+
+# write to dovecot config file and restart dovecot
 if [[ ! -z "${DOVECOT_SSL}" ]]; then
+    if [ -f /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ] && \
+       [ -f /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ]; then
+        echo -e "ssl_cert = </etc/letsencrypt/live/${FALLBACK_DOMAIN}/fullchain.pem" >> "${DOVECOT_SSL}"
+        echo -e "ssl_key = </etc/letsencrypt/live/${FALLBACK_DOMAIN}/privkey.pem" >> "${DOVECOT_SSL}"
+    fi
     service dovecot reload
 fi
 
+# some more logging
 DOMAINS_PROCESSED="$(echo -e "${DOMAINS_PROCESSED}" | sort -u)"
 DOMAINS_WRONGIP="$(echo -e "${DOMAINS_WRONGIP}" | sort -u)"
 DOMAINS_DUPLICATES="$(echo -e "${DOMAINS_DUPLICATES}" | sort -u)"
