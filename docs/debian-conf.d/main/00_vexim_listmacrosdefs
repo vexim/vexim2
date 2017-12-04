@@ -21,8 +21,11 @@ MAIN_RELAY_TO_DOMAINS = MAIN_RELAY_TO_DOMAINS : ${lookup mysql{VEXIM_RELAY_DOMAI
 
 # enable TLS
 #MAIN_TLS_ENABLE = true
-MAIN_TLS_CERTIFICATE = ${if exists{/etc/letsencrypt/live/${tls_sni}/fullchain.pem}{/etc/letsencrypt/live/${tls_sni}/fullchain.pem}{/etc/letsencrypt/live/mx01.runout.at/fullchain.pem}}
-MAIN_TLS_PRIVATEKEY = ${if exists{/etc/letsencrypt/live/${tls_sni}/privkey.pem}{/etc/letsencrypt/live/${tls_sni}/privkey.pem}{/etc/letsencrypt/live/mx01.runout.at/privkey.pem}}
+
+# CHANGE the fallback certificate 'DEFAULT' at the end of both lines!
+# This will be used if no SNI value is provided by the connecting client
+MAIN_TLS_CERTIFICATE = ${if exists{/etc/letsencrypt/live/${tls_sni}/fullchain.pem}{/etc/letsencrypt/live/${tls_sni}/fullchain.pem}{/etc/letsencrypt/live/DEFAULT/fullchain.pem}}
+MAIN_TLS_PRIVATEKEY = ${if exists{/etc/letsencrypt/live/${tls_sni}/privkey.pem}{/etc/letsencrypt/live/${tls_sni}/privkey.pem}{/etc/letsencrypt/live/DEFAULT/privkey.pem}}
 
 # enable av scanner
 #av_scanner = clamd:/var/run/clamav/clamd.ctl
