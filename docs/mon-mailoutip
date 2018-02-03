@@ -44,6 +44,9 @@ DOMAIN_LIST=$(echo "${DB_QUERY}" | \
     mysql -N -B -u ${DB_USER} -p${DB_PW} -h ${DB_HOST} ${DB_DB} | \
     sed "s/\t/,/g")
 
+# exit if mysql result was empty
+if [[ -z "$(echo ${DOMAIN_LIST})" ]]; then exit 0; fi
+
 IFS=","
 while read DOMAIN IP_LIST; do
     IP_LIST=$(echo ${IP_LIST} | tr -d "[:space:]" | sed "s/;/\n/g")
