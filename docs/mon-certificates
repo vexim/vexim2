@@ -8,11 +8,7 @@
 # Certbot will listen on the IP resolved by DNS
 # and the ACME server will use the same IP for validating
 #
-# make sure the host will be reachable by the IPs which
-# will be resolved by DNS for the domainnames the MX records
-#
-# renewal will be done only for certificates close to expiry
-# this is default beahaviour of certbot
+# tested with debian stretch, letsencrypt, exim4, dovecot, nginx
 ###########
 
 # whitespace separated list of subdomain prefixes
@@ -23,40 +19,71 @@
 # additionally certificates for all DNS MX records of example.com
 # will be requested automagically
 # no certificate for example.com itself will be requested
-SUBDOMAIN_LIST="mail smtp"
+SUBDOMAIN_LIST_DOVECOT="mail"
+SUBDOMAIN_LIST_EXIM="smtp"
+SUBDOMAIN_LIST_WWW="vexim"
 
 # if you want to use a dedicated DNS resolver put it here
-DNSSERVER=""
+DNSSERVER="ns1.runout.at"
 # type of IP address should be used "AAAA" or "A"
 DNSTYPE="AAAA"
 
+# If you're behind a nat or you have some kind of port forwarding
+# you can set a global IP for certbot here.
+# certbot will listen on this IP but the ACME server will use the IP from DNS
+DOMAIN_IP_OVERRIDE=""
+
 # create a fallback certificate for this domain
 # and put all other domains in the SAN field
-# e.g. put the main fqdn of your server here
+# eg. put the main fqdn of your server here
 FALLBACK_DOMAIN="mx01.example.com"
 
 # some options for letsencrypt certificates deployed by certbot
 # you will need the certbot package from stretch-backports
-CERTBOT_OPTS="certonly -n --standalone --preferred-challenges http"
+CERTBOT_OPTS="certonly -n --standalone --preferred-challenges http --rsa-key-size 4096"
 #CERTBOT_OPTS+=" -q"
 
-# enable this for certbot debugging
+# enable for certbot debugging
 #CERTBOT_OPTS+=" -v"
 #CERTBOT_TESTCERT="--test-cert"
 #CERTBOT_DRYRUN="--dry-run"
 
-# configuration of vexim DB
-DB_HOST="mysqlserver"
+# configure vexim DB here
+DB_HOST="mysql-server"
 DB_PORT="3306"
-DB_DB="vexim2"
-DB_USER="dbuser"
-DB_PASS="secret db password_"
+DB_DB="vexim2-db"
+DB_USER="vexim2-db-user"
+DB_PASS="vexim2-db-password"
 DB_OPT=""
 
 # set this if a config file for dovecot should be created
 # this will also reload dovecot
+# will be used only if the dovecot binary is executable
 DOVECOT_SSL="/etc/dovecot/conf.d/11-ssl-domlist.conf"
+DOVECOT_BIN="/usr/sbin/dovecot"
 
+# set this if a config file for dovecot should be created
+# this will also reload dovecot
+# will be used only if the dovecot binary is executable
+EXIM_SSL="/etc/exim4/ssl.conf"
+EXIM_BIN="/usr/sbin/exim4"
+
+# set this if a config file for nginx/vexim should be created
+# this will also reload nginx
+# do not forget to enable this config with a symlink in sites-enabled
+# will be used only if the nginx binary is executable
+#NGINX_SSL="/etc/nginx/sites-available/vexim"
+#NGINX_BIN="/usr/sbin/nginx"
+
+# settings for the nginx config file
+# where should nginx pass the request. e.g.:
+# proxy_pass http://mail1;
+# uwsgi_pass 0.0.0.0:8000;
+NGINX_PASS="proxy_pass http://mail1;"
+# a file where additional parameters for proxy configurations will be
+NGINX_PROXYPARAMS="include /etc/nginx/proxy_params;"
+
+# logging
 LOG_FILE="/var/log/letsencrypt/mon-certificates.log"
 
 
@@ -64,6 +91,10 @@ LOG_FILE="/var/log/letsencrypt/mon-certificates.log"
 # end of config
 ##########
 
+rm -f ${LOG_FILE}.*
+# keep one oldlogfile
+mv ${LOG_FILE} ${LOG_FILE}.1 2>/dev/null
+echo -e "##### ${0} logfile #####\n##### $(date +"%Y%m%d %H:%M:%S") #####" >> "${LOG_FILE}"
 
 DB_OPT+=" --skip-column-names"
 DB_MYSQL="mysql -u ${DB_USER} -p${DB_PASS} -h ${DB_HOST} -P ${DB_PORT} ${DB_OPT} ${DB_DB}"
@@ -71,11 +102,37 @@ DB_QUERY_DOMAINS="SELECT \`domain\` FROM \`domains\`"
 if [[ ! -z "${DNSSERVER}" ]]; then
     DNSSERVER="@$(dig +short -t ${DNSTYPE} ${DNSSERVER})"
 fi
-#echo ${DNSSERVER}
-SUBDOMAIN_LIST="$(echo "${SUBDOMAIN_LIST}" | sed "s/\s/\n/")"
-if [ -f ${DOVECOT_SSL} ]; then
-    mv -f ${DOVECOT_SSL} ${DOVECOT_SSL}.1
+echo -e "DNS RECURSOR: ${DNSSERVER}" >> "${LOG_FILE}"
+
+if [ ! -z "${DOVECOT_SSL}" ] && [ -x "${DOVECOT_BIN}" ]; then
+    mv -f ${DOVECOT_SSL} ${DOVECOT_SSL}.1 2>/dev/null
+    SUBDOMAIN_LIST_DOVECOT="$(echo -e "${SUBDOMAIN_LIST_DOVECOT}" | sed "s/\s/\n/g" | sed '/^[[:space:]]*$/d')"
+    echo -e "DOVECOT config file: ${DOVECOT_SSL}" >> "${LOG_FILE}"
+else # unset DOVECOT_SSL if no executable binary is found
+    DOVECOT_SSL=
+    SUBDOMAIN_LIST_DOVECOT=""
 fi
+
+if [ ! -z "${EXIM_SSL}" ] && [ -x "${EXIM_BIN}" ]; then
+    mv -f ${EXIM_SSL} ${DOVECOT_SSL}.1 2>/dev/null
+    SUBDOMAIN_LIST_EXIM="$(echo -e "${SUBDOMAIN_LIST_EXIM}" | sed "s/\s/\n/g" | sed '/^[[:space:]]*$/d')"
+    echo -e "EXIM config file: ${EXIM_SSL}" >> "${LOG_FILE}"
+else # unset EXIM_SSL if no executable binary is found
+    EXIM_SSL=
+    SUBDOMAIN_LIST_EXIM=""
+fi
+
+if [ ! -z "${NGINX_SSL}" ] && [ -x "${NGINX_BIN}" ]; then
+    mv -f ${NGINX_SSL} ${NGINX_SSL}.1 2>/dev/null
+    SUBDOMAIN_LIST_WWW="$(echo -e "${SUBDOMAIN_LIST_WWW}" | sed "s/\s/\n/g" | sed '/^[[:space:]]*$/d')"
+    echo -e "NGINX config file: ${NGNX_SSL}" >> "${LOG_FILE}"
+else # unset NGINX_SSL if no executable binary is found
+    NGINX_SSL=
+    SUBDOMAIN_LIST_WWW=""
+fi
+
+SUBDOMAIN_LIST="$(echo -e "${SUBDOMAIN_LIST_DOVECOT}\n${SUBDOMAIN_LIST_EXIM}\n${SUBDOMAIN_LIST_WWW}" | sort -u | sed '/^[[:space:]]*$/d')"
+echo -e "##### mail:\n${SUBDOMAIN_LIST_DOVECOT}\n\n${SUBDOMAIN_LIST_EXIM}\n\n##### www:\n${SUBDOMAIN_LIST_WWW}\n\n##### all:\n${SUBDOMAIN_LIST}\n" >> "${LOG_FILE}.SUBDOMAIN.log"
 
 DOMAINS_PROCESSED=""
 DOMAINS_WRONGIP=""
@@ -91,6 +148,15 @@ getdomlist () {
     #echo -e "${DOMAIN_LIST}"
 }
 
+# get the IP for a domain from DNS or set it to the defined override
+getdomip () {
+    DOMAIN_=${1}
+    if [[ -z "${DOMAIN_IP_OVERRIDE}" ]]; then
+        echo "$(dig +short -t ${DNSTYPE} ${DOMAIN_} ${DNSSERVER} | tail -n1)"
+    else
+        echo "${DOMAIN_IP_OVERRIDE}"
+    fi
+}
 
 ##########
 # check certificate
@@ -100,20 +166,50 @@ check_cert () {
     DOMAIN_=${1}
     # if we did not already process this domain
     if [[ -z "$(echo -e "${DOMAINS_PROCESSED}" | grep "${DOMAIN_}")" ]]; then
+        DOMAIN_IP_="$(getdomip ${1})"
 
-        DOMAIN_IP_="$(dig +short -t ${DNSTYPE} ${DOMAIN_} ${DNSSERVER} | tail -n1)"
         # get cert only if there is a AAAA/A record in dns
         # and this IP is in our network config
         if [[ ! -z ${DOMAIN_IP_} ]] && \
            [[ ! -z "$(ip -6 addr show | grep "${DOMAIN_IP_}")" ]]; then
             DOMAINS_PROCESSED+="$(echo -e "${DOMAIN_} ${DOMAIN_IP_}")\n"
-            echo -e "${DOMAIN_} ${DOMAIN_IP_}" >> "${LOG_FILE}"
+            echo -e "\n##### $(date +"%Y%m%d %H:%M:%S") #####\n${DOMAIN_} ${DOMAIN_IP_}" >> "${LOG_FILE}"
             certbot ${CERTBOT_OPTS} ${CERTBOT_TESTCERT} ${CERTBOT_DRYRUN} -d ${DOMAIN_} --http-01-address ${DOMAIN_IP_} >> "${LOG_FILE}" 2>&1
-            if [[ ! -z "${DOVECOT_SSL}" ]] && \
-               [ -f /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ] && \
-               [ -f /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ]; then
-                # write to dovecot config file
-                echo -e "local_name ${DOMAIN_} {\n  ssl_cert = </etc/letsencrypt/live/${DOMAIN_}/fullchain.pem\n  ssl_key = </etc/letsencrypt/live/${DOMAIN_}/privkey.pem\n}\n" >> "${DOVECOT_SSL}"
+            if [ -e /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ] && \
+               [ -e /etc/letsencrypt/live/${DOMAIN_}/privkey.pem ]; then
+
+                # DOVECOT
+                if [[ ! -z "${DOVECOT_SSL}" ]] && \
+                   [[ ! -z "$(echo -e "${SUBDOMAIN_LIST_DOVECOT}" | grep -e "^$(echo "${DOMAIN_}" | sed 's/\..*//')$")" ]]; then
+                    # write to dovecot config file
+                    echo -e "local_name ${DOMAIN_} {" >> "${DOVECOT_SSL}.tmp2"
+                    echo -e "    ssl_cert = </etc/letsencrypt/live/${DOMAIN_}/fullchain.pem" >> "${DOVECOT_SSL}.tmp2"
+                    echo -e "    ssl_key =  </etc/letsencrypt/live/${DOMAIN_}/privkey.pem" >> "${DOVECOT_SSL}.tmp2"
+                    echo -e "}\n" >> "${DOVECOT_SSL}.tmp2"
+                fi
+    
+                # NGINX
+                if [[ ! -z "${NGINX_SSL}" ]] && \
+                   [[ ! -z "$(echo -e "${SUBDOMAIN_LIST_WEB}" | grep -e "^$(echo "${DOMAIN_}" | sed 's/\..*//')$")" ]]; then
+                    if [[ -z "$(echo -e "${DOMAIN_IP_}" | grep ':')" ]]; then
+                        DOMAIN_IP6_="::"
+                    else
+                        DOMAIN_IP6_="${DOMAIN_IP_}"
+                    fi
+                    # write to nginx config file
+                    echo -e "server {" >> "${NGINX_SSL}"
+                    echo -e "    listen 443 ssl http2;" >> "${NGINX_SSL}"
+                    echo -e "    listen [${DOMAIN_IP6_}]:443 ssl http2;" >> "${NGINX_SSL}"
+                    echo -e "    server_name ${DOMAIN_};" >> "${NGINX_SSL}"
+                    echo -e "    ssl_certificate     /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem;" >> "${NGINX_SSL}"
+                    echo -e "    ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_}/privkey.pem;" >> "${NGINX_SSL}"
+                    echo -e "    location / {" >> "${NGINX_SSL}"
+                    echo -e "        ${NGINX_PASS}" >> "${NGINX_SSL}"
+                    echo -e "        ${NGINX_PROXYPARAMS}" >> "${NGINX_SSL}"
+                    echo -e "    }" >> "${NGINX_SSL}"
+                    echo -e "}\n" >> "${NGINX_SSL}"
+                fi
+
             fi
         else
             DOMAINS_WRONGIP+="$(echo -e "${DOMAIN_} ${DOMAIN_IP_}")\n"
@@ -124,47 +220,64 @@ check_cert () {
     fi
 }
 
-# keep one oldlogfile
-mv ${LOG_FILE} ${LOG_FILE}.1
 
 getdomlist
 
 # DOMAINS_PROCESSED is used at the end to create a certificate with all domains in the SAN field as a fallback
 # putting the FALLBACK_DOMAIN in here it will be skipped for now
-FALLBACK_IP="$(dig +short -t ${DNSTYPE} ${FALLBACK_DOMAIN} ${DNSSERVER} | tail -n1)"
-DOMAINS_PROCESSED="${FALLBACK_DOMAIN} ${FALLBACK_IP}"
+FALLBACK_IP="$(getdomip ${FALLBACK_DOMAIN})"
+
+DOMAINS_PROCESSED="${FALLBACK_DOMAIN} ${FALLBACK_IP}\n"
 
 while read DOMAIN REST; do
 
     while read SUBDOMAIN REST; do
+        echo -e "\n##### $(date +"%Y%m%d %H:%M:%S") #####\n${DOMAIN} SUBDOMAIN: ${SUBDOMAIN}.${DOMAIN%.}" >> "${LOG_FILE}.SUBDOMAIN.log"
         check_cert ${SUBDOMAIN}.${DOMAIN%.}
     done <<< ${SUBDOMAIN_LIST}
 
-    while read DOMAIN REST; do
-        check_cert ${DOMAIN%.}
-    done <<< "$(dig +short -t mx ${DOMAIN} ${DNSSERVER} | cut -d " " -f2)"
+    while read DOMAIN_MX REST; do
+        echo -e "\n##### $(date +"%Y%m%d %H:%M:%S") #####\n${DOMAIN} MX: ${DOMAIN_MX%.}" >> "${LOG_FILE}.MX.log"
+        check_cert ${DOMAIN_MX%.}
+    done <<< "$(dig +short -t mx ${DOMAIN} ${DNSSERVER} | cut -d " " -f2 | sed '/^[[:space:]]*\.*$/d')"
 
 done <<< ${DOMAIN_LIST}
 
 # create certificate with all domains in the SAN field as fallback
 DOMAIN_SAN="$(echo -e  ${DOMAINS_PROCESSED} | cut -d " " -f 1 | sed "/^$/d" | sed "s/^/-d /" | tr '\n' ' ')"
-echo -e "${DOMAIN_SAN}"
+#echo -e "${DOMAIN_SAN}"
+echo -e "\n##### $(date +"%Y%m%d %H:%M:%S") #####\n${DOMAIN_SAN} ${FALLBACK_IP}" >> "${LOG_FILE}"
 certbot ${CERTBOT_OPTS} ${CERTBOT_TESTCERT} ${CERTBOT_DRYRUN} --cert-name ${FALLBACK_DOMAIN} ${DOMAIN_SAN} --http-01-address ${FALLBACK_IP} >> "${LOG_FILE}" 2>&1
 
-# write to dovecot config file and restart dovecot
+
+# write to dovecot config file and reload dovecot
 if [[ ! -z "${DOVECOT_SSL}" ]]; then
-    if [ -f /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ] && \
-       [ -f /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ]; then
-        echo -e "ssl_cert = </etc/letsencrypt/live/${FALLBACK_DOMAIN}/fullchain.pem" >> "${DOVECOT_SSL}"
-        echo -e "ssl_key = </etc/letsencrypt/live/${FALLBACK_DOMAIN}/privkey.pem" >> "${DOVECOT_SSL}"
+    if [ -e /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ] && \
+       [ -e /etc/letsencrypt/live/${DOMAIN_}/privkey.pem ]; then
+        echo -e "ssl_cert = </etc/letsencrypt/live/${FALLBACK_DOMAIN}/fullchain.pem" >> "${DOVECOT_SSL}.tmp1"
+        echo -e "ssl_key = </etc/letsencrypt/live/${FALLBACK_DOMAIN}/privkey.pem\n" >> "${DOVECOT_SSL}.tmp1"
     fi
+    cat "${DOVECOT_SSL}.tmp1" "${DOVECOT_SSL}.tmp2" > "${DOVECOT_SSL}"
+    rm -f "${DOVECOT_SSL}.tmp1"
+    rm -f "${DOVECOT_SSL}.tmp2"
+    echo -e "\n##### $(date +"%Y%m%d %H:%M:%S") #####\n" >> "${LOG_FILE}"
     service dovecot reload
+    echo -e "service dovecot reload" >> "${LOG_FILE}"
 fi
 
+# reload nginx
+if [[ ! -z "${NGINX_SSL}" ]]; then
+    echo -e "\n##### $(date +"%Y%m%d %H:%M:%S") #####\n" >> "${LOG_FILE}"
+    service nginx reload
+    echo -e "service nginx reload" >> "${LOG_FILE}"
+fi
+
+echo -e "\n##### $(date +"%Y%m%d %H:%M:%S") #####\n" >> "${LOG_FILE}"
+
 # some more logging
-DOMAINS_PROCESSED="$(echo -e "${DOMAINS_PROCESSED}" | sort -u)"
-DOMAINS_WRONGIP="$(echo -e "${DOMAINS_WRONGIP}" | sort -u)"
-DOMAINS_DUPLICATES="$(echo -e "${DOMAINS_DUPLICATES}" | sort -u)"
+DOMAINS_PROCESSED="$(echo -e "${DOMAINS_PROCESSED}" | sort -u | sed '/^[[:space:]]*$/d')"
+DOMAINS_WRONGIP="$(echo -e "${DOMAINS_WRONGIP}" | sort -u | sed '/^[[:space:]]*$/d')"
+DOMAINS_DUPLICATES="$(echo -e "${DOMAINS_DUPLICATES}" | sort -u | sed '/^[[:space:]]*$/d')"
 echo -e "processed:\n${DOMAINS_PROCESSED}\n" >> "${LOG_FILE}"
 echo -e "no/unconfigured IP:\n${DOMAINS_WRONGIP}\n" >> "${LOG_FILE}"
 echo -e "already processed before:\n${DOMAINS_DUPLICATES}\n" >> "${LOG_FILE}"
