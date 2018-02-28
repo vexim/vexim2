@@ -24,7 +24,7 @@ SUBDOMAIN_LIST_EXIM="smtp"
 SUBDOMAIN_LIST_WWW="vexim"
 
 # if you want to use a dedicated DNS resolver put it here
-DNSSERVER="ns1.runout.at"
+DNSSERVER="ns1.example.com"
 # type of IP address should be used "AAAA" or "A"
 DNSTYPE="AAAA"
 
