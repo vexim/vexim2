@@ -6,9 +6,7 @@
 # This script will query the vexim database.domains table
 # and try to create/renew certificates for all domains
 # Certbot will listen on the IP resolved by DNS
-# and the ACME server will use the same IP for validating
-#
-# tested with debian stretch, letsencrypt, exim4, dovecot, nginx
+# and the ACME server will use the same IP for validating 
 ###########
 
 # whitespace separated list of subdomain prefixes
@@ -24,7 +22,7 @@ SUBDOMAIN_LIST_EXIM="smtp"
 SUBDOMAIN_LIST_WWW="vexim"
 
 # if you want to use a dedicated DNS resolver put it here
-DNSSERVER="ns1.example.com"
+DNSSERVER="ns1.runout.at"
 # type of IP address should be used "AAAA" or "A"
 DNSTYPE="AAAA"
 
@@ -36,7 +34,8 @@ DOMAIN_IP_OVERRIDE=""
 # create a fallback certificate for this domain
 # and put all other domains in the SAN field
 # eg. put the main fqdn of your server here
-FALLBACK_DOMAIN="mx01.example.com"
+#FALLBACK_DOMAIN=$(cat /etc/mailname)
+FALLBACK_DOMAIN="mx.example.com"
 
 # some options for letsencrypt certificates deployed by certbot
 # you will need the certbot package from stretch-backports
@@ -252,16 +251,20 @@ certbot ${CERTBOT_OPTS} ${CERTBOT_TESTCERT} ${CERTBOT_DRYRUN} --cert-name ${FALL
 
 # write to dovecot config file and reload dovecot
 if [[ ! -z "${DOVECOT_SSL}" ]]; then
-    if [ -e /etc/letsencrypt/live/${DOMAIN_}/fullchain.pem ] && \
-       [ -e /etc/letsencrypt/live/${DOMAIN_}/privkey.pem ]; then
+    if [ -e /etc/letsencrypt/live/${FALLBACK_DOMAIN}/fullchain.pem ] && \
+       [ -e /etc/letsencrypt/live/${FALLBACK_DOMAIN}/privkey.pem ]; then
         echo -e "ssl_cert = </etc/letsencrypt/live/${FALLBACK_DOMAIN}/fullchain.pem" >> "${DOVECOT_SSL}.tmp1"
         echo -e "ssl_key = </etc/letsencrypt/live/${FALLBACK_DOMAIN}/privkey.pem\n" >> "${DOVECOT_SSL}.tmp1"
+    else
+        echo -e "\n##### WARNING #####\n" >> "${LOG_FILE}"
+        echo -e "  No fallback certificate for Dovecot found!\n" >> "${LOG_FILE}"
+        echo -e "  /etc/letsencrypt/live/${FALLBACK_DOMAIN}/fullchain.pem\n" >> "${LOG_FILE}"
     fi
     cat "${DOVECOT_SSL}.tmp1" "${DOVECOT_SSL}.tmp2" > "${DOVECOT_SSL}"
     rm -f "${DOVECOT_SSL}.tmp1"
     rm -f "${DOVECOT_SSL}.tmp2"
     echo -e "\n##### $(date +"%Y%m%d %H:%M:%S") #####\n" >> "${LOG_FILE}"
-    service dovecot reload
+    service dovecot reload > /dev/null 2>&1
     echo -e "service dovecot reload" >> "${LOG_FILE}"
 fi
 
