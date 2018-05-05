@@ -1,0 +1,13 @@
+### transport/30_vexim_virtual_delivery_lmtp
+#######################################
+virtual_delivery_lmtp:
+  debug_print = "T: virtual_delivery_lmtp for $local_part@$domain"
+  driver = lmtp
+#  socket = /var/run/dovecot/lmtp
+  .ifdef LMTP_COMMAND
+    command = LMTP_COMMAND
+  .elifdef LMTP_SOCKET
+    socket = LMTP_SOCKET
+  .endif
+  #maximum number of deliveries per batch, default 1
+  batch_max = 200
