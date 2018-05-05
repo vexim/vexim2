@@ -9,12 +9,13 @@
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   if ($sth->rowCount()) { $row = $sth->fetch(); }
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.adminadd.realname.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminalias.php"><?php echo _('Manage Aliases'); ?></a><br>
@@ -26,7 +27,7 @@
         <table align="center">
           <tr>
             <td><?php echo _('Alias Name'); ?>:</td>
-            <td><input name="realname" type="text" class="textfield"></td>
+            <td><input name="realname" type="text" class="textfield" autofocus></td>
           </tr>
           <tr>
             <td><?php echo _('Address'); ?>:</td>
@@ -36,7 +37,7 @@
             </td>
           </tr>
           <tr>
-            <td colspan="2" style="padding-bottom:1em">
+            <td colspan="2" class="padafter">
               <?php echo _('Multiple addresses should be comma separated,
                 with no spaces'); ?>
             </td>
@@ -52,7 +53,7 @@
             </td>
           </tr>
           <tr>
-            <td colspan="2" style="padding-bottom:1em">
+            <td colspan="2" class="padafter">
               (<?php echo _('Password only needed if you want the user to be able
               to log in, or if the Alias is the admin account'); ?>)
             </td>
@@ -74,7 +75,7 @@
             <td><?php echo _('Anti-Virus'); ?>:</td>
             <td colspan="2"><input name="on_avscan" type="checkbox"></td>
           </tr>
-          <?php } 
+          <?php }
             if ($row['spamassassin'] == "1") {
           ?>
           <tr>

@@ -26,13 +26,14 @@
   $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
   $row = $sth->fetch();
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script src="scripts.js" type="text/javascript"></script>
   </head>
-  <body onLoad="document.adminadd.realname.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminuser.php"><?php echo _('Manage Accounts'); ?></a><br>
@@ -45,7 +46,7 @@
         <tr>
           <td><?php echo _('Name'); ?>:</td>
           <td colspan="2">
-            <input type="textfield" size="25" name="realname" class="textfield">
+            <input type="textfield" size="25" name="realname" class="textfield" autofocus>
           </td>
         </tr>
         <tr>
@@ -70,9 +71,9 @@
         <tr>
           <td></td>
           <td colspan="2">
-            <input type="button" value="<?php echo _('Generate password'); ?>" onclick="suggestPassword('suggest')">
+            <input type="button" id="pwgenerate" value="<?php echo _('Generate password'); ?>">
             <input type="text" size="15" id="suggest" class="textfield">
-            <input type="button" value="<?php echo _('Copy'); ?>" onclick="copyPassword('suggest', 'clear', 'vclear')">
+            <input type="button" id="pwcopy" value="<?php echo _('Copy'); ?>">
           </td>
         </tr>
       <?php
@@ -97,21 +98,19 @@
           <td colspan="2"><input name="admin" type="checkbox"></td>
         </tr>
         <?php if ($row['pipe'] == "1") { ?>
-           <tr>
-            <td><?php echo _('Pipe to command'); ?>:</td>
-            <td colspan="2"><input type="textfield" size="25" name="smtp" class="textfield"></td>
-          </tr>
           <tr>
-            <td colspan="2" style="padding-bottom:1em">
+            <td colspan="3">
               <?php echo _('Optional'); ?>:
               <?php echo _('Pipe all mail to a command (e.g. procmail)'); ?>
-              <br>
-              <?php echo _('Check box below to enable'); ?>
             </td>
           </tr>
           <tr>
             <td><?php echo _('Enable piped command?'); ?></td>
             <td colspan="2"><input type="checkbox" name="on_piped"></td>
+          </tr>
+	   <tr>
+            <td><?php echo _('Pipe to command'); ?>:</td>
+            <td colspan="2"><input type="textfield" size="25" name="smtp" class="textfield"></td>
           </tr>
           <?php }
             if ($row['avscan'] == "1") {
@@ -120,7 +119,7 @@
             <td><?php echo _('Anti-Virus'); ?>:</td>
             <td colspan="2"><input name="on_avscan" type="checkbox"></td>
           </tr>
-          <?php } 
+          <?php }
             if ($row['spamassassin'] == "1") {
           ?>
           <tr>

@@ -53,31 +53,11 @@ virtual_domains:
   allow_fail
   data = ${extract{smtp}{$address_data}}
   headers_add = ${if and { \
-                    {>{$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
+                    {match{$domain}{$original_domain}} \
+                    {match{$local_part}{$original_local_part}} \
+                    {>={$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
                     {eq{1}{${extract{on_spamassassin}{$address_data}}}} \
-                    } {X-Spam-Flag: YES\n}{} }
-  # Whether to use old or new headers_remove behavior.
-  .ifndef OLD_HEADERS_REMOVE
-    headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
-                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
-                                    } \
-                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
-                            }  {X-Spam-Score}}
-    headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
-                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
-                                    } \
-                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
-                            }  {X-Spam-Report}}
-  .else
-    headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
-                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
-                                    } \
-                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
-                            }  {X-Spam-Score:X-Spam-Report}}
-  .endif
+                    } {X-Spam-Flag: YES\nX-Spam-Score: $acl_m_spam_score\nVEXIM_SPAM_REPORT_HEADER_NAME: $acl_m_spam_report}{} }
   # using local_part_suffixes enables possibility to use user-"something" localparts
   # which could cause you trouble if you're creating email-adresses with dashes in between.
   .ifdef VEXIM_LOCALPART_SUFFIX

@@ -41,10 +41,41 @@
 #                    MAIN CONFIGURATION SETTINGS                     #
 ######################################################################
 
+
+# Mailman-related options. Uncomment VEXIM_HAVE_MAILMAN and adjust the macros
+# below if want to use Mailman with this installation.
+# NOTE: we only have integration with Mailman 2 ready at the moment.
+
+#VEXIM_HAVE_MAILMAN = yes
+
+
+# Home dir for your Mailman installation - aka Mailman's prefix
+# directory.
+# On a Red Hat/Fedora system using RPM, use "/var/mailman"
+# On Debian using the deb package use "/var/lib/mailman"
+# This is normally the same as ~mailman
+
 MAILMAN_HOME=/usr/local/mailman
+
+
+# User and group for Mailman, should match your --with-mail-gid
+# switch to Mailman's configure script.
+# Value is normally "mailman"
+
+MAILMAN_USER=mailman
+MAILMAN_GROUP=mailman
+
+
+# The path of the Mailman mail wrapper script
+
 MAILMAN_WRAP=MAILMAN_HOME/mail/mailman
-MAILMAN_USER=mailnull
-MAILMAN_GROUP=mail
+
+
+# The path of the list config file (used as a required file when
+# verifying list addresses)
+
+MAILMAN_LISTCHK = MAILMAN_HOME/lists/${lc::$local_part}/config.pck
+
 
 # Specify your host's canonical name here. This should normally be the fully
 # qualified "official" name of your host. If this option is not set, the
@@ -59,10 +90,6 @@ MAILMAN_GROUP=mail
 # to daemon_smtp_ports and uncomment the line below (tls_on_connect ports)
 daemon_smtp_ports = 25 : 587
 #tls_on_connect_ports = 465
-
-# Uncomment the next line if you want to be able to authenticate over unsecure
-# connections (without using SSL or TLS). Note that this is highly discouraged!
-#AUTH_SERVER_ALLOW_NOTLS_PASSWORDS = true
 
 # The next three settings create two lists of domains and one list of hosts.
 # These lists are referred to later in this configuration using the syntax
@@ -87,9 +114,24 @@ hostlist   relay_from_hosts = localhost : @ : 192.168.0.0/24
 # Comment this line if you want to disable it, instead of + you can use a different separator.
 VEXIM_LOCALPART_SUFFIX = +*
 
-# if you exim version < 4.83 , define macro below for enabling new
-# 'headers_remove' behavior. See https://github.com/vexim/vexim2/pull/102 .
-#OLD_HEADERS_REMOVE = yes
+# Exim will put the detailed spam report into an X-Spam-Report header by default.
+# This report is really huge by default, but its template can be tweaked to make
+# it look almost exactly like contents of the X-Spam-Status header, which
+# SpamAssassin adds when scanning messages externally, and which is a much more
+# compact version of the report. If you tweak your template this way, you may
+# as well want to change the header name here.
+#VEXIM_SPAM_REPORT_HEADER_NAME = X-Spam-Status
+
+# Reverse DNS checks can be efficient to fight spam. It checks if host name associated to the ip address matches
+# the sender_host_name (for properly configured mail servers this should be the case). However, there are some
+# downsides: DNS checks slow down the delivery process, DNS problems can result in rejected mails. You should
+# consider using a caching DNS server such as unbound on your host.
+# If the rule is activated, failed rDNS entries will only be logged to your exim-logfile (test mode). If you want
+# to reject mails directly, go to the vexim-acl-check-rcpt.conf and replace this line:
+#  warn message           = Warning - Reverse DNS lookup failed for host $sender_host_address.
+# by:
+#  deny message           = Warning - Reverse DNS lookup failed for host $sender_host_address.
+#CHECK_RCPT_REVERSE_DNS = yes
 
 #Debian: hide mysql_servers = localhost::(/var/run/mysqld/mysqld.sock)/vexim/vexim/CHANGE
 #hide mysql_servers = localhost::(/tmp/mysql.sock)/vexim/vexim/CHANGE
@@ -157,9 +199,16 @@ acl_smtp_data = acl_check_content
 
 acl_smtp_helo = acl_check_helo
 
+# This ACL checks attached files to comply with certain rules (number of
+# attachments, file name length etc.). You can also block certain file
+# extensions.
+
+acl_smtp_mime = acl_check_mime
+
 # This configuration variable defines the virus scanner that is used with
 # the 'malware' ACL condition of the exiscan acl-patch. If you do not use
-# virus scanning, leave it commented. Please read doc/exiscan-acl-readme.txt
+# virus scanning, leave it commented. Please read:
+# http://www.exim.org/exim-html-current/doc/html/spec_html/ch-content_scanning_at_acl_time.html
 # for a list of supported scanners.
 
 av_scanner = clamd:/var/run/clamav/clamd
@@ -170,6 +219,13 @@ av_scanner = clamd:/var/run/clamav/clamd
 # the default of "127.0.0.1 783", you can omit this option.
 
 spamd_address = 127.0.0.1 783
+
+# User who passes mails to spamassassin. He should have a home directory in order
+# to save configuration and scanning data (e.g. for Bayes filter). The default
+# vexim-user can be used for this purpose. If the user does not exist, SpamAssassin
+# will fall back to "nobody" and default settings, with all consequences.
+
+VEXIM_SA_USERNAME = vexim
 
 # Specify the domain you want to be added to all unqualified addresses
 # here. An unqualified address is one that does not contain an "@" character
@@ -214,6 +270,14 @@ exim_user = mailnull
 exim_group = mail
 never_users = root
 
+.ifdef MAIN_KEEP_ENVIRONMENT
+keep_environment = MAIN_KEEP_ENVIRONMENT
+.else
+keep_environment =
+.endif
+.ifdef MAIN_ADD_ENVIRONMENT
+add_environment = MAIN_ADD_ENVIRONMENT
+.endif
 
 # The setting below causes Exim to do a reverse DNS lookup on all incoming
 # IP calls, in order to get the true host name. If you feel this is too
@@ -287,9 +351,15 @@ tls_advertise_hosts = *
 tls_certificate = /etc/exim4/exim.crt
 tls_privatekey = /etc/exim4/exim.key
 tls_dhparam = /etc/exim4/dhparam.pem
+
+# A list of secure ciphers for GnuTLS which is used in Debian/Ubuntu
 tls_require_ciphers = ${if =={$received_port}{25}\
-{NORMAL:%COMPAT:!VERS-SSL3.0}\
-{SECURE128}}
+    {NORMAL:%COMPAT:-ARCFOUR-128:-ARCFOUR-40:-MD5:-VERS-SSL3.0}\
+    {SECURE128:+AES-256-CBC:+CAMELLIA-256-CBC:-ARCFOUR-128:-ARCFOUR-40:-MD5:-VERS-SSL3.0}}
+
+# If OpenSSL is used (CentOS, FreeBSD), comment the previous block (tls_require_ciphers)
+# and uncomment the following line
+# openssl_options = +all +no_sslv2 +no_sslv3 +no_compression +cipher_server_preference
 
 
 ######################################################################
@@ -314,9 +384,6 @@ acl_check_rcpt:
 
   accept  hosts = :
 
-  # Include Vexim specific rcpt ACLs
-  .include /usr/local/etc/exim/vexim-acl-check-rcpt.conf
-
   # Deny if the local part contains @ or % or / or | or !. These are rarely
   # found in genuine local parts, but are often tried by people looking to
   # circumvent relaying restrictions.
@@ -334,22 +401,22 @@ acl_check_rcpt:
   accept  local_parts   = postmaster
           domains       = +local_domains
 
-  # Deny unless the sender address can be verified.
-  # require verify        = sender
+  # Accept if the message arrived over an authenticated connection, from
+  # any host. These messages are usually from MUAs that don't cope well
+  # with SMTP error responses, so recipient verification is omitted.
 
-  #############################################################################
-  # There are no checks on DNS "black" lists because the domains that contain
-  # these lists are changing all the time. However, here are two examples of
-  # how you could get Exim to perform a DNS black list lookup at this point.
-  # The first one denies, while the second just warns.
-  #
-  # deny    message       = rejected because $sender_host_address is in a black list at $dnslist_domain\n$dnslist_text
-  #         dnslists      = black.list.example
-  #
-  # warn    message       = X-Warning: $sender_host_address is in a black list at $dnslist_domain
-  #         log_message   = found in $dnslist_domain
-  #         dnslists      = black.list.example
-  #############################################################################
+  accept  authenticated = *
+
+  # Accept if the message comes from one of the hosts for which we are an
+  # outgoing relay. Recipient verification is omitted here, because in many
+  # cases the clients are MUAs. If you are actually relaying out from MTAs,
+  # you should probably add recipient verification here.
+
+  accept  hosts         = +relay_from_hosts
+
+  # Include Vexim specific rcpt ACLs
+
+  .include /usr/local/etc/exim/vexim-acl-check-rcpt.conf
 
   # Accept if the address is in a local domain, but only if the recipient can
   # be verified. Otherwise deny. The "endpass" line is the border between
@@ -370,31 +437,20 @@ acl_check_rcpt:
   # If control reaches this point, the domain is neither in +local_domains
   # nor in +relay_to_domains.
 
-  # Accept if the message comes from one of the hosts for which we are an
-  # outgoing relay. Recipient verification is omitted here, because in many
-  # cases the clients are dumb MUAs that don't cope well with SMTP error
-  # responses. If you are actually relaying out from MTAs, you should probably
-  # add recipient verification here.
-
-  accept  hosts         = +relay_from_hosts
-
-  # Accept if the message arrived over an authenticated connection, from
-  # any host. Again, these messages are usually from MUAs, so recipient
-  # verification is omitted.
-
-  accept  authenticated = *
-
   # Reaching the end of the ACL causes a "deny", but we might as well give
   # an explicit message.
 
   deny    message       = relay not permitted
 
+acl_check_mime:
 
-# This access control list is used for content scanning with the exiscan-acl
-# patch. You must also uncomment the entry for acl_smtp_data (scroll up),
-# otherwise the ACL will not be used. IMPORTANT: the default entries here
-# should be treated as EXAMPLES. You MUST read the file doc/exiscan-acl-spec.txt
-# to fully understand what you are doing ...
+   #Include Vexim specific MIME rules:
+   .include /usr/local/etc/exim/vexim-acl-check-mime.conf
+
+  #accept content which is not forbidden
+  accept
+
+  # This access control list is used for content scanning (mail body).
 
 acl_check_content:
 
@@ -403,7 +459,7 @@ acl_check_content:
 
   # finally accept all the rest
   accept
-  
+
 
 ######################################################################
 #                      ROUTERS CONFIGURATION                         #
@@ -414,6 +470,11 @@ acl_check_content:
 ######################################################################
 
 begin routers
+
+# Make sure that the name of the spam report header is set.
+.ifndef VEXIM_SPAM_REPORT_HEADER_NAME
+VEXIM_SPAM_REPORT_HEADER_NAME = X-Spam-Report
+.endif
 
 # This router routes to remote hosts over SMTP by explicit IP address,
 # when an email address is given in "domain literal" form, for example,
@@ -428,7 +489,6 @@ begin routers
 #   driver = ipliteral
 #   domains = ! +local_domains
 #   transport = remote_smtp
-#   headers_remove = X-Spam-Report:X-Spam-Score
 
 
 # This router routes addresses that are not in local domains by doing a DNS
@@ -444,18 +504,29 @@ dnslookup:
   domains = ! +local_domains
   transport = remote_smtp
   ignore_target_hosts = 0.0.0.0 : 127.0.0.0/8
-  headers_remove = X-Spam-Report:X-Spam-Score
   no_more
 
+
+# This router picks up all the addresses going to the Mailman lists. Initially
+# it selects only the domains that may have lists in them, then selects where
+# local_part matches a list name (ie you can see a list config file). The
+# suffixes pick up all the Mailman admin addresses
+
+.ifdef VEXIM_HAVE_MAILMAN
 mailman_router:
   driver = accept
-  require_files = MAILMAN_HOME/lists/$local_part/config.pck
+  domains = +local_domains
+  require_files = MAILMAN_LISTCHK
   local_part_suffix_optional
-  local_part_suffix = -bounces : -bounces+* : \
-                      -confirm+* : -join : -leave : \
-                      -owner : -request : -admin
-  headers_remove = X-Spam-Score:X-Spam-Report
+  local_part_suffix = -admin     : \
+         -bounces   : -bounces+* : \
+         -confirm   : -confirm+* : \
+         -join      : -leave     : \
+         -owner     : -request   : \
+         -subscribe : -unsubscribe
   transport = mailman_transport
+.endif
+
 
 # The remaining routers handle addresses in the local domain(s).
 
@@ -506,17 +577,21 @@ ditch_malware:
   condition = ${if and { {match {$h_X-ACL-Warn:}{.*malware.*}} \
                          {eq {${lookup mysql{select users.on_avscan from users,domains \
 		                where localpart = '${quote_mysql:$local_part}' \
-		                and domain = '${quote_mysql:$domain}' \ 
+		                and domain = '${quote_mysql:$domain}' \
 		                and users.on_avscan = '1' \
                                 and domains.avscan = '1' \
 		                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
 
 # spam drop router
 ditch_spam_drop:
     driver = redirect
     allow_fail
     data = :blackhole:
-    condition = ${if >{$spam_score_int}{${lookup mysql{select users.sa_refuse * 10 from users,domains \
+    condition = ${if >={$spam_score_int}{${lookup mysql{select users.sa_refuse * 10 from users,domains \
         where localpart = '${quote_mysql:$local_part}' \
         and domain = '${quote_mysql:$domain}' \
         and users.on_spamassassin = '1' \
@@ -524,30 +599,42 @@ ditch_spam_drop:
         and users.spam_drop = '1' \
         and users.domain_id=domains.domain_id \
         and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
+    .ifdef VEXIM_LOCALPART_SUFFIX
+      local_part_suffix = VEXIM_LOCALPART_SUFFIX
+      local_part_suffix_optional
+    .endif
     retry_use_local_part
 
 ditch_spam:
     driver = redirect
     allow_fail
     file_transport = virtual_ditch_spam_transport
-    data = ${lookup mysql{select concat(smtp,'/.Spam') \ 
-        from users,domains \ 
-        where localpart = '${quote_mysql:$local_part}' \ 
-        and domain = '${quote_mysql:$domain}' \ 
-        and domains.enabled = '1' \ 
-        and users.enabled = '1' \ 
+    data = ${lookup mysql{select concat(smtp,'/.Spam') \
+        from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
+        and domain = '${quote_mysql:$domain}' \
+        and domains.enabled = '1' \
+        and users.enabled = '1' \
         and users.domain_id = domains.domain_id}}
-    condition = ${if >{$spam_score_int}{${lookup mysql{select \ 
-        users.sa_refuse * 10 from users,domains \ 
-        where localpart = '${quote_mysql:$local_part}' \ 
-        and domain = '${quote_mysql:$domain}' \ 
-        and users.on_spamassassin = '1' \ 
+    condition = ${if >={$spam_score_int}{${lookup mysql{select \
+        users.sa_refuse * 10 from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
+        and domain = '${quote_mysql:$domain}' \
+        and users.on_spamassassin = '1' \
         and domains.spamassassin = '1' \
         and users.spam_drop = '0' \
         and users.on_forward = '0' \
         and users.type = 'local' \
-        and users.domain_id=domains.domain_id \ 
+        and users.domain_id=domains.domain_id \
         and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
+    headers_add = ${if and { \
+                     {match{$domain}{$original_domain}} \
+                     {match{$local_part}{$original_local_part}} \
+                     } {X-Spam-Flag: YES\nX-Spam-Score: $acl_m_spam_score\nVEXIM_SPAM_REPORT_HEADER_NAME: $acl_m_spam_report}{} }
+    .ifdef VEXIM_LOCALPART_SUFFIX
+      local_part_suffix = VEXIM_LOCALPART_SUFFIX
+      local_part_suffix_optional
+    .endif
     retry_use_local_part
 
 ditch_hdrmailer:
@@ -623,7 +710,7 @@ virtual_vacation:
   condition = ${if and { {!match {$h_precedence:}{(?i)junk|bulk|list}} \
                          {eq {${lookup mysql{select users.on_vacation from users,domains \
 		                where localpart = '${quote_mysql:$local_part}' \
-		                and domain = '${quote_mysql:$domain}' \ 
+		                and domain = '${quote_mysql:$domain}' \
 		                and users.on_vacation = '1' \
 		                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
   no_verify
@@ -648,7 +735,7 @@ virtual_forward:
   condition = ${if and { {!match {$h_precedence:}{(?i)junk}} \
                          {eq {${lookup mysql{select users.on_forward from users,domains \
 		                where localpart = '${quote_mysql:$local_part}' \
-		                and domain = '${quote_mysql:$domain}' \ 
+		                and domain = '${quote_mysql:$domain}' \
 		                and users.on_forward = '1' \
 		                and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
 
@@ -667,31 +754,11 @@ virtual_domains:
   allow_fail
   data = ${extract{smtp}{$address_data}}
   headers_add = ${if and { \
-                    {>{$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
+                    {match{$domain}{$original_domain}} \
+                    {match{$local_part}{$original_local_part}} \
+                    {>={$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
                     {eq{1}{${extract{on_spamassassin}{$address_data}}}} \
-                    } {X-Spam-Flag: YES\n}{} }
-  # Whether to use old or new headers_remove behavior.
-  .ifndef OLD_HEADERS_REMOVE
-    headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
-                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
-                                    } \
-                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
-                            }  {X-Spam-Score}}
-    headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
-                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
-                                    } \
-                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
-                            }  {X-Spam-Report}}
-  .else
-    headers_remove = ${if or { { <{$spam_score_int}{1} } \
-                              { and {{<{$spam_score_int}{${extract{sa_tag}{$address_data}}} } \
-                                     {eq {1}{${extract{on_spamassassin}{$address_data}}}} \
-                                    } \
-                              } { eq {0}{${extract{on_spamassassin}{$address_data}}}} \
-                            }  {X-Spam-Score:X-Spam-Report}}
-  .endif
+                    } {X-Spam-Flag: YES\nX-Spam-Score: $acl_m_spam_score\nVEXIM_SPAM_REPORT_HEADER_NAME: $acl_m_spam_report}{} }
   # using local_part_suffixes enables possibility to use user-"something" localparts
   # which could cause you trouble if you're creating email-adresses with dashes in between.
   .ifdef VEXIM_LOCALPART_SUFFIX
@@ -765,7 +832,7 @@ virtual_domain_alias:
   		from domains,domainalias where domainalias.alias = '${quote_mysql:$domain}' \
 		and domainalias.domain_id = domains.domain_id}}
   retry_use_local_part
-  
+
 
 # This router handles aliasing using a linearly searched alias file with the
 # name /etc/aliases. When this configuration is installed automatically,
@@ -792,10 +859,6 @@ system_aliases:
   allow_fail
   allow_defer
   data = ${lookup{$local_part}lsearch{/etc/aliases}}
-  user = mailnull
-  group = mail
-  file_transport = address_file
-  pipe_transport = address_pipe
 
 
 # This router handles forwarding using traditional .forward files in users'
@@ -888,7 +951,7 @@ virtual_delivery:
   directory = ${extract{smtp}{$address_data}}
   user = ${extract{uid}{$address_data}}
   group = ${extract{gid}{$address_data}}
-  quota = ${extract{quota}{$address_data}}
+  quota = ${extract{quota}{$address_data}{${value}M}}
   quota_is_inclusive = false
   #quota_size_regex = ,S=(\d+):
   quota_warn_threshold = 75%
@@ -919,16 +982,24 @@ virtual_ditch_spam_transport:
   mode = 0600
   maildir_format = true
   create_directory = true
-  user = ${lookup mysql{select users.uid  from users,domains \ 
-                where localpart = '${quote_mysql:$local_part}' \ 
-                and domain = '${quote_mysql:$domain}' \ 
+  user = ${lookup mysql{select users.uid  from users,domains \
+                where localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
                 and users.domain_id = domains.domain_id}}
-  group = ${lookup mysql{select users.gid from users,domains \ 
-                where localpart = '${quote_mysql:$local_part}' \ 
-                and domain = '${quote_mysql:$domain}' \ 
+  group = ${lookup mysql{select users.gid from users,domains \
+                where localpart = '${quote_mysql:$local_part}' \
+                and domain = '${quote_mysql:$domain}' \
                 and users.domain_id = domains.domain_id}}
   maildir_use_size_file = false
 
+
+# This transport delivers messages to Mailman lists.
+# The if def:local_part_suffix section selects whether the suffix is used
+# as the mailman command, or whether there is no suffix and so post is
+# passed as a command.
+# The sg phrase strips the VERP information (if any) from the suffix,
+
+.ifdef VEXIM_HAVE_MAILMAN
 mailman_transport:
   driver = pipe
   command = MAILMAN_WRAP \
@@ -940,6 +1011,8 @@ mailman_transport:
   home_directory = MAILMAN_HOME
   user = MAILMAN_USER
   group = MAILMAN_GROUP
+.endif
+
 
 # This transport is used for handling pipe deliveries generated by alias or
 # .forward files. If the pipe generates any standard output, it is returned
@@ -1027,15 +1100,14 @@ plain_virtual_exim:
         server_condition = ${if crypteq{$auth3}{${lookup mysql{ \
                            SELECT crypt FROM users \
                            WHERE username = '${quote_mysql:$auth2}' \
+                             AND enabled = 1 \
                            }}}{1}{0}}
         server_set_id = $auth2
-    .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-      server_advertise_condition = ${if or{\
-        {!eq{$tls_cipher}{}}\
-        {match_ip {$sender_host_address}{@[]}}\
-        }\
-        {*}{}}
-    .endif
+        server_advertise_condition = ${if or{\
+          {!eq{$tls_cipher}{}}\
+          {match_ip {$sender_host_address}{@[]}}\
+          }\
+          {*}{}}
 
 login_virtual_exim:
         driver = plaintext
@@ -1044,15 +1116,14 @@ login_virtual_exim:
         server_condition = ${if crypteq{$auth2}{${lookup mysql{ \
                            SELECT crypt FROM users \
                            WHERE username = '${quote_mysql:$auth1}' \
+                             AND enabled = 1 \
                            }}}{1}{0}}
         server_set_id = $auth1
-    .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-      server_advertise_condition = ${if or{\
-        {!eq{$tls_cipher}{}}\
-        {match_ip {$sender_host_address}{@[]}}\
-        }\
-        {*}{}}
-    .endif
+        server_advertise_condition = ${if or{\
+          {!eq{$tls_cipher}{}}\
+          {match_ip {$sender_host_address}{@[]}}\
+          }\
+          {*}{}}
 
 
 # You can use the authenticator of your IMAP server (Courier or Dovecot) to authenticate
@@ -1077,13 +1148,11 @@ login_virtual_exim:
 #               {yes} \
 #               fail}
 #   server_set_id = $auth2
-#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-#     server_advertise_condition = ${if or{\
-#       {!eq{$tls_cipher}{}}\
-#       {match_ip {$sender_host_address}{@[]}}\
-#       }\
-#       {*}{}}
-#   .endif
+#   server_advertise_condition = ${if or{\
+#     {!eq{$tls_cipher}{}}\
+#     {match_ip {$sender_host_address}{@[]}}\
+#     }\
+#     {*}{}}
 #
 # login_courier_authdaemon:
 #   driver = plaintext
@@ -1096,13 +1165,11 @@ login_virtual_exim:
 #               {yes} \
 #               fail}
 #   server_set_id = $auth1
-#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-#     server_advertise_condition = ${if or{\
-#       {!eq{$tls_cipher}{}}\
-#       {match_ip {$sender_host_address}{@[]}}\
-#       }\
-#       {*}{}}
-#   .endif
+#   server_advertise_condition = ${if or{\
+#     {!eq{$tls_cipher}{}}\
+#     {match_ip {$sender_host_address}{@[]}}\
+#     }\
+#     {*}{}}
 
 # Authenticate against Dovecot SASL
 # Based on: http://wiki2.dovecot.org/HowTo/EximAndDovecotSASL
@@ -1112,26 +1179,22 @@ login_virtual_exim:
 #   public_name = LOGIN
 #   server_socket = /var/run/dovecot/auth-client
 #   server_set_id = $auth1
-#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-#     server_advertise_condition = ${if or{\
-#       {!eq{$tls_cipher}{}}\
-#       {match_ip {$sender_host_address}{@[]}}\
-#       }\
-#       {*}{}}
-#   .endif
+#   server_advertise_condition = ${if or{\
+#     {!eq{$tls_cipher}{}}\
+#     {match_ip {$sender_host_address}{@[]}}\
+#     }\
+#     {*}{}}
 #
 # plain_dovecot_sasl:
 #   driver = dovecot
 #   public_name = PLAIN
 #   server_socket = /var/run/dovecot/auth-client
 #   server_set_id = $auth1
-#   .ifndef AUTH_SERVER_ALLOW_NOTLS_PASSWORDS
-#     server_advertise_condition = ${if or{\
-#       {!eq{$tls_cipher}{}}\
-#       {match_ip {$sender_host_address}{@[]}}\
-#       }\
-#       {*}{}}
-#   .endif
+#   server_advertise_condition = ${if or{\
+#     {!eq{$tls_cipher}{}}\
+#     {match_ip {$sender_host_address}{@[]}}\
+#     }\
+#     {*}{}}
 
 
 ######################################################################

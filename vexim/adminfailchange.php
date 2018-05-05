@@ -11,12 +11,13 @@
       $row = $sth->fetch();
   }
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.failchange.localpart.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminfail.php"><?php echo _('Manage Fails'); ?></a><br>
@@ -25,13 +26,13 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div="Forms">
-	<?php 
+	<?php
 		# ensure this page can only be used to view/edit fail's that already exist for the domain of the admin account
-		if (!$sth->rowCount()) {			
+		if (!$sth->rowCount()) {
 			echo '<table align="center"><tr><td>';
-			echo "Invalid fail userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
+			echo "Invalid fail userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";
 			echo '</td></tr></table>';
-		}else{	
+		}else{
 	?>
       <form name="failchange" method="post" action="adminfailchangesubmit.php">
 	<table align="center">
@@ -39,7 +40,7 @@
             <td><?php echo _('Fail address'); ?>:</td>
 	    <td>
               <input name="localpart" type="text"
-                value="<?php print $row['localpart']; ?>" class="textfield">@
+                value="<?php print $row['localpart']; ?>" class="textfield" autofocus>@
               <?php print $_SESSION['domain']; ?>
             </td>
 	    <td>
@@ -56,10 +57,10 @@
           </tr>
 	</table>
       </form>
-		<?php 		
+		<?php
 			# end of the block editing a fail within the domain
-		}  
-		?>	  
+		}
+		?>
     </div>
   </body>
 </html>

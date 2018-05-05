@@ -4,15 +4,16 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Domains'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script src="scripts.js" type="text/javascript"></script>
   </head>
-  <body onLoad="document.siteadd.domain.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
-    <div id='menu'>
+    <div id='Menu'>
       <a href="site.php"><?php echo _('Manage Domains'); ?></a><br>
       <a href="sitepassword.php"><?php echo _('Site Password'); ?></a><br>
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
@@ -22,7 +23,7 @@
         <table align="center">
           <tr>
             <td><?php echo _('New Domain'); ?>:</td>
-            <td><input name="domain" type="text" class="textfield"></td>
+            <td><input name="domain" type="text" class="textfield" autofocus></td>
             <td>
               <?php echo _('The name of the new domain you are adding'); ?>
             </td>
@@ -57,9 +58,9 @@
         <tr>
             <td></td>
             <td colspan="2">
-              <input type="button" value="Generate password" onclick="suggestPassword('suggest')">
+              <input type="button" id="pwgenerate" value="Generate password">
               <input type="text" size="15" name="suggest" id="suggest" class="textfield">
-              <input type="button" value="Copy" onclick="copyPassword('suggest', 'clear', 'vclear')">
+              <input type="button" id="pwcopy" value="Copy">
             </td>
           </tr>
           <tr>

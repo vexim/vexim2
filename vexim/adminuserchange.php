@@ -24,13 +24,14 @@
   $blocksth = $dbh->prepare($blockquery);
   $blocksth->execute(array(':user_id'=>$_GET['user_id']));
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script src="scripts.js" type="text/javascript"></script>
   </head>
-  <body onLoad="document.userchange.realname.focus()">
+  <body>
   <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminuser.php"><?php echo _('Manage Accounts'); ?></a><br>
@@ -53,7 +54,7 @@
           <td><?php echo _('Name'); ?>:</td>
           <td>
             <input type="text" size="25" name="realname"
-              value="<?php print $row['realname']; ?>" class="textfield">
+              value="<?php print $row['realname']; ?>" class="textfield" autofocus>
             <input name="user_id" type="hidden"
               value="<?php print $_GET['user_id']; ?>">
           </td>
@@ -77,9 +78,9 @@
         <tr>
           <td></td>
           <td>
-            <input type="button" value="<?php echo _('Generate password'); ?>" onclick="suggestPassword('suggest')">
+            <input type="button" id="pwgenerate" value="<?php echo _('Generate password'); ?>">
             <input type="text" size="15" id="suggest" class="textfield">
-            <input type="button" value="<?php echo _('Copy'); ?>" onclick="copyPassword('suggest', 'clear', 'vclear')">
+            <input type="button" id="pwcopy" value="<?php echo _('Copy'); ?>">
           </td>
         </tr>
         <?php
@@ -99,7 +100,7 @@
             </td>
           </tr> 
           <tr>
-            <td colspan="2" style="padding-bottom:1em">
+            <td colspan="2" class="padafter">
               <?php echo _('When you update the UID or GID, please make sure
                 your MTA still has permission to create the required user
                 directories!'); ?>
@@ -147,7 +148,7 @@
             </td>
           </tr>
           <tr>
-            <td colspan="2" style="padding-bottom:1em">
+            <td colspan="2" class="padafter">
               <?php echo _('Optional'); ?>:
               <?php echo _('Pipe all mail to a command (e.g. procmail).'); ?>
               <br>
@@ -251,34 +252,27 @@
           </td>
         </tr>
         <tr>
-        <?php if (function_exists('imap_qprint')) { ?>
           <td><?php echo _('Vacation message'); ?>:</td>
           <td>
-            <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print imap_qprint($row['vacation']); ?></textarea>
+            <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print quoted_printable_decode($row['vacation']); ?></textarea>
           </td>
-        <?php } else { ?>
-          <td><?php echo _('Vacation message (ASCII only!)'); ?>:</td>
-          <td>
-            <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print $row['vacation']; ?></textarea>
-          </td>
-        <?php } ?>
         </tr>
         <tr>
           <td><?php echo _('Forwarding on'); ?>:</td>
-          <td><input name="on_forward" type="checkbox" <?php
+          <td><input name="on_forward" id="on_forward" type="checkbox" <?php
             if ($row['on_forward'] == "1") {
               print " checked";
             } ?>>
           </td>
         </tr>
         <tr>
-          <td><?php echo _('Forward mail to'); ?>:</td>
+          <td valign="top"><?php echo _('Forward mail to'); ?>:</td>
           <td>
-            <input type="text" size="25" name="forward"
+            <input type="text" size="25" name="forward" id="forward"
             value="<?php print $row['forward']; ?>" class="textfield"><br>
-            <?php echo _('Must be a full e-mail address'); ?>!<br>
-            <?php echo _('OR') .":<br>\n"; ?>
-            <select name="forwardmenu">
+            <?php echo _('Enter full e-mail addresses, use commas to separate them'); ?>!<br>
+            <?php echo _('or select from this list') .":<br>\n"; ?>
+            <select name="forwardmenu" id="forwardmenu">
               <option selected value=""></option>
               <?php
                 $queryuserlist = "SELECT realname, username, user_id, unseen
@@ -293,7 +287,7 @@
                   <?php echo $rowuserlist['realname']; ?>
                   (<?php echo $rowuserlist['username']; ?>)
                 </option>
-              <?php 
+              <?php
                 }
               ?>
             </select>
@@ -317,7 +311,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2" style="padding-top:1em">
+          <td colspan="2" class="padafter">
           <?php
             # Print the aliases associated with this account
             $query = "SELECT user_id,localpart,domain,realname FROM users,domains
@@ -405,7 +399,7 @@
       ?>
             <tr>
               <td>
-                <a href="adminuserblocksubmit.php?action=delete&user_id=<?php 
+                <a href="adminuserblocksubmit.php?action=delete&user_id=<?php
 					print $_GET['user_id']
 					. '&block_id='
 					. $blockrow['block_id']
@@ -423,10 +417,10 @@
         }
       ?>
     </table>
-	<?php 		
+	<?php
 		# end of the block editing an alias within the domain
-	}  
-	?>	
+	}
+	?>
     </div>
   </body>
 </html>

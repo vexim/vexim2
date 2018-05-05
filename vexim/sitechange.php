@@ -4,12 +4,13 @@ include_once dirname(__FILE__) . "/config/authsite.php";
 include_once dirname(__FILE__) . "/config/functions.php";
 include_once dirname(__FILE__) . "/config/httpheaders.php";
 ?>
+<!DOCTYPE html>
 <html>
 <head>
     <title><?php echo _("Virtual Exim") . ": " . _("Manage Domains"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
-<body onLoad="document.passwordchange.localpart.focus()">
+<body>
 <?php include dirname(__FILE__) . "/config/header.php"; ?>
 <div id="Menu">
     <a href="site.php"><?php echo _("Manage Domains"); ?></a><br>
@@ -25,7 +26,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
             </tr>
             <tr>
                 <td><?php echo _("Admin"); ?>:</td>
-                <td><select name="localpart" class="textfield">
+                <td><select name="localpart" class="textfield" autofocus>
                         <?php
                         $query = "SELECT localpart,domain FROM users,domains
                             WHERE domains.domain_id=:domain_id
@@ -135,7 +136,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 <td colspan="2"><h4><?php echo _("Modify SpamAssassin/Antivirus for all users").":"; ?></h4></td>
             </tr>
             <tr>
-                <td><?php echo _("SpamAssassin for all domain users") . "<br><b>(" . _("Warning: cannot be reversed!") . ")</b>:"; ?></td>
+                <td valign="top"><?php echo _("SpamAssassin for all domain users") . "<br><b>(" . _("Warning: cannot be reversed!") . ")</b>:"; ?></td>
                 <td>
                     <input type="radio" name="on_spamassassin" value="2" checked><?php echo _("Keep unchanged"); ?><br>
                     <input type="radio" name="on_spamassassin" value="1"><?php echo _("Enable"); ?><br>
@@ -143,7 +144,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 </td>
             </tr>
             <tr>
-                <td><?php echo _("Anti-Virus for all domain users") . "<br><b>(" . _("Warning: cannot be reversed!") . ")</b>:"; ?></td>
+                <td valign="top"><?php echo _("Anti-Virus for all domain users") . "<br><b>(" . _("Warning: cannot be reversed!") . ")</b>:"; ?></td>
                 <td>
                     <input type="radio" name="on_avscan" value="2" checked><?php echo _("Keep unchanged"); ?><br>
                     <input type="radio" name="on_avscan" value="1"><?php echo _("Enable"); ?><br>

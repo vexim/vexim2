@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
   $query = "SELECT localpart,realname,smtp,on_avscan,on_spamassassin,sa_tag,sa_refuse,spam_drop,
-    admin,enabled FROM users 	
+    admin,enabled FROM users
 	WHERE user_id=:user_id AND domain_id=:domain_id AND type='alias'";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
@@ -21,12 +21,13 @@
 ?>
 
 
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
-  <body onLoad="document.aliaschange.realname.focus()">
+  <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminalias.php"><?php echo _('Manage Aliases'); ?></a><br>
@@ -35,13 +36,13 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div id="Forms">
-	<?php 
+	<?php
 		# ensure this page can only be used to view/edit aliases that already exist for the domain of the admin account
 		if (!$sth->rowCount()) {
 			echo '<table align="center"><tr><td>';
-			echo "Invalid alias userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";			
+			echo "Invalid alias userid '" . htmlentities($_GET['user_id']) . "' for domain '" . htmlentities($_SESSION['domain']). "'";
 			echo '</td></tr></table>';
-		}else{	
+		}else{
 	?>
 	<form name="aliaschange" method="post" action="adminaliaschangesubmit.php">
         <table align="center">
@@ -49,7 +50,7 @@
             <td><?php echo _('Alias Name'); ?>:</td>
             <td>
               <input name="realname" type="text"
-              value="<?php print $row['realname']; ?>" class="textfield">
+              value="<?php print $row['realname']; ?>" class="textfield" autofocus>
             </td>
           </tr>
           <tr>
@@ -67,10 +68,9 @@
             </td>
           </tr>
           <tr>
-            <td colspan="2" style="padding-bottom:1em">
+            <td colspan="2" class="padafter">
               <?php
-                echo _('Multiple addresses should be comma separated,
-                with no spaces');
+                echo _('Enter full e-mail addresses, use commas to separate them.');
               ?>
             </td>
           </tr>
@@ -88,7 +88,7 @@
             </td>
           </tr>
           <tr>
-            <td colspan="2" style="padding-bottom:1em">
+            <td colspan="2" class="padafter">
               (<?php echo _('Password only needed if you want the user to be
               able to log in, or if the Alias is the admin account'); ?>)
             </td>
@@ -178,10 +178,10 @@
           </tr>
         </table>
       </form>
-		<?php 		
+		<?php
 			# end of the block editing an alias within the domain
-		}  
-		?>	
+		}
+		?>
     </div>
   </body>
 </html>

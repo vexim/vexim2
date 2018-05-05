@@ -37,17 +37,21 @@ ditch_malware:
     condition = ${if and { {match {$h_X-ACL-Warn:}{.*malware.*}} \
         {eq {${lookup mysql{select users.on_avscan from users,domains \
         where localpart = '${quote_mysql:$local_part}' \
-        and domain = '${quote_mysql:$domain}' \ 
+        and domain = '${quote_mysql:$domain}' \
         and users.on_avscan = '1' \
         and domains.avscan = '1' \
         and users.domain_id=domains.domain_id}}}{1} }} {yes}{no} }
+    .ifdef VEXIM_LOCALPART_SUFFIX
+      local_part_suffix = VEXIM_LOCALPART_SUFFIX
+      local_part_suffix_optional
+    .endif
 
 # spam drop router
 ditch_spam_drop:
     driver = redirect
     allow_fail
     data = :blackhole:
-    condition = ${if >{$spam_score_int}{${lookup mysql{select users.sa_refuse * 10 from users,domains \
+    condition = ${if >={$spam_score_int}{${lookup mysql{select users.sa_refuse * 10 from users,domains \
         where localpart = '${quote_mysql:$local_part}' \
         and domain = '${quote_mysql:$domain}' \
         and users.on_spamassassin = '1' \
@@ -55,30 +59,42 @@ ditch_spam_drop:
         and users.spam_drop = '1' \
         and users.domain_id=domains.domain_id \
         and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
+    .ifdef VEXIM_LOCALPART_SUFFIX
+      local_part_suffix = VEXIM_LOCALPART_SUFFIX
+      local_part_suffix_optional
+    .endif
     retry_use_local_part
 
 ditch_spam:
     driver = redirect
     allow_fail
     file_transport = virtual_ditch_spam_transport
-    data = ${lookup mysql{select concat(smtp,'/.Spam') \ 
-        from users,domains \ 
-        where localpart = '${quote_mysql:$local_part}' \ 
-        and domain = '${quote_mysql:$domain}' \ 
-        and domains.enabled = '1' \ 
-        and users.enabled = '1' \ 
+    data = ${lookup mysql{select concat(smtp,'/.Spam') \
+        from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
+        and domain = '${quote_mysql:$domain}' \
+        and domains.enabled = '1' \
+        and users.enabled = '1' \
         and users.domain_id = domains.domain_id}}
-    condition = ${if >{$spam_score_int}{${lookup mysql{select \ 
-        users.sa_refuse * 10 from users,domains \ 
-        where localpart = '${quote_mysql:$local_part}' \ 
-        and domain = '${quote_mysql:$domain}' \ 
-        and users.on_spamassassin = '1' \ 
+    condition = ${if >={$spam_score_int}{${lookup mysql{select \
+        users.sa_refuse * 10 from users,domains \
+        where localpart = '${quote_mysql:$local_part}' \
+        and domain = '${quote_mysql:$domain}' \
+        and users.on_spamassassin = '1' \
         and domains.spamassassin = '1' \
         and users.spam_drop = '0' \
         and users.on_forward = '0' \
         and users.type = 'local' \
-        and users.domain_id=domains.domain_id \ 
+        and users.domain_id=domains.domain_id \
         and users.sa_refuse > 0 }{$value}fail}} {yes}{no}}
+    headers_add = ${if and { \
+                     {match{$domain}{$original_domain}} \
+                     {match{$local_part}{$original_local_part}} \
+                     } {X-Spam-Flag: YES\nX-Spam-Score: $acl_m_spam_score\nVEXIM_SPAM_REPORT_HEADER_NAME: $acl_m_spam_report}{} }
+    .ifdef VEXIM_LOCALPART_SUFFIX
+      local_part_suffix = VEXIM_LOCALPART_SUFFIX
+      local_part_suffix_optional
+    .endif
     retry_use_local_part
 
 ditch_hdrmailer:

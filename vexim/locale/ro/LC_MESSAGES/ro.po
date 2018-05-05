@@ -5,296 +5,124 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: template\n"
+"Project-Id-Version: Virtual Exim 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-02 19:48+0200\n"
+"POT-Creation-Date: 2016-08-16 14:47+0300\n"
 "PO-Revision-Date: 2004-03-01 15:45+0200\n"
 "Last-Translator: George Cristian Birzan <gcbirzan@wolfheart.ro>\n"
 "Language-Team: Romanian\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.2\n"
 
-#: config/functions.php:108
-msgid "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-msgstr ""
-
-#: config/header.php:11 admin.php:9 adminalias.php:9 adminaliasadd.php:13
-#: adminaliaschange.php:12 adminaliasdelete.php:24 admincatchall.php:12
-#: admincatchalladd.php:9 adminfail.php:8 adminfailadd.php:9
-#: adminfailchange.php:13 admingroup.php:8 admingroupadd.php:8
-#: admingroupchange.php:13 admingroupdelete.php:31 adminlists.php:11
-#: adminuser.php:26 adminuseradd.php:24 adminuserchange.php:21
-#: adminuserdelete.php:32 index.php:8 site.php:22 siteadd.php:9
-#: sitechange.php:9 sitedelete.php:55 sitepassword.php:9 userchange.php:20
+#: admin.php:9 adminalias.php:9 adminaliasadd.php:14 adminaliaschange.php:26
+#: adminaliasdelete.php:30 admincatchall.php:16 admincatchalladd.php:9
+#: adminfail.php:9 adminfailadd.php:9 adminfailchange.php:16 admingroup.php:8
+#: admingroupadd.php:8 admingroupchange.php:17 admingroupdelete.php:45
+#: adminlists.php:12 adminuser.php:21 adminuseradd.php:31
+#: adminuserchange.php:29 adminuserdelete.php:71 config/header.php:24
+#: index.php:8 site.php:18 siteadd.php:9 sitechange.php:9 sitedelete.php:70
+#: sitepassword.php:9 userchange.php:23
 msgid "Virtual Exim"
 msgstr ""
 
-#: config/header.php:16
-msgid "-- domain disabled (please see your administrator)."
-msgstr ""
-
-#: config/header.php:18
-msgid "-- account disabled (please see your administrator)."
-msgstr ""
-
-#: config/header.php:22
-#, php-format
-msgid "-- %s has been successfully added."
-msgstr ""
-
-#: config/header.php:24
-#, php-format
-msgid "-- %s has been successfully deleted."
-msgstr ""
-
-#: config/header.php:26
-#, php-format
-msgid ""
-"-- %s is the last admin account. Create another admin account before "
-"deleting or demoting this one."
-msgstr ""
-
-#: config/header.php:28
-msgid "-- Site Admin password has been successfully updated."
-msgstr ""
-
-#: config/header.php:30
-#, php-format
-msgid "-- %s has been successfully updated."
-msgstr ""
-
-#: config/header.php:32
-#, php-format
-msgid "-- The account could not be added as the name %s is already in use."
-msgstr ""
-
-#: config/header.php:34
-msgid "-- Your update was sucessful."
-msgstr ""
-
-#: config/header.php:36
-msgid "-- Your account could not be updated. Was your password blank?"
-msgstr ""
-
-#: config/header.php:38
-msgid "-- Your account has been succesfully updated."
-msgstr ""
-
-#: config/header.php:40
-#, php-format
-msgid ""
-"-- Your vacation message was too long: %1$d characters. It has been "
-"truncated at %2$d."
-msgstr ""
-
-#: config/header.php:43
-#, php-format
-msgid ""
-"-- Account %s could not be added. Your passwords do not match, or contain "
-"illegal characters: ' \" ` or ;"
-msgstr ""
-
-#: config/header.php:45
-#, php-format
-msgid "-- %s contains invalid characters."
-msgstr ""
-
-#: config/header.php:47
-#, php-format
-msgid ""
-"-- Account %s could not be added. Your passwords were blank, do not match, "
-"or contain illegal characters: ' \" ` or ;"
-msgstr ""
-
-#: config/header.php:49
-msgid "-- The destination domain you specified does not exist."
-msgstr ""
-
-#: config/header.php:51
-msgid "-- You can not specify a blank realname."
-msgstr ""
-
-#: config/header.php:53
-#, php-format
-msgid "-- %s could not be added."
-msgstr ""
-
-#: config/header.php:55
-#, php-format
-msgid ""
-"-- Domain %s could not be added. The passwords were blank, or did not match."
-msgstr ""
-
-#: config/header.php:57
-#, php-format
-msgid ""
-"-- Domain %s could not be added. There was a problem adding the admin "
-"account."
-msgstr ""
-
-#: config/header.php:59
-#, php-format
-msgid "-- %s was not deleted."
-msgstr ""
-
-#: config/header.php:61
-#, php-format
-msgid "-- %s could not be updated."
-msgstr ""
-
-#: config/header.php:64
-#, php-format
-msgid "-- Deletion of %s was canceled."
-msgstr ""
-
-#: config/header.php:66
-msgid "-- This domain is currently disabled. Please see your administrator."
-msgstr ""
-
-#: config/header.php:68
-msgid ""
-"-- Your Domain Account Limit Has Been Reached. Please contact your "
-"administrator."
-msgstr ""
-
-#: config/header.php:70
-#, php-format
-msgid ""
-"-- The quota you specified was too high. The maximum quota you can specify "
-"is: %s MB."
-msgstr ""
-
-#: config/header.php:72
-#, php-format
-msgid "-- Group %s has been successfully deleted."
-msgstr ""
-
-#: config/header.php:74
-#, php-format
-msgid "-- Group %s has been successfully added."
-msgstr ""
-
-#: config/header.php:76
-#, php-format
-msgid "-- Group %s was not deleted."
-msgstr ""
-
-#: config/header.php:78
-#, php-format
-msgid "-- Group %s failed to be added."
-msgstr ""
-
-#: config/header.php:80
-#, php-format
-msgid "-- Group %s has been updated."
-msgstr ""
-
-#: config/header.php:82
-#, php-format
-msgid "-- Group %s could not be updated."
-msgstr ""
-
-#: config/header.php:84 index.php:50
-msgid "Login failed"
-msgstr "Autentificare esuata"
-
-#: admin.php:16
+#: admin.php:20
 msgid "Add, delete and manage POP/IMAP accounts"
 msgstr "Adauga, sterge si modifica conturi POP/IMAP"
 
-#: admin.php:17
+#: admin.php:29
 msgid "Add, delete and manage aliases, forwards and a Catchall"
 msgstr "Adauga, sterge si modifica alias-uri, forward-uri si Catchall"
 
-#: admin.php:18
+#: admin.php:37
 #, fuzzy
 msgid "Add, delete and manage groups"
 msgstr "Adauga, sterge si modifica :fail:-uri"
 
-#: admin.php:19
+#: admin.php:44
 msgid "Add, delete and manage :fail:'s"
 msgstr "Adauga, sterge si modifica :fail:-uri"
 
-#: admin.php:22
+#: admin.php:50
 msgid "Manage mailing lists"
 msgstr "Modifica liste de mail"
 
-#: admin.php:25 adminalias.php:24 adminaliasadd.php:21 adminaliaschange.php:21
-#: adminaliasdelete.php:32 admincatchall.php:20 admincatchalladd.php:18
-#: adminfail.php:16 adminfailadd.php:17 adminfailchange.php:22
-#: admingroup.php:17 admingroupadd.php:16 admingroupchange.php:22
-#: admingroupdelete.php:39 adminlists.php:19 adminuser.php:49
-#: adminuseradd.php:32 adminuserchange.php:29 adminuserdelete.php:40
-#: site.php:31 siteadd.php:17 sitechange.php:17 sitedelete.php:63
-#: sitepassword.php:17 userchange.php:26
+#: admin.php:55 adminalias.php:27 adminaliasadd.php:22 adminaliaschange.php:35
+#: adminaliasdelete.php:38 admincatchall.php:24 admincatchalladd.php:18
+#: adminfail.php:17 adminfailadd.php:17 adminfailchange.php:25
+#: admingroup.php:17 admingroupadd.php:16 admingroupchange.php:26
+#: admingroupdelete.php:53 adminlists.php:20 adminuser.php:45
+#: adminuseradd.php:40 adminuserchange.php:55 adminuserdelete.php:79
+#: site.php:28 siteadd.php:18 sitechange.php:18 sitedelete.php:78
+#: sitepassword.php:17 userchange.php:34
 msgid "Logout"
 msgstr "Deautentificare"
 
-#: adminalias.php:9 adminaliasadd.php:13 adminaliaschange.php:12
-#: admincatchall.php:12 admincatchalladd.php:9 adminfail.php:8
-#: adminfailadd.php:9 adminfailchange.php:13 adminuser.php:26
-#: adminuseradd.php:24 adminuserchange.php:21 userchange.php:20
+#: adminalias.php:9 adminaliasadd.php:14 adminaliaschange.php:26
+#: admincatchall.php:16 admincatchalladd.php:9 adminfail.php:9
+#: adminfailadd.php:9 adminfailchange.php:16 adminuser.php:21
+#: adminuseradd.php:31 adminuserchange.php:29 userchange.php:23
 msgid "Manage Users"
 msgstr "Modificare useri"
 
-#: adminalias.php:15 adminaliaschange.php:19 adminaliasdelete.php:30
+#: adminalias.php:15 adminaliaschange.php:33 adminaliasdelete.php:36
 #: admincatchalladd.php:16
 msgid "Add Alias"
 msgstr "Adaugare alias"
 
-#: adminalias.php:21
+#: adminalias.php:22
 #, fuzzy
 msgid "Add Catchall"
 msgstr "Catchall"
 
-#: adminalias.php:23 adminaliasadd.php:20 adminaliaschange.php:20
-#: adminaliasdelete.php:31 admincatchall.php:19 admincatchalladd.php:17
-#: adminfail.php:15 adminfailadd.php:16 adminfailchange.php:21
-#: admingroup.php:16 admingroupadd.php:15 admingroupchange.php:21
-#: admingroupdelete.php:38 adminlists.php:18 adminuser.php:48
-#: adminuseradd.php:31 adminuserchange.php:28 adminuserdelete.php:39
+#: adminalias.php:26 adminaliasadd.php:21 adminaliaschange.php:34
+#: adminaliasdelete.php:37 admincatchall.php:23 admincatchalladd.php:17
+#: adminfail.php:16 adminfailadd.php:16 adminfailchange.php:24
+#: admingroup.php:16 admingroupadd.php:15 admingroupchange.php:25
+#: admingroupdelete.php:52 adminlists.php:19 adminuser.php:44
+#: adminuseradd.php:39 adminuserchange.php:54 adminuserdelete.php:78
 msgid "Main Menu"
 msgstr "Meniu principal"
 
-#: adminalias.php:28
+#: adminalias.php:33
 msgid "Alias"
 msgstr "Alias"
 
-#: adminalias.php:28
+#: adminalias.php:34
 msgid "Target address"
 msgstr "Adresa tinta"
 
-#: adminalias.php:28
+#: adminalias.php:35
 #, fuzzy
 msgid "Forwards to.."
 msgstr "Forward la"
 
-#: adminalias.php:28 adminaliasadd.php:33 adminaliaschange.php:35
-#: adminuser.php:67 adminuserchange.php:68 sitechange.php:23
+#: adminalias.php:36 adminaliasadd.php:67 adminaliaschange.php:102
+#: adminuser.php:71 adminuserchange.php:189 sitechange.php:27
 msgid "Admin"
 msgstr "Admin"
 
-#: adminalias.php:36 adminalias.php:54
-#, fuzzy, php-format
-msgid "Delete alias %s"
+#: adminalias.php:48 adminalias.php:77
+#, fuzzy
+msgid "Delete alias "
 msgstr "Sterge alias"
 
-#: adminalias.php:64 adminuser.php:93
-#, fuzzy, php-format
-msgid "%s is an administrator"
+#: adminalias.php:91 adminuser.php:119
+#, fuzzy
+msgid " is an administrator"
 msgstr "Administrare liste de mail"
 
-#: adminalias.php:71
+#: adminalias.php:100
 msgid "Note"
 msgstr ""
 
-#: adminalias.php:71
+#: adminalias.php:102
 msgid "You can only have one catchall per domain."
 msgstr ""
 
-#: adminalias.php:71
+#: adminalias.php:104
 #, fuzzy
 msgid ""
 "It will catch and forward all email that does not get delivered to a "
@@ -303,128 +131,185 @@ msgstr ""
 "Poate exista un singur Catchall per domeniu.<br>Va face forward la toate "
 "mail-urile care nu sunt definite explicit"
 
-#: adminaliasadd.php:19 adminaliaschange.php:18 admincatchall.php:18
+#: adminaliasadd.php:20 adminaliaschange.php:32 admincatchall.php:22
 #: admincatchalladd.php:15
 msgid "Manage Aliases"
 msgstr "Modificare aliasuri"
 
-#: adminaliasadd.php:26 adminaliaschange.php:26 admincatchall.php:26
+#: adminaliasadd.php:28 adminaliaschange.php:49 admincatchall.php:38
 #: admincatchalladd.php:24
 msgid "Alias Name"
 msgstr "Nume alias"
 
-#: adminaliasadd.php:27 adminaliaschange.php:27 adminuseradd.php:38
+#: adminaliasadd.php:32 adminaliaschange.php:56 adminuseradd.php:52
 msgid "Address"
 msgstr "Adresa"
 
-#: adminaliasadd.php:28
-msgid "Multiple addresses should be comma seperated, with no spaces"
+#: adminaliasadd.php:40
+#, fuzzy
+msgid ""
+"Multiple addresses should be comma separated,\n"
+"                with no spaces"
 msgstr "Adresele multiple trebuie separate prin virgula, fara spatii"
 
-#: adminaliasadd.php:29 adminaliaschange.php:30
+#: adminaliasadd.php:45 adminaliaschange.php:77
 msgid "Forward To"
 msgstr "Forward la"
 
-#: adminaliasadd.php:30 adminaliaschange.php:31 adminuseradd.php:39
-#: adminuserchange.php:37 index.php:42 siteadd.php:28 sitechange.php:42
-#: sitepassword.php:23 userchange.php:33
+#: adminaliasadd.php:49 adminaliaschange.php:84 adminuseradd.php:59
+#: adminuserchange.php:83 index.php:25 siteadd.php:46 sitechange.php:55
+#: sitepassword.php:23 userchange.php:41
 msgid "Password"
 msgstr "Parola"
 
-#: adminaliasadd.php:31 adminaliaschange.php:33
+#: adminaliasadd.php:56
+#, fuzzy
 msgid ""
-"Password only needed if you want the user to be able to log in, or if the "
-"Alias is the admin account"
+"Password only needed if you want the user to be able\n"
+"              to log in, or if the Alias is the admin account"
 msgstr ""
 "Parola este necesara numai daca utilizatorul trebuie sa se logheze, sau daca "
 "este un cont de administrator"
 
-#: adminaliasadd.php:32 adminaliaschange.php:34 adminuseradd.php:40
-#: adminuserchange.php:38 siteadd.php:29 sitechange.php:43 sitepassword.php:24
-#: userchange.php:34
+#: adminaliasadd.php:61 adminaliaschange.php:96 adminuseradd.php:65
+#: adminuserchange.php:89 siteadd.php:52 sitechange.php:59 sitepassword.php:24
+#: userchange.php:42
 msgid "Verify Password"
 msgstr "Verificare parola"
 
-#: adminaliasadd.php:35 adminaliaschange.php:37 adminuseradd.php:59
-#: adminuserchange.php:71 userchange.php:49
+#: adminaliasadd.php:74 adminaliaschange.php:114 adminuseradd.php:120
+#: adminuserchange.php:200 userchange.php:64
 msgid "Anti-Virus"
 msgstr "Antivirus"
 
-#: adminaliasadd.php:38 adminaliaschange.php:39 adminuseradd.php:62
-#: adminuserchange.php:75 sitechange.php:60 userchange.php:56
+#: adminaliasadd.php:81 adminaliaschange.php:127 adminuseradd.php:127
+#: adminuserchange.php:212 sitechange.php:103 userchange.php:76
 msgid "Spamassassin"
 msgstr "Spamassassin"
 
-#: adminaliasadd.php:41 adminaliaschange.php:41 admingroup.php:21
-#: admingroupchange.php:41 admingroupchange.php:66 adminuseradd.php:73
-#: adminuserchange.php:85 sitechange.php:65
+#: adminaliasadd.php:85 adminaliaschange.php:136 adminuseradd.php:131
+#: adminuserchange.php:220 siteadd.php:124 sitechange.php:95 userchange.php:84
+msgid "Spamassassin tag score"
+msgstr "Scor Spamassassin pentru tag"
+
+#: adminaliasadd.php:91 adminaliaschange.php:143 adminuseradd.php:140
+#: adminuserchange.php:227 siteadd.php:135 sitechange.php:99 userchange.php:91
+msgid "Spamassassin refuse score"
+msgstr "Scor Spamassassin pentru blocare"
+
+#: adminaliasadd.php:98 adminaliaschange.php:150 adminuseradd.php:150
+#: adminuserchange.php:234 userchange.php:98
+msgid "How to handle mail above the SA refuse score"
+msgstr ""
+
+#: adminaliasadd.php:101
+#, fuzzy
+msgid "forward Spam mails"
+msgstr "Forward mail la"
+
+#: adminaliasadd.php:103
+#, fuzzy
+msgid "delete Spam mails"
+msgstr "Stergeti respingere"
+
+#: adminaliasadd.php:108 adminaliaschange.php:164 admingroup.php:25
+#: admingroupchange.php:59 admingroupchange.php:91 adminuseradd.php:167
+#: adminuserchange.php:255 sitechange.php:115
 msgid "Enabled"
 msgstr "Activat"
 
-#: adminaliasadd.php:42 adminaliaschange.php:43 admincatchall.php:36
-#: admincatchalladd.php:33 adminfailadd.php:26 adminfailchange.php:30
-#: admingroupadd.php:26 admingroupchange.php:116 adminlists.php:26
-#: adminuseradd.php:74 adminuserchange.php:139 index.php:45 siteadd.php:58
-#: sitepassword.php:25
+#: adminaliasadd.php:115 adminaliaschange.php:175 admincatchall.php:60
+#: admincatchalladd.php:40 adminfailadd.php:32 adminfailchange.php:54
+#: admingroupadd.php:31 admingroupchange.php:165 adminlists.php:38
+#: adminuseradd.php:172 adminuserchange.php:333 adminuserchange.php:408
+#: index.php:31 siteadd.php:198 sitechange.php:155 sitepassword.php:25
 msgid "Submit"
 msgstr "Trimite"
 
-#: adminaliaschange.php:29
+#: adminaliaschange.php:72 userchange.php:146
 #, fuzzy
-msgid "Multiple addresses should be comma separated, with no spaces"
+msgid "Enter full e-mail addresses, use commas to separate them."
 msgstr "Adresele multiple trebuie separate prin virgula, fara spatii"
 
-#: adminaliasdelete.php:24 admingroupdelete.php:31 adminuserdelete.php:32
-#: sitedelete.php:55
+#: adminaliaschange.php:91
+#, fuzzy
+msgid ""
+"Password only needed if you want the user to be\n"
+"              able to log in, or if the Alias is the admin account"
+msgstr ""
+"Parola este necesara numai daca utilizatorul trebuie sa se logheze, sau daca "
+"este un cont de administrator"
+
+#: adminaliaschange.php:154 userchange.php:102
+#, fuzzy
+msgid "forward spam mails"
+msgstr "Forward mail la"
+
+#: adminaliaschange.php:157
+#, fuzzy
+msgid "delete spam mails"
+msgstr "Stergeti respingere"
+
+#: adminaliasdelete.php:30 admingroupdelete.php:45 adminuserdelete.php:71
+#: sitedelete.php:70
 msgid "Confirm Delete"
 msgstr "Confrimare stergere"
 
-#: adminaliasdelete.php:37
+#: adminaliasdelete.php:45
 #, fuzzy, php-format
 msgid "Please confirm deleting alias %s@%s"
 msgstr "Confirmati stergerea domeniului"
 
-#: adminaliasdelete.php:38 admingroupdelete.php:45 adminuserdelete.php:46
+#: adminaliasdelete.php:54 admingroupdelete.php:69 adminuserdelete.php:95
 #, fuzzy, php-format
 msgid "Do Not Delete %s@%s"
 msgstr "Anulare stergere"
 
-#: adminaliasdelete.php:39 admingroupdelete.php:46 adminuserdelete.php:47
+#: adminaliasdelete.php:63 admingroupdelete.php:78 adminuserdelete.php:104
 #, fuzzy, php-format
 msgid "Delete %s@%s"
 msgstr "Stergere"
 
-#: adminaliasdelete.php:43 admingroupdelete.php:50 adminuserdelete.php:51
-#: sitedelete.php:80
+#: adminaliasdelete.php:78 admingroupdelete.php:93 adminuserdelete.php:119
+#: sitedelete.php:95
 msgid "Continue"
 msgstr "Continua"
 
-#: admincatchall.php:26 admincatchalladd.php:24
+#: admincatchall.php:31
+#, php-format
+msgid "Invalid catchall userid '%s' for domain '%s'"
+msgstr ""
+
+#: admincatchall.php:39 admincatchalladd.php:25
 msgid "Catchall"
 msgstr "Catchall"
 
-#: admincatchall.php:29 admincatchalladd.php:27
+#: admincatchall.php:42 admincatchalladd.php:28
 msgid "Forward email addressed to"
 msgstr "Forwardare mail-urile destinate"
 
-#: admincatchall.php:32 admincatchalladd.php:30
+#: admincatchall.php:46 admincatchalladd.php:32
 msgid "Forward the email to"
 msgstr "Forward la"
 
-#: adminfail.php:14 adminfailchange.php:20
+#: admincatchall.php:50 admincatchalladd.php:34
+msgid "Must be a full e-mail address"
+msgstr ""
+
+#: adminfail.php:15 adminfailchange.php:23
 msgid "Add Fail"
 msgstr "Adaugati respingere"
 
-#: adminfail.php:20
+#: adminfail.php:23
 msgid "Failed Address"
 msgstr "Adresa respinsa"
 
-#: adminfail.php:29
-#, fuzzy, php-format
-msgid "Delete fail %s"
+#: adminfail.php:41
+#, fuzzy
+msgid "Delete fail "
 msgstr "Stergeti respingere"
 
-#: adminfailadd.php:15 adminfailchange.php:19
+#: adminfailadd.php:15 adminfailchange.php:22
 msgid "Manage Fails"
 msgstr "Modificati respingeri"
 
@@ -432,7 +317,7 @@ msgstr "Modificati respingeri"
 msgid "Address to fail"
 msgstr "Adresa de respins"
 
-#: adminfailchange.php:27
+#: adminfailchange.php:39
 msgid "Fail address"
 msgstr "Adresa respinsa"
 
@@ -440,551 +325,869 @@ msgstr "Adresa respinsa"
 msgid "List groups"
 msgstr ""
 
-#: admingroup.php:14 admingroupadd.php:8 admingroupchange.php:20
-#: admingroupdelete.php:37
+#: admingroup.php:14 admingroupadd.php:8 admingroupchange.php:24
+#: admingroupdelete.php:51
 msgid "Add Group"
 msgstr ""
 
-#: admingroup.php:21 adminuser.php:62 adminuser.php:67
+#: admingroup.php:23 adminuser.php:62 adminuser.php:70
 msgid "Email address"
 msgstr "Adresa de email"
 
-#: admingroup.php:21 admingroupchange.php:35
+#: admingroup.php:24 admingroupchange.php:51
 msgid "Is public"
 msgstr ""
 
-#: admingroup.php:31
-#, php-format
-msgid "Delete group %s"
-msgstr ""
+#: admingroup.php:38
+#, fuzzy
+msgid "Delete group"
+msgstr "Stergere"
 
-#: admingroup.php:33
-#, fuzzy, php-format
-msgid "Click to modify %s"
+#: admingroup.php:44
+#, fuzzy
+msgid "Click to modify "
 msgstr "Click pentru a modifica"
 
-#: admingroup.php:38
-#, php-format
-msgid "Anyone can write to %s"
+#: admingroup.php:50
+msgid "Anyone can write to"
 msgstr ""
 
-#: admingroup.php:43
-#, fuzzy, php-format
-msgid "%s is enabled"
+#: admingroup.php:56
+#, fuzzy
+msgid " is enabled"
 msgstr "Antivirus activat"
 
-#: admingroupadd.php:14 admingroupchange.php:19
+#: admingroupadd.php:14 admingroupchange.php:23
 #, fuzzy
 msgid "Manage Groups"
 msgstr "Modificare useri"
 
-#: admingroupadd.php:22 admingroupchange.php:28
+#: admingroupadd.php:22 admingroupchange.php:41
 #, fuzzy
 msgid "Group Address"
 msgstr "Adresa"
 
-#: admingroupchange.php:13
+#: admingroupchange.php:17
 msgid "Edit group"
 msgstr ""
 
-#: admingroupchange.php:64
+#: admingroupchange.php:89
 msgid "Real name"
 msgstr ""
 
-#: admingroupchange.php:65 adminuserchange.php:35 userchange.php:32
+#: admingroupchange.php:90 adminuserchange.php:79 userchange.php:40
 msgid "Email Address"
 msgstr "Adresa de email"
 
-#: admingroupchange.php:87
-msgid "There is no member in this group"
+#: admingroupchange.php:126
+msgid "There are no members in this group"
 msgstr ""
 
-#: admingroupchange.php:95
+#: admingroupchange.php:137
 #, fuzzy
 msgid "Add Member"
 msgstr "Adaugati useri"
 
-#: admingroupdelete.php:44
+#: admingroupdelete.php:60
 #, fuzzy, php-format
 msgid "Please confirm deleting group %s@%s"
 msgstr "Confirmati stergerea utilizatorului"
 
-#: adminlists.php:11
+#: adminlists.php:12
 msgid "Mailing List Administration"
 msgstr "Administrare liste de mail"
 
-#: adminlists.php:17
+#: adminlists.php:18
 msgid "Add a list"
 msgstr "Adaugati o lista"
 
-#: adminlists.php:24
+#: adminlists.php:27
 msgid "Please enter the name of the list to admin"
 msgstr "Introduceti numele listei de administrat"
 
-#: adminuser.php:32 adminuserdelete.php:38
+#: adminuser.php:27 adminuserdelete.php:77
 msgid "Add User"
 msgstr "Adaugati useri"
 
-#: adminuser.php:57 site.php:38
+#: adminuser.php:40
+#, php-format
+msgid "(%d of %d)"
+msgstr ""
+
+#: adminuser.php:52 site.php:36
 msgid "Search"
 msgstr ""
 
-#: adminuser.php:59
+#: adminuser.php:55
 msgid "in"
 msgstr ""
 
-#: adminuser.php:61 adminuser.php:67
+#: adminuser.php:59 adminuser.php:69
 #, fuzzy
 msgid "User"
 msgstr "Nume utilizator"
 
-#: adminuser.php:64 site.php:40
+#: adminuser.php:64 site.php:41
 #, fuzzy
 msgid "search"
 msgstr "Nume utilizator"
 
-#: adminuser.php:87
+#: adminuser.php:101 adminuser.php:109
 msgid "Click to modify"
 msgstr "Click pentru a modifica"
 
-#: adminuseradd.php:30 adminuserchange.php:27
+#: adminuseradd.php:38 adminuserchange.php:53
 msgid "Manage Accounts"
 msgstr "Modificati conturi"
 
-#: adminuseradd.php:37 adminuserchange.php:34 userchange.php:31
+#: adminuseradd.php:46 adminuserchange.php:70 userchange.php:39
 msgid "Name"
 msgstr "Nume"
 
-#: adminuseradd.php:42 adminuserchange.php:40
+#: adminuseradd.php:73 adminuserchange.php:97
+#, fuzzy
+msgid "Generate password"
+msgstr "Parola site"
+
+#: adminuseradd.php:75 adminuserchange.php:99
+msgid "Copy"
+msgstr ""
+
+#: adminuseradd.php:81 adminuserchange.php:105
 msgid "UID"
 msgstr ""
 
-#: adminuseradd.php:43 adminuserchange.php:41
+#: adminuseradd.php:85 adminuserchange.php:112
 msgid "GID"
 msgstr ""
 
-#: adminuseradd.php:47 adminuserchange.php:46
+#: adminuseradd.php:91
 #, fuzzy, php-format
 msgid "Mailbox quota (%s Mb max)"
 msgstr "Quota mailbox-ului"
 
-#: adminuseradd.php:49 siteadd.php:37
+#: adminuseradd.php:92 siteadd.php:109
 msgid "Mb"
 msgstr ""
 
-#: adminuseradd.php:51
+#: adminuseradd.php:96
 msgid "Has domain admin privileges?"
 msgstr "Privielgii de administrator?"
 
-#: adminuseradd.php:53
+#: adminuseradd.php:101
 msgid "Pipe to command"
 msgstr "Pipe unei comenzi"
 
-#: adminuseradd.php:54 adminuserchange.php:62
+#: adminuseradd.php:106 adminuserchange.php:168
 msgid "Optional"
 msgstr "Optional"
 
-#: adminuseradd.php:54
+#: adminuseradd.php:107
 msgid "Pipe all mail to a command (e.g. procmail)"
 msgstr "Pipe toate mail-urile unei comenzi (de exemplu, procmail)"
 
-#: adminuseradd.php:55 adminuserchange.php:63
+#: adminuseradd.php:109 adminuserchange.php:171
 msgid "Check box below to enable"
 msgstr "Selectati casuta pentru a activa"
 
-#: adminuseradd.php:56
+#: adminuseradd.php:113
 #, fuzzy
 msgid "Enable piped command?"
 msgstr "Activati comanda pipe"
 
-#: adminuseradd.php:63 adminuserchange.php:77 siteadd.php:41 sitechange.php:56
-msgid "Spamassassin tag score"
-msgstr "Scor Spamassassin pentru tag"
-
-#: adminuseradd.php:65
+#: adminuseradd.php:135
 #, fuzzy
-msgid "The score at which to tag potential spam mail but still deliver"
+msgid ""
+"The score at which to tag potential spam\n"
+"              mail but still deliver"
 msgstr "Scorul la care mail-ul primeste tag de spam, dar nu este blocat"
 
-#: adminuseradd.php:66 adminuserchange.php:79 siteadd.php:44 sitechange.php:58
-msgid "Spamassassin refuse score"
-msgstr "Scor Spamassassin pentru blocare"
-
-#: adminuseradd.php:68
+#: adminuseradd.php:145
 #, fuzzy
-msgid "The score at which to refuse potential spam mail and not deliver"
+msgid ""
+"The score at which to move potential spam mail\n"
+"                to folder or to delete"
 msgstr "Scorul la care spam-ul potential este blocat"
 
-#: adminuseradd.php:70 adminuserchange.php:82 siteadd.php:38 sitechange.php:54
-#: userchange.php:66
+#: adminuseradd.php:153 adminuserchange.php:238 userchange.php:102
+msgid "move to Spam-folder"
+msgstr ""
+
+#: adminuseradd.php:155 adminuserchange.php:241 userchange.php:105
+msgid "delete - you cannot restore these mails"
+msgstr ""
+
+#: adminuseradd.php:160 adminuserchange.php:248 siteadd.php:113
+#: sitechange.php:91 userchange.php:113
 msgid "Maximum message size"
 msgstr "Marimea maxima a mesajelor"
 
-#: adminuserchange.php:42
+#: adminuseraddsubmit.php:162
+#, fuzzy, php-format
+msgid "Welcome %s!"
+msgstr "Stergere"
+
+#: adminuserchange.php:120
+#, fuzzy
 msgid ""
-"When you update the UID or GID, please make sure your MTA still has "
-"permission to create the required user directories!"
+"When you update the UID or GID, please make sure\n"
+"                your MTA still has permission to create the required user\n"
+"                directories!"
 msgstr ""
 "Cand modificati UID-ul si GID-ul, aveti grija ca MTA-ul sa aiba permisiunile "
 "necesare in directorul respectiv!"
 
-#: adminuserchange.php:53
+#: adminuserchange.php:131
+#, fuzzy, php-format
+msgid "Mailbox quota (%s MB max)"
+msgstr "Quota mailbox-ului"
+
+#: adminuserchange.php:136
+msgid "MB"
+msgstr ""
+
+#: adminuserchange.php:149
 #, php-format
 msgid "Space used:"
 msgstr ""
 
-#: adminuserchange.php:60
+#: adminuserchange.php:151
+#, php-format
+msgid "%.2f MB"
+msgstr ""
+
+#: adminuserchange.php:160
 msgid "Pipe to command or alternative Maildir"
 msgstr "Pipe intr-o comanda sau Maildir alternativ"
 
-#: adminuserchange.php:62
-msgid " Pipe all mail to a command (e.g. procmail)."
+#: adminuserchange.php:169
+#, fuzzy
+msgid "Pipe all mail to a command (e.g. procmail)."
 msgstr "Pipe toate mail-urile unei comenzi (de exemplu, procmail)"
 
-#: adminuserchange.php:64
+#: adminuserchange.php:175
 #, fuzzy
 msgid "Enable piped command or alternative Maildir?"
 msgstr "Activare pipe intr-o comanda sau Maildir alternativ"
 
-#: adminuserchange.php:87
+#: adminuserchange.php:263 userchange.php:120
 msgid "Vacation on"
 msgstr "Vacanta activata"
 
-#: adminuserchange.php:89 userchange.php:71
+#: adminuserchange.php:272 userchange.php:129
 msgid "Vacation message"
 msgstr "Mesaj vacanta"
 
-#: adminuserchange.php:91
+#: adminuserchange.php:277 userchange.php:134
+#, fuzzy
+msgid "Vacation message (ASCII only!)"
+msgstr "Mesaj vacanta"
+
+#: adminuserchange.php:284
 msgid "Forwarding on"
 msgstr "Forward activat"
 
-#: adminuserchange.php:93 userchange.php:76
+#: adminuserchange.php:292 userchange.php:144
 msgid "Forward mail to"
 msgstr "Forward mail la"
 
-#: adminuserchange.php:95 userchange.php:78
+#: adminuserchange.php:296
+#, fuzzy
+msgid "Enter full e-mail addresses, use commas to separate them"
+msgstr "Adresele multiple trebuie separate prin virgula, fara spatii"
+
+#: adminuserchange.php:297
+msgid "or select from this list"
+msgstr ""
+
+#: adminuserchange.php:320 userchange.php:148
 #, fuzzy
 msgid "Store Forwarded Mail Locally"
 msgstr "Forward mail la"
 
-#: adminuserchange.php:100
+#: adminuserchange.php:345
 #, fuzzy
 msgid "Aliases to this account"
 msgstr "Alias-uri asociate acestui cont"
 
-#: adminuserchange.php:128
+#: adminuserchange.php:381
 msgid "Add a new header blocking filter for this user"
 msgstr "Adaugare no filtru pentru blocare pe header"
 
-#: adminuserchange.php:129
+#: adminuserchange.php:387
 msgid "Header"
 msgstr "Header"
 
-#: adminuserchange.php:130 userchange.php:88
+#: adminuserchange.php:390 userchange.php:162
 msgid "From"
 msgstr ""
 
-#: adminuserchange.php:131 userchange.php:89
+#: adminuserchange.php:391 userchange.php:163
 msgid "To"
 msgstr ""
 
-#: adminuserchange.php:132 userchange.php:90
+#: adminuserchange.php:392 userchange.php:164
 #, fuzzy
 msgid "Subject"
 msgstr "Trimite"
 
-#: adminuserchange.php:133 userchange.php:91
+#: adminuserchange.php:393 userchange.php:165
 msgid "X-Mailer"
 msgstr ""
 
-#: adminuserchange.php:143 userchange.php:99
+#: adminuserchange.php:415 site.php:126 site.php:150 userchange.php:173
 msgid "Delete"
 msgstr "Stergere"
 
-#: adminuserchange.php:143 userchange.php:99
+#: adminuserchange.php:416 userchange.php:173
 #, fuzzy
 msgid "Blocked Header"
 msgstr "Header blocat"
 
-#: adminuserchange.php:143 userchange.php:99
+#: adminuserchange.php:417 userchange.php:173
 msgid "Content"
 msgstr "Continut"
 
-#: adminuserdelete.php:45
+#: adminuserdelete.php:86
 #, fuzzy, php-format
 msgid "Please confirm deleting user %s@%s"
 msgstr "Confirmati stergerea utilizatorului"
+
+#: config/functions.php:122
+msgid "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+msgstr ""
+
+#: config/functions.php:168
+msgid "The value of $cryptscheme is invalid!"
+msgstr ""
+
+#: config/header.php:30
+#, php-format
+msgid "-- %s has been successfully added."
+msgstr ""
+
+#: config/header.php:32
+#, php-format
+msgid "-- %s has been successfully deleted."
+msgstr ""
+
+#: config/header.php:34
+#, php-format
+msgid ""
+"-- %s is the last admin account. Create another admin account before "
+"deleting or demoting this one."
+msgstr ""
+
+#: config/header.php:36
+msgid "-- Site Admin password has been successfully updated."
+msgstr ""
+
+#: config/header.php:38
+#, php-format
+msgid "-- %s has been successfully updated."
+msgstr ""
+
+#: config/header.php:40
+#, php-format
+msgid "-- The account could not be added as the name %s is already in use."
+msgstr ""
+
+#: config/header.php:42
+#, php-format
+msgid "-- The account could not be added as the mail address is too long."
+msgstr ""
+
+#: config/header.php:44
+msgid "-- Your update was sucessful."
+msgstr ""
+
+#: config/header.php:46
+msgid "-- Your account could not be updated. Was your password blank?"
+msgstr ""
+
+#: config/header.php:48
+msgid "-- Your account has been succesfully updated."
+msgstr ""
+
+#: config/header.php:50
+#, php-format
+msgid ""
+"-- Your vacation message was too long: %1$d characters. It has been "
+"truncated at %2$d."
+msgstr ""
+
+#: config/header.php:53
+#, php-format
+msgid "-- Account %s could not be added. Your passwords do not match."
+msgstr ""
+
+#: config/header.php:55
+#, php-format
+msgid "-- %s contains invalid characters."
+msgstr ""
+
+#: config/header.php:57
+#, php-format
+msgid ""
+"-- Account %s could not be added. Your passwords were blank, do not match, "
+"or contain illegal characters: ' \" ` or ;"
+msgstr ""
+
+#: config/header.php:59
+#, php-format
+msgid ""
+"-- The passwords are too weak. Use strong passwords with a a minimum length "
+"of 8 and a mix of upper/lower case characters, digits and special characters!"
+msgstr ""
+
+#: config/header.php:61
+#, php-format
+msgid "-- %s could not be added."
+msgstr ""
+
+#: config/header.php:63
+#, php-format
+msgid "-- Domain %s could not be added."
+msgstr ""
+
+#: config/header.php:65
+#, php-format
+msgid ""
+"-- Domain %s could not be added. The passwords were blank, or did not match."
+msgstr ""
+
+#: config/header.php:67
+#, php-format
+msgid ""
+"-- Domain %s could not be added. There was a problem adding the admin "
+"account."
+msgstr ""
+
+#: config/header.php:69
+#, php-format
+msgid "-- %s was not deleted."
+msgstr ""
+
+#: config/header.php:71
+#, php-format
+msgid "-- %s could not be updated."
+msgstr ""
+
+#: config/header.php:74
+#, php-format
+msgid "-- Deletion of %s was canceled."
+msgstr ""
+
+#: config/header.php:76
+msgid "-- This domain is currently disabled. Please see your administrator."
+msgstr ""
+
+#: config/header.php:78
+msgid "-- This account is currently disabled. Please see your administrator."
+msgstr ""
+
+#: config/header.php:80
+msgid ""
+"-- Your Domain Account Limit Has Been Reached. Please contact your "
+"administrator."
+msgstr ""
+
+#: config/header.php:82
+#, php-format
+msgid ""
+"-- The quota you specified was too high. The maximum quota you can specify "
+"is: %s MB."
+msgstr ""
+
+#: config/header.php:84
+#, php-format
+msgid "-- Group %s has been successfully deleted."
+msgstr ""
+
+#: config/header.php:86
+#, php-format
+msgid "-- Group %s has been successfully added."
+msgstr ""
+
+#: config/header.php:88
+#, php-format
+msgid "-- Group %s was not deleted."
+msgstr ""
+
+#: config/header.php:90
+#, php-format
+msgid "-- Group %s failed to be added."
+msgstr ""
+
+#: config/header.php:92
+#, php-format
+msgid "-- Group %s has been updated."
+msgstr ""
+
+#: config/header.php:94
+#, php-format
+msgid "-- Group %s could not be updated."
+msgstr ""
+
+#: config/header.php:96
+#, php-format
+msgid "-- Error getting UID/GID for %s"
+msgstr ""
+
+#: config/header.php:98
+#, php-format
+msgid ""
+"-- Domain Mail directory must be an absolute path, but “%s” was provided"
+msgstr ""
+
+#: config/header.php:100
+#, php-format
+msgid ""
+"-- Domain Mail directory “%s” does not exist, is not a directory or is not "
+"accessible."
+msgstr ""
+
+#: config/header.php:102
+#, php-format
+msgid "-- %s is not a valid e-mail address."
+msgstr ""
+
+#: config/header.php:104
+msgid "-- Database query failed, terminating session"
+msgstr ""
+
+#: config/header.php:106
+msgid "-- Login is disabled. Please contact your administrator."
+msgstr ""
+
+#: config/header.php:108 index.php:39
+msgid "Login failed"
+msgstr "Autentificare esuata"
 
 #: index.php:17
 msgid "Username"
 msgstr "Nume utilizator"
 
-#: site.php:22 sitepassword.php:9
+#: site.php:18 sitepassword.php:9
 msgid "Manage Sites"
 msgstr "Modificare site-uri"
 
-#: site.php:27
+#: site.php:24
 #, fuzzy
 msgid "Add alias domain"
 msgstr "Adaugare alias"
 
-#: site.php:28
+#: site.php:25
 msgid "Add local domain"
 msgstr ""
 
-#: site.php:29
+#: site.php:26
 msgid "Add relay domain"
 msgstr ""
 
-#: site.php:30 siteadd.php:16 sitechange.php:16 sitedelete.php:62
+#: site.php:27 siteadd.php:17 sitechange.php:16 sitedelete.php:77
 #: sitepassword.php:16
 msgid "Site Password"
 msgstr "Parola site"
 
-#: site.php:45
+#: site.php:46
 msgid "Local domains"
 msgstr ""
 
-#: site.php:46
+#: site.php:47
 msgid "Admin account"
 msgstr ""
 
-#: site.php:47
+#: site.php:48
 msgid "Total admins"
 msgstr ""
 
-#: site.php:74
+#: site.php:90
+msgid "Multiple admins"
+msgstr ""
+
+#: site.php:102
 msgid "WARNING"
 msgstr "ATENTIE"
 
-#: site.php:74
+#: site.php:104
 msgid ""
-"Deleting a domain will delete all user accounts in that domain permanently!"
+"Deleting a domain will delete all user accounts in that\n"
+"              domain permanently!"
 msgstr ""
 
-#: site.php:78
+#: site.php:112
 msgid "Relay domains"
 msgstr ""
 
-#: site.php:87 site.php:104 sitedelete.php:76
-#, fuzzy, php-format
-msgid "Delete %s"
-msgstr "Stergere"
-
-#: site.php:95
+#: site.php:137
 #, fuzzy
 msgid "Aliased domains"
 msgstr "Modificare domenii"
 
-#: siteadd.php:9 siteadd.php:15 sitechange.php:9 sitechange.php:15
-#: sitedelete.php:61 sitepassword.php:15
+#: site.php:164
+msgid ""
+"Standard user accounts are currently able to login and change their own "
+"personal details"
+msgstr ""
+
+#: site.php:166
+msgid ""
+"The system is currently configured to prevent standard users logging in to "
+"change their own personal details."
+msgstr ""
+
+#: siteadd.php:9 siteadd.php:16 sitechange.php:9 sitechange.php:15
+#: sitedelete.php:76 sitepassword.php:15
 msgid "Manage Domains"
 msgstr "Modificare domenii"
 
-#: siteadd.php:22
+#: siteadd.php:24
 #, fuzzy
 msgid "New Domain"
 msgstr "Domeniu"
 
-#: siteadd.php:23
+#: siteadd.php:27
 msgid "The name of the new domain you are adding"
 msgstr "Numele domeniului pe care doriti sa il adaugati"
 
-#: siteadd.php:26
+#: siteadd.php:34
 msgid "Domain Admin"
 msgstr "Administrator domeniu"
 
-#: siteadd.php:27
+#: siteadd.php:41
 msgid "The username of the domain's administrator account"
 msgstr "Numele uitilizatorului cu drepturi de administrator asupra domeniului"
 
-#: siteadd.php:30 sitechange.php:49
+#: siteadd.php:66 sitechange.php:75
 msgid "System UID"
 msgstr "UID"
 
-#: siteadd.php:31 sitechange.php:50
+#: siteadd.php:73 sitechange.php:79
 msgid "System GID"
 msgstr "GID"
 
-#: siteadd.php:32
+#: siteadd.php:80
 msgid "Domain Mail directory"
 msgstr "Directorul domeniului"
 
-#: siteadd.php:34
-msgid "Create the domain directory below this top-level mailstore"
+#: siteadd.php:87
+#, fuzzy
+msgid ""
+"Create the domain directory below this top-level\n"
+"                  mailstore"
 msgstr "Creare strucutura de directoare deasupra directorului desemnat"
 
-#: siteadd.php:35 sitechange.php:51
+#: siteadd.php:94 sitechange.php:83
 #, fuzzy
 msgid "Maximum accounts"
 msgstr "Modificati conturi"
 
-#: siteadd.php:35 sitechange.php:51
+#: siteadd.php:95 sitechange.php:83
 msgid "0 for unlimited"
 msgstr ""
 
-#: siteadd.php:36
+#: siteadd.php:104
 #, fuzzy
 msgid "Max mailbox quota"
 msgstr "Quota mailbox-ului"
 
-#: siteadd.php:36 sitechange.php:52
+#: siteadd.php:105 sitechange.php:87
 msgid "0 for disabled"
 msgstr ""
 
-#: siteadd.php:39 userchange.php:67
+#: siteadd.php:116
 msgid "Kb"
 msgstr ""
 
-#: siteadd.php:40
-msgid "The maximum size for incoming mail (user tunable)"
+#: siteadd.php:119
+#, fuzzy
+msgid ""
+"The maximum size for incoming mail (user\n"
+"                tunable)"
 msgstr ""
 "Marimea maxima pentru mail-urile primite (poate fi modificat de utilizator)"
 
-#: siteadd.php:43
-msgid "The score at the 'X-Spam-Flag: YES' header will be added"
+#: siteadd.php:130
+#, fuzzy
+msgid ""
+"The score at the \"X-Spam-Flag: YES\" header will\n"
+"                be added"
 msgstr "Scorul la care header-ul 'X-Spam-Flag: YES' este adaugat"
 
-#: siteadd.php:46
-msgid "The score at which to refuse potentially spam mail and not deliver"
+#: siteadd.php:140
+#, fuzzy
+msgid ""
+"The score at which to refuse potentially spam\n"
+"              mail and not deliver"
 msgstr "Scorul la care spam-ul potential este blocat"
 
-#: siteadd.php:47
+#: siteadd.php:145
 #, fuzzy
 msgid "Spamassassin enabled?"
 msgstr "Spamassassin activat"
 
-#: siteadd.php:48
+#: siteadd.php:151
 #, fuzzy
 msgid "Anti Virus enabled?"
 msgstr "Antivirus activat"
 
-#: siteadd.php:49
+#: siteadd.php:157
 #, fuzzy
 msgid "Enable piping mail to command?"
 msgstr "Activare pipe intr-o comanda"
 
-#: siteadd.php:50
+#: siteadd.php:163
 #, fuzzy
 msgid "Domain enabled?"
 msgstr "Domeniu activ"
 
-#: siteadd.php:53
+#: siteadd.php:173
 msgid "Redirect messages to domain"
 msgstr ""
 
-#: sitechange.php:21
+#: siteaddsubmit.php:131
+#, fuzzy
+msgid "Welcome Domain Admin!"
+msgstr "Administrator domeniu"
+
+#: sitechange.php:24
 msgid "Modify Domain Admin"
 msgstr "Modificare administrator domeniu"
 
-#: sitechange.php:44 userchange.php:36
+#: sitechange.php:64 userchange.php:44
 msgid "Submit Password"
 msgstr "Trimiteti parola"
 
-#: sitechange.php:47
+#: sitechange.php:72
 msgid "Modify Domain Properties"
 msgstr "Modificati proprietatile domeniului"
 
-#: sitechange.php:52
+#: sitechange.php:87
 #, fuzzy
-msgid "Max mailbox quota in Mb"
+msgid "Max mailbox quota in MB"
 msgstr "Quota mailbox-ului"
 
-#: sitechange.php:62
+#: sitechange.php:107
 msgid "Anti-virus"
 msgstr "Antivirus"
 
-#: sitechange.php:63
+#: sitechange.php:111
 msgid "Piping to command"
 msgstr "Pipe intr-o comanda"
 
-#: sitechange.php:68
+#: sitechange.php:124
 msgid "Submit Changes"
 msgstr "Trimiteti modificarile"
 
-#: sitechange.php:71
-msgid "Disable SpamAssassin for all domain users"
+#: sitechange.php:135
+#, fuzzy
+msgid "Modify SpamAssassin/Antivirus for all users"
 msgstr "Dezactivati Spamassassin pentru toti utilizatorii domeniului"
 
-#: sitechange.php:71 sitechange.php:77
+#: sitechange.php:138
+#, fuzzy
+msgid "SpamAssassin for all domain users"
+msgstr "Dezactivati Spamassassin pentru toti utilizatorii domeniului"
+
+#: sitechange.php:138 sitechange.php:146
 msgid "Warning: cannot be reversed!"
 msgstr "Atentie! Modificare ireversibila!"
 
-#: sitechange.php:74 sitechange.php:80
+#: sitechange.php:140 sitechange.php:148
+msgid "Keep unchanged"
+msgstr ""
+
+#: sitechange.php:141 sitechange.php:149
+#, fuzzy
+msgid "Enable"
+msgstr "Activat"
+
+#: sitechange.php:142 sitechange.php:150
 msgid "Disable"
 msgstr "Dezactivare"
 
-#: sitechange.php:77
-msgid "Disable Anti-Virus for all domain users"
+#: sitechange.php:146
+#, fuzzy
+msgid "Anti-Virus for all domain users"
 msgstr "Dezactivare antivirus pentru toti utilizatorii domeniului"
 
-#: sitedelete.php:68
+#: sitedelete.php:83
 #, fuzzy, php-format
 msgid "Please confirm deleting domain %s."
 msgstr "Confirmati stergerea domeniului"
 
-#: sitedelete.php:71
+#: sitedelete.php:86
 #, php-format
 msgid "There is currently <b>%1$d</b> account in domain %2$s"
 msgid_plural "There are currently <b>%1$d</b> accounts in domain %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: sitedelete.php:75
+#: sitedelete.php:90
 #, fuzzy, php-format
 msgid "Do Not Delete %s"
 msgstr "Anulare stergere"
+
+#: sitedelete.php:91
+#, fuzzy, php-format
+msgid "Delete %s"
+msgstr "Stergere"
 
 #: sitepassword.php:22
 msgid "Change SiteAdmin Password"
 msgstr "Modiciare parola SiteAdmin"
 
-#: userchange.php:35
-msgid "Note:"
-msgstr ""
-
-#: userchange.php:35
+#: userchange.php:43
 msgid "Attempting to set blank passwords does not work!"
 msgstr ""
 
 #: userchange.php:43
+msgid "Note:"
+msgstr ""
+
+#: userchange.php:52
 #, php-format
 msgid "Your mailbox quota is currently: %s Mb"
 msgstr ""
 
-#: userchange.php:45
+#: userchange.php:54
 msgid "Your mailbox quota is currently: Unlimited"
 msgstr ""
 
-#: userchange.php:61
-#, fuzzy
-msgid "SpamAssassin tag score"
-msgstr "Scor Spamassassin pentru tag"
-
-#: userchange.php:63
-#, fuzzy
-msgid "SpamAssassin refuse score"
-msgstr "Scor Spamassassin pentru blocare"
-
-#: userchange.php:68
-#, fuzzy
-msgid "Vacation enabled"
-msgstr "Mesaj vacanta"
-
-#: userchange.php:73
+#: userchange.php:140
 #, fuzzy
 msgid "Forwarding enabled"
 msgstr "Forward activat"
 
-#: userchange.php:81
+#: userchange.php:154
 #, fuzzy
 msgid "Submit Profile"
 msgstr "Trimiteti parola"
 
-#: userchange.php:86
+#: userchange.php:160
 #, fuzzy
 msgid "Add a new header blocking filter"
 msgstr "Adaugare no filtru pentru blocare pe header"
+
+#~ msgid "Multiple addresses should be comma seperated, with no spaces"
+#~ msgstr "Adresele multiple trebuie separate prin virgula, fara spatii"
+
+#, fuzzy
+#~ msgid "Click to modify %s"
+#~ msgstr "Click pentru a modifica"
+
+#, fuzzy
+#~ msgid "SpamAssassin tag score"
+#~ msgstr "Scor Spamassassin pentru tag"
+
+#, fuzzy
+#~ msgid "SpamAssassin refuse score"
+#~ msgstr "Scor Spamassassin pentru blocare"
+
+#, fuzzy
+#~ msgid "Vacation enabled"
+#~ msgstr "Mesaj vacanta"
 
 #~ msgid ""
 #~ "Password only needed if you want the user tobe able to log in, or if the "

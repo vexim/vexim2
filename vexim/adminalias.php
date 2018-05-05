@@ -4,6 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
@@ -49,8 +50,8 @@
             . $row['localpart']
             . '"></a></td>';
           print '<td>'
-            . '<a href="admincatchall.php?user_id=' 
-            . $row['user_id'] 
+            . '<a href="admincatchall.php?user_id='
+            . $row['user_id']
             . '">'
             . $row['realname']
             . '</a></td>';
@@ -96,7 +97,7 @@
         }
       ?>
       <tr>
-        <td colspan="4" style="padding-top:1em">
+        <td colspan="4" class="padbefore">
           <b><?php echo _('Note'); ?>:</b>
           <?php
             echo _('You can only have one catchall per domain.')

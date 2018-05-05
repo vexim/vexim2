@@ -122,6 +122,10 @@
   }
 
   if (validate_password($_POST['clear'], $_POST['vclear'])) {
+    if (!password_strengthcheck($_POST['clear'])) {
+      header ("Location: adminuser.php?weakpass={$_POST['localpart']}");
+      die;
+    }
     $query = "INSERT INTO users (localpart, username, domain_id, crypt,
       smtp, pop, uid, gid, realname, type, admin, on_avscan, on_piped,
       on_spamassassin, sa_tag, sa_refuse, spam_drop, maxmsgsize, enabled, quota)
@@ -144,8 +148,8 @@
         ':on_avscan'=>$_POST['on_avscan'],
         ':on_piped'=>$_POST['on_piped'],
         ':on_spamassassin'=>$_POST['on_spamassassin'],
-        ':sa_tag'=>(isset($_POST['sa_tag']) ? $_POST['sa_tag'] : 0),
-        ':sa_refuse'=>(isset($_POST['sa_refuse']) ? $_POST['sa_refuse'] : 0),
+        ':sa_tag'=>(isset($_POST['sa_tag']) ? $_POST['sa_tag'] : $sa_tag),
+        ':sa_refuse'=>(isset($_POST['sa_refuse']) ? $_POST['sa_refuse'] : $sa_refuse),
         ':spam_drop'=>(isset($_POST['spam_drop']) ? $_POST['spam_drop'] : 0),
         ':maxmsgsize'=>$_POST['maxmsgsize'],
         ':enabled'=>$_POST['enabled'],

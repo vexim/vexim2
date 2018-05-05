@@ -1,0 +1,24 @@
+
+### transport/30_vexim_mailman
+##############################
+
+
+# This transport delivers messages to Mailman lists.
+# The if def:local_part_suffix section selects whether the suffix is used
+# as the mailman command, or whether there is no suffix and so post is
+# passed as a command.
+# The sg phrase strips the VERP information (if any) from the suffix,
+
+.ifdef VEXIM_HAVE_MAILMAN
+mailman_transport:
+  driver = pipe
+  command = MAILMAN_WRAP \
+            '${if def:local_part_suffix \
+                  {${sg{$local_part_suffix}{-(\\w+)(\\+.*)?}{\$1}}} \
+                  {post}}' \
+            $local_part
+  current_directory = MAILMAN_HOME
+  home_directory = MAILMAN_HOME
+  user = MAILMAN_USER
+  group = MAILMAN_GROUP
+.endif

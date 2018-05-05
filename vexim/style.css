@@ -50,6 +50,10 @@ table,tr,td,th {
 	text-align: left;
 }
 
+table.zebra tr:nth-child(even) {
+	background-color: #f0f0f0;
+}
+
 td.check {
 	text-align: center;
 }
@@ -61,6 +65,14 @@ td.button {
 
 td.trash {
 	padding-right: 3px;
+}
+
+td.padafter {
+        padding-bottom:1em;
+}
+
+td.padbefore {
+	padding-top:1em;
 }
 
 tr.disabled a {
@@ -125,6 +137,12 @@ body>#Header {height:28px;}
   font-size: 12pt;
   color: #09c;
 }
+
+#SiteadminHome {
+  float: right;
+  margin-right: 20px;
+}
+
 #Content {
 	margin: 0px 50px 50px 250px;
 	padding:10px;
@@ -137,6 +155,10 @@ body>#Header {height:28px;}
 	border: 1px dashed #999; 
 	padding: 10px; 
 	overflow: visible;
+}
+
+form.login {
+	margin-top:3em;
 }
 
 #Centered {

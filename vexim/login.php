@@ -11,7 +11,7 @@
     die;
   }
 
-  if($domainguess === 1 && $_POST['username']!=='siteadmin') $_POST['username'].='@'.preg_replace ("/^mail\./", "", $_SERVER["SERVER_NAME"]);
+  if($domainguess === 1 && $_POST['username']!=='siteadmin') $_POST['username'].='@'.preg_replace ("/^(".$domainguess_lefttrim.")\./", "", $_SERVER["SERVER_NAME"]);
 
   # sql statement based on username
   $query = "SELECT users.crypt,users.username,users.user_id,users.localpart,domains.domain,domains.domain_id,users.admin,users.type,
@@ -34,7 +34,7 @@
   $cryptedpass = crypt_password($_POST['crypt'], $row['crypt']);
 
 //  Some debugging prints. They help when you don't know why auth is failing.
-/*  
+/*
   print $query. "<br>\n";;
   print $row['username']. "<br>\n";
   print $_POST['username'] . "<br>\n";
@@ -42,7 +42,7 @@
   print $row['crypt'] . "<br>\n";
   print $cryptscheme . "<br>\n";
   print $cryptedpass . "<br>\n";
-*/  
+*/
 
   # if they have the wrong password bail out
   if ($cryptedpass !== $row['crypt']) {
@@ -68,12 +68,16 @@
   $_SESSION['crypt'] = $row['crypt'];
   $_SESSION['user_id'] = $row['user_id'];
 
+  if (isset($siteadminManageDomains)
+      && $siteadminManageDomains
+      && 'siteadmin' === $row['username']
+  ) {
+    $_SESSION['siteadmin_domain_id'] = $row['domain_id'];
+    $_SESSION['siteadmin_domain'] = $row['domain'];
+  }
+
   # redirect the user to the correct starting page
   if (($row['admin'] == '1') && ($row['type'] == 'site')) {
-    if($_POST['crypt']=="CHANGE") {
-      header ('Location: sitepassword.php');
-      die();
-    }
     header ('Location: site.php');
     die();
   }

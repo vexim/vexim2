@@ -40,8 +40,20 @@
 
   /* Guess domain name from hostname and allow login based on
      local part only. It is off by default, set this value to 1
-     in order to enable this function */
+     in order to enable this function 
+     and set a string which will be cut off the left side of
+     the hostname*/
   $domainguess = 0;
+  $domainguess_lefttrim = "mail|vexim";
+
+  /* Enable password strength check
+     To disable this check set $passwordstrengthcheck = 0;
+  */
+  $passwordstrengthcheck = 1;
+
+  /* Enable Content Security Policy (CSP) to prevent cross-site scripting
+     and other code-injection attacks. */
+  $CSPenabled = false;
 
   /* The UID's and GID's control the default UID and GID for new domains
      and if postmasters can define their own.
@@ -49,6 +61,9 @@
   $uid = "90";
   $gid = "90";
   $postmasteruidgid = "yes";
+  
+  /* Allow the siteadmin user to manage domains? */
+  $siteadminManageDomains = true;
 
   /* The location of your mailstore for new domains.
      Make sure the directory belongs to the configured $uid/$gid! */
@@ -67,9 +82,6 @@
      sa_refuse is the default value to offer when we create new domains for SpamAssassin dropping */
   $sa_tag = "2";
   $sa_refuse = "5";
-
-  /* max size of a vacation message */
-  $max_vacation_length = 1023;
 
   /* Welcome message, sent to new POP/IMAP accounts */
   @$welcome_message = "Welcome, {$_POST['realname']} !\n\n"

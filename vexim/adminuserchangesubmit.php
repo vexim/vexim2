@@ -13,6 +13,7 @@
 	  header ("Location: adminuser.php?failupdated={$_POST['localpart']}");
 	  die();  
   }
+  $account = $sth->fetch();
  
   # Fix the boolean values
   $query = "SELECT avscan,spamassassin,pipe,uid,gid,quotas,maxmsgsize
@@ -28,15 +29,20 @@
   } else {
     $_POST['admin'] = 0;
   }
-  if (isset($_POST['on_forward'])) {
+  if (isset($_POST['on_forward']) && isset($_POST['forward']) && $_POST['forward']!=='') {
     $_POST['on_forward'] = 1;
-    if(!filter_var($_POST['forward'], FILTER_VALIDATE_EMAIL)) {
-      header ("Location: adminuser.php?invalidforward=".htmlentities($_POST['forward']));
-      die;
+    $forwardto=explode(",",$_POST['forward']);
+    for($i=0; $i<count($forwardto); $i++){
+      $forwardto[$i]=trim($forwardto[$i]);
+      if(!filter_var($forwardto[$i], FILTER_VALIDATE_EMAIL)) {
+        header ("Location: adminalias.php?invalidforward=".htmlentities($forwardto[$i]));
+        die;
+      }
     }
+    $forwardaddr = implode(",",$forwardto);
   } else {
     $_POST['on_forward'] = 0;
-    $_POST['forward']='';
+    $forwardaddr=$account['forward'];
   }
   if (isset($_POST['unseen'])) {
     $_POST['unseen'] = 1;
@@ -95,12 +101,6 @@
     $_POST['on_spamassassin'] = 0;
   }
 
-  if (preg_match("/@/",$_POST['forwardmenu'])) {
-    $forwardaddr = $_POST['forwardmenu'];
-  } else {
-    $forwardaddr = $_POST['forward'];
-  }
-
   if (isset($_POST['maxmsgsize']) && $row['maxmsgsize']!=='0') {
     if ($_POST['maxmsgsize']<=0 || $_POST['maxmsgsize']>$row['maxmsgsize']) {
       $_POST['maxmsgsize']=$row['maxmsgsize'];
@@ -138,7 +138,11 @@
   # Update the password, if the password was given
   if (isset($_POST['clear']) && $_POST['clear']!=='') {
     if (validate_password($_POST['clear'], $_POST['vclear'])) {
-      $cryptedpassword = crypt_password($_POST['clear']);
+      if (!password_strengthcheck($_POST['clear'])) {    
+        header ("Location: adminuser.php?weakpass={$_POST['localpart']}");
+        die;
+      }
+       $cryptedpassword = crypt_password($_POST['clear']);
       $query = "UPDATE users
         SET crypt=:crypt WHERE localpart=:localpart
         AND domain_id=:domain_id";
@@ -161,9 +165,7 @@
 
   if (isset($_POST['vacation']) && is_string($_POST['vacation'])) {
     $vacation = trim($_POST['vacation']);
-    if (function_exists('imap_8bit')) {
-      $vacation = imap_8bit($vacation);
-    }
+    $vacation = quoted_printable_encode($vacation);
   } else {
     $vacation = '';
   }
@@ -197,8 +199,8 @@
     ':on_vacation'=>$_POST['on_vacation'], ':enabled'=>$_POST['enabled'],
     ':forward'=>$forwardaddr, ':maxmsgsize'=>$_POST['maxmsgsize'],
     ':quota'=>$_POST['quota'],
-    ':sa_tag'=>(isset($_POST['sa_tag']) ? $_POST['sa_tag'] : 0),
-    ':sa_refuse'=>(isset($_POST['sa_refuse']) ? $_POST['sa_refuse'] : 0),
+    ':sa_tag'=>(isset($_POST['sa_tag']) ? $_POST['sa_tag'] : $sa_tag),
+    ':sa_refuse'=>(isset($_POST['sa_refuse']) ? $_POST['sa_refuse'] : $sa_refuse),
     ':spam_drop'=>(isset($_POST['spam_drop']) ? $_POST['spam_drop'] : 0),
     ':type'=>$_POST['type'],
     ':vacation'=>$vacation,

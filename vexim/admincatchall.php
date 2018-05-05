@@ -3,7 +3,7 @@
   include_once dirname(__FILE__) . '/config/authpostmaster.php';
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
-  $query = "SELECT smtp FROM users WHERE user_id=:user_id 
+  $query = "SELECT smtp FROM users WHERE user_id=:user_id
 			AND domain_id=:domain_id AND type='catch'";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
@@ -11,6 +11,7 @@
     $row = $sth->fetch();
   }
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
@@ -24,13 +25,13 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div id="Forms">
-	<?php 
+	<?php
 		# ensure this page can only be used to view/edit the catchall that already exist for the domain of the admin account
-		if (!$sth->rowCount()) {			
+		if (!$sth->rowCount()) {
 			echo '<table align="center"><tr><td>';
 			printf(_("Invalid catchall userid '%s' for domain '%s'"), htmlentities($_GET['user_id']), htmlentities($_SESSION['domain']));
 			echo '</td></tr></table>';
-		}else{	
+		}else{
 	?>
 	<form name="admincatchall" method="post" action="admincatchallsubmit.php">
         <table align="center">
@@ -62,10 +63,10 @@
           </tr>
         </table>
       </form>
-		<?php 		
+		<?php
 			# end of block shown for editing the domains catchall
-		}  
-		?>  
+		}
+		?>
     </div>
   </body>
 </html>

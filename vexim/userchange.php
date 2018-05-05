@@ -18,12 +18,14 @@
   $blocksth = $dbh->prepare($blockquery);
   $blocksuccess = $blocksth->execute(array(':user_id'=>$_SESSION['user_id']));
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _("Virtual Exim") . ": " . _("Manage Users"); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="scripts.js" type="text/javascript"></script>
   </head>
-  <body onLoad="document.forms[0].elements[0].focus()">
+  <body>
     <?php include dirname(__FILE__) . "/config/header.php"; ?>
     <div id="Menu">
       <a href="logout.php"><?php echo _("Logout"); ?></a><br>
@@ -31,11 +33,11 @@
     <div id="forms">
       <form name="userchange" method="post" action="userchangesubmit.php">
         <table align="center">
-	  <tr><td><?php echo _("Name"); ?>:</td><td><input name="realname" type="text" value="<?php print $row['realname']; ?>" class="textfield"></td></tr>
+	  <tr><td><?php echo _("Name"); ?>:</td><td><input name="realname" type="text" value="<?php print $row['realname']; ?>" class="textfield" autofocus></td></tr>
 	  <tr><td><?php echo _("Email Address"); ?>:</td><td><?php print $row['localpart']."@".$_SESSION['domain']; ?></td>
 	  <tr><td><?php echo _("Password"); ?>:</td><td><input name="clear" type="password" class="textfield"></td></tr>
-	  <tr><td><?php echo _("Verify Password"); ?>:</td><td><input name="vclear" type="password" class="textfield"></td></tr>
-   	  <tr><td colspan="2" style="padding-top:1em;"><b><?php echo _("Note:"); ?></b> <?php echo _("Attempting to set blank passwords does not work!"); ?><td></tr>
+	  <tr><td class="padafter"><?php echo _("Verify Password"); ?>:</td><td><input name="vclear" type="password" class="textfield"></td></tr>
+   	  <tr><td colspan="2"><b><?php echo _("Note:"); ?></b> <?php echo _("Attempting to set blank passwords does not work!"); ?><td></tr>
 	  <tr><td></td><td class="button"><input name="submit" type="submit" value="<?php echo _("Submit Password"); ?>"></td></tr>
         </table>
       </form>
@@ -120,25 +122,16 @@
 	    </td>
   	  </tr>
   	  <tr>
-        <?php if (function_exists('imap_qprint')) { ?>
   	    <td><?php echo _('Vacation message'); ?>:</td>
-  	    <td>
-            <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print imap_qprint($row['vacation']); ?></textarea>
-          </td>
-        <?php } else { ?>
-  	    <td><?php echo _('Vacation message (ASCII only!)'); ?>:</td>
-  	    <td>
-            <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print $row['vacation']; ?></textarea>
-	    </td>
-        <?php } ?>
+  	    <td><textarea name="vacation" cols="40" rows="5" class="textfield"><?php print quoted_printable_decode($row['vacation']); ?></textarea></td>
   	  </tr>
   	  <tr><td><?php echo _("Forwarding enabled"); ?>:</td>
-  	    <td><input name="on_forward" type="checkbox"
+  	    <td><input name="on_forward" type="checkbox" id="on_forward"
           <?php if($row['on_forward'] == "1") { print " checked "; } ?>>
           </td></tr>
   	  <tr><td><?php echo _("Forward mail to");?>:</td>
-	    <td><input type="text" name="forward" value="<?php print $row['forward']; ?>" class="textfield"><br>
-          <?php echo _("Must be a full e-mail address"); ?>
+	    <td><input type="text" name="forward" id="forward" value="<?php print $row['forward']; ?>" class="textfield"><br>
+          <?php echo _("Enter full e-mail addresses, use commas to separate them."); ?>
         </td></tr>
   	  <tr><td><?php echo  _("Store Forwarded Mail Locally");?>:</td>
   	    <td><input name="unseen" type="checkbox"
@@ -168,7 +161,7 @@
   	  <tr><th><?php echo _("Delete"); ?></th><th><?php echo _("Blocked Header"); ?></th><th><?php echo _("Content"); ?></th></tr>
       <?php if ($blocksuccess) {
 	while ($blockrow = $blocksth->fetch()) {
-	  print "<tr><td><a href=\"userblocksubmit.php?action=delete&block_id={$blockrow['block_id']}\"><img style=\"border:0;width:10px;height:16px\" title=\"Delete\" src=\"images/trashcan.gif\" alt=\"trashcan\"></a></td>";
+	  print "<tr><td><a href=\"userblocksubmit.php?action=delete&block_id={$blockrow['block_id']}\"><img border=\"0\" width=\"10\" height=\"16\" title=\"Delete\" src=\"images/trashcan.gif\" alt=\"trashcan\"></a></td>";
 	  print "<td>{$blockrow['blockhdr']}</td><td>{$blockrow['blockval']}</td></tr>\n";
 	}
       }

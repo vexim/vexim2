@@ -4,6 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim'); ?></title>
@@ -51,14 +52,14 @@
             }
           ?>
         <tr>
-          <td style="padding-top:1em">
+          <td class="padbefore">
             <a href="logout.php"><?php echo _('Logout'); ?></a>
           </td>
         </tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <?php
-          $query = "SELECT alias,domain FROM domainalias,domains 
+          $query = "SELECT alias,domain FROM domainalias,domains
             WHERE domainalias.domain_id=:domain_id
             AND domains.domain_id = domainalias.domain_id";
           $sth = $dbh->prepare($query);

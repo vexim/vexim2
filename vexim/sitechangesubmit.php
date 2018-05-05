@@ -43,6 +43,10 @@ switch ($action) {
 
   case 'adminpass':
     if (validate_password($_POST['clear'], $_POST['vclear'])) {
+      if (!password_strengthcheck($_POST['clear'])) {
+        header ("Location: site.php?weakpass={$_POST['domain']}");
+        die;
+      }
       $query = "UPDATE users SET crypt=:crypt WHERE localpart=:localpart AND domain_id=:domain_id";
       $sth = $dbh->prepare($query);
       $success = $sth->execute(array(
@@ -121,8 +125,8 @@ switch ($action) {
         ':avscan' => $_POST['avscan'], ':maxmsgsize' => $_POST['maxmsgsize'],
         ':pipe' => $_POST['pipe'], ':max_accounts' => $_POST['max_accounts'],
         ':quotas' => $_POST['quotas'],
-        ':sa_tag' => ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : 0),
-        ':sa_refuse' => ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : 0),
+        ':sa_tag' => ((isset($_POST['sa_tag'])) ? $_POST['sa_tag'] : $sa_tag),
+        ':sa_refuse' => ((isset($_POST['sa_refuse'])) ? $_POST['sa_refuse'] : $sa_refuse),
         ':spamassassin' => $_POST['spamassassin'], ':enabled' => $_POST['enabled'],
         ':domain_id' => $_POST['domain_id'],
     ));

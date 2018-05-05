@@ -6,7 +6,7 @@
 
   if(array_key_exists('confirm', $_GET)) {
     if ($_GET['confirm'] == '1') {
-      $query = "DELETE FROM users 
+      $query = "DELETE FROM users
         WHERE user_id=:user_id
         AND domain_id=:domain_id
 	    AND (type='alias' OR type='catch')";
@@ -25,6 +25,7 @@
     }
   }
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Confirm Delete'); ?></title>

@@ -13,7 +13,7 @@
   if(!isset($_GET['type'])) {
       $_GET['type'] = null;
   }
-  
+
   // Delete the domain's users
   if (($_POST['confirm'] == "1") && ($_POST['type'] != "alias")) {
     $usrdelquery = "DELETE FROM users WHERE domain_id=:domain_id";
@@ -24,17 +24,23 @@
       $usrdelquery = "DELETE FROM blocklists WHERE domain_id=:domain_id";
       $usrdelsth = $dbh->prepare($usrdelquery);
       $usrdelsuccess = $usrdelsth->execute(array(':domain_id'=>$_POST['domain_id']));
-      // if we were successful, delete the domain itself
-      if ($usrdelsuccess) {
-        $domdelquery = "DELETE FROM domains WHERE domain_id=:domain_id";
-        $domdelsth = $dbh->prepare($domdelquery);
-        $domdelsuccess = $domdelsth->execute(array(':domain_id'=>$_POST['domain_id']));
-        // If everything went well, redirect to a success page.
+      // if we were successful, delete the domain's aliases
+      if($usrdelsuccess) {
+	$aliasdelquery = "DELETE FROM domainalias WHERE domain_id=:domain_id";
+        $aliasdelsth = $dbh->prepare($aliasdelquery);
+        $aliasdelsuccess = $aliasdelsth->execute(array(':domain_id'=>$_POST['domain_id']));
+        // if we were successful, delete the domain itself
+        if ($aliasdelsuccess) {
+          $domdelquery = "DELETE FROM domains WHERE domain_id=:domain_id";
+          $domdelsth = $dbh->prepare($domdelquery);
+          $domdelsuccess = $domdelsth->execute(array(':domain_id'=>$_POST['domain_id']));
+          // If everything went well, redirect to a success page.
 	    if ($domdelsuccess) {
 	      header ("Location: site.php?deleted={$_POST['domain']}");
 	      die;
 	    }
-      }
+        }
+      }	
     } else {
       header ("Location: site.php?faildeleted={$_POST['domain']}");
       die;
@@ -65,6 +71,7 @@
     $row = $sth->fetch();
   }
 ?>
+<!DOCTYPE html>
 <html>
   <head>
     <title><?php echo _("Virtual Exim") . ": " .  _("Confirm Delete"); ?></title>
@@ -72,7 +79,7 @@
   </head>
     <body>
     <?php include dirname(__FILE__) . "/config/header.php"; ?>
-    <div id='menu'>
+    <div id='Menu'>
       <a href='site.php'><?php echo _("Manage Domains"); ?></a><br>
       <a href='sitepassword.php'><?php echo _("Site Password"); ?></a><br>
       <br><a href='logout.php'><?php echo _("Logout"); ?></a><br>
