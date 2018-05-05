@@ -157,7 +157,7 @@ CREATE TABLE `groups` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `domain_id` int(10) unsigned NOT NULL,
   `name` varchar(64) NOT NULL,
-  `is_public` char(1) NOT NULL DEFAULT 'Y',
+  `is_public` tinyint(1) NOT NULL DEFAULT '1',
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `group_name` (`domain_id`, `name`),
