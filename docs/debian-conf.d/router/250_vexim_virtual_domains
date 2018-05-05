@@ -96,7 +96,7 @@ virtual_domains:
   driver = accept
   domains = +local_domains
   address_data = ${lookup mysql{ \
-        select username, smtp, localpart, users.sa_tag*10 AS sa_tag, users.on_spamassassin AND domains.spamassassin AS on_spamassassin, \
+        select concat_ws('@', localpart, domains.domain), smtp, localpart, users.sa_tag*10 AS sa_tag, users.on_spamassassin AND domains.spamassassin AS on_spamassassin, \
         users.uid AS uid, users.gid AS gid, quota \
         from users,domains \
         where users.type='local' \
@@ -150,7 +150,7 @@ virtual_dom_groups:
                                        g.enabled = '1' and \
                                        g.is_public = 'N' and c.member_id = u.user_id and \
                                        d.domain_id = u.domain_id and u.enabled = '1' \
-                                       and u.username = '${quote_mysql:$sender_address}' }}}}
+                                       and concat_ws('@', u.localpart, d.domain) = '${quote_mysql:$sender_address}' }}}}
   data = ${lookup mysql{ \
             select concat_ws('@', u.localpart, d.domain) \
             from domains d, groups g, group_contents c, users u \
