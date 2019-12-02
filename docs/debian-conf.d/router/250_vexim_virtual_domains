@@ -93,7 +93,7 @@ virtual_dom_groups:
                                        g.enabled = '1' and \
                                        g.is_public = 'N' and c.member_id = u.user_id and \
                                        d.domain_id = u.domain_id and u.enabled = '1' \
-                                       and u.username = '${quote_mysql:$sender_address}' }}}}
+                                       and u.username = '${quote_mysql:$sender_address}' limit 1}}}}
   data = ${lookup mysql{ \
             select concat_ws('@', u.localpart, d.domain) \
             from domains d, groups g, group_contents c, users u \
