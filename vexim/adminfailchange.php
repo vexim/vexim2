@@ -37,7 +37,7 @@
       <form name="failchange" method="post" action="adminfailchangesubmit.php">
 	<table align="center">
       <tr>
-        <td><?php echo _('Fail Name'); ?>:</td>
+        <td><?php echo _('Fail name'); ?>:</td>
         <td><input name="realname" type="text" value="<?php print $row['realname']; ?>" class="textfield" autofocus></td>
       </tr>
 	  <tr>
@@ -58,9 +58,9 @@
         </tr>
         <tr>
             <td colspan="2" class="padafter">
-                <?php echo _('If suggested forward address is specified, email delivery for this mailbox will fail '
-                    . 'with a 551 return code, and the specified address will be returned as part of the reject message. '
-                    . 'Otherwise, the generic return code 550 will be used.'); ?>
+                <?php echo _('If suggested forward address is specified, email delivery for this mailbox will fail<br>
+                    with return code 551 and the specified address will be returned as part of the reject message.<br>
+                    Otherwise, generic return code 550 will be used.'); ?>
             </td>
         </tr>
 	  <tr>
