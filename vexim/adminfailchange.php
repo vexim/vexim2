@@ -36,18 +36,33 @@
 	?>
       <form name="failchange" method="post" action="adminfailchangesubmit.php">
 	<table align="center">
+      <tr>
+        <td><?php echo _('Fail Name'); ?>:</td>
+        <td><input name="realname" type="text" value="<?php print $row['realname']; ?>" class="textfield" autofocus></td>
+      </tr>
 	  <tr>
-            <td><?php echo _('Fail address'); ?>:</td>
+        <td><?php echo _('Fail address'); ?>:</td>
 	    <td>
               <input name="localpart" type="text"
-                value="<?php print $row['localpart']; ?>" class="textfield" autofocus>@
+                value="<?php print $row['localpart']; ?>" class="textfield">@
               <?php print htmlspecialchars($_SESSION['domain']); ?>
-            </td>
-	    <td>
               <input name="user_id" type="hidden"
                 value="<?php print htmlspecialchars($_GET['user_id']); ?>" class="textfield">
             </td>
           </tr>
+        <tr>
+            <td><?php echo _('Suggested forward address (optional)'); ?>:</td>
+            <td>
+                <input name="smtp" type="email" value="<?php print $row['smtp'] !== ':fail:' ? $row['smtp'] : ''; ?>" class="textfield">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="padafter">
+                <?php echo _('If suggested forward address is specified, email delivery for this mailbox will fail '
+                    . 'with a 551 return code, and the specified address will be returned as part of the reject message. '
+                    . 'Otherwise, the generic return code 550 will be used.'); ?>
+            </td>
+        </tr>
 	  <tr>
             <td></td>
             <td>

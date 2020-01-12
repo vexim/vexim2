@@ -20,19 +20,36 @@
     <div id="Forms">
       <form name="adminadd" method="post" action="adminfailaddsubmit.php">
         <table align="center">
-	  <tr>
-	    <td><?php echo _('Address to fail'); ?>:</td>
+          <tr>
+            <td><?php echo _('Fail Name'); ?>:</td>
+            <td><input name="realname" type="text" class="textfield" autofocus></td>
+          </tr>
+          <tr>
+            <td><?php echo _('Address to fail'); ?>:</td>
             <td>
-              <input name="localpart" type="text" class="textfield" autofocus>@
+              <input name="localpart" type="text" class="textfield">@
               <?php print htmlspecialchars($_SESSION['domain']); ?>
             </td>
-	  </tr>
-	  <tr>
-	    <td colspan="2" class="button">
+          </tr>
+          <tr>
+            <td><?php echo _('Suggested forward address (optional)'); ?>:</td>
+            <td>
+              <input name="smtp" type="email" class="textfield">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="padafter">
+              <?php echo _('If suggested forward address is specified, email delivery for this mailbox will fail '
+                . 'with a 551 return code, and the specified address will be returned as part of the reject message. '
+                . 'Otherwise, the generic return code 550 will be used.'); ?>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="button">
               <input name="submit" type="submit"
               value="<?php echo _('Submit'); ?>">
             </td>
-	  </tr>
+          </tr>
         </table>
       </form>
     </div>
