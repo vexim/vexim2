@@ -543,10 +543,6 @@ mailman_router:
 # finally, pipe_transport is used to pipe the mail to a
 # process.
 
-# This router caused me so much s*** it's untrue.
-# If your db lookup returns 'no data', then $spam_in_score is
-# greater than no data, and mail gets deleted.
-# Eventually got this working with Philip Hazel and Codiac's help.
 ditch_maxmsgsize:
   driver = redirect
   allow_fail
@@ -586,6 +582,10 @@ ditch_malware:
     local_part_suffix_optional
   .endif
 
+# This router caused me so much s*** it's untrue.
+# If your db lookup returns 'no data', then $spam_in_score is
+# greater than no data, and mail gets deleted.
+# Eventually got this working with Philip Hazel and Codiac's help.
 # spam drop router
 ditch_spam_drop:
     driver = redirect
