@@ -566,6 +566,23 @@ ditch_551_fails:
     .endif
     retry_use_local_part
 
+# This router fails messages to the remaining accounts of type "fail".
+ditch_550_fails:
+    driver = redirect
+    allow_fail
+    condition = ${if eq {${lookup mysql{select count(*) from users,domains \
+         where localpart = '${quote_mysql:$local_part}' \
+         and domain = '${quote_mysql:$domain}' \
+         and users.type = 'fail' \
+         and users.smtp = ':fail:' \
+         and users.domain_id=domains.domain_id}}}{1} {yes}{no}}
+    data = :fail: Unrouteable address
+    .ifdef VEXIM_LOCALPART_SUFFIX
+      local_part_suffix = VEXIM_LOCALPART_SUFFIX
+      local_part_suffix_optional
+    .endif
+    retry_use_local_part
+
 ditch_maxmsgsize:
   driver = redirect
   allow_fail
