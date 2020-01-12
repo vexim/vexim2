@@ -17,14 +17,31 @@
     die;
   }
 
+  if (in_array($_POST['smtp'], array(null, '', ':fail:'))) {
+    $_POST['smtp'] = ':fail:';
+  } else {
+    if (!filter_var($_POST['smtp'], FILTER_VALIDATE_EMAIL)) {
+      header("Location: adminfail.php?badname=" . htmlentities($_POST['smtp']));
+      die;
+    }
+  }
+
+  if (in_array($_POST['realname'], array(null, ''))) {
+    $_POST['realname'] = 'Fail';
+  }
+
   $query = "INSERT INTO users (localpart, username, domain_id, smtp, pop,
     uid, gid, type, realname) SELECT :localpart,
-    :username, :domain_id, ':fail:', ':fail:', uid, gid, 'fail',
-    'Fail' FROM domains WHERE domain_id=:domain_id";
+    :username, :domain_id, :smtp, :smtp, uid, gid, 'fail',
+    :realname FROM domains WHERE domain_id=:domain_id";
   $sth = $dbh->prepare($query);
   $success = $sth->execute(array(':localpart'=>$_POST['localpart'],
       ':username'=>$_POST['localpart'].'@'.$_SESSION['domain'],
-      ':domain_id'=>$_SESSION['domain_id']));
+      ':domain_id'=>$_SESSION['domain_id'],
+      ':smtp' => $_POST['smtp'],
+      ':realname' => $_POST['realname']
+  ));
+
   if ($success) {
     header ("Location: adminfail.php?added={$_POST['localpart']}");
   } else {
