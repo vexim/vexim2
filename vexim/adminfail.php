@@ -21,9 +21,9 @@
     <table align="center">
       <tr>
         <th>&nbsp;</th>
-        <th><?php echo _('Fail Name'); ?></th>
-        <th><?php echo _('Failed Address'); ?>..</th>
-        <th><?php echo _('Suggested Forward Address'); ?></th>
+        <th><?php echo _('Fail name'); ?></th>
+        <th><?php echo _('Failed address'); ?></th>
+        <th><?php echo _('Suggested forward address'); ?></th>
       </tr>
       <?php
         $query = "SELECT * FROM users
