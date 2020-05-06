@@ -9,3 +9,11 @@ They also assume DB name is set :
 echo DB=vexim2 >> /etc/vexim2.conf
 ```
 
+
+### Installation
+
+```
+cp -v bin/vexim2_* /usr/local/bin/
+chmod +x /usr/local/bin/vexim2_*
+```
+
