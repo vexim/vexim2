@@ -17,3 +17,7 @@ cp -v bin/vexim2_* /usr/local/bin/
 chmod +x /usr/local/bin/vexim2_*
 ```
 
+### Usage
+
+All commands are safe to run without arguements. If they need some, they will ask for.
+
