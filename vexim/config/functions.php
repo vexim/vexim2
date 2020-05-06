@@ -205,6 +205,8 @@
             $text = str_replace("=\r\n", "?=\r\n =?UTF-8?Q?", $text);
             $text = "=?UTF-8?Q?" . $text . "?=" ;
         }
+        
+        return $text;
     }
 
     /**
