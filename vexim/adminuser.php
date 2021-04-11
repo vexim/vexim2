@@ -21,6 +21,7 @@
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="sorttable.js"></script>
   </head>
   <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
@@ -64,7 +65,7 @@
         </select>
         <input type="submit" name="search" value="<?php echo _('search'); ?>">
       </form>
-      <table>
+      <table class="sortable">
         <tr>
           <th>&nbsp;</th>
           <th><?php echo _('User'); ?></th>
