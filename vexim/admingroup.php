@@ -46,7 +46,7 @@
             <?php echo $row['name'].'@'.$_SESSION['domain']; ?></a>
           </td>
           <td>
-            <?php if ('Y' == $row['is_public']) { ?>
+            <?php if (1 == $row['is_public']) { ?>
               <img class="check" src="images/check.gif"
                 title="<?php print _('Anyone can write to') . ' '. $row['name']; ?>">
             <?php } ?>
