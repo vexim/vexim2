@@ -1,4 +1,11 @@
 # Virtual Exim 2
+
+## WARNING: This code is probably unsafe
+
+As noted in #272 there are security issues in this code. It was writing as a helpful utility in 2004 and has had minimal changes since then. Very little effort went in at the time to protect against things like SQL injection or XSS. If you are using Vexim in anything meaningful way I would highly recommend moving away to another product immediately.
+
+Patches to fix security issues will be accepted as time permits, but the code most likely needs an overhaul and someone with the time and patience to do that :)
+
 ## README AND INSTALL GUIDE
 
 Thanks for picking the Virtual Exim package, for your virtual mail hosting needs! :-)
