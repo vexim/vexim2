@@ -43,9 +43,9 @@
           <td>
             <input name="localpart" type="text"
               value="<?php echo $row['name']; ?>"class="textfield" autofocus>@
-              <?php echo $_SESSION['domain']; ?>
+              <?php echo htmlspecialchars($_SESSION['domain']); ?>
             <input name="group_id" type="hidden"
-              value="<?php echo $_GET['group_id']; ?>" class="textfield">
+              value="<?php echo htmlspecialchars($_GET['group_id']); ?>" class="textfield">
           </td>
         </tr>
         <tr>
@@ -96,7 +96,7 @@
               ?>
               <tr>
                 <td class="trash">
-                  <a href="admingroupcontentdeletesubmit.php?group_id=<?php echo $_GET['group_id'];
+                  <a href="admingroupcontentdeletesubmit.php?group_id=<?php echo htmlspecialchars($_GET['group_id']);
 					?>&member_id=<?php echo $row['member_id'];
 					?>&localpart=<?php echo $grouplocalpart;
 					?>">
@@ -107,7 +107,7 @@
                   </a>
                 </td>
                 <td><?php echo $row['realname']; ?></td>
-                <td><?php echo $row['localpart'].'@'.$_SESSION['domain']; ?></td>
+                <td><?php echo $row['localpart'].'@'.htmlspecialchars($_SESSION['domain']); ?></td>
                 <td>
                   <?php
                     if($row['enabled']='1') {
@@ -138,7 +138,7 @@
             <td><?php echo _('Add Member'); ?></td>
             <td>
               <input name="group_id" type="hidden"
-                value="<?php echo $_GET['group_id']; ?>" class="textfield">
+                value="<?php echo htmlspecialchars($_GET['group_id']); ?>" class="textfield">
               <input name="localpart" type="hidden"
                 value="<?php echo $grouplocalpart; ?>" class="textfield">
               <select name="usertoadd">
@@ -153,7 +153,7 @@
                 ?>
                   <option value="<?php echo $row['user_id'];
 					?>"><?php echo $row['realname'];
-					?> (<?php echo $row['localpart'].'@'.$_SESSION['domain']; ?>)</option>
+					?> (<?php echo $row['localpart'].'@'.htmlspecialchars($_SESSION['domain']); ?>)</option>
                 <?php
                   }
                 ?>

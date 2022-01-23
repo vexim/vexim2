@@ -48,7 +48,7 @@
               . '">'
               . $row['localpart']
               . '@'
-              . $_SESSION['domain']
+              . htmlspecialchars($_SESSION['domain'])
               . '</a></td>';
             print '</tr>';
           }

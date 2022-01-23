@@ -41,11 +41,11 @@
 	    <td>
               <input name="localpart" type="text"
                 value="<?php print $row['localpart']; ?>" class="textfield" autofocus>@
-              <?php print $_SESSION['domain']; ?>
+              <?php print htmlspecialchars($_SESSION['domain']); ?>
             </td>
 	    <td>
               <input name="user_id" type="hidden"
-                value="<?php print $_GET['user_id']; ?>" class="textfield">
+                value="<?php print htmlspecialchars($_GET['user_id']); ?>" class="textfield">
             </td>
           </tr>
 	  <tr>
