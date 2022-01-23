@@ -24,7 +24,7 @@
 	    <td><?php echo _('Address to fail'); ?>:</td>
             <td>
               <input name="localpart" type="text" class="textfield" autofocus>@
-              <?php print $_SESSION['domain']; ?>
+              <?php print htmlspecialchars($_SESSION['domain']); ?>
             </td>
 	  </tr>
 	  <tr>

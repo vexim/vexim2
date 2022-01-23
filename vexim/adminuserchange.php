@@ -56,7 +56,7 @@
             <input type="text" size="25" name="realname"
               value="<?php print $row['realname']; ?>" class="textfield" autofocus>
             <input name="user_id" type="hidden"
-              value="<?php print $_GET['user_id']; ?>">
+              value="<?php print htmlspecialchars($_GET['user_id']); ?>">
           </td>
         </tr>
         <tr>
@@ -300,7 +300,7 @@
               print " checked ";
             } ?>>
             <input name="user_id" type="hidden"
-              value="<?php print $_GET['user_id']; ?>">
+              value="<?php print htmlspecialchars($_GET['user_id']); ?>">
             <input name="localpart" type="hidden"
               value="<?php print $row['localpart']; ?>">
           </td>
@@ -373,9 +373,9 @@
           <td>
             <input name="blockval" type="text" size="25" class="textfield">
             <input name="user_id" type="hidden"
-              value="<?php print $_GET['user_id']; ?>">
+              value="<?php print htmlspecialchars($_GET['user_id']); ?>">
             <input name="localpart" type="hidden"
-              value="<?php print $_GET['localpart']; ?>">
+              value="<?php print htmlspecialchars($_GET['localpart']); ?>">
             <input name="color" type="hidden" value="black">
           </td>
         </tr>
@@ -400,11 +400,11 @@
             <tr>
               <td>
                 <a href="adminuserblocksubmit.php?action=delete&user_id=<?php
-					print $_GET['user_id']
+					print htmlspecialchars($_GET['user_id'])
 					. '&block_id='
 					. $blockrow['block_id']
 					.'&localpart='
-					. $_GET['localpart'];?>">
+					. htmlspecialchars($_GET['localpart']);?>">
                   <img class="trash" title="Delete" src="images/trashcan.gif"
                     alt="trashcan">
                 </a>

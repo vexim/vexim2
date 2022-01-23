@@ -44,8 +44,8 @@
           <tr>
             <td colspan="2">
               <?php printf (_('Please confirm deleting alias %s@%s'),
-                $_GET['localpart'] ,
-                $_SESSION['domain']);
+                htmlspecialchars($_GET['localpart']),
+                htmlspecialchars($_SESSION['domain']));
               ?>:
             </td>
           </tr>
@@ -53,8 +53,8 @@
             <td>
               <input name='confirm' type='radio' value='cancel' checked>
               <b><?php printf (_('Do Not Delete %s@%s'),
-                $_GET['localpart'],
-                $_SESSION['domain']);
+                htmlspecialchars($_GET['localpart']),
+                htmlspecialchars($_SESSION['domain']));
               ?></b>
             </td>
           </tr>
@@ -62,19 +62,19 @@
             <td>
               <input name='confirm' type='radio' value='1'>
               <b><?php printf (_('Delete %s@%s'),
-                $_GET['localpart'],
-                $_SESSION['domain']);
+                htmlspecialchars($_GET['localpart']),
+                htmlspecialchars($_SESSION['domain']));
               ?></b>
             </td>
           </tr>
           <tr>
             <td>
               <input name='domain' type='hidden'
-                value='<?php echo $_SESSION['domain']; ?>'>
+                value='<?php echo htmlspecialchars($_SESSION['domain']); ?>'>
               <input name='user_id' type='hidden'
-                value='<?php echo $_GET['user_id']; ?>'>
+                value='<?php echo htmlspecialchars($_GET['user_id']); ?>'>
               <input name='localpart' type='hidden'
-                value='<?php echo $_GET['localpart']; ?>'>
+                value='<?php echo htmlspecialchars($_GET['localpart']); ?>'>
               <input name='submit' type='submit'
                 value='<?php echo _('Continue'); ?>'>
             </td>
