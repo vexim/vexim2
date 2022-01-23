@@ -2,9 +2,15 @@
 
 ## WARNING: This code is probably unsafe
 
-As noted in #272 there are security issues in this code. It was writing as a helpful utility in 2004 and has had minimal changes since then. Very little effort went in at the time to protect against things like SQL injection or XSS. If you are using Vexim in anything meaningful way I would highly recommend moving away to another product immediately.
+As noted in [#272](https://github.com/vexim/vexim2/issues/272) there might be security issues in this code. It was written as a helpful utility in 2004 and has had minimal changes since then. Very little effort went in at the time to protect it against various security attacks. While we do eventually fix security issues we become aware of, we aren't bound by any SLAs, so fixes don't always happen quickly.
 
-Patches to fix security issues will be accepted as time permits, but the code most likely needs an overhaul and someone with the time and patience to do that :)
+Patches to fix security issues will be accepted as time permits, but the code (especially the admin panel) certainly needs an overhaul, and that will only happen if someone with enough time and motivation steps up. In fact, a potential replacement for our aged PHP admin panel already exists. Meet [veximpy](https://gitlab.com/runout/veximpy)!
+
+In short:
+- If you are considering VExim, we advise you to at least have a look at [other similar solutions](https://alternativeto.net/software/postfix-admin/) as well.
+- If you are already using VExim, please consider taking extra steps to secure it.
+- If you're interested in contributing a rewrite, or participating in one, let us know
+- And of course, pull requests with bugfixes are always welcome!
 
 ## README AND INSTALL GUIDE
 
@@ -41,8 +47,8 @@ Some sections may contain distribution or OS-specific notes. You'll find them af
 The following packages must be installed on your system, for Virtual Exim to work. If you don't have any of these packages already installed, please refer to the documentation provided with your operating system on how to install each package:
 * Exim v4 with MySQL or PostgreSQL support (tested on v4.1x/4.2x/4.7x)
 * MySQL (tested on v5.1.x) or PostgreSQL
-* Apache or other HTTP server (Tested on Apache v2.2.x)
-* PHP (tested on v5.3.x and v7.x) with at least the following extensions:
+* Apache or other HTTP server (Tested with Apache v2.2.x and NginX)
+* PHP (tested on v5.3.x, v7.x and v8.x) with at least the following extensions:
   * PDO
   * pdo_mysql or pdo_pgsql
   * imap
