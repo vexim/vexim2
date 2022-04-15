@@ -33,7 +33,7 @@
             <td><?php echo _('Address'); ?>:</td>
             <td>
               <input name="localpart" type="text" class="textfield">@
-              <?php print $_SESSION['domain']; ?>
+              <?php print htmlspecialchars($_SESSION['domain']); ?>
             </td>
           </tr>
           <tr>

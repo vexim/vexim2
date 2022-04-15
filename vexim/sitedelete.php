@@ -87,18 +87,18 @@
     <div id='Content'>
       <form name='domaindelete' method='post' action='sitedelete.php'>
 	<table align="center">
-	  <tr><td colspan='2'><?php printf (_("Please confirm deleting domain %s."), $_GET['domain']); ?>:</td></tr>
+	  <tr><td colspan='2'><?php printf (_("Please confirm deleting domain %s."), htmlspecialchars($_GET['domain'])); ?>:</td></tr>
 	  <?php if (($_GET['type'] != "relay") && ($_GET['type'] != "alias")) {
 		print   "<tr><td colspan='2'>";
-        printf (ngettext("There is currently <b>%1\$d</b> account in domain %2\$s", "There are currently <b>%1\$d</b> accounts in domain %2\$s", $row['count']), $row['count'], $_GET['domain']);
+        printf (ngettext("There is currently <b>%1\$d</b> account in domain %2\$s", "There are currently <b>%1\$d</b> accounts in domain %2\$s", $row['count']), $row['count'], htmlspecialchars($_GET['domain']));
         print   "</td></tr>";
 	     }
 	  ?>
-	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> <?php printf (_("Do Not Delete %s"), $_GET['domain']); ?></b></td></tr>
-	  <tr><td><input name='confirm' type='radio' value='1'><b> <?php printf (_("Delete %s"), $_GET['domain']); ?></b></td></tr>
-	  <tr><td><input name='domain_id' type='hidden' value='<?php print $_GET['domain_id']; ?>'>
-	  	  <input name='domain' type='hidden' value='<?php print $_GET['domain']; ?>'>
-	  	  <input name='type' type='hidden' value='<?php print $_GET['type']; ?>'>
+	  <tr><td><input name='confirm' type='radio' value='cancel' checked><b> <?php printf (_("Do Not Delete %s"), htmlspecialchars($_GET['domain'])); ?></b></td></tr>
+	  <tr><td><input name='confirm' type='radio' value='1'><b> <?php printf (_("Delete %s"), htmlspecialchars($_GET['domain'])); ?></b></td></tr>
+	  <tr><td><input name='domain_id' type='hidden' value='<?php print htmlspecialchars($_GET['domain_id']); ?>'>
+	  	  <input name='domain' type='hidden' value='<?php print htmlspecialchars($_GET['domain']); ?>'>
+	  	  <input name='type' type='hidden' value='<?php print htmlspecialchars($_GET['type']); ?>'>
 		  <input name='submit' type='submit' value='<?php echo _("Continue"); ?>'></td></tr>
 	</table>
       </form>

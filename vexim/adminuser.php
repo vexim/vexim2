@@ -52,7 +52,7 @@
       <form name="search" method="post" action="adminuser.php">
         <?php echo _('Search'); ?>:
         <input type="text" size="20" name="searchfor"
-          value="<?php echo $_POST['searchfor']; ?>" class="textfield">
+          value="<?php echo htmlspecialchars($_POST['searchfor']); ?>" class="textfield">
         <?php echo _('in'); ?>
         <select name="field" class="textfield">
           <option value="realname" <?php if ($_POST['field'] == 'realname') {
@@ -111,7 +111,7 @@
             . ' '
             . $row['realname']
             . '">'
-            . $row['localpart'] .'@'. $_SESSION['domain']
+            . $row['localpart'] .'@'. htmlspecialchars($_SESSION['domain'])
             . '</a></td>';
           print '<td class="check">';
           if ($row['admin'] == 1) {
