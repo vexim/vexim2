@@ -110,7 +110,7 @@
                 <td><?php echo $row['localpart'].'@'.htmlspecialchars($_SESSION['domain']); ?></td>
                 <td>
                   <?php
-                    if($row['enabled']='1') {
+                    if($row['enabled']=='1') {
                   ?>
                   <img class="check" src="images/check.gif">
                   <?php
