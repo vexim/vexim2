@@ -8,6 +8,7 @@
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
+    <script src="sorttable.js"></script>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body>
@@ -28,7 +29,7 @@
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div id="Content">
-    <table align="center">
+    <table align="center" class="sortable">
       <tr>
         <th>&nbsp;</th>
         <th><?php echo _('Alias'); ?></th>
@@ -95,18 +96,15 @@
             print '</tr>';
           }
         }
-      ?>
-      <tr>
-        <td colspan="4" class="padbefore">
-          <b><?php echo _('Note'); ?>:</b>
+	?>
+    </table>	
+    <p align="center"><b><?php echo _('Note'); ?>:</b>
           <?php
             echo _('You can only have one catchall per domain.')
             . '<br />'
             . _('It will catch and forward all email that does not get delivered to a specific mailbox.');
           ?>
-        </td>
-      </tr>
-    </table>
+    </p>
     </div>
   </body>
 </html>
