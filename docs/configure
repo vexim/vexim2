@@ -1072,7 +1072,7 @@ begin retry
 # Domain               Error       Retries
 # ------               -----       -------
 
-*                      *           F,2h,15m; G,16h,1h,1.5; F,14d,6h
+*                      *           F,2h,15m; G,16h,1h,1.5; F,4d,6h
 
 
 
