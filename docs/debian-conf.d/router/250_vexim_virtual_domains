@@ -80,7 +80,7 @@ virtual_dom_groups:
   driver = redirect
   domains = +local_domains
   allow_fail
-  senders = ${if eq{Y}{${lookup mysql{select g.is_public \
+  senders = ${if eq{1}{${lookup mysql{select g.is_public \
                                       from groups g, domains d \
                                       where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
                                             d.domain_id = g.domain_id and g.enabled = '1' and \
@@ -91,7 +91,7 @@ virtual_dom_groups:
                                  where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
                                        d.domain_id = g.domain_id and g.name = '${quote_mysql:$local_part}' and \
                                        g.enabled = '1' and \
-                                       g.is_public = 'N' and c.member_id = u.user_id and \
+                                       g.is_public = 0 and c.member_id = u.user_id and \
                                        d.domain_id = u.domain_id and u.enabled = '1' \
                                        and u.username = '${quote_mysql:$sender_address}' limit 1}}}}
   data = ${lookup mysql{ \

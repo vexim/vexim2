@@ -52,7 +52,7 @@
           <td><?php echo _('Is public'); ?></td>
           <td>
             <input name="is_public" type="checkbox"
-              <?php echo $row['is_public'] == 'Y' ? 'checked' : ''; ?>
+              <?php echo $row['is_public'] == '1' ? 'checked' : ''; ?>
               class="textfield">
           </td>
         </tr>

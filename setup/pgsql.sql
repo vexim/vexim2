@@ -168,7 +168,7 @@ CREATE TABLE "groups" (
   "id" SERIAL PRIMARY KEY,
   "domain_id" int NOT NULL,
   "name" varchar(64) NOT NULL,
-  "is_public" char(1) NOT NULL DEFAULT 'Y',
+  "is_public" smallint NOT NULL DEFAULT '1' CHECK("enabled" BETWEEN 0 AND 1),
   "enabled" smallint NOT NULL DEFAULT '1' CHECK("enabled" BETWEEN 0 AND 1),
   UNIQUE("domain_id","name"));
 CREATE INDEX "fk_groups_domain_id_idx" ON "groups" ("domain_id");
