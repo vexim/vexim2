@@ -553,13 +553,13 @@ ditch_551_fails:
         and users.type = 'fail' \
         and users.smtp != ':fail:' \
         and users.domain_id=domains.domain_id}}}{1} {yes}{no}}
-    data = :fail: 551 5.1.1 User has moved; please try \
+    data = :fail: 551 User not local; please try <\
         ${lookup mysql{select users.smtp from users,domains \
         where localpart = '${quote_mysql:$local_part}' \
         and domain = '${quote_mysql:$domain}' \
         and users.type = 'fail' \
         and users.smtp != ':fail:' \
-        and users.domain_id=domains.domain_id}}
+        and users.domain_id=domains.domain_id}}>
     .ifdef VEXIM_LOCALPART_SUFFIX
       local_part_suffix = VEXIM_LOCALPART_SUFFIX
       local_part_suffix_optional
