@@ -22,7 +22,7 @@
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="admingroup.php"><?php echo _('Manage Groups'); ?></a><br>
-      <a href="admingroupadd.php"><?php echo _('Add Group'); ?></a></br>
+      <a href="admingroupadd.php"><?php echo _('Add Group'); ?></a><br>
       <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>

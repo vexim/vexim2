@@ -14,7 +14,7 @@
   <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
-      <a href="adminaliasadd.php"><?php echo _('Add Alias'); ?></a></br>
+      <a href="adminaliasadd.php"><?php echo _('Add Alias'); ?></a><br>
       <?php $query = "SELECT user_id,realname,smtp,localpart FROM users
         WHERE domain_id=:domain_id AND type='catch'";
         $sth = $dbh->prepare($query);
@@ -22,7 +22,7 @@
         if (!$sth->rowCount()) {
           print '<a href="admincatchalladd.php">'
             . _('Add Catchall')
-            . '</a></br>';
+            . '</a><br>';
         }
       ?>
       <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>
