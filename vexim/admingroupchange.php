@@ -42,7 +42,7 @@
           <td><?php echo _('Group Address'); ?>:</td>
           <td>
             <input name="localpart" type="text"
-              value="<?php echo $row['name']; ?>"class="textfield" autofocus>@
+              value="<?php echo $row['name']; ?>" class="textfield" autofocus>@
               <?php echo htmlspecialchars($_SESSION['domain']); ?>
             <input name="group_id" type="hidden"
               value="<?php echo htmlspecialchars($_GET['group_id']); ?>" class="textfield">
@@ -66,7 +66,7 @@
         </tr>
         <tr>
           <td colspan="2" class="button">
-            <input name="editgroup" type="submit" value="Submit">
+            <input name="editgroup" type="submit" value="<?php echo _('Submit'); ?>">
           </td>
         </tr>
         </form>
@@ -108,7 +108,7 @@
                 </td>
                 <td><?php echo $row['realname']; ?></td>
                 <td><?php echo $row['localpart'].'@'.htmlspecialchars($_SESSION['domain']); ?></td>
-                <td>
+                <td class="check">
                   <?php
                     if($row['enabled']=='1') {
                   ?>
