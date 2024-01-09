@@ -69,7 +69,7 @@
         $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
         if ($sth->rowCount()) {
           while ($row = $sth->fetch()) {
-            if($row['enabled']==="0") print '<tr class="disabled">'; else print '<tr>';
+            if($row['enabled'] === 0) print '<tr class="disabled">'; else print '<tr>';
             print '<td align="center">'
               . '<a href="adminaliasdelete.php?user_id='
               . $row['user_id']
