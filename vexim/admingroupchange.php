@@ -22,7 +22,7 @@
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="admingroup.php"><?php echo _('Manage Groups'); ?></a><br>
-      <a href="admingroupadd.php"><?php echo _('Add Group'); ?></a></br>
+      <a href="admingroupadd.php"><?php echo _('Add Group'); ?></a><br>
       <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
@@ -42,10 +42,10 @@
           <td><?php echo _('Group Address'); ?>:</td>
           <td>
             <input name="localpart" type="text"
-              value="<?php echo $row['name']; ?>"class="textfield" autofocus>@
-              <?php echo $_SESSION['domain']; ?>
+              value="<?php echo $row['name']; ?>" class="textfield" autofocus>@
+              <?php echo htmlspecialchars($_SESSION['domain']); ?>
             <input name="group_id" type="hidden"
-              value="<?php echo $_GET['group_id']; ?>" class="textfield">
+              value="<?php echo htmlspecialchars($_GET['group_id']); ?>" class="textfield">
           </td>
         </tr>
         <tr>
@@ -66,7 +66,7 @@
         </tr>
         <tr>
           <td colspan="2" class="button">
-            <input name="editgroup" type="submit" value="Submit">
+            <input name="editgroup" type="submit" value="<?php echo _('Submit'); ?>">
           </td>
         </tr>
         </form>
@@ -96,7 +96,7 @@
               ?>
               <tr>
                 <td class="trash">
-                  <a href="admingroupcontentdeletesubmit.php?group_id=<?php echo $_GET['group_id'];
+                  <a href="admingroupcontentdeletesubmit.php?group_id=<?php echo htmlspecialchars($_GET['group_id']);
 					?>&member_id=<?php echo $row['member_id'];
 					?>&localpart=<?php echo $grouplocalpart;
 					?>">
@@ -107,10 +107,10 @@
                   </a>
                 </td>
                 <td><?php echo $row['realname']; ?></td>
-                <td><?php echo $row['localpart'].'@'.$_SESSION['domain']; ?></td>
-                <td>
+                <td><?php echo $row['localpart'].'@'.htmlspecialchars($_SESSION['domain']); ?></td>
+                <td class="check">
                   <?php
-                    if($row['enabled']='1') {
+                    if($row['enabled']=='1') {
                   ?>
                   <img class="check" src="images/check.gif">
                   <?php
@@ -138,7 +138,7 @@
             <td><?php echo _('Add Member'); ?></td>
             <td>
               <input name="group_id" type="hidden"
-                value="<?php echo $_GET['group_id']; ?>" class="textfield">
+                value="<?php echo htmlspecialchars($_GET['group_id']); ?>" class="textfield">
               <input name="localpart" type="hidden"
                 value="<?php echo $grouplocalpart; ?>" class="textfield">
               <select name="usertoadd">
@@ -153,7 +153,7 @@
                 ?>
                   <option value="<?php echo $row['user_id'];
 					?>"><?php echo $row['realname'];
-					?> (<?php echo $row['localpart'].'@'.$_SESSION['domain']; ?>)</option>
+					?> (<?php echo $row['localpart'].'@'.htmlspecialchars($_SESSION['domain']); ?>)</option>
                 <?php
                   }
                 ?>
