@@ -21,10 +21,12 @@
     <table align="center">
       <tr>
         <th>&nbsp;</th>
-        <th><?php echo _('Failed Address'); ?>..</th>
+        <th><?php echo _('Fail name'); ?></th>
+        <th><?php echo _('Failed address'); ?></th>
+        <th><?php echo _('Suggested forward address'); ?></th>
       </tr>
       <?php
-        $query = "SELECT user_id,localpart FROM users
+        $query = "SELECT * FROM users
           WHERE domain_id=:domain_id
           AND users.type='fail'
           ORDER BY localpart;";
@@ -46,10 +48,17 @@
               . '<a href="adminfailchange.php?user_id='
               . $row['user_id']
               . '">'
+              . $row['realname']
+              . '</a></td>';
+            print '<td>'
+              . '<a href="adminfailchange.php?user_id='
+              . $row['user_id']
+              . '">'
               . $row['localpart']
               . '@'
               . htmlspecialchars($_SESSION['domain'])
               . '</a></td>';
+            print '<td>' . ($row['smtp'] === ':fail:' ? _('None') : $row['smtp']) . '</td>';
             print '</tr>';
           }
         }
