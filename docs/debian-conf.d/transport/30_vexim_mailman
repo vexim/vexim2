@@ -2,7 +2,6 @@
 ### transport/30_vexim_mailman
 ##############################
 
-
 # This transport delivers messages to Mailman lists.
 # The if def:local_part_suffix section selects whether the suffix is used
 # as the mailman command, or whether there is no suffix and so post is

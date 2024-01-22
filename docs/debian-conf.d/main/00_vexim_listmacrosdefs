@@ -77,8 +77,8 @@ MAILMAN_WRAP=MAILMAN_HOME/mail/mailman
 MAILMAN_LISTCHK = MAILMAN_HOME/lists/${lc::$local_part}/config.pck
 
 
-# If the local-part suffix is used, mails to user+whatevertext@example.org will be delivered to user@example.org
-# Comment this line if you want to disable it, instead of + you can use a different separator.
+# If the local-part suffix is used, mails to user+whatevertext@example.org will be delivered to user@example.org.
+# Comment this line if you want to disable it. You can also use a different separator instead of `+`.
 VEXIM_LOCALPART_SUFFIX = +*
 
 CHECK_RCPT_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-rcpt.conf
