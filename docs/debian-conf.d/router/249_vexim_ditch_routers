@@ -259,9 +259,9 @@ ditch_hdrsubject:
   driver = redirect
   allow_fail
   data = :blackhole:
-  condition = ${if eq { \
+  condition = ${if eq \
     {1} \
-    ${lookup mysql{ \
+    {${lookup mysql{ \
       SELECT COUNT(*) \
       FROM blocklists b \
         INNER JOIN users u ON (b.user_id = u.user_id) \
