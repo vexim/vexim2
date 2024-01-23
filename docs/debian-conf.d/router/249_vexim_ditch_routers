@@ -70,7 +70,7 @@ ditch_maxmsgsize:
         AND d.domain = '${quote_mysql:$domain}' \
         AND u.maxmsgsize > 0 \
       }{${value}K}fail} \
-    }
+    } \
     {yes}{no}}
   data = :fail:\n\Your message is too big.\n \
       Your message was rejected because the user $local_part@$domain\n \
@@ -237,7 +237,7 @@ ditch_hdrfrom:
   allow_fail
   data = :blackhole:
   condition = ${if eq \
-    {1}
+    {1} \
     {${lookup mysql{ \
       SELECT COUNT(*) \
       FROM blocklists b \
@@ -260,7 +260,7 @@ ditch_hdrsubject:
   allow_fail
   data = :blackhole:
   condition = ${if eq { \
-    {1}
+    {1} \
     ${lookup mysql{ \
       SELECT COUNT(*) \
       FROM blocklists b \
