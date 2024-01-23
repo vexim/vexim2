@@ -1189,36 +1189,42 @@ begin rewrite
 begin authenticators
 
 plain_virtual_exim:
-        driver = plaintext
-        public_name = PLAIN
-        server_condition = ${if crypteq{$auth3}{${lookup mysql{ \
-                           SELECT crypt FROM users \
-                           WHERE username = '${quote_mysql:$auth2}' \
-                             AND enabled = 1 \
-                           }}}{1}{0}}
-        server_set_id = $auth2
-        server_advertise_condition = ${if or{\
-          {!eq{$tls_cipher}{}}\
-          {match_ip {$sender_host_address}{@[]}}\
-          }\
-          {*}{}}
+  driver = plaintext
+  public_name = PLAIN
+  server_condition = ${if crypteq \
+    {$auth3} \
+    {${lookup mysql{ \
+      SELECT crypt FROM users \
+      WHERE username = '${quote_mysql:$auth2}' \
+        AND enabled = 1 \
+    }}} \
+    {1}{0}}
+  server_set_id = $auth2
+  server_advertise_condition = ${if or{ \
+    {!eq{$tls_cipher}{}} \
+    {match_ip {$sender_host_address}{@[]}} \
+    } \
+    {*}{}}
 
 login_virtual_exim:
-        driver = plaintext
-        public_name = LOGIN
-        server_prompts = "Username:: : Password::"
-        server_condition = ${if crypteq{$auth2}{${lookup mysql{ \
-                           SELECT crypt FROM users \
-                           WHERE username = '${quote_mysql:$auth1}' \
-                             AND enabled = 1 \
-                           }}}{1}{0}}
-        server_set_id = $auth1
-        server_advertise_condition = ${if or{\
-          {!eq{$tls_cipher}{}}\
-          {match_ip {$sender_host_address}{@[]}}\
-          }\
-          {*}{}}
+  driver = plaintext
+  public_name = LOGIN
+  server_prompts = "Username:: : Password::"
 
+  server_condition = ${if crypteq \
+    {$auth2} \
+    {${lookup mysql{ \
+      SELECT crypt FROM users \
+      WHERE username = '${quote_mysql:$auth1}' \
+        AND enabled = 1 \
+    }}} \
+    {1}{0}}
+  server_set_id = $auth1
+  server_advertise_condition = ${if or{ \
+    {!eq{$tls_cipher}{}} \
+    {match_ip {$sender_host_address}{@[]}} \
+    } \
+    {*}{}}
 
 # You can use the authenticator of your IMAP server (Courier or Dovecot) to authenticate
 # users in Exim. To do that, comment out the lines above after begin authenticators,
@@ -1242,10 +1248,10 @@ login_virtual_exim:
 #               {yes} \
 #               fail}
 #   server_set_id = $auth2
-#   server_advertise_condition = ${if or{\
-#     {!eq{$tls_cipher}{}}\
-#     {match_ip {$sender_host_address}{@[]}}\
-#     }\
+#   server_advertise_condition = ${if or{ \
+#     {!eq{$tls_cipher}{}} \
+#     {match_ip {$sender_host_address}{@[]}} \
+#     } \
 #     {*}{}}
 #
 # login_courier_authdaemon:
@@ -1259,24 +1265,24 @@ login_virtual_exim:
 #               {yes} \
 #               fail}
 #   server_set_id = $auth1
-#   server_advertise_condition = ${if or{\
-#     {!eq{$tls_cipher}{}}\
-#     {match_ip {$sender_host_address}{@[]}}\
-#     }\
+#   server_advertise_condition = ${if or{ \
+#     {!eq{$tls_cipher}{}} \
+#     {match_ip {$sender_host_address}{@[]}} \
+#     } \
 #     {*}{}}
 
 # Authenticate against Dovecot SASL
-# Based on: http://wiki2.dovecot.org/HowTo/EximAndDovecotSASL
+# Based on: https://doc.dovecot.org/configuration_manual/howto/exim_and_dovecot_sasl/
 #
 # login_dovecot_sasl:
 #   driver = dovecot
 #   public_name = LOGIN
 #   server_socket = /var/run/dovecot/auth-client
 #   server_set_id = $auth1
-#   server_advertise_condition = ${if or{\
-#     {!eq{$tls_cipher}{}}\
-#     {match_ip {$sender_host_address}{@[]}}\
-#     }\
+#   server_advertise_condition = ${if or{ \
+#     {!eq{$tls_cipher}{}} \
+#     {match_ip {$sender_host_address}{@[]}} \
+#     } \
 #     {*}{}}
 #
 # plain_dovecot_sasl:
@@ -1284,10 +1290,10 @@ login_virtual_exim:
 #   public_name = PLAIN
 #   server_socket = /var/run/dovecot/auth-client
 #   server_set_id = $auth1
-#   server_advertise_condition = ${if or{\
-#     {!eq{$tls_cipher}{}}\
-#     {match_ip {$sender_host_address}{@[]}}\
-#     }\
+#   server_advertise_condition = ${if or{ \
+#     {!eq{$tls_cipher}{}} \
+#     {match_ip {$sender_host_address}{@[]}} \
+#     } \
 #     {*}{}}
 
 
