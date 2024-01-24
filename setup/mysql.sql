@@ -54,6 +54,7 @@ CREATE TABLE `domains` (
   `spamassassin` tinyint(1) NOT NULL DEFAULT '0',
   `sa_tag` smallint(5) unsigned NOT NULL DEFAULT '0',
   `sa_refuse` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `out_ip` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`domain_id`),
   UNIQUE KEY `domain` (`domain`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
