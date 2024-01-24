@@ -242,3 +242,9 @@ There are many POP3 and IMAP daemons available. Some that we have found that wor
 Dovecot provides more features (server-side sieve filters) and is more performant on larger setups.
 
 **UPGRADING:** If you are upgrading, you will need to update your configs for your POP/IMAP daemons, as the database layout has changed. You should be able to follow the above instructions without problem.
+
+## Docker Compose setup
+
+Minimalistic Docker Compose setup is provided in this repository. This setup is only meant for development, not for production use. It is configured to mount `vexim/config/variables.php.example` file as `variables.php`. Additionally, it will execute `setup/mysql.sql` during first boot, so **make note of the initial siteadmin credentials** which will be echoed by the db container among other output.
+
+Upon boot, Vexim UI will be available on http://localhost, and MySQL database on localhost:3306. Both ports can be overridden by setting `WEB_PORT` and/or `MYSQL_PORT` environment variables when running `docker compose`.

@@ -2,7 +2,7 @@
   /* SQL Database login information */
   include_once dirname(__FILE__) . "/i18n.php";
 
-  $sqlserver = "localhost";
+  $sqlserver = "db"; // Set this to your database server hostname or IP address.
   $sqltype = "mysql";
   $sqldb = "vexim";
   $sqluser = "vexim";
