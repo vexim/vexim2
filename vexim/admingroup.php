@@ -32,8 +32,8 @@
           $sth = $dbh->prepare($query);
           $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
           while ($row = $sth->fetch()) {
+            if($row['enabled'] === 0) print '<tr class="disabled">'; else print '<tr>';
         ?>
-        <tr>
           <td class="trash">
             <a href="admingroupdelete.php?group_id=<?php echo $row['id']; ?>&localpart=<?php echo $row['name']; ?>">
             <img class='trash' title="<?php print _('Delete group') . $row['name']; ?>"
@@ -45,13 +45,13 @@
               title="<?php print _('Click to modify ') . $row['name']; ?>">
             <?php echo $row['name'].'@'.$_SESSION['domain']; ?></a>
           </td>
-          <td>
+          <td class="check">
             <?php if ('Y' == $row['is_public']) { ?>
               <img class="check" src="images/check.gif"
                 title="<?php print _('Anyone can write to') . ' '. $row['name']; ?>">
             <?php } ?>
           </td>
-          <td>
+          <td class="check">
             <?php if ('1' == $row['enabled']) { ?>
               <img class="check" src="images/check.gif"
                 title="<?php print $row['name'] . _(' is enabled'); ?>">

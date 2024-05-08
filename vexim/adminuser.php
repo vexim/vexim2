@@ -21,6 +21,7 @@
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="sorttable.js"></script>
   </head>
   <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
@@ -52,7 +53,7 @@
       <form name="search" method="post" action="adminuser.php">
         <?php echo _('Search'); ?>:
         <input type="text" size="20" name="searchfor"
-          value="<?php echo $_POST['searchfor']; ?>" class="textfield">
+          value="<?php echo htmlspecialchars($_POST['searchfor']); ?>" class="textfield">
         <?php echo _('in'); ?>
         <select name="field" class="textfield">
           <option value="realname" <?php if ($_POST['field'] == 'realname') {
@@ -64,7 +65,7 @@
         </select>
         <input type="submit" name="search" value="<?php echo _('search'); ?>">
       </form>
-      <table>
+      <table class="sortable">
         <tr>
           <th>&nbsp;</th>
           <th><?php echo _('User'); ?></th>
@@ -88,7 +89,7 @@
         $sth = $dbh->prepare($query);
         $sth->execute($queryParams);
         while ($row = $sth->fetch()) {
-          if($row['enabled']==="0") print '<tr class="disabled">'; else print '<tr>';
+          if($row['enabled'] === 0) print '<tr class="disabled">'; else print '<tr>';
           print '<td class="trash"><a href="adminuserdelete.php?user_id='
             . $row['user_id']
             . '&amp;localpart='
@@ -111,7 +112,7 @@
             . ' '
             . $row['realname']
             . '">'
-            . $row['localpart'] .'@'. $_SESSION['domain']
+            . $row['localpart'] .'@'. htmlspecialchars($_SESSION['domain'])
             . '</a></td>';
           print '<td class="check">';
           if ($row['admin'] == 1) {

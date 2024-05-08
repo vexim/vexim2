@@ -1,4 +1,17 @@
 # Virtual Exim 2
+
+## WARNING: This code is probably unsafe
+
+As noted in [#272](https://github.com/vexim/vexim2/issues/272) there might be security issues in this code. It was written as a helpful utility in 2004 and has had minimal changes since then. Very little effort went in at the time to protect it against various security attacks. While we do eventually fix security issues we become aware of, we aren't bound by any SLAs, so fixes don't always happen quickly.
+
+Patches to fix security issues will be accepted as time permits, but the code (especially the admin panel) certainly needs an overhaul, and that will only happen if someone with enough time and motivation steps up. In fact, a potential replacement for our aged PHP admin panel already exists. Meet [veximpy](https://gitlab.com/runout/veximpy)!
+
+In short:
+- If you are considering VExim, we advise you to at least have a look at [other similar solutions](https://alternativeto.net/software/postfix-admin/) as well.
+- If you are already using VExim, please consider taking extra steps to secure it.
+- If you're interested in contributing a rewrite, or participating in one, let us know
+- And of course, pull requests with bugfixes are always welcome!
+
 ## README AND INSTALL GUIDE
 
 Thanks for picking the Virtual Exim package, for your virtual mail hosting needs! :-)
@@ -34,8 +47,8 @@ Some sections may contain distribution or OS-specific notes. You'll find them af
 The following packages must be installed on your system, for Virtual Exim to work. If you don't have any of these packages already installed, please refer to the documentation provided with your operating system on how to install each package:
 * Exim v4 with MySQL or PostgreSQL support (tested on v4.1x/4.2x/4.7x)
 * MySQL (tested on v5.1.x) or PostgreSQL
-* Apache or other HTTP server (Tested on Apache v2.2.x)
-* PHP (tested on v5.3.x and v7.x) with at least the following extensions:
+* Apache or other HTTP server (Tested with Apache v2.2.x and NginX)
+* PHP (tested on v5.3.x, v7.x and v8.x) with at least the following extensions:
   * PDO
   * pdo_mysql or pdo_pgsql
   * imap
@@ -229,3 +242,9 @@ There are many POP3 and IMAP daemons available. Some that we have found that wor
 Dovecot provides more features (server-side sieve filters) and is more performant on larger setups.
 
 **UPGRADING:** If you are upgrading, you will need to update your configs for your POP/IMAP daemons, as the database layout has changed. You should be able to follow the above instructions without problem.
+
+## Docker Compose setup
+
+Minimalistic Docker Compose setup is provided in this repository. This setup is only meant for development, not for production use. It is configured to mount `vexim/config/variables.php.example` file as `variables.php`. Additionally, it will execute `setup/mysql.sql` during first boot, so **make note of the initial siteadmin credentials** which will be echoed by the db container among other output.
+
+Upon boot, Vexim UI will be available on http://localhost, and MySQL database on localhost:3306. Both ports can be overridden by setting `WEB_PORT` and/or `MYSQL_PORT` environment variables when running `docker compose`.

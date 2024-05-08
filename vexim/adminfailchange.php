@@ -4,7 +4,7 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
-  $query = "SELECT localpart FROM users WHERE user_id=:user_id AND domain_id=:domain_id AND users.type='fail'";
+  $query = "SELECT localpart, realname, smtp FROM users WHERE user_id=:user_id AND domain_id=:domain_id AND users.type='fail'";
   $sth = $dbh->prepare($query);
   $sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
   if($sth->rowCount()) {
@@ -36,18 +36,33 @@
 	?>
       <form name="failchange" method="post" action="adminfailchangesubmit.php">
 	<table align="center">
+      <tr>
+        <td><?php echo _('Fail name'); ?>:</td>
+        <td><input name="realname" type="text" value="<?php print $row['realname']; ?>" class="textfield" autofocus></td>
+      </tr>
 	  <tr>
-            <td><?php echo _('Fail address'); ?>:</td>
+        <td><?php echo _('Fail address'); ?>:</td>
 	    <td>
               <input name="localpart" type="text"
-                value="<?php print $row['localpart']; ?>" class="textfield" autofocus>@
-              <?php print $_SESSION['domain']; ?>
-            </td>
-	    <td>
+                value="<?php print $row['localpart']; ?>" class="textfield">@
+              <?php print htmlspecialchars($_SESSION['domain']); ?>
               <input name="user_id" type="hidden"
-                value="<?php print $_GET['user_id']; ?>" class="textfield">
+                value="<?php print htmlspecialchars($_GET['user_id']); ?>" class="textfield">
             </td>
           </tr>
+        <tr>
+            <td><?php echo _('Suggested forward address (optional)'); ?>:</td>
+            <td>
+                <input name="smtp" type="email" value="<?php print $row['smtp'] !== ':fail:' ? $row['smtp'] : ''; ?>" class="textfield">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="padafter">
+                <?php echo _('If suggested forward address is specified, email delivery for this mailbox will fail<br>
+                    with return code 551 and the specified address will be returned as part of the reject message.<br>
+                    Otherwise, generic return code 550 will be used.'); ?>
+            </td>
+        </tr>
 	  <tr>
             <td></td>
             <td>

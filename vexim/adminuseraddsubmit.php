@@ -6,7 +6,7 @@
 
   # enforce limit on the maximum number of user accounts in the domain
   $query = "SELECT (count(users.user_id) < domains.max_accounts)
-    OR (domains.max_accounts=0) AS allowed FROM users,domain
+    OR (domains.max_accounts=0) AS allowed FROM users,domains
     WHERE users.domain_id=domains.domain_id
     AND domains.domain_id=:domain_id
 	AND (users.type='local' OR users.type='piped')

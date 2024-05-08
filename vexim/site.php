@@ -66,7 +66,7 @@
         $sth = $dbh->prepare($query);
         $sth->execute($queryParams);
         while ($row = $sth->fetch()) {
-          if($row['enabled']==="0") print '<tr class="disabled">'; else print '<tr>';
+          if($row['enabled'] === 0) print '<tr class="disabled">'; else print '<tr>';
       ?>
               <td>
                 <a href="sitedelete.php?domain_id=<?php
