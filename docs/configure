@@ -873,6 +873,19 @@ virtual_domain_alias:
 		and domainalias.domain_id = domains.domain_id}}
   retry_use_local_part
 
+# Fallback in case a postmaster account does not exist. Send mail to admin
+# accounts of the domain
+virtual_postmaster_fallback:
+  driver = redirect
+  allow_fail
+  data = ${lookup mysql{select username from users,domains where admin=1 \
+  		and domain = '${quote_mysql:$domain}' \
+		and users.domain_id = domains.domain_id}}
+  retry_use_local_part
+  file_transport = virtual_delivery
+  reply_transport = address_reply
+  pipe_transport = address_pipe_catchall
+
 
 # This router handles aliasing using a linearly searched alias file with the
 # name /etc/aliases. When this configuration is installed automatically,
