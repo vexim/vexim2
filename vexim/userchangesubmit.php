@@ -33,11 +33,11 @@
   # Do some checking, to make sure the user is ALLOWED to make these changes
   $query = "SELECT avscan,spamassassin,maxmsgsize from domains WHERE domain_id=:domain_id";
   $sth = $dbh->prepare($query);
-  $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
+  $sth->execute(array(':domain_id' => $_SESSION['domain_id']));
   $row = $sth->fetch();
-  if ((isset($_POST['on_avscan'])) && ($row['avscan'] === 1)) {$_POST['on_avscan'] = 1;} else {$_POST['on_avscan'] = 0;}
-  if ((isset($_POST['on_spamassassin'])) && ($row['spamassassin'] === 1)) {$_POST['on_spamassassin'] = 1;} else {$_POST['on_spamassassin'] = 0;}
-  if (isset($_POST['maxmsgsize']) && $row['maxmsgsize']!=='0') {
+  $_POST['on_avscan'] = ($_POST['on_avscan'] ?? null && $row['avscan'] == '1') ? 1 : 0;
+  $_POST['on_avscan'] = ($_POST['on_spamassassin'] ?? null && $row['spamassassin'] == '1') ? 1 : 0;
+  if (isset($_POST['maxmsgsize']) && $row['maxmsgsize'] !== '0') {
     if ($_POST['maxmsgsize']<=0 || $_POST['maxmsgsize']>$row['maxmsgsize']) {
       $_POST['maxmsgsize']=$row['maxmsgsize'];
     }
