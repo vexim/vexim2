@@ -35,8 +35,8 @@
   $sth = $dbh->prepare($query);
   $sth->execute(array(':domain_id' => $_SESSION['domain_id']));
   $row = $sth->fetch();
-  $_POST['on_avscan'] = ($_POST['on_avscan'] ?? null && $row['avscan'] == '1') ? 1 : 0;
-  $_POST['on_spamassassin'] = ($_POST['on_spamassassin'] ?? null && $row['spamassassin'] == '1') ? 1 : 0;
+  $_POST['on_avscan'] = ($_POST['on_avscan'] ?? false && $row['avscan'] == '1') ? 1 : 0;
+  $_POST['on_spamassassin'] = ($_POST['on_spamassassin'] ?? false && $row['spamassassin'] == '1') ? 1 : 0;
   if (isset($_POST['maxmsgsize']) && $row['maxmsgsize'] !== '0') {
     if ($_POST['maxmsgsize'] <= 0 || $_POST['maxmsgsize'] > $row['maxmsgsize']) {
       $_POST['maxmsgsize'] = $row['maxmsgsize'];
