@@ -48,7 +48,7 @@ The following packages must be installed on your system, for Virtual Exim to wor
 * Exim v4 with MySQL or PostgreSQL support (tested on v4.1x/4.2x/4.7x)
 * MySQL (tested on v5.1.x) or PostgreSQL
 * Apache or other HTTP server (Tested with Apache v2.2.x and NginX)
-* PHP (tested on v5.3.x, v7.x and v8.x) with at least the following extensions:
+* PHP 8.x with at least the following extensions:
   * PDO
   * pdo_mysql or pdo_pgsql
   * imap
