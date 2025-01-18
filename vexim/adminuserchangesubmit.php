@@ -101,7 +101,7 @@
     $_POST['on_spamassassin'] = 0;
   }
 
-  if (isset($_POST['maxmsgsize']) && $row['maxmsgsize']!=='0') {
+  if (isset($_POST['maxmsgsize']) && $row['maxmsgsize']!='0') {
     if ($_POST['maxmsgsize']<=0 || $_POST['maxmsgsize']>$row['maxmsgsize']) {
       $_POST['maxmsgsize']=$row['maxmsgsize'];
     }

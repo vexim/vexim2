@@ -254,7 +254,7 @@
         <tr>
           <td><?php echo _('Vacation message'); ?>:</td>
           <td>
-            <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print quoted_printable_decode($row['vacation']); ?></textarea>
+            <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print quoted_printable_decode($row['vacation'] ?? ''); ?></textarea>
           </td>
         </tr>
         <tr>
