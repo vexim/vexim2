@@ -4,12 +4,18 @@
   include_once dirname(__FILE__) . '/config/functions.php';
   include_once dirname(__FILE__) . '/config/httpheaders.php';
 
+# Do not allow to delete the postmaster (RFC5321)
+if ($_GET['localpart']==='postmaster') {
+  header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
+  die();
+}  
+  
 # confirm that the postmaster is looking to delete a user they are permitted to change before going further
 $query = "SELECT * FROM users WHERE user_id=:user_id
-	AND domain_id=:domain_id
+	AND domain_id=:domain_id AND localpart=:localpart
 	AND (type='local' OR type='piped')";
 $sth = $dbh->prepare($query);
-$sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id']));
+$sth->execute(array(':user_id'=>$_GET['user_id'], ':domain_id'=>$_SESSION['domain_id'], ':localpart'=>$_GET['localpart']));
 if (!$sth->rowCount()) {
   header ("Location: adminuser.php?faildeleted={$_GET['localpart']}");
   die();
