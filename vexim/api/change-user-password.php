@@ -6,6 +6,11 @@
 include_once dirname(__FILE__) . '/config/variables.php';
 include_once dirname(__FILE__) . '/config/functions.php';
 
+if(!$AllowUserLogin) {
+    http_response_code(403);
+    die("user login is forbidden");
+}
+
 # first check if we have sufficient post variables to achieve a successful login... if not the login fails immediately
 if (!isset($_POST['user']) || $_POST['user']==='' 
     || !isset($_POST['curpass']) || $_POST['curpass']===''
@@ -24,8 +29,11 @@ AND u.type IN ('local', 'piped')";
 $sth = $dbh->prepare($query);
 $success = $sth->execute(array(':username'=>$_POST['user']));
 if(!$success) {
-  print_r($sth->errorInfo());
-  die();
+  http_response_code(500);
+  if(ini_get('display_errors')) {
+    print_r($sth->errorInfo());
+  }
+  die('internal server error');
 }
 if ($sth->rowCount()!=1) {
   http_response_code(403);
@@ -41,7 +49,7 @@ if ($cryptedpass !== $row['crypt']) {
 }
 
 if (!password_strengthcheck($_POST['newpass'])) {
-    http_response_code(400);
+    http_response_code(422);
     die("week password");
 }
 
@@ -51,8 +59,11 @@ $query = "UPDATE users SET crypt=:crypt WHERE user_id=:user_id";
 $sth = $dbh->prepare($query);
 $success = $sth->execute(array(':crypt'=>$cryptedpass, ':user_id'=>$row['user_id']));
 if (!$success) {
-  print_r($sth->errorInfo());
-  die();
+  http_response_code(500);
+  if(ini_get('display_errors')) {
+    print_r($sth->errorInfo());
+  }
+  die('internal server error');
 }
 
 http_response_code(200);
