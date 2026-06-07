@@ -37,7 +37,7 @@
         echo _('Search');
       ?>:
       <input type="text" size="20" name="searchfor"
-        value="<?php echo $_POST['searchfor']; ?>" class="textfield">
+        value="<?php echo html_escape($_POST['searchfor']); ?>" class="textfield">
       <input type="submit" name="search"
         value="<?php echo _('search'); ?>">
     </form>
