@@ -6,6 +6,7 @@ virtual_vacation:
   driver = accept
   domains = +local_domains
   condition = ${if and { {!match {$h_precedence:}{(?i)junk|bulk|list}} \
+                         {!match {$h_auto-submitted:}{(?i)auto-}} \
                          {eq {${lookup mysql{select users.on_vacation from users,domains \
                                 where localpart = '${quote_mysql:$local_part}' \
                                 and domain = '${quote_mysql:$domain}' \
