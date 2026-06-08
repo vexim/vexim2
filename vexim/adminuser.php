@@ -96,28 +96,28 @@
             . $row['localpart']
             . '">';
           print '<img class="trash" title="Delete '
-            . $row['realname']
+            . html_escape($row['realname'])
             . '" src="images/trashcan.gif" alt="trashcan"></a></td>';
           print '<td><a href="adminuserchange.php?user_id=' . $row['user_id']
             . '&amp;localpart=' . $row['localpart']
             . '" title="' . _('Click to modify')
             . ' '
-            . $row['realname']
+            . html_escape($row['realname'])
             . '">'
-            . $row['realname']
+            . html_escape($row['realname'])
             . '</a></td>';
           print '<td><a href="adminuserchange.php?user_id=' . $row['user_id']
             . '&amp;localpart=' . $row['localpart']
             . '" title="' . _('Click to modify')
             . ' '
-            . $row['realname']
+            . html_escape($row['realname'])
             . '">'
             . $row['localpart'] .'@'. htmlspecialchars($_SESSION['domain'])
             . '</a></td>';
           print '<td class="check">';
           if ($row['admin'] == 1) {
             print  '<img class="check" src="images/check.gif" title="'
-            . $row['realname']
+            . html_escape($row['realname'])
             . _(' is an administrator')
             . '">';
           }

@@ -54,7 +54,7 @@
           <td><?php echo _('Name'); ?>:</td>
           <td>
             <input type="text" size="25" name="realname"
-              value="<?php print $row['realname']; ?>" class="textfield" autofocus>
+              value="<?php print html_escape($row['realname']); ?>" class="textfield" autofocus>
             <input name="user_id" type="hidden"
               value="<?php print htmlspecialchars($_GET['user_id']); ?>">
           </td>
@@ -254,7 +254,7 @@
         <tr>
           <td><?php echo _('Vacation message'); ?>:</td>
           <td>
-            <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print quoted_printable_decode($row['vacation'] ?? ''); ?></textarea>
+            <textarea name="vacation" cols="40" rows="5" class="textfield"><?php print html_escape(quoted_printable_decode($row['vacation'] ?? '')); ?></textarea>
           </td>
         </tr>
         <tr>
@@ -269,7 +269,7 @@
           <td valign="top"><?php echo _('Forward mail to'); ?>:</td>
           <td>
             <input type="text" size="25" name="forward" id="forward"
-            value="<?php print $row['forward']; ?>" class="textfield"><br>
+            value="<?php print html_escape($row['forward']); ?>" class="textfield"><br>
             <?php echo _('Enter full e-mail addresses, use commas to separate them'); ?>!<br>
             <?php echo _('or select from this list') .":<br>\n"; ?>
             <select name="forwardmenu" id="forwardmenu">
@@ -284,7 +284,7 @@
                 while ($rowuserlist = $sthuserlist->fetch()) {
               ?>
                 <option value="<?php echo $rowuserlist['username']; ?>">
-                  <?php echo $rowuserlist['realname']; ?>
+                  <?php echo html_escape($rowuserlist['realname']); ?>
                   (<?php echo $rowuserlist['username']; ?>)
                 </option>
               <?php
@@ -409,8 +409,8 @@
                     alt="trashcan">
                 </a>
               </td>
-              <td><?php echo $blockrow['blockhdr']; ?></td>
-              <td><?php echo $blockrow['blockval']; ?></td>
+              <td><?php echo html_escape($blockrow['blockhdr']); ?></td>
+              <td><?php echo html_escape($blockrow['blockval']); ?></td>
             </tr>
         <?php
           }
