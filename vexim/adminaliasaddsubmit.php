@@ -30,12 +30,9 @@
   } else {
     $_POST['on_spamassassin'] = 0;
   }
-  # If a password wasn't specified, create a randomised 128bit password
-  if (($_POST['clear'] === "") && ($_POST['vclear'] === "")) {
-    $junk = md5(rand().time().rand());
-    $_POST['clear'] = $junk;
-    $_POST['vclear'] = $junk;
-  }
+  # Aliases that only forward don't log in. When no password is given, store '*'
+  # (a locked account that no crypt() output can match) instead of generating one.
+  $nologin = ($_POST['clear'] === "") && ($_POST['vclear'] === "");
 
   # aliases must have a localpart defined
   if ($_POST['localpart']==''){
@@ -70,8 +67,8 @@
     }
   }
   $aliasto = implode(",",$forwardto);
-  if (validate_password($_POST['clear'], $_POST['vclear'])) {
-    if (!password_strengthcheck($_POST['clear'])) {
+  if ($nologin || validate_password($_POST['clear'], $_POST['vclear'])) {
+    if (!$nologin && !password_strengthcheck($_POST['clear'])) {
       header ("Location: adminalias.php?weakpass={$_POST['localpart']}");
       die;
     }
@@ -87,7 +84,7 @@
        ':localpart' => $_POST['localpart'],
        ':username' => $_POST['localpart'] . '@' . $_SESSION['domain'],
        ':domain_id' => $_SESSION['domain_id'],
-       ':crypt' => crypt_password($_POST['clear']),
+       ':crypt' => $nologin ? '*' : crypt_password($_POST['clear']),
        ':smtp' => $aliasto,
        ':pop' => $aliasto,
        ':realname' => $_POST['realname'],
