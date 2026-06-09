@@ -33,6 +33,7 @@
       alpha_menu($alphadomains);
     ?>
     <form name="search" method="post" action="site.php">
+      <?php echo csrf_input(); ?>
       <?php
         echo _('Search');
       ?>:

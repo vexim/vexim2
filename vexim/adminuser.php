@@ -51,6 +51,7 @@
         alpha_menu($alphausers)
       ?>
       <form name="search" method="post" action="adminuser.php">
+        <?php echo csrf_input(); ?>
         <?php echo _('Search'); ?>:
         <input type="text" size="20" name="searchfor"
           value="<?php echo htmlspecialchars($_POST['searchfor']); ?>" class="textfield">

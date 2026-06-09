@@ -5,6 +5,7 @@
 
   if(array_key_exists('confirm', $_GET)) {
     if ($_GET['confirm'] == '1') {
+      csrf_verify();
       # confirm that the user is deleting a group they are permitted to change before going further
 	  $query = "SELECT * FROM groups WHERE id=:group_id AND domain_id=:domain_id";
       $sth = $dbh->prepare($query);
@@ -55,6 +56,7 @@
     </div>
     <div id="Content">
       <form name="groupdelete" method="get" action="admingroupdelete.php">
+        <?php echo csrf_input(); ?>
         <table align="center">
           <tr>
             <td colspan="2">

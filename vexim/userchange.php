@@ -32,6 +32,7 @@
     </div>
     <div id="forms">
       <form name="userchange" method="post" action="userchangesubmit.php">
+        <?php echo csrf_input(); ?>
         <table align="center">
 	  <tr><td><?php echo _("Name"); ?>:</td><td><input name="realname" type="text" value="<?php print html_escape($row['realname']); ?>" class="textfield" autofocus></td></tr>
 	  <tr><td><?php echo _("Email Address"); ?>:</td><td><?php print $row['localpart']."@".htmlspecialchars($_SESSION['domain']); ?></td>
@@ -42,6 +43,7 @@
         </table>
       </form>
       <form name="userchange" method="post" action="userchangesubmit.php">
+        <?php echo csrf_input(); ?>
         <table align="center">
          <?php if($row['type']!="alias") { ?>
 	  <tr><td colspan="2"><?php
@@ -144,6 +146,7 @@
   </form>
 <?php if ($row['type']!="alias") { ?>
   <form name="blocklist" method="post" action="userblocksubmit.php">
+    <?php echo csrf_input(); ?>
     <table align="center">
   	  <tr><td><?php echo _("Add a new header blocking filter"); ?>:</td></tr>
   	  <tr><td><select name="blockhdr" class="textfield">
@@ -161,7 +164,7 @@
   	  <tr><th><?php echo _("Delete"); ?></th><th><?php echo _("Blocked Header"); ?></th><th><?php echo _("Content"); ?></th></tr>
       <?php if ($blocksuccess) {
 	while ($blockrow = $blocksth->fetch()) {
-	  print "<tr><td><a href=\"userblocksubmit.php?action=delete&block_id={$blockrow['block_id']}\"><img border=\"0\" width=\"10\" height=\"16\" title=\"Delete\" src=\"images/trashcan.gif\" alt=\"trashcan\"></a></td>";
+	  print "<tr><td><a href=\"userblocksubmit.php?action=delete&block_id={$blockrow['block_id']}&csrf_token=" . csrf_token() . "\"><img border=\"0\" width=\"10\" height=\"16\" title=\"Delete\" src=\"images/trashcan.gif\" alt=\"trashcan\"></a></td>";
 	  print "<td>" . html_escape($blockrow['blockhdr']) . "</td><td>" . html_escape($blockrow['blockval']) . "</td></tr>\n";
 	}
       }

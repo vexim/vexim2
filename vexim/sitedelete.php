@@ -86,6 +86,7 @@
     </div>
     <div id='Content'>
       <form name='domaindelete' method='post' action='sitedelete.php'>
+        <?php echo csrf_input(); ?>
 	<table align="center">
 	  <tr><td colspan='2'><?php printf (_("Please confirm deleting domain %s."), htmlspecialchars($_GET['domain'])); ?>:</td></tr>
 	  <?php if (($_GET['type'] != "relay") && ($_GET['type'] != "alias")) {

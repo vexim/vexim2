@@ -35,6 +35,7 @@
 		}else{
 	?>
       <form name="failchange" method="post" action="adminfailchangesubmit.php">
+        <?php echo csrf_input(); ?>
 	<table align="center">
       <tr>
         <td><?php echo _('Fail name'); ?>:</td>

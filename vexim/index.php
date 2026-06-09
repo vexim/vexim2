@@ -16,6 +16,7 @@
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Centered">
       <form class="login" name="login" method="post" action="login.php">
+        <?php echo csrf_input(); ?>
         <table align="center">
           <tr>
             <td><?php echo _('Username'); ?>:</td>

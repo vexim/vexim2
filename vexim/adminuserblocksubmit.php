@@ -7,6 +7,7 @@
 
   $action = (isset($_GET['action']) ? $_GET['action'] : null);
   if ($action == 'delete') {
+    csrf_verify();
     $query = "DELETE FROM blocklists WHERE block_id=:block_id
 			AND domain_id=:domain_id AND user_id=:user_id";
     $sth = $dbh->prepare($query);

@@ -20,6 +20,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
 </div>
 <div id="Forms">
     <form name="passwordchange" method="post" action="sitechangesubmit.php">
+      <?php echo csrf_input(); ?>
         <table align="center">
             <tr>
                 <td colspan="2"><h4><?php echo _("Modify Domain Admin"); ?>:</h4></td>
@@ -68,6 +69,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
         </table>
     </form><br>
     <form name="domainchange" method="post" action="sitechangesubmit.php">
+      <?php echo csrf_input(); ?>
         <table align="center">
             <tr>
                 <td colspan="2"><h4><?php echo _("Modify Domain Properties"); ?>:</h4></td>
@@ -128,6 +130,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
         </table>
     </form><br>
     <form name="allusers" method="post" action="sitechangesubmit.php">
+      <?php echo csrf_input(); ?>
             <input name="allusers" type="hidden" value="<?php print htmlspecialchars($_GET['domain_id']); ?>">
             <input name="domain_id" type="hidden" value="<?php print htmlspecialchars($_GET['domain_id']); ?>">
             <input name="domain" type="hidden" value="<?php print htmlspecialchars($_GET['domain']); ?>">

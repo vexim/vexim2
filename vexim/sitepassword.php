@@ -19,6 +19,7 @@
   </div>
   <div id="forms">
       <form name="sitepassword" method="post" action="sitepasswordsubmit.php">
+        <?php echo csrf_input(); ?>
 	<table align="center">
 		<tr><td colspan="2" class="padafter"><?php echo _("Change SiteAdmin Password"); ?>:</td></tr>
 		<tr><td><?php echo _("Password"); ?>:</td><td><input type="password" size="25" name="clear" autofocus></td></tr>

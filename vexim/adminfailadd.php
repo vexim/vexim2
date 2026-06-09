@@ -19,6 +19,7 @@
     </div>
     <div id="Forms">
       <form name="adminadd" method="post" action="adminfailaddsubmit.php">
+        <?php echo csrf_input(); ?>
         <table align="center">
           <tr>
             <td><?php echo _('Fail Name'); ?>:</td>

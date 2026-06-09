@@ -45,6 +45,7 @@
 		}else{
 	?>
 	<form name="aliaschange" method="post" action="adminaliaschangesubmit.php">
+	  <?php echo csrf_input(); ?>
         <table align="center">
           <tr>
             <td><?php echo _('Alias Name'); ?>:</td>

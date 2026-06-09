@@ -22,6 +22,7 @@
     </div>
     <div id="Forms">
       <form name="adminlists" method="post" action="adminlists.php">
+        <?php echo csrf_input(); ?>
 	<table align="center">
 	  <tr>
             <td>
