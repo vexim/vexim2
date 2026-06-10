@@ -60,6 +60,9 @@
     }
   }
 
+  # the credentials check out, so rotate the session id to prevent session fixation
+  session_regenerate_id(true);
+
   # populate session variables from what was retrieved from the database (NOT what they posted)
   $_SESSION['username'] = $row['username'];
   $_SESSION['localpart'] = $row['localpart'];
