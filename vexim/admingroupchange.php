@@ -38,6 +38,7 @@
       <table align="center">
         <form name="groupchange" method="post"
           action="admingroupchangesubmit.php">
+        <?php echo csrf_input(); ?>
         <tr>
           <td><?php echo _('Group Address'); ?>:</td>
           <td>
@@ -134,6 +135,7 @@
           </tr>
           <form method="post" action="admingroupcontentaddsubmit.php"
             name="groupcontentadd">
+          <?php echo csrf_input(); ?>
           <tr>
             <td><?php echo _('Add Member'); ?></td>
             <td>

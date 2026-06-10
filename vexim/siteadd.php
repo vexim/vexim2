@@ -20,6 +20,7 @@
     </div>
     <div id="forms">
       <form name="siteadd" method="post" action="siteaddsubmit.php">
+        <?php echo csrf_input(); ?>
         <table align="center">
           <tr>
             <td><?php echo _('New Domain'); ?>:</td>

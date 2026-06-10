@@ -6,6 +6,7 @@
 
   if(array_key_exists('confirm', $_GET)) {
     if ($_GET['confirm'] == '1') {
+      csrf_verify();
       $query = "DELETE FROM users
         WHERE user_id=:user_id
         AND domain_id=:domain_id
@@ -40,6 +41,7 @@
     </div>
     <div id="Content">
       <form name="aliasdelete" method="get" action="adminaliasdelete.php">
+        <?php echo csrf_input(); ?>
         <table align="center">
           <tr>
             <td colspan="2">

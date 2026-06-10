@@ -49,6 +49,7 @@
 	?>
 	
     <form name="userchange" method="post" action="adminuserchangesubmit.php">
+      <?php echo csrf_input(); ?>
       <table align="center">
         <tr>
           <td><?php echo _('Name'); ?>:</td>
@@ -350,6 +351,7 @@
     </form>
     <br>
     <form name="blocklist" method="post" action="adminuserblocksubmit.php">
+      <?php echo csrf_input(); ?>
       <table align="center">
         <tr>
           <td colspan="2">
@@ -404,7 +406,7 @@
 					. '&block_id='
 					. $blockrow['block_id']
 					.'&localpart='
-					. htmlspecialchars($_GET['localpart']);?>">
+					. htmlspecialchars($_GET['localpart']) . '&csrf_token=' . csrf_token();?>">
                   <img class="trash" title="Delete" src="images/trashcan.gif"
                     alt="trashcan">
                 </a>
