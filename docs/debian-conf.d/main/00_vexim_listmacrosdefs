@@ -91,3 +91,12 @@ CHECK_DATA_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-content.conf
 # compact version of the report. If you tweak your template this way, you may
 # as well want to change the header name here.
 VEXIM_SPAM_REPORT_HEADER_NAME = X-Spam-Report
+
+# Set the IP which should be used for outgoing connections
+# This feature makes it easy to use different IPs per domain.
+VEXIM_OUTIP = SELECT DISTINCT out_ip FROM domains \
+                           WHERE domain = '${quote_mysql:$sender_address_domain}' \
+                               AND out_ip <> TRIM('')
+# set IPs of the outgoing interface as default/fallback. This value should be changed!
+OUTGOING_IP_DEFAULT = :: ; 127.0.0.1
+REMOTE_SMTP_INTERFACE = ${lookup mysql{VEXIM_OUTIP}{ <; $value }{ <; OUTGOING_IP_DEFAULT }}
