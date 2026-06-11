@@ -1,0 +1,46 @@
+acl_local_deny_exceptions:
+## YOU WILL NEED TO DELETE YOUR STANDARD EXIM 20_exim4-config_local_deny_exceptions FILE OR EXIM WILL BREAK!
+
+  ########################################################
+  # GLOBAL WHITELIST (SQL)
+  ########################################################
+
+  accept
+    condition = ${lookup mysql{ \
+      SELECT 1 FROM whitelist_senders \
+      WHERE domain_id = 0 \
+        AND sender = '${quote_mysql:$sender_address}' \
+      LIMIT 1 \
+    }{yes}{no}}
+
+  ########################################################
+  # DOMAIN WHITELIST
+  ########################################################
+
+  accept
+    condition = ${lookup mysql{ \
+      SELECT 1 FROM whitelist_senders ws \
+      JOIN domains d ON ws.domain_id = d.domain_id \
+      WHERE d.domain = '${quote_mysql:$domain}' \
+        AND ws.localpart IS NULL \
+        AND ws.sender = '${quote_mysql:$sender_address}' \
+      LIMIT 1 \
+    }{yes}{no}}
+
+  ########################################################
+  # USER WHITELIST
+  ########################################################
+
+   accept
+     condition = ${lookup mysql{ \
+       SELECT 1 FROM whitelist_senders ws \
+       JOIN domains d ON ws.domain_id = d.domain_id \
+       WHERE d.domain = '${quote_mysql:$domain}' \
+         AND ( \
+           ws.localpart = '${quote_mysql:$local_part}' \
+           OR ws.localpart = '*' \
+         ) \
+         AND ws.sender = '${quote_mysql:$sender_address}' \
+       LIMIT 1 \
+     }{yes}{no}}
+
