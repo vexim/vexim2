@@ -61,7 +61,8 @@ CREATE TABLE "domains" (
   "pipe" smallint NOT NULL default '0' CHECK("pipe" BETWEEN 0 AND 1),
   "spamassassin" smallint NOT NULL default '0' CHECK("spamassassin" BETWEEN 0 AND 1),
   "sa_tag" int NOT NULL default '0' CHECK("sa_tag" > -1),
-  "sa_refuse" int NOT NULL default '0' CHECK("sa_refuse" > -1));
+  "sa_refuse" int NOT NULL default '0' CHECK("sa_refuse" > -1)),
+  "out_ip" varchar(255) NOT NULL default '';
 ALTER TABLE "domains" OWNER TO vexim;
 
 --
