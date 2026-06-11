@@ -1,0 +1,9 @@
+### transport/30_vexim_dovecot_lmtp
+### New transport to allow Exim to deliver via lmtp
+#######################################
+
+vexim_dovecot_lmtp:
+  driver = lmtp
+  socket = /var/run/dovecot/lmtp
+  batch_max = 200
+
