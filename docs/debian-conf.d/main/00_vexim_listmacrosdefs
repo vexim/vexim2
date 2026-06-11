@@ -37,6 +37,19 @@ keep_environment =
 add_environment = MAIN_ADD_ENVIRONMENT
 .endif
 
+# DKIM
+# Requires dkim.sql migration to be run
+DKIM_DOMAIN = ${lc:${domain:$h_from:}}
+DKIM_SELECTOR = ${lookup mysql {SELECT d.selector FROM dkim d JOIN domains dom ON d.domain_id = dom.domain_id WHERE dom.domain = '${quote_mysql:DKIM_DOMAIN}' AND d.enabled = 1}{$value}fail}
+DKIM_PRIVATE_KEY = ${lookup mysql {SELECT d.private_key FROM dkim d JOIN domains dom ON d.domain_id = dom.domain_id WHERE dom.domain = '${quote_mysql:DKIM_DOMAIN}' AND d.enabled = 1}{$value}fail}
+DKIM_CANON = relaxed
+DKIM_STRICT = 0
+DKIM_TIMESTAMPS = 0
+
+# Disable DKIM verification for incoming mail (since we don't want to verify inbound)
+DKIM_VERIFY_DOMAIN = ${if match_domain{$sender_address_domain}{+local_domains}{0}{1}}
+
+
 # validation of sending mailserver
 #CHECK_RCPT_REVERSE_DNS = true
 #CHECK_RCPT_SPF = true
