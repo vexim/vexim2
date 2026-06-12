@@ -76,39 +76,37 @@ virtual_domains:
 # then anyone on the internet can write to it
 # else only members can write to it
 #
-# If not public non member sender will receive a "550 Unknown user" message
+# If not public non member sender will receive a "User unknown" message
 virtual_dom_groups:
   driver = redirect
   domains = +local_domains
+  condition = ${lookup mysql{select count(*) from groups g, domains d \
+                             where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
+                                   d.domain_id = g.domain_id and g.enabled = '1' and \
+                                   g.name = '${quote_mysql:$local_part}'}{yes}{no}}
   allow_fail
-  senders = ${if eq{Y}{${lookup mysql{select g.is_public \
-                                      from groups g, domains d \
-                                      where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
-                                            d.domain_id = g.domain_id and g.enabled = '1' and \
-                                            g.name = '${quote_mysql:$local_part}'}}} \
-                 {$sender_address} \
-                 {${lookup mysql{select concat_ws('@', u.localpart, d.domain) \
-                                 from domains d, groups g, group_contents c, users u \
-                                 where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
-                                       d.domain_id = g.domain_id and g.name = '${quote_mysql:$local_part}' and \
-                                       g.enabled = '1' and \
-                                       g.is_public = 'N' and c.member_id = u.user_id and \
-                                       d.domain_id = u.domain_id and u.enabled = '1' \
-                                       and u.username = '${quote_mysql:$sender_address}' limit 1}}}}
-  data = ${lookup mysql{ \
-            select concat_ws('@', u.localpart, d.domain) \
-            from domains d, groups g, group_contents c, users u \
-            where d.enabled     = '1'           and \
-                  d.domain      = '${quote_mysql:$domain}'   and \
-                  d.domain_id   = g.domain_id   and \
-                  g.enabled     = '1'           and \
-                  g.id          = c.group_id    and \
-                  c.member_id   = u.user_id     and \
-                  d.domain_id   = u.domain_id   and \
-                  u.enabled     = '1'           and \
-                  g.name        = '${quote_mysql:$local_part}'} }
-  # using local_part_suffixes enables possibility to use user-"something" localparts
-  # which could cause you trouble if you're creating email-adresses with dashes in between.
+  data = ${lookup mysql{select \
+            case \
+              when g.is_public = '1' then \
+                (select group_concat(concat_ws('@', u.localpart, dom.domain) separator ',') \
+                 from group_contents c, users u, domains dom \
+                 where c.group_id = g.id and c.member_id = u.user_id and \
+                       u.enabled = '1' and u.domain_id = dom.domain_id and dom.enabled = '1') \
+              when exists( \
+                select 1 from group_contents c, users u \
+                where c.group_id = g.id and c.member_id = u.user_id and \
+                      u.enabled = '1' and u.username = '${quote_mysql:$sender_address}') \
+              then \
+                (select group_concat(concat_ws('@', u.localpart, dom.domain) separator ',') \
+                 from group_contents c, users u, domains dom \
+                 where c.group_id = g.id and c.member_id = u.user_id and \
+                       u.enabled = '1' and u.domain_id = dom.domain_id and dom.enabled = '1') \
+              else ':fail: User unknown' \
+            end \
+            from groups g, domains d \
+            where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
+                  d.domain_id = g.domain_id and g.enabled = '1' and \
+                  g.name = '${quote_mysql:$local_part}'}}
   .ifdef VEXIM_LOCALPART_SUFFIX
     local_part_suffix = VEXIM_LOCALPART_SUFFIX
     local_part_suffix_optional
@@ -116,6 +114,7 @@ virtual_dom_groups:
   retry_use_local_part
   reply_transport = address_reply
   pipe_transport = address_pipe
+
 
 virtual_domains_catchall:
   driver = redirect
