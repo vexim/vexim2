@@ -37,6 +37,19 @@ keep_environment =
 add_environment = MAIN_ADD_ENVIRONMENT
 .endif
 
+# DKIM
+# Requires dkim.sql migration to be run
+DKIM_DOMAIN = ${lc:${domain:$h_from:}}
+DKIM_SELECTOR = ${lookup mysql {SELECT d.selector FROM dkim d JOIN domains dom ON d.domain_id = dom.domain_id WHERE dom.domain = '${quote_mysql:DKIM_DOMAIN}' AND d.enabled = 1}{$value}fail}
+DKIM_PRIVATE_KEY = ${lookup mysql {SELECT d.private_key FROM dkim d JOIN domains dom ON d.domain_id = dom.domain_id WHERE dom.domain = '${quote_mysql:DKIM_DOMAIN}' AND d.enabled = 1}{$value}fail}
+DKIM_CANON = relaxed
+DKIM_STRICT = 0
+DKIM_TIMESTAMPS = 0
+
+# Disable DKIM verification for incoming mail (since we don't want to verify inbound)
+DKIM_VERIFY_DOMAIN = ${if match_domain{$sender_address_domain}{+local_domains}{0}{1}}
+
+
 # validation of sending mailserver
 #CHECK_RCPT_REVERSE_DNS = true
 #CHECK_RCPT_SPF = true
@@ -91,3 +104,7 @@ CHECK_DATA_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-content.conf
 # compact version of the report. If you tweak your template this way, you may
 # as well want to change the header name here.
 VEXIM_SPAM_REPORT_HEADER_NAME = X-Spam-Report
+
+# Choose spam scanner - uncomment only ONE of these:
+SPAM_ENGINE_RSPAMD = yes
+# SPAM_ENGINE_SPAMASSASSIN = yes
