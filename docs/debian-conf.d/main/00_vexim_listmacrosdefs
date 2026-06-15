@@ -83,6 +83,14 @@ VEXIM_LOCALPART_SUFFIX = +*
 
 CHECK_RCPT_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-rcpt.conf
 CHECK_DATA_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-content.conf
+CHECK_MIME_LOCAL_ACL_FILE = /etc/exim4/vexim-acl-check-mime.conf
+
+i# lmtp delivery to an lmtp capable application like dovecot
+# can be enabled by setting either LMTP_COMMAND or LMTP_SOCKET
+# this will enable the LMTP routers and set a command or socket in the LMTP transport
+# ! Set only one of the macros !
+#LMTP_COMMAND = /some/local/lmtp/delivery/program
+#LMTP_SOCKET = /var/run/dovecot/lmtp
 
 # Exim will put the detailed spam report into an X-Spam-Report header by default.
 # This report is really huge by default, but its template can be tweaked to make
