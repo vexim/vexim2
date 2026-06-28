@@ -1,0 +1,179 @@
+### router/250_vexim_virtual_domains
+### Updated to allow Exim to deliver to Dovecot via lmtp
+#################################
+
+virtual_vacation:
+  driver = accept
+  domains = +local_domains
+  condition = ${if and { \
+    {!match {$h_precedence:}{(?i)junk|bulk|list}} \
+    {eq \
+      {1} \
+      {${lookup mysql{ \
+        SELECT u.on_vacation \
+        FROM users u \
+          INNER JOIN domains d ON (d.domain_id = u.domain_id) \
+        WHERE u.localpart = '${quote_mysql:$local_part}' \
+          AND d.domain = '${quote_mysql:$domain}' \
+      }}} \
+    }} {yes}{no}}
+  no_verify
+  no_expn
+  unseen
+  transport = virtual_vacation_delivery
+
+virtual_forward:
+  driver = redirect
+  domains = +local_domains
+  check_ancestor
+  unseen = ${if eq \
+    {1} \
+    {${lookup mysql{ \
+      SELECT u.unseen \
+      FROM users u \
+        INNER JOIN domains d ON (u.domain_id = d.domain_id) \
+      WHERE u.localpart = '${quote_mysql:$local_part}' \
+        AND d.domain = '${quote_mysql:$domain}' \
+        AND u.on_forward = '1' \
+    }}} {yes}{no}}
+  data = ${lookup mysql{ \
+    SELECT u.forward \
+    FROM users u \
+      INNER JOIN domains d ON (u.domain_id = d.domain_id) \
+    WHERE u.localpart = '${quote_mysql:$local_part}' \
+      and d.domain = '${quote_mysql:$domain}' \
+      and u.on_forward = '1' \
+    }}
+  # We explicitly make this condition NOT forward mailing list mail!
+  condition = ${if and { \
+    {!match {$h_precedence:}{(?i)junk}} \
+    {eq \
+      {1} \
+      {${lookup mysql{ \
+        SELECT u.on_forward \
+        FROM users u \
+          INNER JOIN domains d ON (u.domain_id = d.domain_id) \
+        WHERE u.localpart = '${quote_mysql:$local_part}' \
+          AND d.domain = '${quote_mysql:$domain}' \
+          AND u.on_forward = '1' \
+      }}} \
+    }} {yes}{no} }
+
+virtual_domains:
+  driver = accept
+  domains = +local_domains
+  address_data = ${lookup mysql{\
+    SELECT \
+      u.smtp, \
+      u.sa_tag * 10 AS sa_tag, \
+      u.on_spamassassin AND d.spamassassin AS on_spamassassin, \
+      u.uid AS uid, \
+      u.gid AS gid, \
+      quota \
+    FROM users u \
+      INNER JOIN domains d ON (u.domain_id = d.domain_id) \
+    WHERE u.localpart = '${quote_mysql:$local_part}' \
+      AND d.domain = '${quote_mysql:$domain}' \
+      AND d.enabled = '1' \
+      AND u.enabled = '1' \
+    }{$value}fail}
+  condition = ${if !eq {$address_data}{fail} {yes}{no}}
+  debug_print = "DEBUG: virtual_domains router - local_part=$local_part domain=$domain"
+  headers_add = ${if and { \
+      {match{$domain}{$original_domain}} \
+      {match{$local_part}{$original_local_part}} \
+      {>={$spam_score_int}{${extract{sa_tag}{$address_data}}}} \
+      {eq{1}{${extract{on_spamassassin}{$address_data}}}} \
+    } {X-Spam-Flag: YES\nX-Spam-Score: $acl_m_spam_score\nVEXIM_SPAM_REPORT_HEADER_NAME: $acl_m_spam_report}{} }
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
+  retry_use_local_part
+  transport = vexim_dovecot_lmtp
+
+
+# A group is a list of users
+#
+# If a group is marked public
+# then anyone on the Internet can write to it
+# else only members can write to it
+#
+# If not public non member sender will receive a "550 Unknown user" message
+virtual_dom_groups:
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  senders = ${if eq \
+    {Y} \
+    {${lookup mysql{ \
+      SELECT g.is_public \
+      FROM domains d \
+        INNER JOIN `groups` g ON (g.domain_id = d.domain_id) \
+      WHERE d.domain = '${quote_mysql:$domain}' \
+        AND g.name = '${quote_mysql:$local_part}' \
+        AND d.enabled = '1' \
+        AND g.enabled = '1' \
+    }}} \
+    {$sender_address} \
+    {${lookup mysql{ \
+      SELECT CONCAT_WS('@', u.localpart, d.domain) AS sender \
+      FROM domains d \
+        INNER JOIN `groups` g ON (g.domain_id = d.domain_id) \
+        INNER JOIN group_contents c ON (c.group_id = g.id) \
+        INNER JOIN users u ON (u.user_id = c.member_id AND u.domain_id = d.domain_id) \
+      WHERE d.domain = '${quote_mysql:$domain}' \
+        AND g.name = '${quote_mysql:$local_part}' \
+        AND g.is_public = 'N' \
+        AND d.enabled = '1' \
+        AND g.enabled = '1' \
+        AND u.enabled = '1' \
+      HAVING sender = '${quote_mysql:$sender_address}' \
+      LIMIT 1 \
+    }}}}
+  data = ${lookup mysql{ \
+    SELECT CONCAT_WS('@', u.localpart, d.domain) \
+    FROM domains d \
+      INNER JOIN `groups` g ON (g.domain_id = d.domain_id) \
+      INNER JOIN group_contents c ON (c.group_id = g.id) \
+      INNER JOIN users u ON (u.user_id = c.member_id AND u.domain_id = d.domain_id) \
+    WHERE d.domain = '${quote_mysql:$domain}' \
+      AND g.name = '${quote_mysql:$local_part}' \
+      AND d.enabled = '1' \
+      AND g.enabled = '1' \
+      AND u.enabled = '1' \
+    }}
+  # using local_part_suffixes enables possibility to use user+"something" localparts
+  # which could cause you trouble if you're creating email addresses with plus signs in them.
+  .ifdef VEXIM_LOCALPART_SUFFIX
+    local_part_suffix = VEXIM_LOCALPART_SUFFIX
+    local_part_suffix_optional
+  .endif
+  retry_use_local_part
+  reply_transport = address_reply
+  pipe_transport = address_pipe
+
+virtual_domains_catchall:
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  data = ${lookup mysql{ \
+    SELECT u.smtp \
+    FROM users u \
+      INNER JOIN domains d ON (u.domain_id = d.domain_id) \
+    WHERE localpart = '*' \
+      AND domain = '${quote_mysql:$domain}' \
+    }}
+  retry_use_local_part
+
+virtual_domain_alias:
+  driver = redirect
+  domains = +local_domains
+  allow_fail
+  data = ${lookup mysql{ \
+    SELECT CONCAT('${quote_mysql:$local_part}@', d.domain) \
+    FROM domains d \
+      INNER JOIN domainalias a ON (a.domain_id = d.domain_id) \
+    WHERE a.alias = '${quote_mysql:$domain}' \
+    }}
+  retry_use_local_part

@@ -1,0 +1,44 @@
+# File: /etc/dovecot/conf.d/auth-vexim-sql.conf.ext
+# Authentication for Vexim SQL users
+
+# Database driver and connection
+sql_driver = mysql
+
+mysql localhost {
+    dbname = vexim
+    user = vexim
+    password = YOUR_PASSWORD
+}
+
+# Password database
+passdb sql {
+    default_password_scheme = BCRYPT
+
+    query = \
+        SELECT username AS user, \
+               CONCAT('{CRYPT}', crypt) AS password \
+        FROM users \
+        WHERE username = '%{original_user}' \
+          AND enabled = 1 \
+          AND type IN ('local', 'piped')
+}
+
+# User database
+userdb sql {
+    query = \
+        SELECT pop AS home, \
+               uid, \
+               gid, \
+               CONCAT('maildir:', smtp) AS mail, \
+               CONCAT('*:bytes=', quota, 'M') AS quota_rule \
+        FROM users \
+        WHERE username = '%{original_user}' \
+          AND enabled = 1 \
+          AND type IN ('local', 'piped')
+
+    iterate_query = \
+        SELECT username AS user \
+        FROM users \
+        WHERE enabled = 1 \
+          AND type IN ('local', 'piped')
+}
