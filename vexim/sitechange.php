@@ -20,6 +20,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
 </div>
 <div id="Forms">
     <form name="passwordchange" method="post" action="sitechangesubmit.php">
+      <?php echo csrf_input(); ?>
         <table align="center">
             <tr>
                 <td colspan="2"><h4><?php echo _("Modify Domain Admin"); ?>:</h4></td>
@@ -48,8 +49,8 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                     ?>
                 </td>
                 <td>
-                    <input name="domain_id" type="hidden" value="<?php print $_GET['domain_id']; ?>">
-                    <input name="domain" type="hidden" value="<?php print $_GET['domain']; ?>">
+                    <input name="domain_id" type="hidden" value="<?php print htmlspecialchars($_GET['domain_id']); ?>">
+                    <input name="domain" type="hidden" value="<?php print htmlspecialchars($_GET['domain']); ?>">
                 </td>
             </tr>
             <tr>
@@ -68,6 +69,7 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
         </table>
     </form><br>
     <form name="domainchange" method="post" action="sitechangesubmit.php">
+      <?php echo csrf_input(); ?>
         <table align="center">
             <tr>
                 <td colspan="2"><h4><?php echo _("Modify Domain Properties"); ?>:</h4></td>
@@ -116,8 +118,8 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 <td><?php echo _("Enabled"); ?>:</td>
                 <td><input type="checkbox" name="enabled" <?php if ($row['enabled'] == 1) {print "checked";} ?>></td>
                 <td>
-                    <input name="domain_id" type="hidden" value="<?php print $_GET['domain_id']; ?>">
-                    <input name="domain" type="hidden" value="<?php print $_GET['domain']; ?>">
+                    <input name="domain_id" type="hidden" value="<?php print htmlspecialchars($_GET['domain_id']); ?>">
+                    <input name="domain" type="hidden" value="<?php print htmlspecialchars($_GET['domain']); ?>">
                 </td>
             </tr>
             <tr>
@@ -128,9 +130,10 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
         </table>
     </form><br>
     <form name="allusers" method="post" action="sitechangesubmit.php">
-            <input name="allusers" type="hidden" value="<?php print $_GET['domain_id']; ?>">
-            <input name="domain_id" type="hidden" value="<?php print $_GET['domain_id']; ?>">
-            <input name="domain" type="hidden" value="<?php print $_GET['domain']; ?>">
+      <?php echo csrf_input(); ?>
+            <input name="allusers" type="hidden" value="<?php print htmlspecialchars($_GET['domain_id']); ?>">
+            <input name="domain_id" type="hidden" value="<?php print htmlspecialchars($_GET['domain_id']); ?>">
+            <input name="domain" type="hidden" value="<?php print htmlspecialchars($_GET['domain']); ?>">
         <table align="center">
             <tr>
                 <td colspan="2"><h4><?php echo _("Modify SpamAssassin/Antivirus for all users").":"; ?></h4></td>

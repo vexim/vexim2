@@ -115,14 +115,14 @@
         }
         if ($flag)
         {
-            print "\n<p class='alpha'><a href='" . $_SERVER['PHP_SELF'] .
+            print "\n<p class='alpha'><a href='" . html_escape($_SERVER['PHP_SELF']) .
                   "?LETTER=ALL' class='alpha'>ALL</a>&nbsp;&nbsp; ";
             // loops through the alphabet.
             // For international alphabets, replace the string in the proper order
             foreach (preg_split('//', _("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), -1,
                                 PREG_SPLIT_NO_EMPTY) as $i)
             {
-      	        print "<a href='" . $_SERVER['PHP_SELF'] .
+      	        print "<a href='" . html_escape($_SERVER['PHP_SELF']) .
                       "?LETTER=$i' class='alpha'>$i</a>&nbsp; ";
             }
             print "</p>\n";
@@ -205,6 +205,8 @@
             $text = str_replace("=\r\n", "?=\r\n =?UTF-8?Q?", $text);
             $text = "=?UTF-8?Q?" . $text . "?=" ;
         }
+        
+        return $text;
     }
 
     /**

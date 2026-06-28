@@ -17,6 +17,7 @@ if (!$sth->rowCount()) {
 if(!isset($_GET['confirm'])) { $_GET['confirm'] = null; }
 
 if ($_GET['confirm'] == '1') {
+  csrf_verify();
   # prevent deleting the last admin
   $query = "SELECT COUNT(user_id) AS count FROM users
     WHERE admin=1 AND domain_id=:domain_id
@@ -81,6 +82,7 @@ if ($_GET['confirm'] == '1') {
     </div>
     <div id="Content">
       <form name="userdelete" method="get" action="adminuserdelete.php">
+        <?php echo csrf_input(); ?>
         <table align="center">
           <tr>
             <td colspan="2">

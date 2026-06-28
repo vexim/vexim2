@@ -24,6 +24,7 @@
     </div>
     <div id="Forms">
       <form name="adminadd" method="post" action="adminaliasaddsubmit.php">
+        <?php echo csrf_input(); ?>
         <table align="center">
           <tr>
             <td><?php echo _('Alias Name'); ?>:</td>
@@ -33,7 +34,7 @@
             <td><?php echo _('Address'); ?>:</td>
             <td>
               <input name="localpart" type="text" class="textfield">@
-              <?php print $_SESSION['domain']; ?>
+              <?php print htmlspecialchars($_SESSION['domain']); ?>
             </td>
           </tr>
           <tr>

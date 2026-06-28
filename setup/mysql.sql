@@ -11,7 +11,7 @@ SET @PW_PREFIX='$6$';
 -- Don't forget to change the password (currently: CHANGE).
 -- You may also change the database and user names if you want.
 
--- CREATE DATABASE IF NOT EXISTS `vexim` DEFAULT CHARACTER SET utf8;
+-- CREATE DATABASE IF NOT EXISTS `vexim` DEFAULT CHARACTER SET utf8mb4;
 -- USE `vexim`;
 -- GRANT SELECT,INSERT,DELETE,UPDATE ON `vexim`.* to "vexim"@"localhost"
 --    IDENTIFIED BY 'CHANGE';
@@ -23,7 +23,7 @@ SET @PW_PREFIX='$6$';
 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT;
 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS;
 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION;
-SET NAMES utf8;
+SET NAMES utf8mb4;
 SET @OLD_TIME_ZONE=@@TIME_ZONE;
 SET TIME_ZONE='+00:00';
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
@@ -56,7 +56,7 @@ CREATE TABLE `domains` (
   `sa_refuse` smallint(5) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`domain_id`),
   UNIQUE KEY `domain` (`domain`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Table structure for table `users`
@@ -102,7 +102,7 @@ CREATE TABLE `users` (
     REFERENCES `domains` (`domain_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Table structure for table `blocklists`
@@ -129,7 +129,7 @@ CREATE TABLE `blocklists` (
     REFERENCES `users` (`user_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Table structure for table `domainalias`
@@ -146,7 +146,7 @@ CREATE TABLE `domainalias` (
     REFERENCES `domains` (`domain_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Table structure for table `groups`
@@ -167,7 +167,7 @@ CREATE TABLE `groups` (
     REFERENCES `domains` (`domain_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Table structure for table `group_contents`
@@ -190,7 +190,7 @@ CREATE TABLE `group_contents` (
     REFERENCES `users` (`user_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 --
 -- Seed the `domains` table with the hidden siteadmin domain

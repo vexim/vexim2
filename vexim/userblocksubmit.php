@@ -5,9 +5,10 @@
   include_once dirname(__FILE__) . "/config/httpheaders.php";
 
   if ($_GET['action'] == "delete") {
-    $query = "DELETE FROM blocklists WHERE block_id=:block_id";
+    csrf_verify();
+    $query = "DELETE FROM blocklists WHERE block_id=:block_id AND user_id=:user_id";
     $sth = $dbh->prepare($query);
-    $success = $sth->execute(array(':block_id'=>$_GET['block_id']));
+    $success = $sth->execute(array(':block_id'=>$_GET['block_id'], ':user_id'=>$_SESSION['user_id']));
     if ($success) {
       header ("Location: userchange.php?updated");
     } else {

@@ -5,6 +5,7 @@
 
   if(array_key_exists('confirm', $_GET)) {
     if ($_GET['confirm'] == '1') {
+      csrf_verify();
       # confirm that the user is deleting a group they are permitted to change before going further
 	  $query = "SELECT * FROM groups WHERE id=:group_id AND domain_id=:domain_id";
       $sth = $dbh->prepare($query);
@@ -55,12 +56,13 @@
     </div>
     <div id="Content">
       <form name="groupdelete" method="get" action="admingroupdelete.php">
+        <?php echo csrf_input(); ?>
         <table align="center">
           <tr>
             <td colspan="2">
               <?php printf (_('Please confirm deleting group %s@%s'),
-                $_GET['localpart'],
-                $_SESSION['domain']);
+                htmlspecialchars($_GET['localpart']),
+                htmlspecialchars($_SESSION['domain']));
               ?>:
             </td>
           </tr>
@@ -68,8 +70,8 @@
             <td>
               <input name='confirm' type='radio' value='cancel' checked>
               <b><?php printf (_('Do Not Delete %s@%s'),
-                $_GET['localpart'],
-                $_SESSION['domain']);
+                htmlspecialchars($_GET['localpart']),
+                htmlspecialchars($_SESSION['domain']));
               ?></b>
             </td>
           </tr>
@@ -77,19 +79,19 @@
             <td>
               <input name='confirm' type='radio' value='1'><b>
               <?php printf (_('Delete %s@%s'),
-                $_GET['localpart'],
-                $_SESSION['domain']);
+                htmlspecialchars($_GET['localpart']),
+                htmlspecialchars($_SESSION['domain']));
               ?></b>
             </td>
           </tr>
           <tr>
             <td>
               <input name='domain' type='hidden'
-                value='<?php echo $_SESSION['domain']; ?>'>
+                value='<?php echo htmlspecialchars($_SESSION['domain']); ?>'>
               <input name='group_id' type='hidden'
-                value='<?php echo $_GET['group_id']; ?>'>
+                value='<?php echo htmlspecialchars($_GET['group_id']); ?>'>
               <input name='localpart' type='hidden'
-                value='<?php echo $_GET['localpart']; ?>'>
+                value='<?php echo htmlspecialchars($_GET['localpart']); ?>'>
               <input name='submit' type='submit'
                 value='<?php echo _('Continue'); ?>'>
             </td>

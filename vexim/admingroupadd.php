@@ -18,6 +18,7 @@
     </div>
     <div id="Forms">
     <form name="adminadd" method="post" action="admingroupaddsubmit.php">
+      <?php echo csrf_input(); ?>
       <table align="center">
         <tr>
           <td><?php echo _('Group Address'); ; ?>:</td>

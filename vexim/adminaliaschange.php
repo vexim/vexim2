@@ -31,7 +31,7 @@
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
       <a href="adminalias.php"><?php echo _('Manage Aliases'); ?></a><br>
-      <a href="adminaliasadd.php"><?php echo _('Add Alias'); ?></a></br>
+      <a href="adminaliasadd.php"><?php echo _('Add Alias'); ?></a><br>
       <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
@@ -45,6 +45,7 @@
 		}else{
 	?>
 	<form name="aliaschange" method="post" action="adminaliaschangesubmit.php">
+	  <?php echo csrf_input(); ?>
         <table align="center">
           <tr>
             <td><?php echo _('Alias Name'); ?>:</td>

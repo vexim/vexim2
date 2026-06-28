@@ -8,12 +8,13 @@
 <html>
   <head>
     <title><?php echo _('Virtual Exim') . ': ' . _('Manage Users'); ?></title>
+    <script src="sorttable.js"></script>
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body>
     <?php include dirname(__FILE__) . '/config/header.php'; ?>
     <div id="Menu">
-      <a href="adminaliasadd.php"><?php echo _('Add Alias'); ?></a></br>
+      <a href="adminaliasadd.php"><?php echo _('Add Alias'); ?></a><br>
       <?php $query = "SELECT user_id,realname,smtp,localpart FROM users
         WHERE domain_id=:domain_id AND type='catch'";
         $sth = $dbh->prepare($query);
@@ -21,14 +22,14 @@
         if (!$sth->rowCount()) {
           print '<a href="admincatchalladd.php">'
             . _('Add Catchall')
-            . '</a></br>';
+            . '</a><br>';
         }
       ?>
       <a href="admin.php"><?php echo _('Main Menu'); ?></a><br>
       <br><a href="logout.php"><?php echo _('Logout'); ?></a><br>
     </div>
     <div id="Content">
-    <table align="center">
+    <table align="center" class="sortable">
       <tr>
         <th>&nbsp;</th>
         <th><?php echo _('Alias'); ?></th>
@@ -68,7 +69,7 @@
         $sth->execute(array(':domain_id'=>$_SESSION['domain_id']));
         if ($sth->rowCount()) {
           while ($row = $sth->fetch()) {
-            if($row['enabled']==="0") print '<tr class="disabled">'; else print '<tr>';
+            if($row['enabled'] === 0) print '<tr class="disabled">'; else print '<tr>';
             print '<td align="center">'
               . '<a href="adminaliasdelete.php?user_id='
               . $row['user_id']
@@ -95,18 +96,15 @@
             print '</tr>';
           }
         }
-      ?>
-      <tr>
-        <td colspan="4" class="padbefore">
-          <b><?php echo _('Note'); ?>:</b>
+	?>
+    </table>	
+    <p align="center"><b><?php echo _('Note'); ?>:</b>
           <?php
             echo _('You can only have one catchall per domain.')
             . '<br />'
             . _('It will catch and forward all email that does not get delivered to a specific mailbox.');
           ?>
-        </td>
-      </tr>
-    </table>
+    </p>
     </div>
   </body>
 </html>

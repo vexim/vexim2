@@ -371,7 +371,7 @@ msgstr "В этой группе нет членов"
 
 #: admingroupchange.php:137
 msgid "Add Member"
-msgstr "Добавить члена"
+msgstr "Добавить участника"
 
 #: admingroupdelete.php:60
 #, php-format

@@ -20,6 +20,7 @@
     </div>
     <div id="forms">
       <form name="siteadd" method="post" action="siteaddsubmit.php">
+        <?php echo csrf_input(); ?>
         <table align="center">
           <tr>
             <td><?php echo _('New Domain'); ?>:</td>
@@ -193,7 +194,7 @@
             </td>
             <td colspan="2">
               <input name="type" type="hidden"
-                value="<?php print $_GET['type']; ?>">
+                value="<?php print htmlspecialchars($_GET['type']); ?>">
               <input name="admin" type="hidden" value="1">
               <input name="submit" type="submit"
                 value="<?php echo _('Submit'); ?>">

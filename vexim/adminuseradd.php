@@ -42,6 +42,7 @@
     </div>
     <div id="forms">
     <form name="adminadd" method="post" action="adminuseraddsubmit.php">
+      <?php echo csrf_input(); ?>
       <table align="center">
         <tr>
           <td><?php echo _('Name'); ?>:</td>
