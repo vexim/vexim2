@@ -1,37 +1,35 @@
 # Virtual Exim 2
 
-## WARNING: This code is probably unsafe
+**WARNING: This code is probably unsafe**
 
-As noted in [#272](https://github.com/vexim/vexim2/issues/272) there might be security issues in this code. It was written as a helpful utility in 2004 and has had minimal changes since then. Very little effort went in at the time to protect it against various security attacks. While we do eventually fix security issues we become aware of, we aren't bound by any SLAs, so fixes don't always happen quickly.
+**Read the Security Section in our Wiki!**
 
-Patches to fix security issues will be accepted as time permits, but the code (especially the admin panel) certainly needs an overhaul, and that will only happen if someone with enough time and motivation steps up. In fact, a potential replacement for our aged PHP admin panel already exists. Meet [veximpy](https://gitlab.com/runout/veximpy)!
-
-In short:
-- If you are considering VExim, we advise you to at least have a look at [other similar solutions](https://alternativeto.net/software/postfix-admin/) as well.
-- If you are already using VExim, please consider taking extra steps to secure it.
-- If you're interested in contributing a rewrite, or participating in one, let us know
-- And of course, pull requests with bugfixes are always welcome!
-
-## README AND INSTALL GUIDE
+[Vexim-Wiki SECURITY page](https://github.com/vexim/vexim2/wiki/Security)
 
 Thanks for picking the Virtual Exim package, for your virtual mail hosting needs! :-)
 
+Vexim is a management system for virtual users and virtual domains on Exim mailservers. Vexim supports different MDA, Mailing list systems. The backend is database driven (MariaDB, postgres)
+
 This document provides a basic guide on how to get Virtual Exim working on your system. In this guide, I assume that you have *a little* knowledge of both MySQL and Exim.
+
+The **[Vexim-Wiki](https://github.com/vexim/vexim2/wiki)** has additinal information!
 
 Before we go into any details, I'd like to thanks Philip Hazel and the Exim developers for a fine product. I would also like to thanks the postmasters at various domains for letting me play havoc with their mail while I set this up :-) Finally, a special note of thanks to Dan Bernstein for his Qmail MTA. Dan, thank you for educating me how mail delivery really shouldn't be done, on the Internet.
 
 The Virtual Exim project currently lives on GitHub: https://github.com/vexim/vexim2
 And its mailing list/Google group is available at: https://groups.google.com/group/vexim
 
-## Installation steps for each component:
-
-##### NOTE FOR UPGRADING:
+## UPGRADING:
 If you are upgrading from a previous version of Virtual Exim, you'll find additional notes marked 'UPGRADING' in some sections. If and when you do, follow these notes.
 
-##### DISTRIBUTION-SPECIFIC NOTES:
+Read the [Vexim-Wiki UPGRADING page](https://github.com/vexim/vexim2/wiki/Upgrading-to-latest-Vexim-version)!
+
+## INSTALL GUIDE
+
+**DISTRIBUTION-SPECIFIC NOTES**
 Some sections may contain distribution or OS-specific notes. You'll find them after an appropriate prefix, such as 'DEBIAN' or 'FREEBSD' where appropriate.
 
-## PARTS:
+### PARTS:
 1. [Prerequisites](#prerequisites)
 2. [System user](#system-user)
 3. [Databases and authentication](#databases-and-authentication)
@@ -43,12 +41,12 @@ Some sections may contain distribution or OS-specific notes. You'll find them af
 9. [Mail storage and Delivery](#mail-storage-and-delivery)
 10. [POP3 and IMAP daemons (separate to this software)](#pop3-and-imap-daemons)
 
-## Prerequisites:
+### Prerequisites:
 The following packages must be installed on your system, for Virtual Exim to work. If you don't have any of these packages already installed, please refer to the documentation provided with your operating system on how to install each package:
-* Exim v4 with MySQL or PostgreSQL support (tested on v4.1x/4.2x/4.7x)
-* MySQL (tested on v5.1.x) or PostgreSQL
+* Exim v4 with MariaDB/MySQL or PostgreSQL support (tested on v4.1x/4.2x/4.7x)
+* MariaDB (tested on 11) or PostgreSQL
 * Apache or other HTTP server (Tested with Apache v2.2.x and NginX)
-* PHP 8.x with at least the following extensions:
+* PHP 8.x with at least the following extensions (there is a python frontend available to avoid PHP: [veximpy](https://gitlab.com/runout/veximpy)):
   * PDO
   * pdo_mysql or pdo_pgsql
   * imap
@@ -58,6 +56,7 @@ The following packages must be installed on your system, for Virtual Exim to wor
 
 The following packages provide optional functionality:
 * Mailman – to have mailing lists
+* MLMMJ – to have mailing lists
 * ClamAV – for scanning e-mail for viruses
 * SpamAssassin – for scanning e-mail from spam
 
@@ -68,7 +67,7 @@ VExim might work with older (or newer) versions of these packages, but you may h
 # apt-get install apache2 exim4-daemon-heavy mysql-server libapache2-mod-php php-mysql php-imap clamav-daemon clamav-freshclam spamassassin mailman
 ```
 
-## System user:
+### System user:
 You should create a new user account to whom the virtual mailboxes will belong. Since you do not want anyone to be able to login using that account, you should also disable logging in for that user. Here are the command lines to do that. This manual assumes you want to have your virtual mailboxes in /var/vmail. If you want them elsewhere, adjust the commands. After the user and group are created, find their uid and gid using the last command and memorize these values:
 ```
 # useradd -r -m -U -s /bin/false -d /var/vmail vexim
@@ -84,9 +83,9 @@ You should create a new user account to whom the virtual mailboxes will belong. 
 # adduser --system --home /var/vmail --disabled-password --disabled-login --group vexim
 ```
 
-## Databases and authentication:
+### Databases and authentication:
 
-### MySQL:
+#### MySQL:
 This distribution contains a file "vexim2/setup/mysql.sql". This file provides the database schema used by vexim. You will have to import it into MySQL, like this:
 ```
 # mysql -u root -D YOUR_DATABASE_NAME -p < vexim2/setup/mysql.sql
@@ -97,7 +96,7 @@ Where `YOUR_DATABASE_NAME` is the name of an empty database you have created for
 ```
 A site admininistrator account is created with an autogenerated password required for your first login to Vexim.
 
-### PGSQL:
+#### PGSQL:
 The code has been tested by several users to work with Virtual Exim, and we try our best to make sure it always will. Unfortunately I don't have much PostgreSQL knowledge to support it fully. A database schema for it is included however, as setup/pgsql.sql to help you set up the database. Make sure to adjust it similarly as per MySQL instructions above.
 
 **UPGRADING:**
@@ -106,7 +105,9 @@ If you are upgrading your installation, we have prepared MySQL migration scripts
 # mysql -u root -D YOUR_DATABASE_NAME -p < vexim2/setup/migrations/SCRIPT_FILENAME.sql
 ```
 
-## Files and Apache:
+[Vexim-Wiki UPGRADING page](https://github.com/vexim/vexim2/wiki/Upgrading-to-latest-Vexim-version)
+
+### Files and Apache:
 In this distribution is a directory called 'vexim'. You have two options:
 * Copy this directory into your current DocumentRoot for your domain, and optionally rename the directory.
 * Set up a new VirtualHost and point the DocumentRoot to the vexim directory.
@@ -121,7 +122,9 @@ After copying the 'vexim' directory, you should find the 'variables.php.example'
 
 Other, less interesting options are documented in the comments of that file. Feel free to explore them as well.
 
-## Mailman:
+### Mailman 2:
+Mailman 3 has arrived and brings much more complexity. Following is for Mailman 2. Consider using MLMMJ as an alternative!
+
 Mailman needs to be installed if you want to use mailing lists. Edit the default configuration file (`/etc/mailman/mm_cfg.py`):
 ```
 DEFAULT_URL_PATTERN = 'https://%s/mailman/'
@@ -131,7 +134,12 @@ DEFAULT_URL_HOST   = 'mail.example.tld'
 ```
 Debian will already create a default configuration for your webserver that you can enable with `a2ensite mailman`. Create your master password: `mmsitepass MY_PASSWORD``. Restart mailman and apache.
 
-## Exim configuration:
+### MLMMJ:
+MLMMJ is a very good alternative to Mailman at least since version 3 of Mailman.
+
+* [Vexim-Wiki MLMMJ page](https://github.com/vexim/vexim2/wiki/Server-configuration:-MLMMJ-(Mailing-Lists))
+
+### Exim configuration:
 **NOTE:** the configuration files supplied here have been revised. You should use them carefully and report problems!
 
 An example Exim 'configure' file, has been included with this distribution as 'docs/configure'. Copy this to the location Exim expects its configuration file to be on your installation. You will also need to copy docs/vexim* to /usr/local/etc/exim/. The following lines are important and will have to be edited if you are using this configure, or copied to your own configure file:
@@ -211,37 +219,38 @@ The Diffie-Hellman group should have at least 1024 bit and can be created with t
 In `tls_require_ciphers`, currently (2016) secure ciphers are selected. It works by default on GnuTLS setups (Debian/Ubuntu). If your distribution uses OpenSSL (e.g. FreeBSD, CentOS), comment the block `tls_require_ciphers = ...` and uncomment the line `openssl_options = ...`. If you are not sure, the output of `exim -bV` will show either GnuTLS or OpenSSL.
 
 
-###### ACL's:
+#### ACL's:
 We have split all of the ACL's into separate files, to make managing them easier. Please review the ACL section of the configure file. If there are ACL's you would rather not have executed, please comment out the '.include' line that references them, or edit the ACL file directly and comment them out.
 
-###### DEBIAN:
+#### DEBIAN:
 Typically, Debian setups use split Exim configuration with some Debconf magic. This manual will assume that you are familiar with it. If not, you should refer to the Debian documentation on Exim. To get the virtual mailboxes to work, copy the contents of docs/debian-conf.d/ to /etc/exim4/conf.d/ and change the MySQL password in .../main/00_vexim_listmacrosdefs. You may also want to review the ACL's in docs/vexim-acl-*.conf and selectively copy and paste their contents to the files provided by Debian in conf.d. By the way, some of these ACL's are already implemented by Debian, so you might just need to enable them by defining certain macros as described in Debian manual. This manual does not cover enabling ClamAV and SpamAssassin in Exin in Debian. Please look this up elsewhere. By the way, the author of this part never bothered to set up Vexim in such a way that Debian would take into account the status of the various user flag (on_av, on_spamassassin etc) for each user. In his setup, these flags have no effect, and all messages are checked for spam and viruses.
 
 Stefan Tomanek has a nice writeup about using Vexim in Debian, but that article does not cover all aspects, is a bit outdated, and most of if has been incorporated (and improved!) into this document anyway. You can find it at http://stefans.datenbruch.de/rootserver/vexim.shtml.
 
 
-## Site Admin:
+### Site Admin:
 In order to add and delete domains from the database, you need to have a "site admin". This user can create the initial postmaster users for the individual domains. This user has been created along with the database (see mysql-section), use it here to log in. The password is case sensitive. You are advised to change it when you first log in.
 
-## Virtual Domains:
+### Virtual Domains:
 Virtual Exim can now control which local domains Exim accepts mail for and which domains it relays mail for. The features are controlled by the siteadmin, and domains can be easily added/removed from the siteadmin pages. Local domains can also be enabled/disabled on the fly, but relay domains are always enabled.
 
 
-## Mail storage and Delivery:
+### Mail storage and Delivery:
 The mysql configuration assumes that mail will be stored in /var/vmail/domain.com/username/Maildir. If you want to change the path from '/var/vmail/', you need to edit the file:
 >vexim/config/variables.php
 
 and change 'mailroot' to the correct path. Don't forget the / at the end.
 
-## POP3 and IMAP daemons:
+### POP3 and IMAP daemons:
 There are many POP3 and IMAP daemons available. Some that we have found that work are:
 
-* **Courier:** docs/clients/courierimap.txt
-* **Dovecot:** docs/clients/dovecot.txt
+* **Courier:** [Vexim-Wiki COURIER page](https://github.com/vexim/vexim2/wiki/Server-configuration:-Courier)
+* **Dovecot:** [Vexim-Wiki DOVECOT page](https://github.com/vexim/vexim2/wiki/Server-configuration:-Dovecot-v2.x)
+* **Cyrus:** [Vexim-Wiki CYRUS page](https://github.com/vexim/vexim2/wiki/Server-configuration:-Cyrus)
 
 Dovecot provides more features (server-side sieve filters) and is more performant on larger setups.
 
-**UPGRADING:** If you are upgrading, you will need to update your configs for your POP/IMAP daemons, as the database layout has changed. You should be able to follow the above instructions without problem.
+**UPGRADING:** If you are [upgrading](https://github.com/vexim/vexim2/wiki/Upgrading-to-latest-Vexim-version), you will need to update your configs for your POP/IMAP daemons, as the database layout has changed. You should be able to follow the above instructions without problem.
 
 ## Docker Compose setup
 
