@@ -819,6 +819,7 @@ virtual_domains:
 # If not public non member sender will receive a "550 Unknown user" message
 virtual_dom_groups:
   driver = redirect
+  domains = +local_domains
   allow_fail
   senders = ${if eq{Y}{${lookup mysql{select g.is_public \
                                       from groups g, domains d \
@@ -829,11 +830,11 @@ virtual_dom_groups:
                  {${lookup mysql{select concat_ws('@', u.localpart, d.domain) \
                                  from domains d, groups g, group_contents c, users u \
                                  where d.enabled = '1' and d.domain = '${quote_mysql:$domain}' and \
-                                       d.domain_id = g.domain_id and g.name = '${quote_mysql:$local_part}' and \
+                                       g.id = c.group_id and g.name = '${quote_mysql:$local_part}' and \
                                        g.enabled = '1' and \
                                        g.is_public = 'N' and c.member_id = u.user_id and \
                                        d.domain_id = u.domain_id and u.enabled = '1' \
-				       and u.username = '${quote_mysql:$sender_address}' }}}}
+                                       and u.username = '${quote_mysql:$sender_address}' }}}}
   data = ${lookup mysql{ \
             select concat_ws('@', u.localpart, d.domain) \
             from domains d, groups g, group_contents c, users u \
@@ -846,6 +847,8 @@ virtual_dom_groups:
                   d.domain_id   = u.domain_id   and \
                   u.enabled     = '1'           and \
                   g.name        = '${quote_mysql:$local_part}'} }
+  # using local_part_suffixes enables possibility to use user-"something" localparts
+  # which could cause you trouble if you're creating email-adresses with dashes in between.
   .ifdef VEXIM_LOCALPART_SUFFIX
     local_part_suffix = VEXIM_LOCALPART_SUFFIX
     local_part_suffix_optional
